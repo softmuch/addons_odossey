@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="odossey_pos_print_receipt.ProductScreen" t-inherit="point_of_sale.ProductScreen" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('subpads')]" position="before">
+            <t t-if="env.services.pos.config.odossey_pos_print_receipt">
+                <button class="btn btn-success btn-lg w-100 mb-2" t-on-click="test_button">
+                Stampa Preconto
+            </button>
+            </t>
+        </xpath>
+    </t>
+</templates>

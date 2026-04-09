@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="odossey_pos_print_receipt.custom_popup">
+        <Dialog title="'Bill Printing'" bodyClass="'text-center'">
+                <div class="d-inline-block m-3 p-3 border rounded bg-view">
+                    <OrderReceipt data="pos.orderExportForPrinting(pos.get_order())" formatCurrency="env.utils.formatCurrency" />
+                </div>
+                <t t-set-slot="footer">
+                    <div class="d-flex w-100 justify-content-start gap-2">
+                        <div class="button print btn btn-lg btn-primary" t-on-click="()=>this.pos.printReceipt()">
+                            Print
+                        </div>
+                    </div>
+                </t>
+        </Dialog>
+    </t>
+</templates>
