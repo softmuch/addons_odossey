@@ -1,0 +1,165 @@
+<?xml version="1.0" standalone="no"?>
+<mlt LC_NUMERIC="C" version="7.24.0" title="Shotcut version 24.04.28" producer="main_bin">
+  <profile description="HD 1080p 25 fps" width="800" height="400" progressive="1" sample_aspect_num="1" sample_aspect_den="1" display_aspect_num="2" display_aspect_den="1" frame_rate_num="30000000" frame_rate_den="1000000" colorspace="709"/>
+  <producer id="producer0" in="00:00:00.000" out="03:59:59.967">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">/home/andreas/workspace/python/odoo_addons/abichinger_kitchen_screen/abichinger_kitchen_screen/static/description/banner.png</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="meta.media.progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="format">2</property>
+    <property name="meta.media.width">800</property>
+    <property name="meta.media.height">400</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2024-05-27T12:50:51</property>
+    <property name="shotcut:skipConvert">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">0cfa55ef1d723a07fd3f6e93a29737ff</property>
+  </producer>
+  <producer id="producer1" in="00:00:00.000" out="00:00:07.000">
+    <property name="length">00:00:07.033</property>
+    <property name="eof">loop</property>
+    <property name="resource">/home/andreas/workspace/python/odoo_addons/abichinger_kitchen_screen/abichinger_kitchen_screen/static/description/assets/Animation - 1716809875575.json</property>
+    <property name="background">#00000000</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="meta.media.width">1920</property>
+    <property name="meta.media.height">1920</property>
+    <property name="meta.media.sample_aspect_num">1</property>
+    <property name="meta.media.sample_aspect_den">1</property>
+    <property name="meta.media.frame_rate">60</property>
+    <property name="first_frame">0</property>
+    <property name="mlt_service">glaxnimate</property>
+    <property name="creation_time">2024-05-27T11:39:11</property>
+    <property name="shotcut:skipConvert">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">6623b0ae5e29ca0cafcc8f093b70c84d</property>
+  </producer>
+  <playlist id="main_bin" title="Shotcut version 24.04.28">
+    <property name="shotcut:projectAudioChannels">2</property>
+    <property name="shotcut:projectFolder">1</property>
+    <property name="shotcut:skipConvert">0</property>
+    <property name="xml_retain">1</property>
+    <entry producer="producer0" in="00:00:00.000" out="00:00:03.967"/>
+    <entry producer="producer1" in="00:00:00.000" out="00:00:07.000"/>
+  </playlist>
+  <producer id="black" in="00:00:00.000" out="00:00:05.933">
+    <property name="length">00:00:05.967</property>
+    <property name="eof">pause</property>
+    <property name="resource">0</property>
+    <property name="aspect_ratio">1</property>
+    <property name="mlt_service">color</property>
+    <property name="mlt_image_format">rgba</property>
+    <property name="set.test_audio">0</property>
+  </producer>
+  <playlist id="background">
+    <entry producer="black" in="00:00:00.000" out="00:00:05.933"/>
+  </playlist>
+  <producer id="producer2" in="00:00:00.000" out="03:59:59.967">
+    <property name="length">04:00:00.000</property>
+    <property name="eof">pause</property>
+    <property name="resource">/home/andreas/workspace/python/odoo_addons/abichinger_kitchen_screen/abichinger_kitchen_screen/static/description/banner_no_icon.png</property>
+    <property name="ttl">1</property>
+    <property name="aspect_ratio">1</property>
+    <property name="meta.media.progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="format">2</property>
+    <property name="meta.media.width">800</property>
+    <property name="meta.media.height">400</property>
+    <property name="mlt_service">qimage</property>
+    <property name="creation_time">2024-05-27T12:50:51</property>
+    <property name="shotcut:skipConvert">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">0cfa55ef1d723a07fd3f6e93a29737ff</property>
+    <property name="shotcut:caption">banner.png</property>
+  </producer>
+  <playlist id="playlist0">
+    <property name="shotcut:video">1</property>
+    <property name="shotcut:name">V1</property>
+    <entry producer="producer2" in="00:00:00.000" out="00:00:05.933"/>
+  </playlist>
+  <producer id="producer3" in="00:00:00.000" out="00:00:07.000">
+    <property name="length">00:00:07.033</property>
+    <property name="eof">loop</property>
+    <property name="resource">/home/andreas/workspace/python/odoo_addons/abichinger_kitchen_screen/abichinger_kitchen_screen/static/description/assets/Animation - 1716809875575.json</property>
+    <property name="background">#00000000</property>
+    <property name="aspect_ratio">1</property>
+    <property name="progressive">1</property>
+    <property name="seekable">1</property>
+    <property name="meta.media.width">1920</property>
+    <property name="meta.media.height">1920</property>
+    <property name="meta.media.sample_aspect_num">1</property>
+    <property name="meta.media.sample_aspect_den">1</property>
+    <property name="meta.media.frame_rate">60</property>
+    <property name="first_frame">0</property>
+    <property name="mlt_service">glaxnimate</property>
+    <property name="creation_time">2024-05-27T11:39:11</property>
+    <property name="shotcut:skipConvert">1</property>
+    <property name="xml">was here</property>
+    <property name="shotcut:hash">6623b0ae5e29ca0cafcc8f093b70c84d</property>
+    <property name="shotcut:caption">Animation - 1716809875575.json</property>
+    <property name="meta.shotcut.vui">1</property>
+    <filter id="filter0" in="00:00:00.633" out="00:00:06.567">
+      <property name="background">color:#00000000</property>
+      <property name="mlt_service">affine</property>
+      <property name="shotcut:filter">affineSizePosition</property>
+      <property name="transition.fix_rotate_x">0</property>
+      <property name="transition.fill">1</property>
+      <property name="transition.distort">0</property>
+      <property name="transition.rect">12.3946 15.8724 363.021 363.021 1</property>
+      <property name="transition.valign">middle</property>
+      <property name="transition.halign">center</property>
+      <property name="shotcut:animIn">00:00:00.000</property>
+      <property name="shotcut:animOut">00:00:00.000</property>
+      <property name="transition.threads">0</property>
+    </filter>
+  </producer>
+  <playlist id="playlist1">
+    <property name="shotcut:video">1</property>
+    <property name="shotcut:name">V2</property>
+    <entry producer="producer3" in="00:00:00.633" out="00:00:06.567"/>
+  </playlist>
+  <tractor id="tractor0" title="Shotcut version 24.04.28" in="00:00:00.000" out="00:00:05.933">
+    <property name="shotcut">1</property>
+    <property name="shotcut:projectAudioChannels">2</property>
+    <property name="shotcut:projectFolder">1</property>
+    <property name="shotcut:scaleFactor">8.25241</property>
+    <property name="shotcut:skipConvert">0</property>
+    <track producer="background"/>
+    <track producer="playlist0"/>
+    <track producer="playlist1"/>
+    <transition id="transition0">
+      <property name="a_track">0</property>
+      <property name="b_track">1</property>
+      <property name="mlt_service">mix</property>
+      <property name="always_active">1</property>
+      <property name="sum">1</property>
+    </transition>
+    <transition id="transition1">
+      <property name="a_track">0</property>
+      <property name="b_track">1</property>
+      <property name="version">0.1</property>
+      <property name="mlt_service">frei0r.cairoblend</property>
+      <property name="threads">0</property>
+      <property name="disable">1</property>
+    </transition>
+    <transition id="transition2">
+      <property name="a_track">0</property>
+      <property name="b_track">2</property>
+      <property name="mlt_service">mix</property>
+      <property name="always_active">1</property>
+      <property name="sum">1</property>
+    </transition>
+    <transition id="transition3">
+      <property name="a_track">1</property>
+      <property name="b_track">2</property>
+      <property name="version">0.1</property>
+      <property name="mlt_service">frei0r.cairoblend</property>
+      <property name="threads">0</property>
+      <property name="disable">0</property>
+    </transition>
+  </tractor>
+</mlt>

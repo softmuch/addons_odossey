@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="pos_restaurant.ControlButtons" t-inherit="point_of_sale.ControlButtons" t-inherit-mode="extension"> 
+        <!-- todo add split status btn in controll btns -->
+        <!-- <xpath expr="//button[@t-on-click='props.onClickMore']" position="before">
+            <button class="btn btn-light btn-sm flex-shrink-0 ms-auto">Split Status</button>
+        </xpath> -->
+        <xpath expr="//i[contains(@class,'fa fa-files-o')]/.." position="attributes"> 
+            <attribute name="t-on-click">(ev) =&gt; this.SplitBillScreen(ev)</attribute>
+        </xpath>
+    </t>
+</templates>

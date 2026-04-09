@@ -1,0 +1,117 @@
+version: 3
+
+env:
+  TYPECHAT_SCHEMA_COMMENT: Translations for point of sale restaurant module, supports interpolation using placeholders {} like Mustache
+  OPENAI_API_KEY: OPENAI_API_KEY
+  OPENAI_ENDPOINT: http://localhost:1337/v1/chat/completions?
+  OPENAI_MODEL: gpt-4o
+  OPEN_AI_BATCH_SIZE: 20
+
+vars:
+  attranslate: node ~/workspace/node/attranslate/bin/attranslate
+  LOCALE:
+    - { Lang: 'German', Locale: 'de' }
+    #- { Lang: 'Afrikaans', Locale: 'af' }
+    - { Lang: 'Bulgarian', Locale: 'bg' }
+    - { Lang: 'Czech', Locale: 'cs' }
+    - { Lang: 'Greek', Locale: 'el' }
+    - { Lang: 'Spanish', Locale: 'es' }
+    #- { Lang: 'Persian', Locale: 'fa' }
+    - { Lang: 'French', Locale: 'fr' }
+    - { Lang: 'Hebrew', Locale: 'he' }
+    #- { Lang: 'Armenian', Locale: 'hy' }
+    - { Lang: 'Italian', Locale: 'it' }
+    #- { Lang: 'Georgian', Locale: 'ka' }
+    #- { Lang: 'Luxembourgish', Locale: 'lb' }
+    #- { Lang: 'Macedonian', Locale: 'mk' }
+    - { Lang: 'Dutch', Locale: 'nl' }
+    - { Lang: 'Portuguese', Locale: 'pt' }
+    - { Lang: 'Russian', Locale: 'ru' }
+    - { Lang: 'Thai', Locale: 'th' }
+    - { Lang: 'Vietnamese', Locale: 'vi' }
+    - { Lang: 'Arabic', Locale: 'ar' }
+    - { Lang: 'Bosnian', Locale: 'bs' }
+    - { Lang: 'Danish', Locale: 'da' }
+    #- { Lang: 'Estonian', Locale: 'et' }
+    - { Lang: 'Finnish', Locale: 'fi' }
+    #- { Lang: 'Galician', Locale: 'gl' }
+    - { Lang: 'Croatian', Locale: 'hr' }
+    - { Lang: 'Indonesian', Locale: 'id' }
+    - { Lang: 'Japanese', Locale: 'ja' }
+    #- { Lang: 'Khmer', Locale: 'km' }
+    #- { Lang: 'Lithuanian', Locale: 'lt' }
+    #- { Lang: 'Mongolian', Locale: 'mn' }
+    - { Lang: 'Polish', Locale: 'pl' }
+    - { Lang: 'Slovak', Locale: 'sk' }
+    - { Lang: 'Serbian', Locale: 'sr' }
+    - { Lang: 'Turkish', Locale: 'tr' }
+    - { Lang: 'Chinese', Locale: 'zh' }
+    - { Lang: 'Azerbaijani', Locale: 'az' }
+    #- { Lang: 'Catalan', Locale: 'ca' }
+    #- { Lang: 'Basque', Locale: 'eu' }
+    #- { Lang: 'Gujarati', Locale: 'gu' }
+    - { Lang: 'Hungarian', Locale: 'hu' }
+    #- { Lang: 'Icelandic', Locale: 'is' }
+    #- { Lang: 'Kabyle', Locale: 'kab' }
+    - { Lang: 'Korean', Locale: 'ko' }
+    #- { Lang: 'Latvian', Locale: 'lv' }
+    #- { Lang: 'Norwegian Bokmål', Locale: 'nb' }
+    - { Lang: 'Romanian', Locale: 'ro' }
+    - { Lang: 'Slovenian', Locale: 'sl' }
+    - { Lang: 'Swedish', Locale: 'sv' }
+    - { Lang: 'Ukrainian', Locale: 'uk' }
+    - { Lang: 'Hindi', Locale: 'hi' }
+
+tasks:
+
+  makepot:
+    internal: true
+    dir: ~/workspace/python/odoo
+    cmds:
+      - source .venv/bin/activate && PYTHONPATH=. click-odoo-makepot -c odoo.conf -d 17.0 -m abichinger_kitchen_screen --addons-dir ~/workspace/python/odoo_addons/abichinger_kitchen_screen
+
+  key-as-translation:
+    cmds:
+      - task: makepot
+      - task: translate:backend
+        vars: { srcFile: 'i18n/abichinger_kitchen_screen.pot', targetLng: 'English', middleware: 'false', service: 'key-as-translation' }
+
+  translate:backend:
+    cmds:
+      - for:
+          var: LOCALE
+        task: _translate:backend
+        vars:
+          targetLng: '{{.ITEM.Lang}}'
+          targetFile: 'i18n/{{.ITEM.Locale}}.po'
+  
+  _translate:backend:
+    vars:
+      srcLng: '{{default "English" .srcLng}}'
+      srcFile: '{{default "i18n/en.po" .srcFile}}'
+      targetLng: '{{default "German" .targetLng}}'
+      targetFile: '{{default "i18n/en.po" .targetFile}}'
+      service: '{{default "typechat" .service}}'
+      middleware: '{{default "true" .middleware}}'
+    cmds:
+      - "{{.attranslate}} --srcFormat=po --srcFile={{.srcFile}} --srcLng={{.srcLng}} --targetFile={{.targetFile}} --targetLng={{.targetLng}} --targetFormat=po {{- if eq .middleware \"true\" }} --middleware=sanitize-key{{ end }} --service={{.service}}"
+  
+  translate:frontend:
+    cmds:
+      - for:
+          var: LOCALE
+        task: _translate:frontend
+        vars:
+          targetLng: '{{.ITEM.Lang}}'
+          targetFile: '{{.ITEM.Locale}}.json'
+
+  _translate:frontend:
+    dir: ./frontend/src/i18n
+    vars:
+      srcLng: '{{default "English" .srcLng}}'
+      srcFile: '{{default "en.json" .srcFile}}'
+      targetLng: '{{default "German" .targetLng}}'
+      targetFile: '{{default "out.json" .targetFile}}'
+    cmds:
+      - "{{.attranslate}} --srcFormat=nested-json --srcFile={{.srcFile}} --srcLng={{.srcLng}} --targetFile={{.targetFile}} --targetLng={{.targetLng}} --targetFormat=nested-json --service=typechat"
+

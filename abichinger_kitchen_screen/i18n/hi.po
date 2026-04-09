@@ -1,0 +1,331 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * abichinger_kitchen_screen
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+"X-Generator: attranslate\n"
+
+#: model:ir.model.fields,help:abichinger_kitchen_screen.field_ab_pos_order_change__sequence_number NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "A order-unique sequence number for the change"
+msgstr "परिवर्तन के लिए एक अद्वितीय क्रम संख्या"
+
+#: model:ir.model.fields,help:abichinger_kitchen_screen.field_pos_order__sequence_number NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "A sequence number that is incremented with each order"
+msgstr "प्रत्येक आदेश के साथ बढ़ाया जाने वाला क्रम संख्या"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__access_token NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Access Token"
+msgstr "संदेश पहुँच"
+
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.view_kitchen_screen_form NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "All PoS"
+msgstr "सभी पीओएस"
+
+#: model:ir.model.fields.selection,name:abichinger_kitchen_screen.selection__ab_pos_order_change_line__state__cancel NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Canceled"
+msgstr "रद्द किया गया"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__lines NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Change Lines"
+msgstr "लाइन बदले"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__company_id NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Company"
+msgstr "कंपनी"
+
+#: model:ir.model,name:abichinger_kitchen_screen.model_res_config_settings NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Config Settings"
+msgstr "कॉन्फ़िग सेटिंग्स"
+
+#: model:ir.model.fields.selection,name:abichinger_kitchen_screen.selection__ab_pos_order_change_line__state__cooking NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Cooking"
+msgstr "पकाना"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__created_at NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Created At"
+msgstr "निर्मित समय पर"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__create_uid
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__create_uid
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__create_uid
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__create_uid NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Created by"
+msgstr "द्वारा निर्मित"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__create_date
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__create_date
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__create_date
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__create_date NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Created on"
+msgstr "निर्मित पर"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__wait_time NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Current wait time"
+msgstr "वर्तमान प्रतीक्षा समय"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__filter NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Custom Filter"
+msgstr "अनुकूलित फ़िल्टर"
+
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.view_kitchen_screen_form NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Define groups of products within an order."
+msgstr "आदेश के भीतर उत्पादों के समूह परिभाषित करें"
+
+#: model:ir.model.fields,help:abichinger_kitchen_screen.field_ab_pos_orderline_group__sequence NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Determines the order of the stages"
+msgstr "चरणों के क्रम को निर्धारित करता है"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__display_name
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__display_name
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__display_name
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__display_name NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Display Name"
+msgstr "प्रदर्शित नाम"
+
+#: model:ir.model.fields.selection,name:abichinger_kitchen_screen.selection__ab_pos_order_change_line__state__done NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Done"
+msgstr "किया"
+
+#: model:ir.model.fields,help:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__filter NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Filter orders according to specified criteria"
+msgstr "निर्दिष्ट मानदंडों के अनुसार आदेशों को फ़िल्टर करें"
+
+#: model:ir.model,name:abichinger_kitchen_screen.model_ab_pos_orderline_group NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Groups of products within an order"
+msgstr "आदेश के भीतर उत्पादों के समूह"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__id
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__id
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__id
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__id NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "ID"
+msgstr "आईडी"
+
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.res_config_settings_view_form NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Include this POS in the selected Kitchen Screens"
+msgstr "चयनित रसोई स्क्रीन में इस पीओएस को शामिल करें"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__note NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Internal Note added by the waiter."
+msgstr "वेटर द्वारा जोड़ी गई आंतरिक नोट।"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__kitchen_id NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Kitchen Display"
+msgstr "रसोई प्रदर्शन"
+
+#: model:ir.actions.act_window,name:abichinger_kitchen_screen.action_kitchen_screen
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_pos_config__kitchen_ids
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_res_config_settings__pos_kitchen_ids
+#: model:ir.ui.menu,name:abichinger_kitchen_screen.menu_kitchen_screen
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.view_pos_config_kanban NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Kitchen Screen"
+msgstr "रसोई स्क्रीन"
+
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.res_config_settings_view_form NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Kitchen Screens"
+msgstr "रसोई स्क्रीन"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__write_uid
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__write_uid
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__write_uid
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__write_uid NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Last Updated by"
+msgstr "अंतिम बार अद्यतन किया गया द्वारा"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__write_date
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__write_date
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__write_date
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__write_date NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Last Updated on"
+msgstr "अंतिम बार अद्यतन किया गया"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__line_uuid NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Line Uuid"
+msgstr "लाइन यूयूआईडी"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__name
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__name
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.view_kitchen_screen_form NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Name"
+msgstr "नाम"
+
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.view_kitchen_screen_form NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Open"
+msgstr "खुला"
+
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.view_kitchen_screen_kanban NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Open Screen"
+msgstr "खुली स्क्रीन"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_pos_order__changes NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Order Change"
+msgstr "आदेश में परिवर्तन"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__change_id NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Order Change Ref"
+msgstr "आदेश परिवर्तन संदर्भ"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__order_id NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Order Ref"
+msgstr "आदेश संदर्भ"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_pos_order__sequence_number NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Order Sequence Number"
+msgstr "आदेश अनुक्रम संख्या"
+
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.view_kitchen_screen_form NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Orderline Groups"
+msgstr "आदेश पंक्ति समूह"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__orderline_group_ids NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Orderline groups"
+msgstr "आदेश पंक्ति समूह"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__category_ids NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "POS Categories"
+msgstr "पीओएस श्रेणियाँ"
+
+#: model:ir.model.fields,help:abichinger_kitchen_screen.field_ab_pos_orderline_group__category_ids NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "POS Categories (incl. subcategories)"
+msgstr "पीओएस श्रेणियाँ (उपश्रेणियों सहित)"
+
+#: model:ir.model,name:abichinger_kitchen_screen.model_ab_pos_order_change NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "POS Order Change"
+msgstr "पीओएस ऑर्डर परिवर्तन"
+
+#: model:ir.model,name:abichinger_kitchen_screen.model_ab_pos_order_change_line NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "POS Order Change Line"
+msgstr "पीओएस ऑर्डर परिवर्तन रेखा"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__config_ids NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Point of Sale"
+msgstr "सेल पॉइंट"
+
+#: model:ir.model,name:abichinger_kitchen_screen.model_pos_config NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Point of Sale Configuration"
+msgstr "सेल पॉइंट कॉन्फ़िगरेशन"
+
+#: model:ir.model,name:abichinger_kitchen_screen.model_pos_order NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Point of Sale Orders"
+msgstr "सेल पॉइंट ऑर्डर"
+
+#: model:ir.model,name:abichinger_kitchen_screen.model_pos_session NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Point of Sale Session"
+msgstr "सेल पॉइंट सत्र"
+
+#: model:ir.model,name:abichinger_kitchen_screen.model_ab_pos_kitchen_screen NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Preparation Display for the kitchen"
+msgstr "रसोई के लिए तैयारी प्रदर्शन"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__product_id NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Product"
+msgstr "उत्पाद"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__attribute_ids NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Product Attributes"
+msgstr "उत्पाद विशेषताएँ"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__qty NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Quantity"
+msgstr "मात्रा"
+
+#: code:addons/abichinger_kitchen_screen/static/src/navbar/navbar.xml:0
+#: model:ir.model.fields.selection,name:abichinger_kitchen_screen.selection__ab_pos_order_change_line__state__ready NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+#. odoo-javascript
+#, python-format
+msgid "Ready"
+msgstr "तैयार"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__attribute_value_ids NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Selected Attributes"
+msgstr "चुनी हुई विशेषताएँ"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__sequence NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Sequence"
+msgstr "क्रम"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__sequence_number NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Sequence Number"
+msgstr "क्रम संख्या"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__state NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Status"
+msgstr "स्थिति"
+
+#: model:ir.model.fields,help:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__wait_time NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid ""
+"Wait time in minutes. Set to 0 to disable. Will be displayed at the top of the self-order menu if "
+"aks_self_order is installed."
+msgstr ""
+"मिनटों में प्रतीक्षा समय। अक्षम करने के लिए 0 पर सेट करें। यदि aks_self_order स्थापित है तो यह "
+"सेल्फ ऑर्डर मेनू के शीर्ष पर प्रदर्शित होगा।"
+
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.view_kitchen_screen_form NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "e.g. Kitchen Screen"
+msgstr "जैसे कि रसोई स्क्रीन"

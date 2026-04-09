@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ab_pos_order_change,access.ab_pos.order.change,model_ab_pos_order_change,point_of_sale.group_pos_user,1,1,1,1
+access_ab_pos_order_change_line,access.ab_pos.order.change.line,model_ab_pos_order_change_line,point_of_sale.group_pos_user,1,1,1,1
+access_ab_pos_kitchen_screen,access.ab_pos.kitchen_screen,model_ab_pos_kitchen_screen,point_of_sale.group_pos_user,1,1,1,1
+access_ab_pos_orderline_group,access.ab_pos.orderline_group,model_ab_pos_orderline_group,point_of_sale.group_pos_user,1,1,1,1

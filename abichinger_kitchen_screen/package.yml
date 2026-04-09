@@ -1,0 +1,93 @@
+header:
+  title: "POS Kitchen Screen"
+  slogan: "Seamless Kitchen Coordination: Cook, Ready, Done!"
+
+screenshots:
+  - src: assets/overview_ipad_air_light.png
+    alt: Kitchen display (KDS) interface
+    caption: "Kitchen display interface showing active orders.
+      Categorized by Cooking, Ready, and Done.
+      An overview panel summarizes total item counts."
+  - src: assets/overview_ipad_air_dark.png
+    alt: Kitchen display (KDS) interface in dark mode
+    caption: Kitchen display system in dark mode
+  - src: assets/settings_ipad_air_light.png
+    alt: Settings panel
+    caption: Settings panel of the restaurant kitchen management system
+  - src: assets/pos_kanban.png
+    alt: POS Kanban View
+    caption: Kitchen Screen button in POS kanban view
+  - src: assets/kitchen_screen_kanban.png
+    alt: Kitchen Display Kanban View
+    caption: Kitchen Screen Kanban View to manage multiple kitchens
+  - src: assets/ready_ipad_air_m.png
+  - src: assets/pos_settings.png
+  
+highlights:
+  - icon: refresh
+    title: Real-time Orders
+    text: Orders taken by the waiter are immediately displayed in the kitchen.
+  - icon: check-square
+    title: Progress Tracking
+    text: "Clear status indicators: <b>Cooking</b> when preparation starts,
+      <b>Ready</b> when it's prepared, and <b>Done</b> when it's been
+      served"
+  - icon: mobile
+    title: Responsive Design
+    text: "The interface adapts to any screen size, providing an optimal
+      viewing experience whether on a tablet, phone, or desktop."
+  - icon: search
+    title: Filter
+    text: "Easily filter orders based on product categories or specific areas
+      of the restaurant."
+
+description:
+  include: static/description/description.html
+
+info:
+  - icon: user
+    title: Published by 
+    text: Andreas Bichinger
+  - icon: bookmark
+    title: Category
+    text: Point of Sale
+  - icon: envelope
+    title: Contact
+    text: "<a href=\"mailto:andreas.bichinger@gmail.com\">andreas.bichinger@gmail.com</a>"
+  - icon: language
+    title: Supported Languages
+    text: '
+      <span title="Arabic, Azerbaijani, Bosnian, Bulgarian, Chinese, Croatian, Czech, Danish, 
+        Dutch, Finnish, French, German, Greek, Hebrew, Hindi, Hungarian, Indonesian, 
+        Italian, Japanese, Korean, Polish, Portuguese, Romanian, Russian, Serbian, Slovak, 
+        Slovenian, Spanish, Swedish, Thai, Turkish, Ukrainian, Vietnamese"
+      >
+        Supports over 30 languages, including Chinese, English, French, German, Italian, Japanese, Russian, ...
+      </span>'
+
+apps:
+  - name: ab_pos_order_status
+    version: '18.0'
+    banner: assets/ab_pos_order_status.png
+  - name: aks_self_order
+    version: '18.0'
+  - name: ab_pos_self_order_checkout
+    version: '17.0'
+  - name: abichinger_pos_stock
+    version: '18.0'
+    banner: banner.gif
+  - name: abichinger_kitchen_warning
+    version: '18.0'
+    banner: banner.png
+  - name: ab_merge_orders
+    version: '18.0'
+    banner: banner.png
+  - name: ab_pos_self_order_viva
+    version: '17.0'
+  - name: cloud_link
+    version: '18.0'
+    banner: assets/cloud_link.png
+  - name: cloud_link_gdrive
+    version: '18.0'
+    banner: assets/cloud_link_gdrive.png
+

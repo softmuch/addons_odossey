@@ -1,0 +1,329 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * abichinger_kitchen_screen
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+"X-Generator: attranslate\n"
+
+#: model:ir.model.fields,help:abichinger_kitchen_screen.field_ab_pos_order_change__sequence_number NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "A order-unique sequence number for the change"
+msgstr "变更的唯一序列号"
+
+#: model:ir.model.fields,help:abichinger_kitchen_screen.field_pos_order__sequence_number NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "A sequence number that is incremented with each order"
+msgstr "每个订单递增的序列号"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__access_token NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Access Token"
+msgstr "访问令牌"
+
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.view_kitchen_screen_form NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "All PoS"
+msgstr "所有收银系统"
+
+#: model:ir.model.fields.selection,name:abichinger_kitchen_screen.selection__ab_pos_order_change_line__state__cancel NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Canceled"
+msgstr "已取消"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__lines NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Change Lines"
+msgstr "更改行"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__company_id NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Company"
+msgstr "公司"
+
+#: model:ir.model,name:abichinger_kitchen_screen.model_res_config_settings NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Config Settings"
+msgstr "配置设置"
+
+#: model:ir.model.fields.selection,name:abichinger_kitchen_screen.selection__ab_pos_order_change_line__state__cooking NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Cooking"
+msgstr "烹饪"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__created_at NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Created At"
+msgstr "创建于"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__create_uid
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__create_uid
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__create_uid
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__create_uid NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Created by"
+msgstr "创建者"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__create_date
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__create_date
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__create_date
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__create_date NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Created on"
+msgstr "创建日期"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__wait_time NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Current wait time"
+msgstr "当前等待时间"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__filter NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Custom Filter"
+msgstr "自定义过滤器"
+
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.view_kitchen_screen_form NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Define groups of products within an order."
+msgstr "定义订单中的产品组"
+
+#: model:ir.model.fields,help:abichinger_kitchen_screen.field_ab_pos_orderline_group__sequence NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Determines the order of the stages"
+msgstr "确定阶段的顺序"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__display_name
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__display_name
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__display_name
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__display_name NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Display Name"
+msgstr "显示名称"
+
+#: model:ir.model.fields.selection,name:abichinger_kitchen_screen.selection__ab_pos_order_change_line__state__done NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Done"
+msgstr "完成"
+
+#: model:ir.model.fields,help:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__filter NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Filter orders according to specified criteria"
+msgstr "根据指定标准过滤订单"
+
+#: model:ir.model,name:abichinger_kitchen_screen.model_ab_pos_orderline_group NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Groups of products within an order"
+msgstr "订单中的产品组"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__id
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__id
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__id
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__id NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "ID"
+msgstr "编号"
+
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.res_config_settings_view_form NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Include this POS in the selected Kitchen Screens"
+msgstr "将此POS包含在所选厨房屏幕中"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__note NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Internal Note added by the waiter."
+msgstr "由服务员添加的内部备注。"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__kitchen_id NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Kitchen Display"
+msgstr "厨房显示"
+
+#: model:ir.actions.act_window,name:abichinger_kitchen_screen.action_kitchen_screen
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_pos_config__kitchen_ids
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_res_config_settings__pos_kitchen_ids
+#: model:ir.ui.menu,name:abichinger_kitchen_screen.menu_kitchen_screen
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.view_pos_config_kanban NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Kitchen Screen"
+msgstr "厨房屏幕"
+
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.res_config_settings_view_form NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Kitchen Screens"
+msgstr "厨房屏幕"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__write_uid
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__write_uid
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__write_uid
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__write_uid NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Last Updated by"
+msgstr "最后更新者"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__write_date
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__write_date
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__write_date
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__write_date NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Last Updated on"
+msgstr "最后更新于"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__line_uuid NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Line Uuid"
+msgstr "行UUID"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__name
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__name
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.view_kitchen_screen_form NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Name"
+msgstr "名称"
+
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.view_kitchen_screen_form NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Open"
+msgstr "打开"
+
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.view_kitchen_screen_kanban NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Open Screen"
+msgstr "打开屏幕"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_pos_order__changes NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Order Change"
+msgstr "订单变更"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__change_id NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Order Change Ref"
+msgstr "订单变更参考"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__order_id NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Order Ref"
+msgstr "订单参考"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_pos_order__sequence_number NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Order Sequence Number"
+msgstr "订单序列号"
+
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.view_kitchen_screen_form NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Orderline Groups"
+msgstr "订单行组"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__orderline_group_ids NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Orderline groups"
+msgstr "订单行组"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__category_ids NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "POS Categories"
+msgstr "POS类别"
+
+#: model:ir.model.fields,help:abichinger_kitchen_screen.field_ab_pos_orderline_group__category_ids NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "POS Categories (incl. subcategories)"
+msgstr "POS类别（包含子类别）"
+
+#: model:ir.model,name:abichinger_kitchen_screen.model_ab_pos_order_change NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "POS Order Change"
+msgstr "POS订单变更"
+
+#: model:ir.model,name:abichinger_kitchen_screen.model_ab_pos_order_change_line NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "POS Order Change Line"
+msgstr "POS订单变更行"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__config_ids NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Point of Sale"
+msgstr "销售点"
+
+#: model:ir.model,name:abichinger_kitchen_screen.model_pos_config NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Point of Sale Configuration"
+msgstr "销售点配置"
+
+#: model:ir.model,name:abichinger_kitchen_screen.model_pos_order NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Point of Sale Orders"
+msgstr "销售点订单"
+
+#: model:ir.model,name:abichinger_kitchen_screen.model_pos_session NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Point of Sale Session"
+msgstr "销售点会话"
+
+#: model:ir.model,name:abichinger_kitchen_screen.model_ab_pos_kitchen_screen NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Preparation Display for the kitchen"
+msgstr "厨房准备显示"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__product_id NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Product"
+msgstr "产品"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__attribute_ids NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Product Attributes"
+msgstr "产品属性"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__qty NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Quantity"
+msgstr "数量"
+
+#: code:addons/abichinger_kitchen_screen/static/src/navbar/navbar.xml:0
+#: model:ir.model.fields.selection,name:abichinger_kitchen_screen.selection__ab_pos_order_change_line__state__ready NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+#. odoo-javascript
+#, python-format
+msgid "Ready"
+msgstr "准备好"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__attribute_value_ids NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Selected Attributes"
+msgstr "选择的属性"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__sequence NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Sequence"
+msgstr "序列"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__sequence_number NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Sequence Number"
+msgstr "序列号"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__state NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Status"
+msgstr "状态"
+
+#: model:ir.model.fields,help:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__wait_time NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid ""
+"Wait time in minutes. Set to 0 to disable. Will be displayed at the top of the self-order menu if "
+"aks_self_order is installed."
+msgstr "等待时间（分钟）。设置为0以禁用。如果安装了aks_self_order，将显示在自助订单菜单的顶部。"
+
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.view_kitchen_screen_form NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "e.g. Kitchen Screen"
+msgstr "例如：厨房屏幕"

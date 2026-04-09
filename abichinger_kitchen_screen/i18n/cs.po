@@ -1,0 +1,331 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * abichinger_kitchen_screen
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+"X-Generator: attranslate\n"
+
+#: model:ir.model.fields,help:abichinger_kitchen_screen.field_ab_pos_order_change__sequence_number NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "A order-unique sequence number for the change"
+msgstr "Jedinečné číslo sekvence objednávky pro změnu"
+
+#: model:ir.model.fields,help:abichinger_kitchen_screen.field_pos_order__sequence_number NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "A sequence number that is incremented with each order"
+msgstr "Číslo sekvence, které se zvyšuje s každou objednávkou"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__access_token NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Access Token"
+msgstr "Přístupový token"
+
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.view_kitchen_screen_form NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "All PoS"
+msgstr "Všechny PoS"
+
+#: model:ir.model.fields.selection,name:abichinger_kitchen_screen.selection__ab_pos_order_change_line__state__cancel NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Canceled"
+msgstr "Zrušeno"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__lines NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Change Lines"
+msgstr "Změna řádků"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__company_id NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Company"
+msgstr "Společnost"
+
+#: model:ir.model,name:abichinger_kitchen_screen.model_res_config_settings NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Config Settings"
+msgstr "Nastavení konfigurace"
+
+#: model:ir.model.fields.selection,name:abichinger_kitchen_screen.selection__ab_pos_order_change_line__state__cooking NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Cooking"
+msgstr "Vaření"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__created_at NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Created At"
+msgstr "Vytvořeno dne"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__create_uid
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__create_uid
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__create_uid
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__create_uid NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Created by"
+msgstr "Vytvořil"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__create_date
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__create_date
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__create_date
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__create_date NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Created on"
+msgstr "Vytvořeno"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__wait_time NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Current wait time"
+msgstr "Aktuální doba čekání"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__filter NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Custom Filter"
+msgstr "Vlastní filtr"
+
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.view_kitchen_screen_form NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Define groups of products within an order."
+msgstr "Definujte skupiny produktů v rámci objednávky."
+
+#: model:ir.model.fields,help:abichinger_kitchen_screen.field_ab_pos_orderline_group__sequence NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Determines the order of the stages"
+msgstr "Určuje pořadí fází"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__display_name
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__display_name
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__display_name
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__display_name NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Display Name"
+msgstr "Zobrazované jméno"
+
+#: model:ir.model.fields.selection,name:abichinger_kitchen_screen.selection__ab_pos_order_change_line__state__done NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Done"
+msgstr "Hotovo"
+
+#: model:ir.model.fields,help:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__filter NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Filter orders according to specified criteria"
+msgstr "Filtrovat objednávky podle stanovených kritérií"
+
+#: model:ir.model,name:abichinger_kitchen_screen.model_ab_pos_orderline_group NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Groups of products within an order"
+msgstr "Skupiny produktů v rámci objednávky"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__id
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__id
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__id
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__id NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "ID"
+msgstr "ID"
+
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.res_config_settings_view_form NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Include this POS in the selected Kitchen Screens"
+msgstr "Zahrnout tento POS do vybraných kuchyňských obrazovek"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__note NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Internal Note added by the waiter."
+msgstr "Interní poznámka přidána číšníkem."
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__kitchen_id NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Kitchen Display"
+msgstr "Kuchyňský displej"
+
+#: model:ir.actions.act_window,name:abichinger_kitchen_screen.action_kitchen_screen
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_pos_config__kitchen_ids
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_res_config_settings__pos_kitchen_ids
+#: model:ir.ui.menu,name:abichinger_kitchen_screen.menu_kitchen_screen
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.view_pos_config_kanban NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Kitchen Screen"
+msgstr "Kuchyňská obrazovka"
+
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.res_config_settings_view_form NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Kitchen Screens"
+msgstr "Kuchyňské obrazovky"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__write_uid
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__write_uid
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__write_uid
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__write_uid NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Last Updated by"
+msgstr "Poslední aktualizace od"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__write_date
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__write_date
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__write_date
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__write_date NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Last Updated on"
+msgstr "Poslední aktualizace dne"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__line_uuid NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Line Uuid"
+msgstr "UUID řádku"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__name
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__name
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.view_kitchen_screen_form NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Name"
+msgstr "Název"
+
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.view_kitchen_screen_form NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Open"
+msgstr "Otevřít"
+
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.view_kitchen_screen_kanban NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Open Screen"
+msgstr "Otevřít obrazovku"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_pos_order__changes NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Order Change"
+msgstr "Změna objednávky"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__change_id NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Order Change Ref"
+msgstr "Odkaz na změnu objednávky"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__order_id NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Order Ref"
+msgstr "Odkaz na objednávku"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_pos_order__sequence_number NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Order Sequence Number"
+msgstr "Číslo pořadí objednávky"
+
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.view_kitchen_screen_form NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Orderline Groups"
+msgstr "Skupiny položek objednávky"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__orderline_group_ids NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Orderline groups"
+msgstr "skupiny položek objednávky"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__category_ids NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "POS Categories"
+msgstr "Kategorie POS"
+
+#: model:ir.model.fields,help:abichinger_kitchen_screen.field_ab_pos_orderline_group__category_ids NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "POS Categories (incl. subcategories)"
+msgstr "Kategorie POS (včetně podkategorií)"
+
+#: model:ir.model,name:abichinger_kitchen_screen.model_ab_pos_order_change NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "POS Order Change"
+msgstr "Změna objednávky POS"
+
+#: model:ir.model,name:abichinger_kitchen_screen.model_ab_pos_order_change_line NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "POS Order Change Line"
+msgstr "Řádek změny objednávky POS"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__config_ids NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Point of Sale"
+msgstr "Prodejní místo"
+
+#: model:ir.model,name:abichinger_kitchen_screen.model_pos_config NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Point of Sale Configuration"
+msgstr "Konfigurace prodejního místa"
+
+#: model:ir.model,name:abichinger_kitchen_screen.model_pos_order NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Point of Sale Orders"
+msgstr "Objednávky prodejního místa"
+
+#: model:ir.model,name:abichinger_kitchen_screen.model_pos_session NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Point of Sale Session"
+msgstr "Relace prodejního místa"
+
+#: model:ir.model,name:abichinger_kitchen_screen.model_ab_pos_kitchen_screen NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Preparation Display for the kitchen"
+msgstr "Displej přípravy pro kuchyni"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__product_id NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Product"
+msgstr "Produkt"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__attribute_ids NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Product Attributes"
+msgstr "Atributy produktu"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__qty NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Quantity"
+msgstr "Množství"
+
+#: code:addons/abichinger_kitchen_screen/static/src/navbar/navbar.xml:0
+#: model:ir.model.fields.selection,name:abichinger_kitchen_screen.selection__ab_pos_order_change_line__state__ready NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+#. odoo-javascript
+#, python-format
+msgid "Ready"
+msgstr "Připraveno"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__attribute_value_ids NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Selected Attributes"
+msgstr "Vybrané atributy"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_orderline_group__sequence NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Sequence"
+msgstr "Sekvence"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change__sequence_number NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Sequence Number"
+msgstr "Číslo sekvence"
+
+#: model:ir.model.fields,field_description:abichinger_kitchen_screen.field_ab_pos_order_change_line__state NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "Status"
+msgstr "Stav"
+
+#: model:ir.model.fields,help:abichinger_kitchen_screen.field_ab_pos_kitchen_screen__wait_time NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid ""
+"Wait time in minutes. Set to 0 to disable. Will be displayed at the top of the self-order menu if "
+"aks_self_order is installed."
+msgstr ""
+"Doba čekání v minutách. Nastavte na 0, abyste deaktivovali. Bude zobrazeno na vrcholu menu pro "
+"samoobjednání, pokud je nainstalováno aks_self_order."
+
+#: model_terms:ir.ui.view,arch_db:abichinger_kitchen_screen.view_kitchen_screen_form NEEDS WORK NEEDS WORK
+#. module: abichinger_kitchen_screen
+msgid "e.g. Kitchen Screen"
+msgstr "např. Kuchyňský displej"

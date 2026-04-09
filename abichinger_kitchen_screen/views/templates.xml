@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="kitchen_assets" name="Kitchen Screen Assets">
+        <head>
+            <script type="text/javascript">
+                var odoo = <t t-out="json.dumps({
+                    'csrf_token': request.csrf_token(None),
+                    '__session_info__': session_info,
+                    'login_number': login_number,
+                    'kitchen': kitchen,
+                    'debug': debug,
+                    'ab_modules': ab_modules,
+                })"/>;
+                // Prevent the menu_service to load anything. In an ideal world, POS assets would only contain
+                // what is genuinely necessary, and not the whole backend.
+                odoo.loadMenusPromise = Promise.resolve();
+            </script>
+            <t t-call="web.conditional_assets_tests">
+                <t t-set="ignore_missing_deps" t-value="True"/>
+            </t>
+            <t t-call-assets="web.assets_backend"/>
+            <t t-call-assets="point_of_sale.printer"/>
+        </head>
+    </template>
+
+</odoo>

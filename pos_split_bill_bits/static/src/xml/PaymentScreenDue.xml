@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+
+    <t t-name="PaymentScreenDueBits" t-inherit="point_of_sale.PaymentScreenDue" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[contains(@class,'total')]" position="replace">
+            <div class="total text-center py-2 py-lg-4 text-success">
+                <t t-if="currentOrder.is_split &amp;&amp; currentOrder.to_split &gt; 1">
+                    <t t-esc="this.env.utils.formatCurrency(currentOrder.getTotalDue()/currentOrder.to_split)" />
+                </t>
+                <t t-else="">
+                    <t t-esc="this.env.utils.formatCurrency(currentOrder.getTotalDue())" />
+                </t>
+            </div>
+        </xpath>
+    </t>
+</templates>

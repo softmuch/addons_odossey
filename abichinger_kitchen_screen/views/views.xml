@@ -1,0 +1,43 @@
+<odoo>
+
+    <!-- "Kitchen Screen" in POS settings - addons/pos_restaurant/views/res_config_settings_views.xml -->
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="pos_restaurant.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            
+            <block id="pos_connected_devices_section" position="inside">
+                <setting help="Include this POS in the selected Kitchen Screens">
+                    <field name="pos_kitchen_ids" string="Kitchen Screens" widget="many2many_tags" />
+                </setting>
+            </block>
+
+        </field>
+    </record>
+
+    <!-- Button "Kitchen Screen" in POS Dashboard - addons/point_of_sale/views/point_of_sale_dashboard.xml -->
+    <record id="view_pos_config_kanban" model="ir.ui.view">
+        <field name="name">pos.config.kanban.view</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_config_kanban"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='current_session_id']" position="before">
+                <field name="kitchen_ids"/>
+            </xpath>
+
+            <!-- <xpath expr="//button[@name='open_existing_session_cb']" position="after"> -->
+            <xpath expr="//div[@name='card_title']/following-sibling::div" position="after">
+                <div id="kitchen_screen_actions" class="d-flex flex-wrap" t-if="record.current_session_state.raw_value === 'opened' and record.kitchen_ids.raw_value.length > 0">
+                    <div class="ms-2 mt-2 me-2">
+                        <button class="btn btn-secondary" name="open_kitchen" type="object">
+                            Kitchen Screen
+                        </button>
+                    </div>
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

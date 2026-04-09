@@ -1,0 +1,54 @@
+{
+	"folders": [
+		{
+			"name": "abichinger_kitchen_screen",
+			"path": "."
+		},
+		{
+			"name": "aks_self_order",
+			"path": "../aks_self_order"
+		},
+		{
+			"name": "aks_sms",
+			"path": "../aks_sms"
+		},
+		{
+			"name": "ab_twilio",
+			"path": "../ab_twilio"
+		},
+		{
+			"name": "abichinger_kitchen_warning",
+			"path": "../../abichinger_kitchen_warning"
+		},
+		{
+			"name": "ab_pos_order_status",
+			"path": "../../ab_pos_order_status"
+		},
+		{
+			"name": "abichinger_pos_stock",
+			"path": "../../abichinger_pos_stock"
+		},
+		{
+			"path": "../aks_demo"
+		},
+		{
+			"path": "../../ab_merge_orders"
+		},
+		{
+			"path": "../../ab_pos_self_order_customer_details"
+		},
+		{
+			"path": "../../ab_pos_self_order_checkout"
+		},
+		{
+			"path": "../../ab_pos_enhanced"
+		},
+		{
+			"name": "odoo",
+			"path": "../../../odoo"
+		},
+	],
+	"settings": {
+		"terminal.integrated.defaultProfile.linux": "bash"
+	}
+}
