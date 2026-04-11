@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="odossey_pos_print_pre_bill.ActionpadWidget" t-inherit="point_of_sale.ActionpadWidget" t-inherit-mode="extension">
+        <!-- Remove categories for saving space -->
+        <xpath expr="//button[hasclass('submit-order')]/div" position="attributes">
+            <attribute name="t-if">!pos.config.is_order_printer</attribute>
+        </xpath>
+        <!-- Add "Order and print" button next to the submit-order button, only when order printer is enabled -->
+        <xpath expr="//button[hasclass('submit-order')]" position="after">
+            <button
+                t-if="pos.config.is_order_printer"
+                class="order-and-print h-100 button btn btn-secondary btn-lg d-flex align-items-center flex-fill position-relative px-3"
+                t-att-class="swapButtonClasses"
+                t-on-click="orderAndPrint"
+            >
+                Print
+            </button>
+        </xpath>
+    </t>
+</templates>
