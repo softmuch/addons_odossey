@@ -5,6 +5,10 @@
         <xpath expr="//button[hasclass('submit-order')]/div" position="attributes">
             <attribute name="t-if">!pos.config.is_order_printer</attribute>
         </xpath>
+        <!-- Show button name also in smartphone -->
+        <xpath expr="//button[hasclass('submit-order')]/t" position="attributes">
+            <attribute name="t-if">!(ui.isSmall or displayCategoryCount.length > 2) or (!displayCategoryCount.length and ui.isSmall) or pos.config.is_order_printer</attribute>
+        </xpath>
         <!-- Add "Order and print" button next to the submit-order button, only when order printer is enabled -->
         <xpath expr="//button[hasclass('submit-order')]" position="after">
             <button
