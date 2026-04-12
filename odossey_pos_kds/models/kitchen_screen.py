@@ -47,6 +47,25 @@ class KitchenScreen(models.Model):
         ('rooster', 'Rooster'),
     ], string="Default Notification", default="none")
 
+    sort_cooking = fields.Selection(
+        [('duration_desc', 'Duration Descending (Oldest First)'), ('duration_asc', 'Duration Ascending (Newest First)')],
+        string="Cooking Sort Order",
+        default='duration_desc',
+        required=True,
+    )
+    sort_ready = fields.Selection(
+        [('duration_desc', 'Duration Descending (Oldest First)'), ('duration_asc', 'Duration Ascending (Newest First)')],
+        string="Ready Sort Order",
+        default='duration_desc',
+        required=True,
+    )
+    sort_done = fields.Selection(
+        [('duration_desc', 'Duration Descending (Oldest First)'), ('duration_asc', 'Duration Ascending (Newest First)')],
+        string="Done Sort Order",
+        default='duration_desc',
+        required=True,
+    )
+
     orderline_group_ids = fields.One2many("ab_pos.orderline_group", "kitchen_id", string="Orderline groups")
 
     def open_kitchen(self, params: dict = {}):
@@ -57,6 +76,10 @@ class KitchenScreen(models.Model):
         params.update({"categ": self.orderline_group_ids.category_ids.ids})
         # Set default notification
         params.update({"n": self.default_notification})
+        # Set default sort order per stage
+        params.update({"obc": self.sort_cooking})
+        params.update({"obr": self.sort_ready})
+        params.update({"obd": self.sort_done})
 
         return {
             "type": "ir.actions.act_url",

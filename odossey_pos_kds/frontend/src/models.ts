@@ -374,4 +374,7 @@ export interface KitchenScreen {
   wait_time: number
   delivery_time?: number
   orderline_groups: OrderlineGroupData[]
+  sort_cooking: 'duration_desc' | 'duration_asc'
+  sort_ready: 'duration_desc' | 'duration_asc'
+  sort_done: 'duration_desc' | 'duration_asc'
 }

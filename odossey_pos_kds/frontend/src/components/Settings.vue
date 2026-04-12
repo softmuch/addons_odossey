@@ -86,13 +86,34 @@
         ></el-option>
       </el-select>
     </SettingsOption>
-    <SettingsOption :label="$t('order_of_orders')">
-      <el-select v-model="state.orderBy.value">
+    <h3 class="font-bold text-sm mt-4 mb-1 ml-5 settings-group">{{ $t('stage_sort_order') }}</h3>
+    <SettingsOption :label="$t('state.cooking')">
+      <el-select v-model="state.orderByCooking.value">
         <el-option
-          v-for="orderBy in orderOptions"
-          :key="orderBy"
-          :label="$t('orderBy.' + orderBy)"
-          :value="orderBy"
+          v-for="opt in stageSortOptions"
+          :key="opt"
+          :label="$t('sortOrder.' + opt)"
+          :value="opt"
+        ></el-option>
+      </el-select>
+    </SettingsOption>
+    <SettingsOption :label="$t('state.ready')">
+      <el-select v-model="state.orderByReady.value">
+        <el-option
+          v-for="opt in stageSortOptions"
+          :key="opt"
+          :label="$t('sortOrder.' + opt)"
+          :value="opt"
+        ></el-option>
+      </el-select>
+    </SettingsOption>
+    <SettingsOption :label="$t('state.done')">
+      <el-select v-model="state.orderByDone.value">
+        <el-option
+          v-for="opt in stageSortOptions"
+          :key="opt"
+          :label="$t('sortOrder.' + opt)"
+          :value="opt"
         ></el-option>
       </el-select>
     </SettingsOption>
@@ -189,9 +210,8 @@
 
 <script setup lang="ts">
 import type { Floor, PosCategory } from '@/models'
-import { orderOptions } from '@/sort'
 import { getSounds, play } from '@/sounds'
-import { timeFormats, type State } from '@/state'
+import { timeFormats, stageSortOptions, type State } from '@/state'
 import { ref, watch, type PropType, type Ref } from 'vue'
 import SettingsOption from '@/components/SettingsOption.vue'
 import { useI18n } from 'vue-i18n'

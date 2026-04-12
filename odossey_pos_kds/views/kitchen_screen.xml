@@ -55,6 +55,11 @@
             <field name="filter" widget="domain"
                   options="{'model': 'pos.order'}"></field>
           </group>
+          <group string="Stage Sort Order">
+            <field name="sort_cooking"/>
+            <field name="sort_ready"/>
+            <field name="sort_done"/>
+          </group>
 
           <notebook>
             <page name="Orderline Groups" widget="one2many">

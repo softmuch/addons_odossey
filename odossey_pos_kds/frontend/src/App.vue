@@ -238,7 +238,7 @@ watch(orders, (newOrders) => {
   changes.value = newChanges
 })
 
-watch([state.merge, state.filter, state.orderBy], () => {
+watch([state.merge, state.filter, state.orderByCooking, state.orderByReady, state.orderByDone], () => {
   changes.value = splitChanges(orders.value, state)
 })
 

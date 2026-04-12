@@ -333,9 +333,15 @@ export function splitChanges(orders: Order[], state: State): Record<KitchenState
     }
   }
 
-  // sort changes by duration descending
-  for (const changes of Object.values(result)) {
-    sortChanges(changes, state.orderBy.value)
+  // sort changes by stage-specific order
+  const stageSortMap: Record<string, import('./sort').OrderOption | import('./sort').StageSortOption> = {
+    cooking: state.orderByCooking.value,
+    ready: state.orderByReady.value,
+    done: state.orderByDone.value,
+    cancel: 'duration_desc',
+  }
+  for (const [kState, stageChanges] of Object.entries(result)) {
+    sortChanges(stageChanges, stageSortMap[kState] ?? 'duration_desc')
   }
 
   return result

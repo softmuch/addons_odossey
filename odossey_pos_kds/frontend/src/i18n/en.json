@@ -40,6 +40,11 @@
     "duration": "Order by duration",
     "name": "Order by tracking number"
   },
+  "stage_sort_order": "Stage Sort Order",
+  "sortOrder": {
+    "duration_desc": "Oldest first (longest duration)",
+    "duration_asc": "Newest first (shortest duration)"
+  },
   "scroll_down": "Scroll down to load more",
   "prep_time": "Preparation time",
   "prep_time_desc": "Highlight orders which exceed the following preparation times.",

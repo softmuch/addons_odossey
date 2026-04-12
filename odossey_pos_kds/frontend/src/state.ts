@@ -1,7 +1,7 @@
 import { ref, watch, type Ref } from 'vue'
 import { isKitchenState, type KitchenState } from './models'
 import { emptyFilter, limit, replaceSearchParams, type LineFilter } from './util'
-import { orderOptions, type OrderOption } from './sort'
+import { orderOptions, type OrderOption, stageSortOptions, type StageSortOption, isStageSortOption } from './sort'
 
 // CREDIT: https://stackoverflow.com/a/50924506/3140799
 type unwrapRef<T> = T extends Ref<infer X> ? X : T
@@ -12,6 +12,8 @@ type PartialState = {
 
 export const timeFormats = ['m', 'mm:ss', 'hh:mm:ss'] as const
 type TimeFormat = (typeof timeFormats)[number]
+
+export { stageSortOptions, type StageSortOption }
 
 export class State {
   key: string = ''
@@ -25,6 +27,9 @@ export class State {
   sound: Ref<string> = ref('none')
   merge: Ref<boolean> = ref(false)
   orderBy: Ref<OrderOption> = ref('duration')
+  orderByCooking: Ref<StageSortOption> = ref('duration_desc')
+  orderByReady: Ref<StageSortOption> = ref('duration_desc')
+  orderByDone: Ref<StageSortOption> = ref('duration_desc')
   prepWarn: Ref<number> = ref(0)
   prepDanger: Ref<number> = ref(0)
   timeFormat: Ref<TimeFormat> = ref('m')
@@ -48,6 +53,9 @@ export class State {
         this.sound,
         this.merge,
         this.orderBy,
+        this.orderByCooking,
+        this.orderByReady,
+        this.orderByDone,
         this.prepWarn,
         this.debug,
         this.prepDanger,
@@ -74,6 +82,9 @@ export class State {
     this.sound.value = source.sound ?? this.sound.value
     this.merge.value = source.merge ?? this.merge.value
     this.orderBy.value = source.orderBy ?? this.orderBy.value
+    this.orderByCooking.value = source.orderByCooking ?? this.orderByCooking.value
+    this.orderByReady.value = source.orderByReady ?? this.orderByReady.value
+    this.orderByDone.value = source.orderByDone ?? this.orderByDone.value
     this.prepWarn.value = source.prepWarn ?? this.prepWarn.value
     this.prepDanger.value = source.prepDanger ?? this.prepDanger.value
     this.timeFormat.value = source.timeFormat ?? this.timeFormat.value
@@ -117,6 +128,10 @@ export class State {
 
     const stages = toInt(params.get('stages'))
 
+    const toStageSortOption = (s: string | null): StageSortOption | undefined => {
+      return isStageSortOption(s ?? '') ? (s as StageSortOption) : undefined
+    }
+
     return {
       ksId: parseInt(params.get('ks') ?? '0'),
       name: params.get('name') ?? undefined,
@@ -130,6 +145,9 @@ export class State {
       prepWarn: toInt(params.get('pw')),
       prepDanger: toInt(params.get('pd')),
       orderBy: orderOptions[parseInt(params.get('order') ?? '0')],
+      orderByCooking: toStageSortOption(params.get('obc')),
+      orderByReady: toStageSortOption(params.get('obr')),
+      orderByDone: toStageSortOption(params.get('obd')),
       timeFormat: timeFormats.includes(params.get('tf') as TimeFormat)
         ? (params.get('tf') as TimeFormat)
         : undefined,
@@ -177,6 +195,9 @@ export class State {
     if (this.orderBy.value != orderOptions[0]) {
       params.set('order', orderOptions.indexOf(this.orderBy.value) + '')
     }
+    params.set('obc', this.orderByCooking.value)
+    params.set('obr', this.orderByReady.value)
+    params.set('obd', this.orderByDone.value)
     if (this.prepWarn.value !== 0) {
       params.set('pw', this.prepWarn.value + '')
     }
@@ -232,6 +253,9 @@ export class State {
       sound: 'none',
       merge: false,
       orderBy: orderOptions[0],
+      orderByCooking: 'duration_desc',
+      orderByReady: 'duration_desc',
+      orderByDone: 'duration_desc',
       prepWarn: 0,
       prepDanger: 0,
       timeFormat: 'm',

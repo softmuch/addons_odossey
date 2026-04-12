@@ -409,6 +409,9 @@ export function useStore(mode?: string): PosStore {
           channel: '',
           wait_time: 5,
           orderline_groups: [],
+          sort_cooking: 'duration_desc',
+          sort_ready: 'duration_desc',
+          sort_done: 'duration_desc',
         },
         ab_modules: {
           odossey_pos_kds: {

@@ -40,6 +40,11 @@
     "duration": "Ordenar por duración",
     "name": "Ordenar por número de seguimiento"
   },
+  "stage_sort_order": "Orden por Etapa",
+  "sortOrder": {
+    "duration_desc": "Más antiguo primero (mayor duración)",
+    "duration_asc": "Más reciente primero (menor duración)"
+  },
   "scroll_down": "Desplázate hacia abajo para cargar más",
   "prep_time": "Tiempo de preparación",
   "prep_time_desc": "Destaca las órdenes que exceden los siguientes tiempos de preparación.",

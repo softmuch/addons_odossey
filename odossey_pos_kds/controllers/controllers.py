@@ -64,6 +64,9 @@ class PosKitchenScreen(http.Controller):
                 "channel": kitchen_id._get_bus_channel_name(),
                 "wait_time": kitchen_id.wait_time,
                 "orderline_groups": kitchen_id.orderline_group_ids._load_data(),
+                "sort_cooking": kitchen_id.sort_cooking,
+                "sort_ready": kitchen_id.sort_ready,
+                "sort_done": kitchen_id.sort_done,
                 **({"delivery_time": delivery_locs[0].delivery_time} if delivery_locs else {})
             },
             "ab_modules": self._fetch_modules(['odossey_pos_kds', 'abichinger_pos_stock', 'ab_pos_order_status', 'ab_pos_self_order_checkout']),
