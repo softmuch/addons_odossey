@@ -41,7 +41,7 @@
             class="!mr-2 !my-1 !bg-sky-200 !text-sky-700 !rounded-md !w-auto"
           />
         </div>
-        <span class="font-semibold">{{ line.qty }}</span>
+        <span class="font-semibold text-2xl">{{ line.qty }}</span>
       </div>
     </div>
   </el-tooltip>
