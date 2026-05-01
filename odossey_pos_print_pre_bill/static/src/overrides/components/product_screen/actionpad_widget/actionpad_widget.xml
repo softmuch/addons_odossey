@@ -20,7 +20,7 @@
                     Set Done
                 </button>
                 <button
-                    class="order-and-print button btn btn-secondary btn-lg d-flex align-items-center justify-content-center flex-fill"
+                    class="order-and-print button btn btn-danger btn-lg d-flex align-items-center justify-content-center flex-fill"
                     t-att-class="swapButtonClasses"
                     t-on-click="orderAndPrint"
                 >

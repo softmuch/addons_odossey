@@ -137,12 +137,15 @@ export function mergeOrderLines(lines: OrderChangeLine[]): OrderChangeLine {
   if (lines.length == 0) {
     throw 'mergeOrderLines() empty lines array'
   }
-  const line = Object.assign(new OrderChangeLine(lines[0]), { qty: 0 })
+  const line = Object.assign(new OrderChangeLine(lines[0]), { qty: 0, removedQty: 0 })
   line.refs = [...lines]
   line.refs.sort((a, b) => b.change.duration.milliseconds - a.change.duration.milliseconds)
 
   for (const l of line.refs) {
     line.qty += l.qty
+    if (l.qty < 0) {
+      line.removedQty += Math.abs(l.qty)
+    }
     line.note = l.qty >= 0 ? l.note : line.note
     line.attribute_value_ids = l.attribute_value_ids
   }
@@ -184,7 +187,7 @@ export function computeHash(change: OrderChange, merge: boolean): number {
     change.order.state +
       change.priority +
       merge +
-      change.lines.map((l) => [l.id, l.note, l.product, l.qty, l.state].join(',')).join(';'),
+      change.lines.map((l) => [l.id, l.note, l.product, l.qty, l.state, l.removedQty].join(',')).join(';'),
   )
 }
 
@@ -294,10 +297,22 @@ export function splitChanges(orders: Order[], state: State): Record<KitchenState
           line.product.type !== 'service' && typeof line.line?.refunded_orderline_id !== 'number',
       )
 
+    // Build map of line_uuid -> key1 of the first positive line (for modification merging)
+    const uuidToKey1: Record<string, string> = {}
+    for (const line of lines) {
+      if (line.qty > 0 && line.line_uuid && !uuidToKey1[line.line_uuid]) {
+        uuidToKey1[line.line_uuid] = state.merge.value ? line.state : line.state + ',' + line.change.id
+      }
+    }
+
     // group order lines by state and change id if not merged
+    // modification lines (negative qty, same line_uuid as a positive line) group with their original
     const grouped = groupBy(
       lines,
       (line) => {
+        if (line.qty < 0 && line.line_uuid && uuidToKey1[line.line_uuid]) {
+          return uuidToKey1[line.line_uuid]
+        }
         return state.merge.value ? line.state : line.state + ',' + line.change.id
       },
       (line) => line.product.id + line.attribute_value_ids.join(',') + line.line_uuid,
@@ -319,7 +334,11 @@ export function splitChanges(orders: Order[], state: State): Record<KitchenState
         if (filtered.length == 0) {
           continue
         }
-        change.lines.push(mergeOrderLines(filtered))
+        const mergedLine = mergeOrderLines(filtered)
+        if (mergedLine.removedQty > 0) {
+          change.modified = true
+        }
+        change.lines.push(mergedLine)
       }
       return change
     })

@@ -20,6 +20,17 @@
             <ElapsedTime :effect="tagEffect" :datetime="change.createdAt"></ElapsedTime>
 
             <el-tag
+              v-if="change.modified"
+              :effect="tagEffect"
+              class="font-semibold ml-1 mb-1 !text-sm"
+              :class="isDark ? '!text-amber-300' : '!text-amber-600'"
+              type="warning"
+              disable-transitions
+            >
+              {{ $t('modified') }}
+            </el-tag>
+
+            <el-tag
               v-if="paid || invoiced"
               :effect="tagEffect"
               class="font-semibold ml-1 mb-1 !text-sm"

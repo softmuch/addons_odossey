@@ -61,6 +61,7 @@ export class OrderChangeLine {
   line_uuid: string = ''
   attribute_value_ids: number[]
   refs: OrderChangeLine[] = []
+  removedQty: number = 0
 
   constructor(vals: {
     change: OrderChange
@@ -117,6 +118,7 @@ export class OrderChange {
   sequenceNumber: number
   lines: OrderChangeLine[] = []
   priority: number = 0
+  modified: boolean = false
 
   constructor(vals: {
     id: number
