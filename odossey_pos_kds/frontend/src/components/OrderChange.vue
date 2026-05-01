@@ -1,6 +1,6 @@
 <template>
   <div ref="root">
-    <el-card :class="kStateProps[kState].border" class="!border-2">
+    <el-card :class="cardClass" class="!border-2">
       <template #header>
         <div class="flex">
           <div>
@@ -274,6 +274,7 @@ export default defineComponent({
     const store = useStore()
     const settings = useState()
     const kState = change.lines[0].state
+    const canceled = change.order.state == 'cancel'
     const table = computed<Table | undefined>(() => store.db.tableById(props.change.order.tableId))
     const printing = ref(false)
     const { groupOrderlines } = useOrderlineGroups()
@@ -311,6 +312,12 @@ export default defineComponent({
             evolutions: evolutions,
           })
         : ref(kStateProps[kState].bg)
+
+    const cardClass = canceled
+      ? '!border-red-500'
+      : change.modified
+        ? '!border-amber-400'
+        : kStateProps[kState].border
 
     onMounted(() => {
       setHeaderColor(bgColor.value)
@@ -464,9 +471,10 @@ export default defineComponent({
       hide,
       table,
       kStateProps,
-      canceled: change.order.state == 'cancel',
+      canceled,
       paid: change.order.state == 'paid',
       invoiced: change.order.state == 'invoiced',
+      cardClass,
       merge: settings.merge,
       root: root,
       kState: kState,
