@@ -161,6 +161,7 @@
           :even="i % 2 == 0"
           :is-dark="isDark"
           @check="forwardLine(line)"
+          @checkOne="forwardLineOne(line)"
         />
         <hr
           v-if="i < groupedLines.length - 1"
@@ -195,7 +196,7 @@
 </template>
 
 <script lang="ts">
-import { setKitchenState, updatePriority } from '@/api'
+import { setKitchenState, splitAndSetKitchenState, updatePriority } from '@/api'
 import ElapsedTime, { type ElEffect } from '@/components/ElapsedTime.vue'
 import { type KitchenState, type Table, kStateProps } from '@/models'
 import { computed, defineComponent, onMounted, ref, watch, type PropType } from 'vue'
@@ -331,6 +332,25 @@ export default defineComponent({
       return forward(idsOf(lines))
     }
 
+    const forwardLineOne = (line: OrderChangeLine) => {
+      if (!props.nextState) return
+
+      // Get raw refs (actual DB records); in non-merge mode refs = [line itself]
+      const rawRefs = line.refs.length > 0 ? line.refs : [line]
+      const ref = rawRefs.find((r) => r.state === line.state) ?? rawRefs[0]
+      if (!ref) return
+
+      // Optimistic local update
+      if (ref.qty <= 1) {
+        ref.state = props.nextState
+      } else {
+        ref.qty -= 1
+      }
+      store.updated.value++
+
+      splitAndSetKitchenState(ref.id, 1, props.nextState)
+    }
+
     const forwardAll = () => {
       const ids = idsOf(change.lines)
       return forward(ids)
@@ -427,6 +447,7 @@ export default defineComponent({
       user: change.order.user(),
       idsOf,
       forwardLine,
+      forwardLineOne,
       forwardAll,
       returnAll,
       hide,

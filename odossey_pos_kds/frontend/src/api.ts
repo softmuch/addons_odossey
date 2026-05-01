@@ -9,6 +9,15 @@ export async function setKitchenState(
   await orm.call('ab_pos.order.change.line', 'set_state', [line_ids, state])
 }
 
+export async function splitAndSetKitchenState(
+  lineId: number,
+  qty: number,
+  state: string,
+): Promise<void> {
+  const { orm } = await useClient()
+  await orm.call('ab_pos.order.change.line', 'split_and_set_state', [[lineId], qty, state])
+}
+
 export async function updatePriority(
   ids: number[],
   model: string = 'ab_pos.order.change',

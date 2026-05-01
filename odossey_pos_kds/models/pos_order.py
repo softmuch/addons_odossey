@@ -190,3 +190,12 @@ class OrderChangeLine(models.Model):
 
         order: PosOrder = self.change_id.order_id
         order.note_order_change()
+
+    def split_and_set_state(self, qty_to_advance: float, state: str):
+        for line in self:
+            if line.qty <= qty_to_advance:
+                line.write({"state": state})
+            else:
+                line.copy({'qty': qty_to_advance, 'state': state})
+                line.write({"qty": line.qty - qty_to_advance})
+        self.mapped('change_id.order_id').note_order_change()

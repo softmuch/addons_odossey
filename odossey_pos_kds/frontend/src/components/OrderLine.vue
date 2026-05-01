@@ -12,7 +12,7 @@
     </template>
     <div class="rounded-md px-2 py-2" :class="classes">
       <div class="flex items-center">
-        <el-checkbox @change="$emit('check')"></el-checkbox>
+        <el-checkbox @change="emit('check')"></el-checkbox>
         <div class="ml-1 pl-1 grow">
           <!-- <span class="ml-1 pl-1" :class="{'border-l-4 border-red-600': line.qty < 0}"> -->
           {{ line.display_name ?? line.product.display_name }}
@@ -42,6 +42,10 @@
           />
         </div>
         <span class="font-semibold text-2xl">{{ line.qty }}</span>
+        <button
+          class="ml-2 w-7 h-7 rounded-full border border-current font-bold text-lg leading-none cursor-pointer bg-transparent focus:outline-none active:opacity-60"
+          @click.stop="emit('checkOne')"
+        >-</button>
       </div>
     </div>
   </el-tooltip>
@@ -54,6 +58,8 @@ import { containsNegative } from '@/util'
 import { computed, type PropType } from 'vue'
 import { Delete, EditPen } from '@element-plus/icons-vue'
 import OrderLineTimeline from './OrderLineTimeline.vue'
+
+const emit = defineEmits(['check', 'checkOne'])
 
 const props = defineProps({
   line: {
