@@ -119,6 +119,7 @@ export class OrderChange {
   lines: OrderChangeLine[] = []
   priority: number = 0
   modified: boolean = false
+  allRemoved: boolean = false
 
   constructor(vals: {
     id: number

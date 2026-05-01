@@ -297,34 +297,71 @@ export function splitChanges(orders: Order[], state: State): Record<KitchenState
           line.product.type !== 'service' && typeof line.line?.refunded_orderline_id !== 'number',
       )
 
-    // Build map of line_uuid -> key1 of the first positive line (for modification merging)
-    const uuidToKey1: Record<string, string> = {}
+    // Build capacity map: `${state},${changeId}|${uuid}` -> { capacity, createdAtMs, uuid }
+    // Tracks how much positive qty each (change, product) group can absorb from removals.
+    const posCapacity = new Map<string, { capacity: number; createdAtMs: number; uuid: string }>()
     for (const line of lines) {
-      if (line.qty > 0 && line.line_uuid && !uuidToKey1[line.line_uuid]) {
-        uuidToKey1[line.line_uuid] = state.merge.value ? line.state : line.state + ',' + line.change.id
+      if (line.qty > 0 && line.line_uuid) {
+        const key = `${line.state},${line.change.id}|${line.line_uuid}`
+        const existing = posCapacity.get(key)
+        if (existing) {
+          existing.capacity += line.qty
+        } else {
+          posCapacity.set(key, {
+            capacity: line.qty,
+            createdAtMs: line.change.createdAt.toMillis(),
+            uuid: line.line_uuid,
+          })
+        }
       }
     }
 
-    // group order lines by state and change id if not merged
-    // modification lines (negative qty, same line_uuid as a positive line) group with their original
+    // Collect negative entries sorted oldest-first so earlier removals are applied before later ones.
+    const negEntries: { uuid: string; qty: number; createdAtMs: number }[] = []
+    for (const line of lines) {
+      if (line.qty < 0 && line.line_uuid) {
+        negEntries.push({
+          uuid: line.line_uuid,
+          qty: Math.abs(line.qty),
+          createdAtMs: line.change.createdAt.toMillis(),
+        })
+      }
+    }
+    negEntries.sort((a, b) => a.createdAtMs - b.createdAtMs)
+
+    // Each negative only absorbs from positive changes that existed BEFORE it (createdAt strictly less).
+    // Among those eligible, absorb from newest first. Capacity is decremented so multiple removals
+    // don't over-subtract from the same group.
+    const groupRemovedQty: Record<string, number> = {}
+    for (const neg of negEntries) {
+      const eligible = [...posCapacity.entries()]
+        .filter(([, e]) => e.uuid === neg.uuid && e.createdAtMs < neg.createdAtMs && e.capacity > 0)
+        .sort((a, b) => b[1].createdAtMs - a[1].createdAtMs) // newest eligible first
+      let remaining = neg.qty
+      for (const [key, entry] of eligible) {
+        if (remaining <= 0) break
+        const absorbed = Math.min(entry.capacity, remaining)
+        entry.capacity -= absorbed
+        remaining -= absorbed
+        groupRemovedQty[key] = (groupRemovedQty[key] ?? 0) + absorbed
+      }
+    }
+
+    // Positive lines always keyed by change.id — increases never merge into existing cards.
+    // Negatives are excluded here; their effect is applied via groupRemovedQty below.
     const grouped = groupBy(
-      lines,
-      (line) => {
-        if (line.qty < 0 && line.line_uuid && uuidToKey1[line.line_uuid]) {
-          return uuidToKey1[line.line_uuid]
-        }
-        return state.merge.value ? line.state : line.state + ',' + line.change.id
-      },
+      lines.filter((l) => l.qty >= 0),
+      (line) => line.state + ',' + line.change.id,
       (line) => line.product.id + line.attribute_value_ids.join(',') + line.line_uuid,
     )
 
     // create changes
-    const changes = Object.entries(grouped).map(([, lineMap]) => {
+    const changes = Object.entries(grouped).map(([key1, lineMap]) => {
       const groupedLines = Object.values(lineMap)
       const template = findOldestOrderLine(groupedLines.flat()).change
       const sequenceNumber = template.sequenceNumber == REFUND_SEQ ? 'R' : template.sequenceNumber
       const change = Object.assign(new OrderChange(template), {
-        name: template.order.trackingNumber + (state.merge.value ? '' : '-' + sequenceNumber),
+        name: template.order.trackingNumber + '-' + sequenceNumber,
       })
 
       change.lines = []
@@ -335,10 +372,20 @@ export function splitChanges(orders: Order[], state: State): Record<KitchenState
           continue
         }
         const mergedLine = mergeOrderLines(filtered)
-        if (mergedLine.removedQty > 0) {
+        const removedQty = groupRemovedQty[`${key1}|${mergedLine.line_uuid}`] ?? 0
+        if (removedQty > 0) {
+          mergedLine.removedQty = removedQty
+          mergedLine.qty -= removedQty
           change.modified = true
         }
+        if (mergedLine.qty <= 0 && mergedLine.removedQty <= 0) {
+          continue
+        }
         change.lines.push(mergedLine)
+      }
+      if (change.lines.length > 0 && change.lines.every((l) => l.qty <= 0)) {
+        change.allRemoved = true
+        change.modified = false
       }
       return change
     })

@@ -20,7 +20,7 @@
             <ElapsedTime :effect="tagEffect" :datetime="change.createdAt"></ElapsedTime>
 
             <el-tag
-              v-if="change.modified"
+              v-if="change.modified && !change.allRemoved"
               :effect="tagEffect"
               class="font-semibold ml-1 mb-1 !text-sm"
               :class="isDark ? '!text-amber-300' : '!text-amber-600'"
@@ -40,7 +40,7 @@
               {{ paid ? $t('paid') : $t('invoiced') }}
             </el-tag>
             <el-tag
-              v-if="canceled"
+              v-if="canceled || change.allRemoved"
               :effect="tagEffect"
               class="font-semibold ml-1 mb-1 !text-sm"
               type="danger"
@@ -313,7 +313,7 @@ export default defineComponent({
           })
         : ref(kStateProps[kState].bg)
 
-    const cardClass = canceled
+    const cardClass = canceled || change.allRemoved
       ? '!border-red-500'
       : change.modified
         ? '!border-amber-400'
