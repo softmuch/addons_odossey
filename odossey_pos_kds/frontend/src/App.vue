@@ -269,7 +269,10 @@ async function handleNotifications(
       0,
     )
 
-  if (countLines(newChanges) > countLines(oldChanges)) {
+  const countModified = (changeMap: Record<KitchenState, OrderChange[]>) =>
+    Object.values(changeMap).reduce((acc, list) => acc + list.filter((c) => c.modified).length, 0)
+
+  if (countLines(newChanges) > countLines(oldChanges) || countModified(newChanges) > countModified(oldChanges)) {
     const sound = soundById(state.sound.value)
     if (sound) {
       play(sound).catch(() => {
