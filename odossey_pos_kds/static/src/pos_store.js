@@ -7,7 +7,7 @@ patch(PosStore.prototype, {
   /**
    * @override
    */
-  async sendOrderInPreparationUpdateLastChange(order, cancelled = false) {
+  async sendOrderInPreparationUpdateLastChange(order, cancelled = false, initialState = "cooking") {
     const {
       new: toAdd,
       cancelled: toRemove,
@@ -32,6 +32,7 @@ patch(PosStore.prototype, {
         qty: cancelled ? -line.quantity : line.quantity,
         note: line.note,
         line_uuid: line.uuid,
+        state: initialState,
         // Adding the attributes directly does not work
         // attribute_value_ids: line.attribute_value_ids?.map((attr) => attr.id),
       });

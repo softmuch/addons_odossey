@@ -264,8 +264,8 @@ async function handleNotifications(
     return
   }
   const countLines = (changeMap: Record<KitchenState, OrderChange[]>) =>
-    Object.values(changeMap).reduce(
-      (acc, list) => acc + list.reduce((a, c) => a + c.lines.reduce((s, l) => s + l.qty, 0), 0),
+    (['cooking', 'ready'] as const).reduce(
+      (acc, stage) => acc + (changeMap[stage] ?? []).reduce((a, c) => a + c.lines.reduce((s, l) => s + l.qty, 0), 0),
       0,
     )
 

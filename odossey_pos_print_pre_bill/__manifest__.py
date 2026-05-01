@@ -10,7 +10,7 @@
     "license": "OPL-1",
     'description': """Odossey || POS Print Pre-Bill""",
     'category': "Point of sale",
-    'depends': ['pos_restaurant'],
+    'depends': ['pos_restaurant', 'odossey_pos_kds'],
     'version': '18.0',
     'data': [],
     'assets': {

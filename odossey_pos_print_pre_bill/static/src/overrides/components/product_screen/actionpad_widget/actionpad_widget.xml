@@ -9,16 +9,24 @@
         <xpath expr="//button[hasclass('submit-order')]/t" position="attributes">
             <attribute name="t-if">!(ui.isSmall or displayCategoryCount.length > 2) or (!displayCategoryCount.length and ui.isSmall) or pos.config.is_order_printer</attribute>
         </xpath>
-        <!-- Add "Order and print" button next to the submit-order button, only when order printer is enabled -->
-        <xpath expr="//button[hasclass('submit-order')]" position="after">
-            <button
-                t-if="pos.config.is_order_printer"
-                class="order-and-print h-100 button btn btn-secondary btn-lg d-flex align-items-center flex-fill position-relative px-3"
-                t-att-class="swapButtonClasses"
-                t-on-click="orderAndPrint"
-            >
-                Print
-            </button>
+        <!-- Add "Set Done" and "Print" buttons below Order/Payment buttons -->
+        <xpath expr="//div[hasclass('validation')]" position="after">
+            <div t-if="pos.config.is_order_printer" class="d-flex gap-2">
+                <button
+                    class="set-done button btn btn-success btn-lg d-flex align-items-center justify-content-center flex-fill"
+                    t-att-class="swapButtonClasses"
+                    t-on-click="orderSetDone"
+                >
+                    Set Done
+                </button>
+                <button
+                    class="order-and-print button btn btn-secondary btn-lg d-flex align-items-center justify-content-center flex-fill"
+                    t-att-class="swapButtonClasses"
+                    t-on-click="orderAndPrint"
+                >
+                    Print
+                </button>
+            </div>
         </xpath>
     </t>
 </templates>

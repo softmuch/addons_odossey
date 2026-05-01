@@ -36,6 +36,27 @@ patch(ActionpadWidget.prototype, {
     },
 
     /**
+     * Submit the order directly to "done" state, without printing.
+     * Only accessible when is_order_printer is enabled (button hidden otherwise).
+     */
+    async orderSetDone() {
+        if (!this.uiState.clicked) {
+            this.uiState.clicked = true;
+            try {
+                const savedPrinters = this.pos.printers_category_ids_set;
+                this.pos.printers_category_ids_set = new Set();
+                try {
+                    await this.pos.sendOrderInPreparationUpdateLastChange(this.currentOrder, false, "done");
+                } finally {
+                    this.pos.printers_category_ids_set = savedPrinters;
+                }
+            } finally {
+                this.uiState.clicked = false;
+            }
+        }
+    },
+
+    /**
      * Submit the order AND send it to the order printer.
      * Only accessible when is_order_printer is enabled (button hidden otherwise).
      */
