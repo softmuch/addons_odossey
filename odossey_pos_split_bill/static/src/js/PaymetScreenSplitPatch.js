@@ -55,7 +55,7 @@ patch(PaymentScreen.prototype, {
         }
         this.currentOrder.date_order = serializeDateTime(luxon.DateTime.now());
         for (const line of this.paymentLines) {
-            if (!line.amount === 0) {
+            if (line.amount === 0) {
                 this.currentOrder.remove_paymentline(line);
             }
         }
@@ -93,8 +93,15 @@ patch(PaymentScreen.prototype, {
             }
         } catch (error) {
             if (error instanceof ConnectionLostError) {
-                this.pos.showScreen(this.nextScreen);
-                Promise.reject(error);
+                // Only navigate away when this is the final payment (order fully done).
+                // For in-progress splits the screen must stay on PaymentScreen so the
+                // user can retry the same partial payment.
+                const isLastPayment = !this.currentOrder.is_split ||
+                    this.currentOrder.split_done === this.currentOrder.to_split;
+                if (isLastPayment) {
+                    this.pos.showScreen(this.nextScreen);
+                }
+                return Promise.reject(error);
             } else if (error instanceof RPCError) {
                 this.currentOrder.state = "draft";
                 handleRPCError(error, this.dialog);
@@ -114,35 +121,17 @@ patch(PaymentScreen.prototype, {
         await this.afterOrderValidation(!!syncOrderResult && syncOrderResult.length > 0);
     },
     async afterOrderValidation() {
-        let nextScreen = this.nextScreen;
-        let switchScreen = false;
+        // Lock the order when auto-printing and skipping the receipt screen so it
+        // cannot be edited after the receipt has already been printed.
         if (
-            nextScreen === "ReceiptScreen" &&
+            this.nextScreen === "ReceiptScreen" &&
             this.currentOrder.nb_print === 0 &&
-            this.pos.config.iface_print_auto
+            this.pos.config.iface_print_auto &&
+            this.pos.config.iface_print_skip_screen
         ) {
-            const invoiced_finalized = this.currentOrder.is_to_invoice() ? this.currentOrder.finalized : true;
-
-            if (invoiced_finalized) {
-                this.pos.printReceipt(this.currentOrder);
-
-                if (this.pos.config.iface_print_skip_screen) {
-                    this.currentOrder.set_screen_data({ name: "" });
-                    this.currentOrder.uiState.locked = true;
-                    switchScreen = this.currentOrder.uuid === this.pos.selectedOrderUuid;
-                    nextScreen = "ProductScreen";
-                    if (switchScreen) {
-                        this.selectNextOrder();
-                    }
-                }
-            }
-        } else {
-            switchScreen = true;
+            this.currentOrder.uiState.locked = true;
         }
-
-        if (switchScreen) {
-            this.pos.showScreen(nextScreen);
-        }
+        return super.afterOrderValidation(...arguments);
     },
     get paymentLines() {
         return this.currentOrder.payment_ids;
