@@ -9,7 +9,7 @@ const { onWillStart, onMounted, useState } = owl;
 patch(TipScreen.prototype, {
   setup() {
     super.setup();
-    this._totalAmount = this.currentOrder.is_Split
+    this._totalAmount = this.currentOrder.is_split
       ? this.currentOrder.get_total_with_tax_split()
       : this.currentOrder.get_total_with_tax();
   },
@@ -29,8 +29,8 @@ patch(TipScreen.prototype, {
 
   goBack() {
     if (!this.currentOrder.finalized)
-      while (this.currentOrder.paymentlines.length > 0) {
-        this.currentOrder.remove_paymentline(this.currentOrder.paymentlines[0]);
+      while (this.currentOrder.payment_ids.length > 0) {
+        this.currentOrder.remove_paymentline(this.currentOrder.payment_ids[0]);
       }
     this.pos.showScreen("FloorScreen");
   },
