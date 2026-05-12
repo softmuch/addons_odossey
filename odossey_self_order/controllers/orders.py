@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+import json
 from uuid import uuid4
+from datetime import datetime
 from odoo import fields, http
 from odoo.http import request
 from odoo.addons.pos_self_order.controllers.orders import PosSelfOrderController
@@ -62,6 +64,37 @@ class OdosseySelfOrderController(PosSelfOrderController):
                 'attribute_value_ids': [(6, 0, line.attribute_value_ids.ids)],
             })
 
-        # Re-trigger KDS notification so it picks up the freshly-created change records.
-        # The precommit callback fires once before commit; by then all records above exist.
+        # Update last_order_preparation_change so the POS frontend knows these lines
+        # were already sent — quantityDiff becomes 0 → categoryCount stays 0 →
+        # submit button auto-disabled, floor screen badge cleared.
+        self._update_preparation_change(order, new_lines)
+
+        # Precommit callback fires once before commit; by then all records above exist.
         order.note_order_change()
+
+    def _update_preparation_change(self, order, sent_lines):
+        raw = order.last_order_preparation_change
+        try:
+            state = json.loads(raw) if raw else {}
+        except Exception:
+            state = {}
+
+        state.setdefault('lines', {})
+        state.setdefault('generalNote', order.general_note or '')
+        state['sittingMode'] = 'takeaway' if order.takeaway else 'dine in'
+
+        for line in sent_lines:
+            state['lines'][line.uuid] = {
+                'uuid': line.uuid,
+                'product_id': line.product_id.id,
+                'name': line.product_id.display_name,
+                'basic_name': line.product_id.name,
+                'display_name': line.product_id.display_name,
+                'note': line.note or '',
+                'quantity': line.qty,
+                'attribute_value_ids': line.attribute_value_ids.ids,
+                'isCombo': bool(line.combo_parent_id),
+            }
+
+        state['metadata'] = {'serverDate': datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+        order.write({'last_order_preparation_change': json.dumps(state)})

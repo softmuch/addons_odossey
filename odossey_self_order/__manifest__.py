@@ -9,7 +9,11 @@
     'version': '18.0',
     'depends': ['pos_self_order', 'odossey_pos_kds'],
     'data': [],
-    'assets': {},
+    'assets': {
+        'point_of_sale._assets_pos': [
+            'odossey_self_order/static/src/overrides/**/*',
+        ],
+    },
     'installable': True,
     'application': False,
     'auto_install': False,
