@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <!--
+        Adds "Confirmar Orden" button to the Actions modal, right after "Cancel Order".
+        Used to force-close an order that is stuck open after a fiscal printer error.
+        Inherits: point_of_sale.ControlButtons (props.showRemainingButtons block)
+    -->
+    <t t-name="odossey_pos_confirm_button.ControlButtons"
+       t-inherit="point_of_sale.ControlButtons"
+       t-inherit-mode="extension">
+        <xpath expr="//button[contains(@t-on-click,'onDeleteOrder')]" position="after">
+            <button class="btn btn-warning btn-lg py-5"
+                    t-on-click="() => this.clickConfirmOrder()">
+                <i class="fa fa-check me-1" role="img" />
+                Conferma Ordine
+            </button>
+        </xpath>
+    </t>
+</templates>
