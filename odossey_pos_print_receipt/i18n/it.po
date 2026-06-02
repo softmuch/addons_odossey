@@ -1,0 +1,30 @@
+# Italian translation of odossey_pos_print_receipt
+# Copyright (C) Odossey
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-02 00:00+0000\n"
+"PO-Revision-Date: 2026-06-02 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Print Pre-bill"
+msgstr "Stampa Preconto"
+
+msgid "Bill Printing"
+msgstr "Stampa Preconto"
+
+msgid "Print"
+msgstr "Stampa"
+
+msgid "POS receipt Before Pay"
+msgstr "Ricevuta POS Prima del Pagamento"
+
+msgid "Odossey || Print Receipt Before Pay"
+msgstr "Odossey || Stampa Ricevuta Prima del Pagamento"

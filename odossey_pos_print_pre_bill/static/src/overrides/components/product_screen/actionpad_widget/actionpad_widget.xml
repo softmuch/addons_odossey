@@ -11,7 +11,7 @@
         </xpath>
         <!-- Add "Set Done" and "Print" buttons below Order/Payment buttons -->
         <xpath expr="//div[hasclass('validation')]" position="after">
-            <div t-if="pos.config.is_order_printer" class="d-flex gap-2">
+            <div class="d-flex gap-2">
                 <button
                     class="set-done button btn btn-success btn-lg d-flex align-items-center justify-content-center flex-fill"
                     t-att-class="swapButtonClasses"
@@ -19,7 +19,7 @@
                 >
                     Set Done
                 </button>
-                <button
+                <button t-if="pos.config.is_order_printer"
                     class="order-and-print button btn btn-danger btn-lg d-flex align-items-center justify-content-center flex-fill"
                     t-att-class="swapButtonClasses"
                     t-on-click="orderAndPrint"
