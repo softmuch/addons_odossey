@@ -79,11 +79,14 @@ patch(PaymentScreen.prototype, {
             if (!syncOrderResult) {
                 return;
             }
-            // Invoice download if needed
+            // Invoice download if needed — skip on intermediate split payments
+            // (backend only creates the invoice on the final payment)
+            const isLastSplit = !this.currentOrder.is_split ||
+                this.currentOrder.split_done === this.currentOrder.to_split;
             if (this.shouldDownloadInvoice() && this.currentOrder.is_to_invoice()) {
                 if (this.currentOrder.raw.account_move) {
                     await this.invoiceService.downloadPdf(this.currentOrder.raw.account_move);
-                } else {
+                } else if (isLastSplit) {
                     throw {
                         code: 401,
                         message: "Backend Invoice",
