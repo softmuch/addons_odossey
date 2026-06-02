@@ -10,10 +10,18 @@ msgstr ""
 "Language-Team: \n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: odossey_pos_print_pre_bill
+#. odoo-javascript
+#: code:addons/odossey_pos_print_pre_bill/static/src/overrides/components/product_screen/actionpad_widget/actionpad_widget.xml:0
 msgid "Set Done"
 msgstr "Segna Fatto"
+
+#. module: odossey_pos_print_pre_bill
+#. odoo-javascript
+#: code:addons/odossey_pos_print_pre_bill/static/src/overrides/components/product_screen/actionpad_widget/actionpad_widget.xml:0
+msgid "Print"
+msgstr "Stampa"
