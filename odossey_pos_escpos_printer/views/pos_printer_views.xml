@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_pos_printer_escpos_form" model="ir.ui.view">
+        <field name="name">pos.printer.escpos.form</field>
+        <field name="model">pos.printer</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_printer_form"/>
+        <field name="arch" type="xml">
+            <!-- Add ESC/POS network fields after printer_type selector -->
+            <field name="printer_type" position="after">
+                <field name="escpos_ip"
+                       string="Printer IP / Hostname"
+                       invisible="printer_type != 'escpos_network'"
+                       required="printer_type == 'escpos_network'"
+                       placeholder="192.168.0.52"/>
+                <field name="escpos_port"
+                       string="TCP Port"
+                       invisible="printer_type != 'escpos_network'"/>
+                <field name="paper_width_mm"
+                       string="Paper Width (mm)"
+                       invisible="printer_type != 'escpos_network'"/>
+                <button name="action_test_connection"
+                        string="Test Connection"
+                        type="object"
+                        class="btn-secondary"
+                        invisible="printer_type != 'escpos_network'"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
