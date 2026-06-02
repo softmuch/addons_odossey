@@ -22,8 +22,14 @@ patch(PaymentScreen.prototype, {
     },
     _updatePaymentAmount() {
         const currentOrder = this.pos.get_order();
-        if (currentOrder.payment_ids.length > 0) {
-            currentOrder.payment_ids[0].set_amount(currentOrder.get_total_with_tax_split());
+        // Target only the newest un-synced line (current person's).
+        // Synced lines belong to earlier split persons — must not be modified.
+        // If no un-synced line exists yet, do nothing (person hasn't selected payment method yet).
+        const unsynced = currentOrder.payment_ids.filter(
+            l => !Number.isInteger(l.id) || l.id <= 0
+        );
+        if (unsynced.length > 0) {
+            unsynced[unsynced.length - 1].set_amount(currentOrder.get_total_with_tax_split());
         }
     },
     increment_n_payments() {
@@ -55,7 +61,8 @@ patch(PaymentScreen.prototype, {
         }
         this.currentOrder.date_order = serializeDateTime(luxon.DateTime.now());
         for (const line of this.paymentLines) {
-            if (line.amount === 0) {
+            const isUnsynced = !Number.isInteger(line.id) || line.id <= 0;
+            if (isUnsynced && line.amount === 0) {
                 this.currentOrder.remove_paymentline(line);
             }
         }
@@ -75,14 +82,12 @@ patch(PaymentScreen.prototype, {
             if (!syncOrderResult) {
                 return;
             }
-            // Invoice download if needed — skip on intermediate split payments
-            // (backend only creates the invoice on the final payment)
-            const isLastSplit = !this.currentOrder.is_split ||
-                this.currentOrder.split_done === this.currentOrder.to_split;
+            // Each split payment generates its own invoice (one per person).
+            // account_move is updated to the latest invoice after each sync.
             if (this.shouldDownloadInvoice() && this.currentOrder.is_to_invoice()) {
                 if (this.currentOrder.raw.account_move) {
                     await this.invoiceService.downloadPdf(this.currentOrder.raw.account_move);
-                } else if (isLastSplit) {
+                } else {
                     throw {
                         code: 401,
                         message: "Backend Invoice",

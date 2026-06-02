@@ -2,12 +2,10 @@
 <templates id="template" xml:space="preserve">
     <t t-name="PaymentScreenButtons" t-inherit="point_of_sale.PaymentScreenButtons" t-inherit-mode="extension">
         <xpath expr="//button[hasclass('js_invoice')]" position="replace">
-            <t t-if="(!currentOrder.is_split || (currentOrder.split_done == currentOrder.to_split - 1))">
-                <button class="button js_invoice btn btn-light py-3 text-start rounded-0 border-bottom" t-att-class="{ 'highlight text-bg-primary': currentOrder.is_to_invoice() }" 
-                    t-on-click="toggleIsToInvoice">
-                    <i class="fa fa-file-text-o me-2" />Invoice 
-                </button>
-            </t>
+            <button class="button js_invoice btn btn-light py-3 text-start rounded-0 border-bottom" t-att-class="{ 'highlight text-bg-primary': currentOrder.is_to_invoice() }"
+                t-on-click="toggleIsToInvoice">
+                <i class="fa fa-file-text-o me-2" />Invoice
+            </button>
         </xpath>
         <xpath expr="//button[hasclass('partner-button')]" position="after">
             <t t-if="currentOrder.is_split">
@@ -141,24 +139,27 @@
                     </t>
                 </t>
                 <t t-else="">
-                    <!-- bits:restrict past lines to go ahead in split case --> 
+                    <!-- bits: show past split payments as read-only (synced = already paid by another person) -->
                     <div class="paymentline d-flex align-items-center bg-view border rounded-3"
                         t-att-class="unselectedLineClass(line)">
-                            <div class="payment-infos d-flex align-items-center justify-content-between flex-grow-1 px-3 py-3 text-truncate cursor-pointer fs-2" t-on-click="() => this.selectLine(line)">
-                                <t t-esc="line.payment_method_id.name" />
-                                <div class="payment-amount px-3">
+                        <div class="payment-infos d-flex align-items-center justify-content-between flex-grow-1 px-3 py-3 text-truncate cursor-pointer fs-2" t-on-click="() => this.selectLine(line)">
+                            <t t-esc="line.payment_method_id.name" />
+                            <div class="payment-amount px-3">
                                 <t t-esc="env.utils.formatCurrency(line.get_amount())" />
                             </div>
-                            </div>
-                        <t t-if="!line.payment_status or !['done', 'reversed'].includes(line.payment_status)">
-                            <div class="delete-button delete-button btn btn-link mx-2 px-3"
+                        </div>
+                        <!-- synced lines (line.id > 0 integer) are completed split payments — no delete -->
+                        <t t-if="line.pos_order_id.is_split and line.id > 0">
+                            <span class="mx-2 px-3 text-success"><i class="fa fa-check"/></span>
+                        </t>
+                        <t t-elif="!line.payment_status or !['done', 'reversed'].includes(line.payment_status)">
+                            <div class="delete-button btn btn-link mx-2 px-3"
                                 t-on-click="() => this.props.deleteLine(line.uuid)"
                                 aria-label="Delete" title="Delete">
                                 <i class="oi oi-close text-danger" />
                             </div>
                         </t>
                     </div>
-                    
                 </t>
             </t>
         </xpath>
