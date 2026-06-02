@@ -29,14 +29,16 @@ class PosOrderV2(models.Model):
                 and pos_order.state == 'draft'):
             pos_order.write({'amount_paid': pos_order.amount_total, 'state': 'paid'})
 
-        if pos_order.is_split and pos_order.to_invoice and n_payments_this_round > 0:
-            # Use the N most-recently-created payment IDs for this split round.
-            # Sorting by ID gives us the newest payments regardless of whether
-            # the payment was auto-synced before _finalizeValidation ran.
-            all_ids = sorted(pos_order.payment_ids.ids)
-            n = n_payments_this_round
-            reconcile_ids = set(all_ids[-n:]) if all_ids else set()
-            pos_order._generate_split_invoice_for_payment(n_payments_this_round, reconcile_ids)
+        # Create invoices on the final sync only, one per payment that requested it.
+        # Each payment line carries its own to_invoice flag (set by the JS before
+        # splitDone() runs), so each person independently controls whether they
+        # want an invoice.
+        if (pos_order.is_split
+                and pos_order.split_done == pos_order.to_split
+                and pos_order.payment_ids):
+            for payment in pos_order.payment_ids:
+                if payment.to_invoice:
+                    pos_order._generate_split_invoice_for_payment(1, {payment.id})
 
         return result_id
 

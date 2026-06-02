@@ -1,8 +1,10 @@
-from odoo import models, api
+from odoo import models, api, fields
 
 
 class PosPayment(models.Model):
     _inherit ="pos.payment"
+
+    to_invoice = fields.Boolean(string="Request Invoice", default=False)
 
     @api.model_create_multi
     def create(self, vals_list):

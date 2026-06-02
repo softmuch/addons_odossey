@@ -67,6 +67,19 @@ patch(PaymentScreen.prototype, {
         }
         this.pos.addPendingOrder([this.currentOrder.id]);
         if (this.currentOrder.is_split) {
+            // Stamp the current person's payment line with their invoice preference
+            // BEFORE splitDone() marks them as completed.
+            const wantsInvoice = this.currentOrder.is_to_invoice();
+            const currentLines = this.currentOrder.payment_ids.filter(
+                l => !l.is_completed_split_payment
+            );
+            for (const line of currentLines) {
+                line.update({ to_invoice: wantsInvoice });
+            }
+            // Reset the order-level flag so the next person starts fresh.
+            if (wantsInvoice) {
+                this.currentOrder.set_to_invoice(false);
+            }
             await this.currentOrder.splitDone();
         } else {
             this.currentOrder.state = "paid";
