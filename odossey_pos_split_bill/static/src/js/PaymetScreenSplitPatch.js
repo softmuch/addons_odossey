@@ -22,14 +22,13 @@ patch(PaymentScreen.prototype, {
     },
     _updatePaymentAmount() {
         const currentOrder = this.pos.get_order();
-        // Target only the newest un-synced line (current person's).
-        // Synced lines belong to earlier split persons — must not be modified.
-        // If no un-synced line exists yet, do nothing (person hasn't selected payment method yet).
-        const unsynced = currentOrder.payment_ids.filter(
-            l => !Number.isInteger(l.id) || l.id <= 0
+        // Target only lines that do NOT belong to a completed split round.
+        // Completed lines are preserved for accounting; only the current person's line is updated.
+        const currentLines = currentOrder.payment_ids.filter(
+            l => !l.is_completed_split_payment
         );
-        if (unsynced.length > 0) {
-            unsynced[unsynced.length - 1].set_amount(currentOrder.get_total_with_tax_split());
+        if (currentLines.length > 0) {
+            currentLines[currentLines.length - 1].set_amount(currentOrder.get_total_with_tax_split());
         }
     },
     increment_n_payments() {
@@ -61,8 +60,8 @@ patch(PaymentScreen.prototype, {
         }
         this.currentOrder.date_order = serializeDateTime(luxon.DateTime.now());
         for (const line of this.paymentLines) {
-            const isUnsynced = !Number.isInteger(line.id) || line.id <= 0;
-            if (isUnsynced && line.amount === 0) {
+            // Only remove zero-amount lines that are NOT completed split payments.
+            if (!line.is_completed_split_payment && line.amount === 0) {
                 this.currentOrder.remove_paymentline(line);
             }
         }

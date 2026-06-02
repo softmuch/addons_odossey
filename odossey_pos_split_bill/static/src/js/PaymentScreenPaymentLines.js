@@ -7,15 +7,9 @@ patch(PaymentScreenPaymentLines.prototype, {
     setup() {
         super.setup();
         for (const paymentLine of this.props.paymentLines) {
-            // For split orders: keep payment lines that are already synced to the
-            // server (real integer ID). They represent previous persons' payments
-            // and must accumulate in pos_payment for correct accounting.
-            // Only delete un-synced (new, local-only) lines.
-            const isSyncedSplitPayment =
-                paymentLine.pos_order_id?.is_split &&
-                Number.isInteger(paymentLine.id) &&
-                paymentLine.id > 0;
-            if (!isSyncedSplitPayment) {
+            // For split orders: keep ALL payment lines so they accumulate across rounds.
+            // Each person's payment is preserved for correct pos.payment records in the backend.
+            if (!paymentLine.pos_order_id?.is_split) {
                 this.props.deleteLine(paymentLine.uuid);
             }
         }

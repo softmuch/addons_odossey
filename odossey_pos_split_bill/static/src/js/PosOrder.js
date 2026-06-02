@@ -64,10 +64,15 @@ patch(PosOrder.prototype, {
   get_change(paymentline) {
     let change;
     if (!paymentline) {
-      change =
-        this.get_total_paid() -
-        this.get_total_with_tax_split() -
-        this.get_rounding_applied();
+      // Only sum payments from the CURRENT split round (exclude completed rounds)
+      // to avoid showing incorrect change when previous persons' lines accumulate.
+      const completedUuids = this.completedSplitPaymentUuids;
+      const currentPaid = this.is_split && completedUuids
+          ? this.payment_ids
+              .filter((p) => p.is_done() && !p.is_change && !completedUuids.has(p.uuid))
+              .reduce((sum, p) => sum + p.get_amount(), 0)
+          : this.get_total_paid();
+      change = currentPaid - this.get_total_with_tax_split() - this.get_rounding_applied();
     } else {
       const split_amount = this.get_total_with_tax_split();
       change = paymentline.amount - split_amount;
@@ -129,6 +134,14 @@ patch(PosOrder.prototype, {
   },
   splitDone() {
     this.r_split = this.split_done;
+    // Mark current payment line UUIDs as belonging to a completed split round.
+    // UUID never changes after creation (unlike .id which may not update after sync).
+    if (!this.completedSplitPaymentUuids) {
+        this.completedSplitPaymentUuids = new Set();
+    }
+    for (const line of this.payment_ids) {
+        this.completedSplitPaymentUuids.add(line.uuid);
+    }
     if (this.split_done != this.to_split) {
       this.split_done = this.split_done + this.n_payments;
     }
@@ -190,7 +203,13 @@ patch(PosOrder.prototype, {
         // Round per-person share first, then multiply — stays consistent with get_total_with_tax_split()
         remaining = roundPrecision(taxTotals.order_total / this.to_split, this.currency.rounding) * this.n_payments;
 
-      const validPayments = this.payment_ids.filter((p) => p.is_done() && !p.is_change);
+      // Exclude completed split-round payments from the remaining calculation.
+      // Those lines stay in payment_ids for accounting but must not reduce
+      // the amount still due for the CURRENT person's payment screen.
+      const completedUuids = this.completedSplitPaymentUuids;
+      const validPayments = this.payment_ids.filter(
+          (p) => p.is_done() && !p.is_change && !(completedUuids?.has(p.uuid))
+      );
       for (const [payment, isLast] of validPayments.map((p, i) => [p, i === validPayments.length - 1])) {
           const paymentAmount = documentSign * payment.get_amount();
           if (isLast) {
