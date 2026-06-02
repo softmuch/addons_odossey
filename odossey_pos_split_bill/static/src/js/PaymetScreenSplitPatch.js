@@ -67,13 +67,9 @@ patch(PaymentScreen.prototype, {
         }
         this.env.services.ui.block();
         let syncOrderResult;
-        // Keep the order as draft until all splits are done; finalize on last payment
-        let option;
-        if (!this.currentOrder.is_split || this.currentOrder.split_done == this.currentOrder.to_split) {
-            option = {};
-        } else {
-            option = { throw: true };
-        }
+        // Always throw on sync errors so the real backend error surfaces (matches base behavior).
+        // For intermediate splits the order stays draft; for the final/non-split it gets finalized.
+        const option = { throw: true };
         try {
             syncOrderResult = await this.pos.syncAllOrders(option);
             if (!syncOrderResult) {
