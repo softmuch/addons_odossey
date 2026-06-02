@@ -8,7 +8,9 @@
     "description": """Odossey || Point of sale split bill""",
     "summary": """Odossey || Point of sale split bill""",
     "depends": ["pos_restaurant"],
-    "data": [],
+    "data": [
+        "views/pos_order_split_view.xml",
+    ],
     "installable": True,
     "application": True,
     "assets": {

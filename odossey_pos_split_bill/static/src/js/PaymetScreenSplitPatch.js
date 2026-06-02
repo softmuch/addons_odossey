@@ -66,20 +66,12 @@ patch(PaymentScreen.prototype, {
             }
         }
         this.pos.addPendingOrder([this.currentOrder.id]);
+        // Capture invoice intent BEFORE splitDone() resets/marks payments so the
+        // backend receives to_invoice=true on THIS sync and creates the invoice.
+        // The backend resets to_invoice=False after creating the invoice, so the
+        // next person starts with a clean slate.
+        const wantsInvoice = this.currentOrder.is_to_invoice();
         if (this.currentOrder.is_split) {
-            // Stamp the current person's payment line with their invoice preference
-            // BEFORE splitDone() marks them as completed.
-            const wantsInvoice = this.currentOrder.is_to_invoice();
-            const currentLines = this.currentOrder.payment_ids.filter(
-                l => !l.is_completed_split_payment
-            );
-            for (const line of currentLines) {
-                line.update({ to_invoice: wantsInvoice });
-            }
-            // Reset the order-level flag so the next person starts fresh.
-            if (wantsInvoice) {
-                this.currentOrder.set_to_invoice(false);
-            }
             await this.currentOrder.splitDone();
         } else {
             this.currentOrder.state = "paid";
@@ -94,9 +86,10 @@ patch(PaymentScreen.prototype, {
             if (!syncOrderResult) {
                 return;
             }
-            // Each split payment generates its own invoice (one per person).
-            // account_move is updated to the latest invoice after each sync.
-            if (this.shouldDownloadInvoice() && this.currentOrder.is_to_invoice()) {
+            // Download invoice PDF if one was generated for this person's payment.
+            // Use wantsInvoice captured before the sync (is_to_invoice() is reset by
+            // the backend after invoice creation, so reading it post-sync would be false).
+            if (this.shouldDownloadInvoice() && wantsInvoice) {
                 if (this.currentOrder.raw.account_move) {
                     await this.invoiceService.downloadPdf(this.currentOrder.raw.account_move);
                 } else {
@@ -137,6 +130,12 @@ patch(PaymentScreen.prototype, {
         await this.afterOrderValidation(!!syncOrderResult && syncOrderResult.length > 0);
     },
     async afterOrderValidation() {
+        // For intermediate split payments: stay on PaymentScreen so the next
+        // person can pay immediately without going through ReceiptScreen or the floor plan.
+        if (this.currentOrder.is_split &&
+                this.currentOrder.split_done < this.currentOrder.to_split) {
+            return;
+        }
         // Lock the order when auto-printing and skipping the receipt screen so it
         // cannot be edited after the receipt has already been printed.
         if (
