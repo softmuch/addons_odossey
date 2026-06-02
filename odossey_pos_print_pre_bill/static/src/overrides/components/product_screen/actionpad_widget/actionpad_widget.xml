@@ -12,6 +12,12 @@
         <!-- Add "Set Done" and "Print" buttons below Order/Payment buttons -->
         <xpath expr="//div[hasclass('validation')]" position="after">
             <div class="d-flex gap-2">
+                <button t-if="!pos.config.module_pos_restaurant"
+                    class="submit-order button btn btn-primary btn-lg d-flex align-items-center justify-content-center flex-fill"
+                    t-on-click="submitOrder"
+                >
+                    Order
+                </button>
                 <button
                     class="set-done button btn btn-success btn-lg d-flex align-items-center justify-content-center flex-fill"
                     t-att-class="swapButtonClasses"

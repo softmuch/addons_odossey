@@ -17,6 +17,15 @@ msgstr ""
 #. module: odossey_pos_print_pre_bill
 #. odoo-javascript
 #: code:addons/odossey_pos_print_pre_bill/static/src/overrides/components/product_screen/actionpad_widget/actionpad_widget.xml:0
+#. module: odossey_pos_print_pre_bill
+#. odoo-javascript
+#: code:addons/odossey_pos_print_pre_bill/static/src/overrides/components/product_screen/actionpad_widget/actionpad_widget.xml:0
+msgid "Order"
+msgstr "Ordine"
+
+#. module: odossey_pos_print_pre_bill
+#. odoo-javascript
+#: code:addons/odossey_pos_print_pre_bill/static/src/overrides/components/product_screen/actionpad_widget/actionpad_widget.xml:0
 msgid "Set Done"
 msgstr "Segna Fatto"
 
