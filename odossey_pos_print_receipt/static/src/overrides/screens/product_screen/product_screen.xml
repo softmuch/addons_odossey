@@ -4,7 +4,7 @@
         <xpath expr="//div[hasclass('subpads')]" position="before">
             <t t-if="env.services.pos.config.odossey_pos_print_receipt">
                 <button class="btn btn-success btn-lg w-100 mb-2" t-on-click="test_button">
-                Stampa Preconto
+                Print Pre-bill
             </button>
             </t>
         </xpath>
