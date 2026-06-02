@@ -30,15 +30,19 @@ class PosOrderV2(models.Model):
             pos_order.write({'amount_paid': pos_order.amount_total, 'state': 'paid'})
 
         # Create invoices on the final sync only, one per payment that requested it.
-        # Each payment line carries its own to_invoice flag (set by the JS before
-        # splitDone() runs), so each person independently controls whether they
-        # want an invoice.
+        # n_payments for each invoice is derived from the payment amount so that
+        # a person paying for 2 shares gets one invoice for 2/to_split of the total.
         if (pos_order.is_split
                 and pos_order.split_done == pos_order.to_split
                 and pos_order.payment_ids):
+            per_share = (
+                pos_order.currency_id.round(pos_order.amount_total / pos_order.to_split)
+                if pos_order.to_split else 1
+            )
             for payment in pos_order.payment_ids:
                 if payment.to_invoice:
-                    pos_order._generate_split_invoice_for_payment(1, {payment.id})
+                    n = max(1, round(payment.amount / per_share)) if per_share else 1
+                    pos_order._generate_split_invoice_for_payment(n, {payment.id})
 
         return result_id
 
@@ -53,7 +57,14 @@ class PosOrderV2(models.Model):
         if not self.partner_id:
             raise UserError(_('Please provide a partner for the sale.'))
 
-        factor = n_payments / self.to_split
+        # Derive factor from the actual payment amount so the invoice total
+        # matches what was paid exactly (avoids "partially paid" from rounding).
+        payments = self.env['pos.payment'].browse(list(payment_ids_for_round)) if payment_ids_for_round else None
+        if payments and self.amount_total:
+            factor = sum(p.amount for p in payments) / self.amount_total
+        else:
+            factor = n_payments / self.to_split
+
         move_vals = self._prepare_invoice_vals()
 
         adjusted_lines = []
