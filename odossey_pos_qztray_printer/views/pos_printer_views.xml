@@ -7,57 +7,59 @@
         <field name="inherit_id" ref="point_of_sale.view_pos_printer_form"/>
         <field name="arch" type="xml">
 
-            <!-- Insert QZ Tray fields after the existing proxy_ip field -->
-            <xpath expr="//field[@name='proxy_ip']" position="after">
+            <field name="printer_type" position="after">
 
                 <!-- QZ Tray WebSocket connection -->
                 <field name="qztray_host"
-                       attrs="{'invisible': [('printer_type', '!=', 'qztray')],
-                               'required': [('printer_type', '=', 'qztray')]}"/>
+                       string="QZ Tray Host"
+                       invisible="printer_type != 'qztray'"
+                       placeholder="localhost"/>
                 <field name="qztray_port"
-                       attrs="{'invisible': [('printer_type', '!=', 'qztray')]}"/>
+                       string="QZ Tray Port"
+                       invisible="printer_type != 'qztray'"/>
 
-                <!-- Connection mode selector -->
+                <!-- Connection mode -->
                 <field name="qztray_mode"
                        widget="radio"
-                       attrs="{'invisible': [('printer_type', '!=', 'qztray')]}"/>
+                       invisible="printer_type != 'qztray'"/>
 
-                <!-- OS printer mode fields -->
+                <!-- OS printer mode -->
                 <field name="qztray_printer_name"
-                       attrs="{'invisible': ['|', ('printer_type', '!=', 'qztray'),
-                                                  ('qztray_mode', '!=', 'os')]}"/>
+                       string="OS Printer Name"
+                       invisible="printer_type != 'qztray' or qztray_mode != 'os'"
+                       placeholder="EPSON TM-T20III"/>
 
-                <!-- Socket mode fields -->
+                <!-- Socket mode -->
                 <field name="qztray_socket_ip"
-                       attrs="{'invisible': ['|', ('printer_type', '!=', 'qztray'),
-                                                  ('qztray_mode', '!=', 'socket')],
-                               'required': [('printer_type', '=', 'qztray'),
-                                            ('qztray_mode', '=', 'socket')]}"/>
+                       string="Printer IP"
+                       invisible="printer_type != 'qztray' or qztray_mode != 'socket'"
+                       required="printer_type == 'qztray' and qztray_mode == 'socket'"
+                       placeholder="192.168.0.52"/>
                 <field name="qztray_socket_port"
-                       attrs="{'invisible': ['|', ('printer_type', '!=', 'qztray'),
-                                                  ('qztray_mode', '!=', 'socket')]}"/>
+                       string="Printer Port"
+                       invisible="printer_type != 'qztray' or qztray_mode != 'socket'"/>
 
                 <!-- Shared -->
                 <field name="qztray_paper_width_mm"
-                       attrs="{'invisible': [('printer_type', '!=', 'qztray')]}"/>
+                       string="Paper Width (mm)"
+                       invisible="printer_type != 'qztray'"/>
 
                 <!-- Signing (optional) -->
                 <field name="qztray_certificate"
-                       attrs="{'invisible': [('printer_type', '!=', 'qztray')]}"/>
+                       string="QZ Tray Certificate (optional)"
+                       invisible="printer_type != 'qztray'"/>
                 <field name="qztray_private_key"
+                       string="Private Key (optional)"
                        password="True"
-                       attrs="{'invisible': [('printer_type', '!=', 'qztray')]}"/>
+                       invisible="printer_type != 'qztray'"/>
 
-            </xpath>
-
-            <!-- Add test button next to the existing buttons -->
-            <xpath expr="//button[@name='action_test_connection']" position="after">
                 <button name="action_test_qztray"
                         string="QZ Tray Info"
                         type="object"
                         class="btn-secondary"
-                        attrs="{'invisible': [('printer_type', '!=', 'qztray')]}"/>
-            </xpath>
+                        invisible="printer_type != 'qztray'"/>
+
+            </field>
 
         </field>
     </record>

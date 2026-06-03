@@ -12,8 +12,8 @@
     ],
     'assets': {
         'point_of_sale._assets_pos': [
-            # qz-tray.js must come first — it defines the global `qz` object
-            'odossey_pos_qztray_printer/static/lib/qz-tray.js',
+            # qz-tray.js is loaded dynamically via loadJS in qztray_printer.js
+            # to avoid UMD/CommonJS conflicts with Odoo's asset bundler
             'odossey_pos_qztray_printer/static/src/app/qztray_printer.js',
             'odossey_pos_qztray_printer/static/src/overrides/models/pos_store.js',
         ],

@@ -1,4 +1,4 @@
-from odoo import models, fields, _
+from odoo import api, models, fields, _
 from odoo.exceptions import ValidationError
 
 
@@ -79,10 +79,10 @@ class PosPrinter(models.Model):
         help='PKCS#8 RSA private key paired with the certificate above. Stored in the database.',
     )
 
-    @classmethod
-    def _load_pos_data_fields(cls, config_id):
-        fields = super()._load_pos_data_fields(config_id)
-        fields += [
+    @api.model
+    def _load_pos_data_fields(self, config_id):
+        result = super()._load_pos_data_fields(config_id)
+        result += [
             'qztray_host',
             'qztray_port',
             'qztray_mode',
@@ -91,9 +91,9 @@ class PosPrinter(models.Model):
             'qztray_socket_port',
             'qztray_paper_width_mm',
             'qztray_certificate',
-            # private key is NOT sent to the browser — it stays server-side for the sign endpoint
+            # private key stays server-side only — not sent to browser
         ]
-        return fields
+        return result
 
     def action_test_qztray(self):
         """Return a notification — actual connectivity test is done client-side by QZ Tray JS."""

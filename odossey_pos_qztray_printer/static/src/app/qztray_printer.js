@@ -1,6 +1,18 @@
 /** @odoo-module **/
 
 import { BasePrinter } from "@point_of_sale/app/printer/base_printer";
+import { loadJS } from "@web/core/assets";
+
+const QZ_TRAY_JS_URL = '/odossey_pos_qztray_printer/static/lib/qz-tray.js';
+let _qzLoadPromise = null;
+
+async function ensureQzLoaded() {
+    if (typeof window.qz !== 'undefined') return;
+    if (!_qzLoadPromise) {
+        _qzLoadPromise = loadJS(QZ_TRAY_JS_URL);
+    }
+    await _qzLoadPromise;
+}
 
 // ---------------------------------------------------------------------------
 // ESC/POS raster image encoder (used in socket mode only)
@@ -93,8 +105,8 @@ export class QzTrayPrinter extends BasePrinter {
     // ── Certificate / signing ───────────────────────────────────────────────
 
     _setupSigning() {
+        const qz = window.qz;
         if (this.certificate) {
-            // Signed mode: certificate stored in Odoo, private key signs server-side.
             qz.security.setCertificatePromise(() => Promise.resolve(this.certificate));
             qz.security.setSignatureAlgorithm('SHA512');
             qz.security.setSignaturePromise((toSign) => {
@@ -108,7 +120,6 @@ export class QzTrayPrinter extends BasePrinter {
                 }).then((r) => r.json()).then((j) => j.result?.signature || '');
             });
         } else {
-            // Unsigned mode: QZ Tray shows a one-time trust dialog.
             qz.security.setCertificatePromise(() => Promise.resolve(null));
             qz.security.setSignaturePromise(() => Promise.resolve(null));
         }
@@ -117,13 +128,12 @@ export class QzTrayPrinter extends BasePrinter {
     // ── WebSocket connection ────────────────────────────────────────────────
 
     async _connect() {
-        if (typeof qz === 'undefined') {
-            throw new Error('qz-tray.js not loaded');
-        }
-        if (qz.websocket.isActive()) return;
+        await ensureQzLoaded();
+        if (window.qz.websocket.isActive()) return;
         // Dedup concurrent _connect() calls
         if (!this._connecting) {
             this._setupSigning();
+            const qz = window.qz;
             this._connecting = qz.websocket.connect({
                 host: this.host,
                 port: { secure: [this.port] },
@@ -131,7 +141,6 @@ export class QzTrayPrinter extends BasePrinter {
                 retries: 1,
                 delay: 0.5,
             }).catch(() =>
-                // Fallback: try insecure (port +1: 8181→8182, 8282→8283 …)
                 qz.websocket.connect({
                     host: this.host,
                     port: { insecure: [this.port + 1] },
@@ -149,21 +158,18 @@ export class QzTrayPrinter extends BasePrinter {
     // ── Printer config factory ──────────────────────────────────────────────
 
     async _makeConfig() {
+        const qz = window.qz;
         if (this.mode === 'socket') {
-            // Raw TCP socket — no OS driver needed
             return qz.configs.create({
                 host: this.socketIp,
                 port: this.socketPort,
             });
         }
 
-        // OS printer mode
         let printerTarget;
         if (this.printerName) {
-            // find() returns the exact name (or throws if not found)
             printerTarget = await qz.printers.find(this.printerName);
         } else {
-            // Use the OS default printer
             printerTarget = await qz.printers.getDefault();
         }
         return qz.configs.create(printerTarget, {
@@ -196,7 +202,7 @@ export class QzTrayPrinter extends BasePrinter {
                 }];
             }
 
-            await qz.print(config, data);
+            await window.qz.print(config, data);
             return { successful: true };
 
         } catch (err) {
@@ -217,7 +223,7 @@ export class QzTrayPrinter extends BasePrinter {
             // ESC p 0 50 250 — cash drawer pulse on connector 1
             const CASHBOX = [0x1B, 0x70, 0x00, 0x32, 0xFA];
             const b64 = btoa(CASHBOX.map((b) => String.fromCharCode(b)).join(''));
-            await qz.print(config, [{ flavor: 'base64', data: b64 }]);
+            await window.qz.print(config, [{ flavor: 'base64', data: b64 }]);
         } catch (_) {
             // Cash drawer errors are non-fatal
         }
