@@ -90,6 +90,7 @@ async function imageToEscPosBase64(base64Jpeg, paperWidthMm = 80) {
 // ---------------------------------------------------------------------------
 export class QzTrayPrinter extends BasePrinter {
     setup(config) {
+        super.setup();
         this.host          = config.qztray_host || 'localhost';
         this.port          = config.qztray_port || 8181;
         this.mode          = config.qztray_mode || 'os';
@@ -107,21 +108,25 @@ export class QzTrayPrinter extends BasePrinter {
     _setupSigning() {
         const qz = window.qz;
         if (this.certificate) {
-            qz.security.setCertificatePromise(() => Promise.resolve(this.certificate));
+            // Signed mode: certificate + server-side signing
+            qz.security.setCertificatePromise((resolve) => resolve(this.certificate));
             qz.security.setSignatureAlgorithm('SHA512');
-            qz.security.setSignaturePromise((toSign) => {
-                return fetch('/pos/qztray/sign', {
+            qz.security.setSignaturePromise((toSign) => (resolve, reject) => {
+                fetch('/pos/qztray/sign', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         jsonrpc: '2.0', method: 'call', id: 1,
                         params: { message: toSign },
                     }),
-                }).then((r) => r.json()).then((j) => j.result?.signature || '');
+                }).then((r) => r.json()).then((j) => resolve(j.result?.signature || '')).catch(reject);
             });
         } else {
-            qz.security.setCertificatePromise(() => Promise.resolve(null));
-            qz.security.setSignaturePromise(() => Promise.resolve(null));
+            // Unsigned mode: QZ Tray shows one-time trust dialog
+            // setCertificatePromise must resolve with null (not reject)
+            qz.security.setCertificatePromise((resolve) => resolve(null));
+            // setSignaturePromise factory must return a resolver function
+            qz.security.setSignaturePromise(() => (resolve) => resolve(null));
         }
     }
 
@@ -134,21 +139,20 @@ export class QzTrayPrinter extends BasePrinter {
         if (!this._connecting) {
             this._setupSigning();
             const qz = window.qz;
+            // Try both secure and insecure in one connect call.
+            // QZ Tray cycles through all ports automatically.
+            // Start insecure (usingSecure: false) to avoid the
+            // wss→ws fallback race condition in qz-tray.js 2.2.x.
             this._connecting = qz.websocket.connect({
                 host: this.host,
-                port: { secure: [this.port] },
-                usingSecure: true,
-                retries: 1,
-                delay: 0.5,
-            }).catch(() =>
-                qz.websocket.connect({
-                    host: this.host,
-                    port: { insecure: [this.port + 1] },
-                    usingSecure: false,
-                    retries: 1,
-                    delay: 0.5,
-                })
-            ).finally(() => {
+                port: {
+                    secure: [this.port],
+                    insecure: [this.port + 1],
+                },
+                usingSecure: false,
+                retries: 0,
+                delay: 0,
+            }).finally(() => {
                 this._connecting = null;
             });
         }
