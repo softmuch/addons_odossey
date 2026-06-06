@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_inherit_per_user_printer" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.odossey_pos_print_per_user</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <!-- Replace the content-group inside the is_order_printer setting -->
+            <xpath expr="//setting[@id='is_order_printer']/div[hasclass('content-group')]" position="replace">
+                <div class="content-group" invisible="not pos_is_order_printer">
+                    <!-- Printer assignment mode selector -->
+                    <div class="mt16">
+                        <label string="Printer Assignment" for="pos_printer_assignment_mode" class="o_light_label"/>
+                        <field name="pos_printer_assignment_mode" widget="radio" class="ms-2"/>
+                    </div>
+
+                    <!-- Fixed mode: standard behavior -->
+                    <div class="mt16" invisible="pos_printer_assignment_mode != 'fixed'">
+                        <label string="Printers" for="pos_printer_ids" class="o_light_label"/>
+                        <field name="pos_printer_ids" widget="many2many_tags"/>
+                    </div>
+                    <div invisible="pos_printer_assignment_mode != 'fixed'">
+                        <button name="%(point_of_sale.action_pos_printer_form)d" icon="oi-arrow-right" type="action" string="Printers" class="btn-link"/>
+                    </div>
+
+                    <!-- Per-user mode: user → printer table -->
+                    <div class="mt16" invisible="pos_printer_assignment_mode != 'per_user'">
+                        <field name="pos_user_printer_ids" nolabel="1">
+                            <list editable="bottom" string="User Printers">
+                                <field name="user_id" string="User" required="1"/>
+                                <field name="printer_id" string="Printer" required="1"/>
+                            </list>
+                        </field>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
