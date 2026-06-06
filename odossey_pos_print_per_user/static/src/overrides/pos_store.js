@@ -15,10 +15,7 @@ patch(PosStore.prototype, {
         const prepMap = JSON.parse(this.config.user_printer_map || "{}");
         const receiptMap = JSON.parse(this.config.user_receipt_printer_map || "{}");
 
-        const userId =
-            this.session.user_id?.id ??
-            this.session.user_id ??
-            odoo?.session_info?.uid;
+        const userId = this.user.id;
         const key = String(userId);
 
         const assignedPrepId = prepMap[key];

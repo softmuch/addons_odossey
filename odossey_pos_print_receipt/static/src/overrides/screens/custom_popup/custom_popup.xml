@@ -7,7 +7,7 @@
                 </div>
                 <t t-set-slot="footer">
                     <div class="d-flex w-100 justify-content-start gap-2">
-                        <div class="button print btn btn-lg btn-primary" t-on-click="()=>this.pos.printReceipt()">
+                        <div class="button print btn btn-lg btn-primary" t-on-click="printAndClose">
                             Print
                         </div>
                     </div>

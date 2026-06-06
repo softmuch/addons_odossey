@@ -11,4 +11,9 @@ export class custom_popup extends Component {
     setup() {
         this.pos = usePos();
     }
+
+    printAndClose() {
+        this.props.close();
+        this.pos.printReceipt();
+    }
 }

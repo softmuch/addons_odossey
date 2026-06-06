@@ -12,15 +12,16 @@ patch(PosStore.prototype, {
      */
     async afterProcessServerData() {
         await super.afterProcessServerData(...arguments);
+        // per_user mode: odossey_pos_print_per_user already set the correct
+        // user-specific receipt printer inside super() — don't overwrite it.
+        if (this.config.printer_assignment_mode === 'per_user') {
+            return;
+        }
         const qzPrinterRecord = this.models["pos.printer"]
             ?.getAll()
             ?.find((p) => p.printer_type === "qztray");
-        console.log('[QzTray] afterProcessServerData — printers:', this.models["pos.printer"]?.getAll()?.map(p => p.printer_type));
         if (qzPrinterRecord) {
             this.hardwareProxy.printer = new QzTrayPrinter(qzPrinterRecord.serialize());
-            console.log('[QzTray] receipt printer set:', this.hardwareProxy.printer);
-        } else {
-            console.warn('[QzTray] no qztray printer found in pos.printer models');
         }
     },
 
