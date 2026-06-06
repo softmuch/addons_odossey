@@ -6,9 +6,9 @@ import { Component, useState } from "@odoo/owl";
 export class custom_popup extends Component {
     static template = "odossey_pos_print_receipt.custom_popup";
     static components = { Dialog, OrderReceipt };
+    static props = { close: Function };
 
-    setup(){
-        super.setup()
-        this.pos =  usePos()   
+    setup() {
+        this.pos = usePos();
     }
 }
