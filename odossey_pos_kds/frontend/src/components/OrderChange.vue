@@ -14,6 +14,15 @@
                 table ? fullNameOfTable(table) : change.name
               }}</span>
             </div>
+            <el-tag
+              v-if="paid || invoiced"
+              :effect="tagEffect"
+              class="font-semibold mt-1 !text-sm"
+              type="success"
+              disable-transitions
+            >
+              {{ paid ? $t('paid') : $t('invoiced') }} ✓
+            </el-tag>
           </div>
           <span class="grow min-w-3"></span>
           <div class="tags flex flex-wrap flex-row-reverse">
@@ -30,15 +39,6 @@
               {{ $t('modified') }}
             </el-tag>
 
-            <el-tag
-              v-if="paid || invoiced"
-              :effect="tagEffect"
-              class="font-semibold ml-1 mb-1 !text-sm"
-              type="success"
-              disable-transitions
-            >
-              {{ paid ? $t('paid') : $t('invoiced') }}
-            </el-tag>
             <el-tag
               v-if="canceled || change.allRemoved"
               :effect="tagEffect"
