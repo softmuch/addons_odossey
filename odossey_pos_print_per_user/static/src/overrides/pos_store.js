@@ -11,6 +11,18 @@ patch(PosStore.prototype, {
         }
     },
 
+    _getPrintingCategoriesChanges(categories, currentOrderChange) {
+        // Printer with no categories assigned → print all items (no filtering).
+        if (!categories || categories.length === 0) {
+            return {
+                new: [...currentOrderChange.new],
+                cancelled: [...currentOrderChange.cancelled],
+                noteUpdated: [...currentOrderChange.noteUpdated],
+            };
+        }
+        return super._getPrintingCategoriesChanges(categories, currentOrderChange);
+    },
+
     _applyUserPrinterFilter() {
         const prepMap = JSON.parse(this.config.user_printer_map || "{}");
         const receiptMap = JSON.parse(this.config.user_receipt_printer_map || "{}");
@@ -32,8 +44,14 @@ patch(PosStore.prototype, {
 
         this.printers_category_ids_set = new Set();
         for (const printer of this.unwatched.printers) {
-            for (const id of printer.config.product_categories_ids) {
-                this.printers_category_ids_set.add(id);
+            if (printer.config.product_categories_ids.length === 0) {
+                // No categories configured → print all: use sentinel so the
+                // printers_category_ids_set.size guard in sendOrderInPreparation passes.
+                this.printers_category_ids_set.add(-1);
+            } else {
+                for (const id of printer.config.product_categories_ids) {
+                    this.printers_category_ids_set.add(id);
+                }
             }
         }
         this.config.iface_printers = !!this.unwatched.printers.length;
