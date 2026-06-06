@@ -1,5 +1,5 @@
 import json
-from odoo import api, fields, models
+from odoo import fields, models, api
 
 
 class PosConfig(models.Model):
@@ -15,22 +15,32 @@ class PosConfig(models.Model):
         'odossey.pos.user.printer', 'config_id', string='User Printers'
     )
 
-    @api.depends('user_printer_ids.user_id', 'user_printer_ids.printer_id')
+    @api.depends(
+        'user_printer_ids.user_id',
+        'user_printer_ids.printer_id',
+        'user_printer_ids.receipt_printer_id',
+    )
     def _compute_user_printer_map(self):
         for config in self:
             config.user_printer_map = json.dumps(
                 {str(r.user_id.id): r.printer_id.id for r in config.user_printer_ids}
             )
+            config.user_receipt_printer_map = json.dumps(
+                {
+                    str(r.user_id.id): r.receipt_printer_id.id
+                    for r in config.user_printer_ids
+                    if r.receipt_printer_id
+                }
+            )
 
     user_printer_map = fields.Char(
         compute='_compute_user_printer_map',
         store=True,
-        string='User Printer Map (JSON)',
+        string='User Preparation Printer Map (JSON)',
+    )
+    user_receipt_printer_map = fields.Char(
+        compute='_compute_user_printer_map',
+        store=True,
+        string='User Receipt Printer Map (JSON)',
     )
 
-    @api.model
-    def _load_pos_data_fields(self, config_id):
-        return super()._load_pos_data_fields(config_id) + [
-            'printer_assignment_mode',
-            'user_printer_map',
-        ]

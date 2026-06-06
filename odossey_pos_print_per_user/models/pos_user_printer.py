@@ -12,7 +12,10 @@ class OdosseyPosUserPrinter(models.Model):
         'res.users', string='User', required=True
     )
     printer_id = fields.Many2one(
-        'pos.printer', string='Printer', required=True
+        'pos.printer', string='Preparation Printer', required=True
+    )
+    receipt_printer_id = fields.Many2one(
+        'pos.printer', string='Receipt Printer'
     )
 
     _sql_constraints = [

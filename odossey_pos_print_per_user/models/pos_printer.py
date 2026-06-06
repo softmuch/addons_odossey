@@ -10,9 +10,11 @@ class PosPrinter(models.Model):
         config_data = data['pos.config']['data'][0]
         fixed_ids = config_data.get('printer_ids', [])
         if config_data.get('printer_assignment_mode') == 'per_user':
-            user_map = json.loads(config_data.get('user_printer_map') or '{}')
-            user_printer_ids = [v for v in user_map.values() if isinstance(v, int)]
-            all_ids = list(set(fixed_ids + user_printer_ids))
+            prep_map = json.loads(config_data.get('user_printer_map') or '{}')
+            receipt_map = json.loads(config_data.get('user_receipt_printer_map') or '{}')
+            user_ids = [v for v in prep_map.values() if isinstance(v, int)]
+            user_ids += [v for v in receipt_map.values() if isinstance(v, int)]
+            all_ids = list(set(fixed_ids + user_ids))
         else:
             all_ids = fixed_ids
         return [('id', 'in', all_ids)]

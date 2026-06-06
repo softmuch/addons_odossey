@@ -28,7 +28,8 @@
                         <field name="pos_user_printer_ids" nolabel="1">
                             <list editable="bottom" string="User Printers">
                                 <field name="user_id" string="User" required="1"/>
-                                <field name="printer_id" string="Printer" required="1"/>
+                                <field name="printer_id" string="Preparation Printer" required="1"/>
+                                <field name="receipt_printer_id" string="Receipt Printer"/>
                             </list>
                         </field>
                     </div>
