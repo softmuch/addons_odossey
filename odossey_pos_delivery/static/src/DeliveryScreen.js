@@ -3,6 +3,8 @@ import { useService } from "@web/core/utils/hooks";
 import { usePos } from "@point_of_sale/app/store/pos_hook";
 import { registry } from "@web/core/registry";
 import { _t } from "@web/core/l10n/translation";
+// eslint-disable-next-line no-undef
+const _odoo = typeof odoo !== "undefined" ? odoo : {};
 
 const DELIVERY_FIELDS = [
     "id", "partner_name", "partner_phone", "delivery_address",
@@ -16,6 +18,12 @@ const NEXT_STATE = {
     sent: "delivered",
 };
 
+const PREV_STATE = {
+    ready: "preparing",
+    sent: "ready",
+    delivered: "sent",
+};
+
 export class DeliveryScreen extends Component {
     static template = "odossey_pos_delivery.DeliveryScreen";
     static name = "DeliveryScreen";
@@ -24,25 +32,38 @@ export class DeliveryScreen extends Component {
     setup() {
         this.pos = usePos();
         this.orm = useService("orm");
+        this.busService = useService("bus_service");
         this.notification = useService("notification");
         this.state = useState({
             orders: [],
             loading: false,
             error: "",
+            hiddenIds: [],
         });
+        this._onDeliveryStateChange = this._onDeliveryStateChange.bind(this);
         onMounted(() => {
+            const accessToken = _odoo.access_token;
+            if (accessToken) {
+                this._busType = `${accessToken}-DELIVERY_STATE_CHANGE`;
+                this.busService.subscribe(this._busType, this._onDeliveryStateChange);
+            }
             this.loadOrders();
-            // Auto-refresh every 20 seconds to catch KDS state changes
-            this._refreshInterval = setInterval(() => this.loadOrders(), 20000);
         });
         onWillUnmount(() => {
-            if (this._refreshInterval) {
-                clearInterval(this._refreshInterval);
+            if (this._busType) {
+                this.busService.unsubscribe(this._busType, this._onDeliveryStateChange);
             }
         });
     }
 
-    // Translated section labels (called from template via this.label())
+    _onDeliveryStateChange(payload) {
+        const order = this.state.orders.find((o) => o.id === payload.delivery_id);
+        if (order) {
+            order.delivery_state = payload.delivery_state;
+            this.state.orders = [...this.state.orders];
+        }
+    }
+
     label(key) {
         const map = {
             preparing: _t("Preparing"),
@@ -52,7 +73,7 @@ export class DeliveryScreen extends Component {
             paid: _t("Paid"),
             unpaid: _t("Unpaid"),
             noOrders: _t("No orders."),
-            clickToEdit: _t("Click an order to edit it"),
+            clickToOpen: _t("Click to open"),
             back: _t("Back"),
             newOrder: _t("New Order"),
             time: _t("Time"),
@@ -61,6 +82,9 @@ export class DeliveryScreen extends Component {
             phone: _t("Phone"),
             payment: _t("Payment"),
             total: _t("Total"),
+            advanceAll: _t("Advance All"),
+            hide: _t("Hide"),
+            hideAll: _t("Hide All"),
         };
         return map[key] || key;
     }
@@ -101,7 +125,9 @@ export class DeliveryScreen extends Component {
         return this.state.orders.filter((o) => o.delivery_state === "sent");
     }
     get deliveredOrders() {
-        return this.state.orders.filter((o) => o.delivery_state === "delivered");
+        return this.state.orders.filter(
+            (o) => o.delivery_state === "delivered" && !this.state.hiddenIds.includes(o.id)
+        );
     }
 
     formatTime(datetimeStr) {
@@ -114,6 +140,34 @@ export class DeliveryScreen extends Component {
         return parseFloat(amount || 0).toFixed(2);
     }
 
+    openable(order) {
+        return order.payment_state !== "paid";
+    }
+
+    onRowClick(order) {
+        if (order.payment_state === "paid") {
+            this.notification.add(_t("Paid orders cannot be reopened."), { type: "info" });
+            return;
+        }
+        if (!order.pos_order_uid) {
+            this.notification.add(_t("Order has no POS reference."), { type: "warning" });
+            return;
+        }
+        const posOrder = this.pos.models["pos.order"].find(
+            (o) => o.uuid === order.pos_order_uid
+        );
+        if (!posOrder) {
+            this.notification.add(
+                _t("Order not found in memory. POS may have been restarted."),
+                { type: "warning" }
+            );
+            return;
+        }
+        posOrder.delivery_record_id = order.id;
+        this.pos.selectedOrderUuid = posOrder.uuid;
+        this.pos.showScreen("ProductScreen");
+    }
+
     getNextStateLabel(state) {
         const labels = {
             preparing: _t("Ready"),
@@ -123,8 +177,21 @@ export class DeliveryScreen extends Component {
         return labels[state] || "";
     }
 
+    getPrevStateLabel(state) {
+        const labels = {
+            ready: _t("Preparing"),
+            sent: _t("Ready"),
+            delivered: _t("Sent"),
+        };
+        return labels[state] || "";
+    }
+
     canAdvance(order) {
         return !!NEXT_STATE[order.delivery_state];
+    }
+
+    canRetreat(order) {
+        return !!PREV_STATE[order.delivery_state];
     }
 
     async advanceState(order) {
@@ -134,38 +201,52 @@ export class DeliveryScreen extends Component {
             await this.orm.write("pos.delivery.order", [order.id], { delivery_state: newState });
             order.delivery_state = newState;
             this.state.orders = [...this.state.orders];
+            await this.orm.call("pos.delivery.order", "sync_delivery_to_kds", [], {
+                delivery_id: order.id,
+                new_delivery_state: newState,
+            });
         } catch (e) {
-            console.error("Error updating delivery state:", e);
+            console.error("Error advancing delivery state:", e);
         }
+    }
+
+    async retreatState(order) {
+        const prevState = PREV_STATE[order.delivery_state];
+        if (!prevState) return;
+        try {
+            await this.orm.write("pos.delivery.order", [order.id], { delivery_state: prevState });
+            order.delivery_state = prevState;
+            this.state.orders = [...this.state.orders];
+            await this.orm.call("pos.delivery.order", "sync_delivery_to_kds", [], {
+                delivery_id: order.id,
+                new_delivery_state: prevState,
+            });
+        } catch (e) {
+            console.error("Error retreating delivery state:", e);
+        }
+    }
+
+    async advanceAll(stateKey) {
+        const orders = [...this.state.orders.filter((o) => o.delivery_state === stateKey)];
+        for (const order of orders) {
+            await this.advanceState(order);
+        }
+    }
+
+    hideOrder(order) {
+        this.state.hiddenIds = [...this.state.hiddenIds, order.id];
+    }
+
+    hideAllDelivered() {
+        const allIds = this.state.orders
+            .filter((o) => o.delivery_state === "delivered")
+            .map((o) => o.id);
+        this.state.hiddenIds = [...new Set([...this.state.hiddenIds, ...allIds])];
     }
 
     openNewDeliveryOrder() {
         const order = this.pos.add_new_order();
         order.is_delivery = true;
-        this.pos.showScreen("ProductScreen");
-    }
-
-    openDeliveryOrderEdit(record) {
-        if (record.delivery_state !== "preparing") return;
-        if (!record.pos_order_uid) {
-            this.notification.add(
-                _t("Order not linked. Cannot edit."),
-                { type: "warning" }
-            );
-            return;
-        }
-        const order = this.pos.models["pos.order"].find(
-            (o) => o.uuid === record.pos_order_uid
-        );
-        if (!order) {
-            this.notification.add(
-                _t("Order not found in memory. POS may have been restarted."),
-                { type: "warning" }
-            );
-            return;
-        }
-        order.delivery_record_id = record.id;
-        this.pos.selectedOrderUuid = order.uuid;
         this.pos.showScreen("ProductScreen");
     }
 

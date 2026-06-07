@@ -41,11 +41,18 @@
                             <i class="fa fa-fire me-2"/>
                             <strong t-esc="label('preparing')"/>
                             <span class="badge bg-white text-dark ms-2" t-esc="preparingOrders.length"/>
-                            <small class="ms-2 opacity-75" t-esc="label('clickToEdit')"/>
+                            <small class="ms-3 opacity-75" t-esc="label('clickToOpen')"/>
+                            <div class="ms-auto">
+                                <button t-if="preparingOrders.length > 0"
+                                        class="btn btn-sm btn-light"
+                                        t-on-click="() => this.advanceAll('preparing')">
+                                    <t t-esc="label('advanceAll')"/> →
+                                </button>
+                            </div>
                         </div>
                         <t t-call="odossey_pos_delivery.DeliveryTable">
                             <t t-set="orders" t-value="preparingOrders"/>
-                            <t t-set="editable" t-value="true"/>
+                            <t t-set="sectionState" t-value="'preparing'"/>
                         </t>
                     </div>
 
@@ -55,10 +62,17 @@
                             <i class="fa fa-check me-2"/>
                             <strong t-esc="label('ready')"/>
                             <span class="badge bg-white text-dark ms-2" t-esc="readyOrders.length"/>
+                            <div class="ms-auto">
+                                <button t-if="readyOrders.length > 0"
+                                        class="btn btn-sm btn-light"
+                                        t-on-click="() => this.advanceAll('ready')">
+                                    <t t-esc="label('advanceAll')"/> →
+                                </button>
+                            </div>
                         </div>
                         <t t-call="odossey_pos_delivery.DeliveryTable">
                             <t t-set="orders" t-value="readyOrders"/>
-                            <t t-set="editable" t-value="false"/>
+                            <t t-set="sectionState" t-value="'ready'"/>
                         </t>
                     </div>
 
@@ -68,10 +82,17 @@
                             <i class="fa fa-bicycle me-2"/>
                             <strong t-esc="label('sent')"/>
                             <span class="badge bg-white text-dark ms-2" t-esc="sentOrders.length"/>
+                            <div class="ms-auto">
+                                <button t-if="sentOrders.length > 0"
+                                        class="btn btn-sm btn-light"
+                                        t-on-click="() => this.advanceAll('sent')">
+                                    <t t-esc="label('advanceAll')"/> →
+                                </button>
+                            </div>
                         </div>
                         <t t-call="odossey_pos_delivery.DeliveryTable">
                             <t t-set="orders" t-value="sentOrders"/>
-                            <t t-set="editable" t-value="false"/>
+                            <t t-set="sectionState" t-value="'sent'"/>
                         </t>
                     </div>
 
@@ -81,10 +102,18 @@
                             <i class="fa fa-flag-checkered me-2"/>
                             <strong t-esc="label('delivered')"/>
                             <span class="badge bg-white text-dark ms-2" t-esc="deliveredOrders.length"/>
+                            <div class="ms-auto">
+                                <button t-if="deliveredOrders.length > 0"
+                                        class="btn btn-sm btn-light"
+                                        t-on-click="hideAllDelivered">
+                                    <i class="fa fa-eye-slash me-1"/>
+                                    <t t-esc="label('hideAll')"/>
+                                </button>
+                            </div>
                         </div>
                         <t t-call="odossey_pos_delivery.DeliveryTable">
                             <t t-set="orders" t-value="deliveredOrders"/>
-                            <t t-set="editable" t-value="false"/>
+                            <t t-set="sectionState" t-value="'delivered'"/>
                         </t>
                     </div>
 
@@ -116,11 +145,11 @@
                         </tr>
                     </t>
                     <t t-foreach="orders" t-as="order" t-key="order.id">
-                        <tr t-att-class="editable ? 'delivery-row-editable cursor-pointer' : ''"
-                            t-on-click="editable ? () => this.openDeliveryOrderEdit(order) : undefined">
+                        <tr t-att-class="this.openable(order) ? 'delivery-row-openable cursor-pointer' : 'opacity-50'"
+                            t-on-click="() => this.onRowClick(order)">
                             <td class="fw-bold text-muted">
                                 #<t t-esc="order.id"/>
-                                <t t-if="editable">
+                                <t t-if="this.openable(order)">
                                     <i class="fa fa-pencil ms-1 text-primary opacity-50"/>
                                 </t>
                             </td>
@@ -142,11 +171,26 @@
                                       t-esc="label('unpaid')"/>
                             </td>
                             <td class="text-end fw-semibold" t-esc="formatAmount(order.amount_total)"/>
-                            <td class="text-end" t-on-click.stop="">
+                            <td class="text-end text-nowrap" t-on-click.stop="">
+                                <!-- Retreat button -->
+                                <t t-if="this.canRetreat(order)">
+                                    <button class="btn btn-sm btn-outline-secondary me-1"
+                                            t-on-click="() => this.retreatState(order)">
+                                        ← <t t-esc="this.getPrevStateLabel(order.delivery_state)"/>
+                                    </button>
+                                </t>
+                                <!-- Advance button -->
                                 <t t-if="this.canAdvance(order)">
-                                    <button class="btn btn-sm btn-outline-primary"
+                                    <button class="btn btn-sm btn-outline-primary me-1"
                                             t-on-click="() => this.advanceState(order)">
                                         → <t t-esc="this.getNextStateLabel(order.delivery_state)"/>
+                                    </button>
+                                </t>
+                                <!-- Hide button (delivered section only) -->
+                                <t t-if="sectionState === 'delivered'">
+                                    <button class="btn btn-sm btn-outline-secondary"
+                                            t-on-click="() => this.hideOrder(order)">
+                                        <i class="fa fa-eye-slash"/>
                                     </button>
                                 </t>
                             </td>

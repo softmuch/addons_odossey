@@ -146,6 +146,42 @@ msgstr "Orden no encontrada en memoria. El POS puede haber sido reiniciado."
 
 #. module: odossey_pos_delivery
 #. odoo-javascript
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
+msgid "Click to open"
+msgstr "Clic para abrir"
+
+#. module: odossey_pos_delivery
+#. odoo-javascript
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
+msgid "Advance All"
+msgstr "Avanzar todo"
+
+#. module: odossey_pos_delivery
+#. odoo-javascript
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
+msgid "Hide"
+msgstr "Ocultar"
+
+#. module: odossey_pos_delivery
+#. odoo-javascript
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
+msgid "Hide All"
+msgstr "Ocultar todo"
+
+#. module: odossey_pos_delivery
+#. odoo-javascript
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
+msgid "Paid orders cannot be reopened."
+msgstr "Los pedidos pagados no pueden reabrirse."
+
+#. module: odossey_pos_delivery
+#. odoo-javascript
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
+msgid "Order has no POS reference."
+msgstr "El pedido no tiene referencia de POS."
+
+#. module: odossey_pos_delivery
+#. odoo-javascript
 #: code:addons/odossey_pos_delivery/static/src/overrides/actionpad_widget_delivery.js:0
 #: code:addons/odossey_pos_delivery/static/src/overrides/payment_screen_patch.js:0
 msgid "Delivery: please select a customer with complete address (street and city)."

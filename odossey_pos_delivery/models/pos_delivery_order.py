@@ -31,22 +31,63 @@ class PosDeliveryOrder(models.Model):
 
     @api.model
     def sync_kds_states(self, session_id=False):
-        """Update preparing→ready when all KDS lines are done. No hard dep on KDS."""
+        """Fallback: update preparing→ready when all KDS lines are off cooking state."""
         if 'ab_pos.order.change.line' not in self.env.registry:
             return True
-        domain = [('delivery_state', '=', 'preparing'), ('pos_order_id', '!=', False)]
+        domain = [('delivery_state', '=', 'preparing'), ('pos_order_uid', '!=', False)]
         if session_id:
             domain.append(('pos_session_id', '=', session_id))
-        preparing = self.search(domain)
-        for delivery in preparing:
-            changes = self.env['ab_pos.order.change'].search(
-                [('order_id', '=', delivery.pos_order_id.id)]
+        for delivery in self.search(domain):
+            pos_order = self.env['pos.order'].search(
+                [('uuid', '=', delivery.pos_order_uid)], limit=1
             )
-            if not changes:
+            if not pos_order:
                 continue
-            all_lines = changes.mapped('lines')
-            if not all_lines:
+            active_lines = self.env['ab_pos.order.change.line'].search([
+                ('change_id.order_id', '=', pos_order.id),
+                ('state', '!=', 'cancel'),
+            ])
+            if not active_lines:
                 continue
-            if all(l.state in ('ready', 'done', 'cancelled') for l in all_lines):
+            if all(l.state in ('ready', 'done') for l in active_lines):
                 delivery.write({'delivery_state': 'ready'})
+        return True
+
+    @api.model
+    def sync_delivery_to_kds(self, delivery_id=False, new_delivery_state=False):
+        """Called from POS JS when delivery state changes — update KDS change lines."""
+        if 'ab_pos.order.change.line' not in self.env.registry:
+            return True
+        if not delivery_id or not new_delivery_state:
+            return True
+
+        KDS_STATE_MAP = {
+            'preparing': 'cooking',
+            'ready': 'ready',
+            'sent': 'done',
+            'delivered': 'done',
+        }
+        kds_state = KDS_STATE_MAP.get(new_delivery_state)
+        if not kds_state:
+            return True
+
+        delivery = self.browse(delivery_id)
+        if not delivery.exists() or not delivery.pos_order_uid:
+            return True
+
+        pos_order = self.env['pos.order'].search(
+            [('uuid', '=', delivery.pos_order_uid)], limit=1
+        )
+        if not pos_order:
+            return True
+
+        change_lines = self.env['ab_pos.order.change.line'].search([
+            ('change_id.order_id', '=', pos_order.id),
+            ('state', '!=', 'cancel'),
+            ('state', '!=', kds_state),
+        ])
+        if change_lines:
+            # skip_delivery_sync prevents our write() override from re-triggering
+            change_lines.with_context(skip_delivery_sync=True).write({'state': kds_state})
+            pos_order.note_order_change()
         return True
