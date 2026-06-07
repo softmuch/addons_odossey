@@ -54,21 +54,38 @@ patch(PaymentScreen.prototype, {
                     });
                 } else {
                     const p = snap.partner;
-                    await this.deliveryOrm.create("pos.delivery.order", [
-                        {
-                            partner_id: p?.id || false,
-                            partner_name: p?.name || "",
-                            partner_phone: p?.phone || p?.mobile || "",
-                            delivery_address: p
-                                ? [p.street, p.city, p.zip].filter(Boolean).join(", ")
-                                : "",
-                            delivery_state: "preparing",
-                            payment_state: "paid",
-                            amount_total: snap.amountTotal,
-                            pos_session_id: snap.sessionId,
-                            pos_order_uid: snap.orderUuid,
-                        },
-                    ]);
+                    // Search first to avoid duplicate if delivery_record_id was lost on reload
+                    const existing = snap.orderUuid
+                        ? await this.deliveryOrm.searchRead(
+                            "pos.delivery.order",
+                            [["pos_order_uid", "=", snap.orderUuid]],
+                            ["id"],
+                            { limit: 1 }
+                        )
+                        : [];
+                    if (existing.length) {
+                        await this.deliveryOrm.write(
+                            "pos.delivery.order",
+                            [existing[0].id],
+                            { payment_state: "paid", amount_total: snap.amountTotal }
+                        );
+                    } else {
+                        await this.deliveryOrm.create("pos.delivery.order", [
+                            {
+                                partner_id: p?.id || false,
+                                partner_name: p?.name || "",
+                                partner_phone: p?.phone || p?.mobile || "",
+                                delivery_address: p
+                                    ? [p.street, p.city, p.zip].filter(Boolean).join(", ")
+                                    : "",
+                                delivery_state: "preparing",
+                                payment_state: "paid",
+                                amount_total: snap.amountTotal,
+                                pos_session_id: snap.sessionId,
+                                pos_order_uid: snap.orderUuid,
+                            },
+                        ]);
+                    }
                 }
             } catch (e) {
                 console.error("Error saving delivery record (payment):", e);

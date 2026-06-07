@@ -307,6 +307,7 @@ class Store implements PosStore {
       sequenceNumber: json.sequence_number,
       lines: [] as OrderChangeLine[],
       priority: json.priority,
+      modified: json.is_modified ?? false,
     })
 
     return change
@@ -325,6 +326,7 @@ class Store implements PosStore {
       attribute_value_ids: json.attribute_value_ids || [],
       refs: [],
       line_uuid: json.line_uuid,
+      is_delta: json.is_delta ?? false,
     })
     return line
   }

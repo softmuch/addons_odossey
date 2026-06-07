@@ -137,7 +137,7 @@ export function mergeOrderLines(lines: OrderChangeLine[]): OrderChangeLine {
   if (lines.length == 0) {
     throw 'mergeOrderLines() empty lines array'
   }
-  const line = Object.assign(new OrderChangeLine(lines[0]), { qty: 0, removedQty: 0 })
+  const line = Object.assign(new OrderChangeLine(lines[0]), { qty: 0, removedQty: 0, addedQty: 0 })
   line.refs = [...lines]
   line.refs.sort((a, b) => b.change.duration.milliseconds - a.change.duration.milliseconds)
 
@@ -145,6 +145,8 @@ export function mergeOrderLines(lines: OrderChangeLine[]): OrderChangeLine {
     line.qty += l.qty
     if (l.qty < 0) {
       line.removedQty += Math.abs(l.qty)
+    } else if (l.is_delta && l.qty > 0) {
+      line.addedQty += l.qty
     }
     line.note = l.qty >= 0 ? l.note : line.note
     line.attribute_value_ids = l.attribute_value_ids
@@ -187,7 +189,7 @@ export function computeHash(change: OrderChange, merge: boolean): number {
     change.order.state +
       change.priority +
       merge +
-      change.lines.map((l) => [l.id, l.note, l.product, l.qty, l.state, l.removedQty].join(',')).join(';'),
+      change.lines.map((l) => [l.id, l.note, l.product, l.qty, l.state, l.removedQty, l.addedQty].join(',')).join(';'),
   )
 }
 

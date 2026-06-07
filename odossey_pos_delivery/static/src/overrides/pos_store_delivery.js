@@ -23,4 +23,5 @@ patch(PosStore.prototype, {
         }
         await super.pay(...arguments);
     },
+
 });

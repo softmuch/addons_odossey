@@ -62,6 +62,8 @@ export class OrderChangeLine {
   attribute_value_ids: number[]
   refs: OrderChangeLine[] = []
   removedQty: number = 0
+  addedQty: number = 0
+  is_delta: boolean = false
 
   constructor(vals: {
     change: OrderChange
@@ -74,6 +76,7 @@ export class OrderChangeLine {
     attribute_value_ids: number[]
     refs?: OrderChangeLine[]
     line_uuid: string
+    is_delta?: boolean
   }) {
     this.change = vals.change
     this.id = vals.id
@@ -85,6 +88,7 @@ export class OrderChangeLine {
     this.attribute_value_ids = vals.attribute_value_ids
     this.refs = vals.refs ?? this.refs
     this.line_uuid = vals.line_uuid
+    this.is_delta = vals.is_delta ?? this.is_delta
   }
 
   get line(): OrderLine | undefined {
@@ -129,6 +133,7 @@ export class OrderChange {
     sequenceNumber: number
     lines?: OrderChangeLine[]
     priority?: number
+    modified?: boolean
   }) {
     this.id = vals.id
     this.order = vals.order
@@ -137,6 +142,7 @@ export class OrderChange {
     this.lines = vals.lines ?? this.lines
     this.name = vals.name ?? this.name
     this.priority = vals.priority ?? this.priority
+    this.modified = vals.modified ?? this.modified
   }
 
   get duration() {

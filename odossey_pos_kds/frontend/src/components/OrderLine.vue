@@ -45,6 +45,10 @@
           v-if="line.removedQty > 0"
           class="text-red-500 text-sm font-medium mr-1"
         >(-{{ line.removedQty }})</span>
+        <span
+          v-if="line.addedQty > 0"
+          class="text-green-400 text-sm font-medium mr-1"
+        >(+{{ line.addedQty }})</span>
         <span class="font-semibold text-2xl">{{ line.qty }}</span>
         <button
           class="ml-2 w-7 h-7 rounded-full border border-current font-bold text-lg leading-none cursor-pointer bg-transparent focus:outline-none active:opacity-60"

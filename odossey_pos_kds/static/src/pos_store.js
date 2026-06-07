@@ -8,6 +8,10 @@ patch(PosStore.prototype, {
    * @override
    */
   async sendOrderInPreparationUpdateLastChange(order, cancelled = false, initialState = "cooking") {
+    if (order?.is_delivery) {
+      return this.sendDeliveryOrderToKds(order, initialState);
+    }
+
     const {
       new: toAdd,
       cancelled: toRemove,
@@ -97,7 +101,65 @@ patch(PosStore.prototype, {
   },
 
   /**
-   * Without this override the categories might get restricted by preparation printers 
+   * For delivery orders: add lines to the SINGLE existing ab_pos.order.change (create on first send).
+   * Sets modified=true and is_delta=true on added lines so the KDS can show yellow border and (+n).
+   * Does NOT call super (no kitchen printer).
+   */
+  async sendDeliveryOrderToKds(order, initialState = "cooking") {
+    const {
+      new: toAdd,
+      cancelled: toRemove,
+      noteUpdated,
+    } = changesToOrder(order, false, new Set(), false);
+
+    if (!toAdd.length && !toRemove.length && !noteUpdated.length) {
+      return;
+    }
+
+    const existingChanges = order.ab_pos_changes || [];
+    const isUpdate = existingChanges.length > 0;
+    let orderChange;
+
+    if (isUpdate) {
+      orderChange = existingChanges[existingChanges.length - 1];
+      orderChange.is_modified = true;
+      orderChange.setDirty();
+    } else {
+      orderChange = this.models["ab_pos.order.change"].create({
+        order_id: order,
+        sequence_number: 1,
+        is_modified: false,
+      });
+    }
+
+    const addLine = (line, cancelled = false, isDelta = false) => {
+      const product = this.models["product.product"].get(line.product_id);
+      const model = this.models["ab_pos.order.change.line"];
+      const changeLine = model.create({
+        change_id: orderChange,
+        product_id: product,
+        qty: cancelled ? -line.quantity : line.quantity,
+        note: line.note,
+        line_uuid: line.uuid,
+        state: initialState,
+        is_delta: isDelta,
+      });
+      changeLine.attribute_value_ids = line.attribute_value_ids;
+    };
+
+    toAdd.forEach((line) => addLine(line, false, isUpdate));
+    toRemove.forEach((line) => addLine(line, true, false));
+    noteUpdated.forEach((line) => addLine({ ...line, quantity: 0 }, false, false));
+
+    order.updateLastOrderChange();
+
+    if (!SERIALIZABLE_MODELS) {
+      await this.syncAllOrders({ orders: [order] });
+    }
+  },
+
+  /**
+   * Without this override the categories might get restricted by preparation printers
    * @override https://github.com/odoo/odoo/blob/1ca879612fe546108fd1067839924ae8c25b2bb9/addons/point_of_sale/static/src/app/store/pos_store.js#L1057
    */
   get orderPreparationCategories() {

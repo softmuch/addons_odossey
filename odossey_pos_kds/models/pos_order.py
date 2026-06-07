@@ -122,6 +122,7 @@ class OrderChange(models.Model):
     uuid = fields.Char(string='Uuid', readonly=True, default=lambda self: str(uuid4()), copy=False)
 
     priority = fields.Integer(string="Priority", default=0)
+    is_modified = fields.Boolean(string="Modified", default=False)
 
     def update_priority(self, value):
         if not self:
@@ -179,6 +180,7 @@ class OrderChangeLine(models.Model):
     )
     uuid = fields.Char(string='Uuid', readonly=True, default=lambda self: str(uuid4()), copy=False)
     line_uuid = fields.Char(default='')
+    is_delta = fields.Boolean(string="Is Delta", default=False)
 
     @api.model
     def _load_pos_data_domain(self, data):
