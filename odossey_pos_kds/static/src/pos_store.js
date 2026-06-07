@@ -101,9 +101,10 @@ patch(PosStore.prototype, {
   },
 
   /**
-   * For delivery orders: add lines to the SINGLE existing ab_pos.order.change (create on first send).
-   * Sets modified=true and is_delta=true on added lines so the KDS can show yellow border and (+n).
-   * Does NOT call super (no kitchen printer).
+   * For delivery orders: all changes (additions AND removals) go to the SINGLE existing commanda.
+   * On first send: creates the commanda with original lines (is_delta=false).
+   * On updates: adds delta lines (is_delta=true, signed qty) to the same commanda.
+   * The Vue KDS computes netDelta = sum(is_delta lines) to show a single (+n) or (-n) indicator.
    */
   async sendDeliveryOrderToKds(order, initialState = "cooking") {
     const {
@@ -148,7 +149,7 @@ patch(PosStore.prototype, {
     };
 
     toAdd.forEach((line) => addLine(line, false, isUpdate));
-    toRemove.forEach((line) => addLine(line, true, false));
+    toRemove.forEach((line) => addLine(line, true, isUpdate));
     noteUpdated.forEach((line) => addLine({ ...line, quantity: 0 }, false, false));
 
     order.updateLastOrderChange();

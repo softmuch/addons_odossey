@@ -62,7 +62,7 @@ export class OrderChangeLine {
   attribute_value_ids: number[]
   refs: OrderChangeLine[] = []
   removedQty: number = 0
-  addedQty: number = 0
+  netDelta: number = 0
   is_delta: boolean = false
 
   constructor(vals: {

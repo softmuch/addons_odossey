@@ -137,16 +137,14 @@ export function mergeOrderLines(lines: OrderChangeLine[]): OrderChangeLine {
   if (lines.length == 0) {
     throw 'mergeOrderLines() empty lines array'
   }
-  const line = Object.assign(new OrderChangeLine(lines[0]), { qty: 0, removedQty: 0, addedQty: 0 })
+  const line = Object.assign(new OrderChangeLine(lines[0]), { qty: 0, removedQty: 0, netDelta: 0 })
   line.refs = [...lines]
   line.refs.sort((a, b) => b.change.duration.milliseconds - a.change.duration.milliseconds)
 
   for (const l of line.refs) {
     line.qty += l.qty
-    if (l.qty < 0) {
-      line.removedQty += Math.abs(l.qty)
-    } else if (l.is_delta && l.qty > 0) {
-      line.addedQty += l.qty
+    if (l.is_delta) {
+      line.netDelta += l.qty  // signed: positive for additions, negative for removals
     }
     line.note = l.qty >= 0 ? l.note : line.note
     line.attribute_value_ids = l.attribute_value_ids
@@ -189,7 +187,7 @@ export function computeHash(change: OrderChange, merge: boolean): number {
     change.order.state +
       change.priority +
       merge +
-      change.lines.map((l) => [l.id, l.note, l.product, l.qty, l.state, l.removedQty, l.addedQty].join(',')).join(';'),
+      change.lines.map((l) => [l.id, l.note, l.product, l.qty, l.state, l.removedQty, l.netDelta].join(',')).join(';'),
   )
 }
 
@@ -301,9 +299,10 @@ export function splitChanges(orders: Order[], state: State): Record<KitchenState
 
     // Build capacity map: `${state},${changeId}|${uuid}` -> { capacity, createdAtMs, uuid }
     // Tracks how much positive qty each (change, product) group can absorb from removals.
+    // is_delta lines are excluded — their removals are handled via netDelta in mergeOrderLines.
     const posCapacity = new Map<string, { capacity: number; createdAtMs: number; uuid: string }>()
     for (const line of lines) {
-      if (line.qty > 0 && line.line_uuid) {
+      if (!line.is_delta && line.qty > 0 && line.line_uuid) {
         const key = `${line.state},${line.change.id}|${line.line_uuid}`
         const existing = posCapacity.get(key)
         if (existing) {
@@ -319,9 +318,10 @@ export function splitChanges(orders: Order[], state: State): Record<KitchenState
     }
 
     // Collect negative entries sorted oldest-first so earlier removals are applied before later ones.
+    // is_delta lines are excluded — their removals are handled via netDelta in mergeOrderLines.
     const negEntries: { uuid: string; qty: number; createdAtMs: number }[] = []
     for (const line of lines) {
-      if (line.qty < 0 && line.line_uuid) {
+      if (!line.is_delta && line.qty < 0 && line.line_uuid) {
         negEntries.push({
           uuid: line.line_uuid,
           qty: Math.abs(line.qty),
@@ -350,9 +350,10 @@ export function splitChanges(orders: Order[], state: State): Record<KitchenState
     }
 
     // Positive lines always keyed by change.id — increases never merge into existing cards.
-    // Negatives are excluded here; their effect is applied via groupRemovedQty below.
+    // Non-is_delta negatives excluded (their effect applied via groupRemovedQty).
+    // is_delta lines (both positive and negative) included so netDelta is computed in mergeOrderLines.
     const grouped = groupBy(
-      lines.filter((l) => l.qty >= 0),
+      lines.filter((l) => l.qty >= 0 || l.is_delta),
       (line) => line.state + ',' + line.change.id,
       (line) => line.product.id + line.attribute_value_ids.join(',') + line.line_uuid,
     )
