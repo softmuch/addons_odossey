@@ -1,0 +1,28 @@
+/* Topheader bar turns green in express checkout mode */
+.pos-topheader.express-checkout-active {
+    background-color: #22c55e !important;
+}
+
+/* Quick Checkout button — always green, lighter when active */
+.btn-express {
+    background-color: #22c55e;
+    border-color: #22c55e;
+    color: #fff;
+}
+.btn-express:hover,
+.btn-express:focus {
+    background-color: #16a34a;
+    border-color: #16a34a;
+    color: #fff;
+}
+.btn-express.btn-express-active {
+    background-color: #bbf7d0;
+    border-color: #22c55e;
+    color: #14532d;
+}
+.btn-express.btn-express-active:hover,
+.btn-express.btn-express-active:focus {
+    background-color: #a7f3c0;
+    border-color: #16a34a;
+    color: #14532d;
+}

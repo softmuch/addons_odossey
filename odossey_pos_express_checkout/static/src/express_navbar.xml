@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="odossey_pos_express_checkout.Navbar"
+       t-inherit="point_of_sale.Navbar"
+       t-inherit-mode="extension">
+        <!--
+            Overrides delivery module's t-att-class on pos-topheader (last extension wins).
+            navbarBarClass handles both: delivery=orange, express checkout=green.
+        -->
+        <xpath expr="//div[hasclass('pos-topheader')]" position="attributes">
+            <attribute name="t-att-class">navbarBarClass</attribute>
+        </xpath>
+        <!-- Replace Table button with Quick Checkout: green by default, light green when active -->
+        <xpath expr="//button[hasclass('table-free-order-label')]" position="replace">
+            <button class="table-free-order-label btn btn-express btn-lg lh-lg"
+                    t-att-class="{'btn-express-active': isExpressCheckout}"
+                    t-on-click="() => this.onExpressCheckout()">
+                <span>Quick Checkout</span>
+            </button>
+        </xpath>
+    </t>
+
+</templates>

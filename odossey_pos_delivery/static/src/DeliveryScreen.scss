@@ -52,17 +52,27 @@
     }
 }
 
-// Delivery nav button — orange when active
+// Delivery nav button — always orange, lighter when active screen
 .delivery-nav-button {
-    &.btn-delivery-active {
-        background-color: #fd7e14;
-        border-color: #fd7e14;
+    background-color: #fd7e14;
+    border-color: #fd7e14;
+    color: #fff;
+
+    &:hover, &:focus {
+        background-color: #e8700f;
+        border-color: #e8700f;
         color: #fff;
+    }
+
+    &.btn-delivery-active {
+        background-color: #ffd8a8;
+        border-color: #fd7e14;
+        color: #7c3700;
 
         &:hover, &:focus {
-            background-color: #e8700f;
-            border-color: #e8700f;
-            color: #fff;
+            background-color: #ffc68a;
+            border-color: #fd7e14;
+            color: #7c3700;
         }
     }
 }
