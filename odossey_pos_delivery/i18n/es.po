@@ -1,0 +1,158 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * odossey_pos_delivery
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-07 00:00+0000\n"
+"PO-Revision-Date: 2026-06-07 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Spanish\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: odossey_pos_delivery
+#: model:ir.model,name:odossey_pos_delivery.model_pos_delivery_order
+msgid "POS Delivery Order"
+msgstr "Pedido Delivery"
+
+#. module: odossey_pos_delivery
+#: model:ir.model.fields,field_description:odossey_pos_delivery.field_pos_delivery_order__partner_id
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: odossey_pos_delivery
+#: model:ir.model.fields,field_description:odossey_pos_delivery.field_pos_delivery_order__partner_name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: odossey_pos_delivery
+#: model:ir.model.fields,field_description:odossey_pos_delivery.field_pos_delivery_order__partner_phone
+msgid "Phone"
+msgstr "Teléfono"
+
+#. module: odossey_pos_delivery
+#: model:ir.model.fields,field_description:odossey_pos_delivery.field_pos_delivery_order__delivery_address
+msgid "Address"
+msgstr "Dirección"
+
+#. module: odossey_pos_delivery
+#: model:ir.model.fields,field_description:odossey_pos_delivery.field_pos_delivery_order__note
+msgid "Notes"
+msgstr "Notas"
+
+#. module: odossey_pos_delivery
+#: model:ir.model.fields,field_description:odossey_pos_delivery.field_pos_delivery_order__delivery_state
+msgid "State"
+msgstr "Estado"
+
+#. module: odossey_pos_delivery
+#: model:ir.model.fields.selection,name:odossey_pos_delivery.selection__pos_delivery_order__delivery_state__preparing
+msgid "Preparing"
+msgstr "En preparación"
+
+#. module: odossey_pos_delivery
+#: model:ir.model.fields.selection,name:odossey_pos_delivery.selection__pos_delivery_order__delivery_state__ready
+msgid "Ready"
+msgstr "Listo"
+
+#. module: odossey_pos_delivery
+#: model:ir.model.fields.selection,name:odossey_pos_delivery.selection__pos_delivery_order__delivery_state__sent
+msgid "Sent"
+msgstr "Enviado"
+
+#. module: odossey_pos_delivery
+#: model:ir.model.fields.selection,name:odossey_pos_delivery.selection__pos_delivery_order__delivery_state__delivered
+msgid "Delivered"
+msgstr "Entregado"
+
+#. module: odossey_pos_delivery
+#: model:ir.model.fields,field_description:odossey_pos_delivery.field_pos_delivery_order__payment_state
+msgid "Payment State"
+msgstr "Estado de pago"
+
+#. module: odossey_pos_delivery
+#: model:ir.model.fields.selection,name:odossey_pos_delivery.selection__pos_delivery_order__payment_state__paid
+msgid "Paid"
+msgstr "Pagado"
+
+#. module: odossey_pos_delivery
+#: model:ir.model.fields.selection,name:odossey_pos_delivery.selection__pos_delivery_order__payment_state__unpaid
+msgid "Unpaid"
+msgstr "No Pagado"
+
+#. module: odossey_pos_delivery
+#: model:ir.model.fields,field_description:odossey_pos_delivery.field_pos_delivery_order__amount_total
+msgid "Total"
+msgstr "Total"
+
+#. module: odossey_pos_delivery
+#: model:ir.model.fields,field_description:odossey_pos_delivery.field_pos_delivery_order__start_time
+msgid "Start Time"
+msgstr "Hora de inicio"
+
+#. module: odossey_pos_delivery
+#: model:ir.model.fields,field_description:odossey_pos_delivery.field_pos_delivery_order__pos_order_id
+msgid "POS Order"
+msgstr "Orden POS"
+
+#. module: odossey_pos_delivery
+#: model:ir.model.fields,field_description:odossey_pos_delivery.field_pos_delivery_order__pos_session_id
+msgid "POS Session"
+msgstr "Sesión POS"
+
+#. module: odossey_pos_delivery
+#: model:ir.model.fields,field_description:odossey_pos_delivery.field_pos_delivery_order__estimated_time
+msgid "Estimated Time (min)"
+msgstr "Tiempo estimado (min)"
+
+#. module: odossey_pos_delivery
+#: model:ir.model.fields,field_description:odossey_pos_delivery.field_pos_delivery_order__shipping_cost
+msgid "Shipping Cost"
+msgstr "Costo de envío"
+
+#. module: odossey_pos_delivery
+#: model:ir.model.fields,field_description:odossey_pos_delivery.field_pos_delivery_order__pos_order_uid
+msgid "POS Order UUID"
+msgstr "UUID de Orden POS"
+
+#. module: odossey_pos_delivery
+#: model:ir.model.fields,field_description:odossey_pos_delivery.field_pos_order__is_delivery
+msgid "Is Delivery"
+msgstr "Es Delivery"
+
+#. module: odossey_pos_delivery
+#. odoo-javascript
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
+msgid "Error loading delivery orders."
+msgstr "Error al cargar pedidos de delivery."
+
+#. module: odossey_pos_delivery
+#. odoo-javascript
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
+msgid "Order not linked. Cannot edit."
+msgstr "Orden no vinculada. No se puede editar."
+
+#. module: odossey_pos_delivery
+#. odoo-javascript
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
+msgid "Order not found in memory. POS may have been restarted."
+msgstr "Orden no encontrada en memoria. El POS puede haber sido reiniciado."
+
+#. module: odossey_pos_delivery
+#. odoo-javascript
+#: code:addons/odossey_pos_delivery/static/src/overrides/actionpad_widget_delivery.js:0
+#: code:addons/odossey_pos_delivery/static/src/overrides/payment_screen_patch.js:0
+msgid "Delivery: please select a customer with complete address (street and city)."
+msgstr "Delivery: seleccioná un cliente con dirección completa (calle y ciudad)."
+
+#. module: odossey_pos_delivery
+#. odoo-javascript
+#: code:addons/odossey_pos_delivery/static/src/overrides/pos_store_delivery.js:0
+msgid "Delivery: please select a customer with complete address (street and city) before payment."
+msgstr "Delivery: seleccioná un cliente con dirección completa (calle y ciudad) antes de cobrar."

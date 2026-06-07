@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
+    <!-- Show a read-only delivery badge in PaymentScreen when the order is a delivery order -->
     <t t-name="odossey_pos_delivery.PaymentScreenButtons"
        t-inherit="point_of_sale.PaymentScreenButtons"
        t-inherit-mode="extension">
         <xpath expr="//button[hasclass('js_invoice')]" position="after">
-            <button class="button js_delivery btn btn-light btn-lg d-flex justify-content-between align-items-baseline w-100 w-md-50 lh-lg"
-                    t-att-class="{ 'highlight active text-action': currentOrder.is_delivery }"
-                    t-on-click="toggleIsDelivery">
-                <span><i class="fa fa-motorcycle me-2"/>Delivery</span>
-                <i class="fa me-2"
-                   t-attf-class="{{ currentOrder.is_delivery ? 'fa-check-square text-action' : 'fa-square-o' }}"/>
-            </button>
+            <div t-if="currentOrder.is_delivery"
+                 class="button btn btn-warning btn-lg d-flex align-items-center justify-content-center w-100 w-md-50 lh-lg fw-bold">
+                <i class="fa fa-motorcycle me-2"/>DELIVERY
+            </div>
         </xpath>
     </t>
 </templates>

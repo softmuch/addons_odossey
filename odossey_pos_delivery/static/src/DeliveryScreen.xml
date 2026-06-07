@@ -6,14 +6,19 @@
             <!-- Header -->
             <div class="delivery-header d-flex align-items-center justify-content-between px-4 py-3 bg-white border-bottom shadow-sm">
                 <button class="btn btn-light btn-lg" t-on-click="back">
-                    <i class="oi oi-chevron-left me-2"/>Volver
+                    <i class="oi oi-chevron-left me-2"/>Back
                 </button>
                 <h1 class="mb-0 fw-bold">
                     <i class="fa fa-motorcycle me-2 text-primary"/>Delivery
                 </h1>
-                <button class="btn btn-primary btn-lg" t-on-click="openNewOrderForm">
-                    <i class="fa fa-plus me-2"/>Nuevo Pedido
-                </button>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-secondary btn-lg" t-on-click="loadOrders">
+                        <i class="fa fa-refresh"/>
+                    </button>
+                    <button class="btn btn-primary btn-lg" t-on-click="openNewDeliveryOrder">
+                        <i class="fa fa-plus me-2"/>New Order
+                    </button>
+                </div>
             </div>
 
             <!-- Loading / Error -->
@@ -30,51 +35,56 @@
             <t t-else="">
                 <div class="delivery-content flex-grow-1 overflow-y-auto p-3">
 
-                    <!-- EN PREPARACIÓN -->
+                    <!-- PREPARING -->
                     <div class="delivery-section mb-4">
                         <div class="delivery-section-header preparing d-flex align-items-center px-3 py-2 rounded-top">
                             <i class="fa fa-fire me-2"/>
-                            <strong>En preparación</strong>
+                            <strong>Preparing</strong>
                             <span class="badge bg-white text-dark ms-2" t-esc="preparingOrders.length"/>
+                            <small class="ms-2 opacity-75">Click an order to edit it</small>
                         </div>
                         <t t-call="odossey_pos_delivery.DeliveryTable">
                             <t t-set="orders" t-value="preparingOrders"/>
+                            <t t-set="editable" t-value="true"/>
                         </t>
                     </div>
 
-                    <!-- LISTO -->
+                    <!-- READY -->
                     <div class="delivery-section mb-4">
                         <div class="delivery-section-header ready d-flex align-items-center px-3 py-2 rounded-top">
                             <i class="fa fa-check me-2"/>
-                            <strong>Listo</strong>
+                            <strong>Ready</strong>
                             <span class="badge bg-white text-dark ms-2" t-esc="readyOrders.length"/>
                         </div>
                         <t t-call="odossey_pos_delivery.DeliveryTable">
                             <t t-set="orders" t-value="readyOrders"/>
+                            <t t-set="editable" t-value="false"/>
                         </t>
                     </div>
 
-                    <!-- ENVIADO -->
+                    <!-- SENT -->
                     <div class="delivery-section mb-4">
                         <div class="delivery-section-header sent d-flex align-items-center px-3 py-2 rounded-top">
                             <i class="fa fa-bicycle me-2"/>
-                            <strong>Enviado</strong>
+                            <strong>Sent</strong>
                             <span class="badge bg-white text-dark ms-2" t-esc="sentOrders.length"/>
                         </div>
                         <t t-call="odossey_pos_delivery.DeliveryTable">
                             <t t-set="orders" t-value="sentOrders"/>
+                            <t t-set="editable" t-value="false"/>
                         </t>
                     </div>
 
-                    <!-- ENTREGADO -->
+                    <!-- DELIVERED -->
                     <div class="delivery-section mb-4">
                         <div class="delivery-section-header delivered d-flex align-items-center px-3 py-2 rounded-top">
                             <i class="fa fa-flag-checkered me-2"/>
-                            <strong>Entregado</strong>
+                            <strong>Delivered</strong>
                             <span class="badge bg-white text-dark ms-2" t-esc="deliveredOrders.length"/>
                         </div>
                         <t t-call="odossey_pos_delivery.DeliveryTable">
                             <t t-set="orders" t-value="deliveredOrders"/>
+                            <t t-set="editable" t-value="false"/>
                         </t>
                     </div>
 
@@ -90,11 +100,11 @@
                 <thead class="table-light">
                     <tr>
                         <th>#</th>
-                        <th>Hora</th>
-                        <th>Cliente</th>
-                        <th>Dirección</th>
-                        <th>Teléfono</th>
-                        <th>Pago</th>
+                        <th>Time</th>
+                        <th>Customer</th>
+                        <th>Address</th>
+                        <th>Phone</th>
+                        <th>Payment</th>
                         <th class="text-end">Total</th>
                         <th></th>
                     </tr>
@@ -102,14 +112,18 @@
                 <tbody>
                     <t t-if="orders.length === 0">
                         <tr>
-                            <td colspan="8" class="text-center text-muted py-3">
-                                No hay pedidos.
-                            </td>
+                            <td colspan="8" class="text-center text-muted py-3">No orders.</td>
                         </tr>
                     </t>
                     <t t-foreach="orders" t-as="order" t-key="order.id">
-                        <tr>
-                            <td class="fw-bold text-muted">#<t t-esc="order.id"/></td>
+                        <tr t-att-class="editable ? 'delivery-row-editable cursor-pointer' : ''"
+                            t-on-click="editable ? () => this.openDeliveryOrderEdit(order) : undefined">
+                            <td class="fw-bold text-muted">
+                                #<t t-esc="order.id"/>
+                                <t t-if="editable">
+                                    <i class="fa fa-pencil ms-1 text-primary opacity-50"/>
+                                </t>
+                            </td>
                             <td t-esc="formatTime(order.start_time)"/>
                             <td>
                                 <div class="fw-semibold" t-esc="order.partner_name or '-'"/>
@@ -121,12 +135,11 @@
                             <td t-esc="order.partner_phone or '-'"/>
                             <td>
                                 <span t-if="order.payment_state === 'paid'"
-                                      class="badge bg-success">Pagado</span>
-                                <span t-else=""
-                                      class="badge bg-danger">No Pagado</span>
+                                      class="badge bg-success">Paid</span>
+                                <span t-else="" class="badge bg-danger">Unpaid</span>
                             </td>
                             <td class="text-end fw-semibold" t-esc="formatAmount(order.amount_total)"/>
-                            <td class="text-end">
+                            <td class="text-end" t-on-click.stop="">
                                 <t t-if="canAdvance(order)">
                                     <button class="btn btn-sm btn-outline-primary"
                                             t-on-click="() => advanceState(order)">

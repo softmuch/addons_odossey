@@ -2,20 +2,13 @@ import { Component, useState, onMounted } from "@odoo/owl";
 import { useService } from "@web/core/utils/hooks";
 import { usePos } from "@point_of_sale/app/store/pos_hook";
 import { registry } from "@web/core/registry";
-import { NewDeliveryOrderPopup } from "./NewDeliveryOrderPopup";
+import { _t } from "@web/core/l10n/translation";
 
 const DELIVERY_FIELDS = [
     "id", "partner_name", "partner_phone", "delivery_address",
     "note", "delivery_state", "payment_state", "amount_total",
-    "start_time", "estimated_time", "shipping_cost",
+    "start_time", "estimated_time", "shipping_cost", "pos_order_uid",
 ];
-
-const STATE_LABELS = {
-    preparing: "En preparación",
-    ready: "Listo",
-    sent: "Enviado",
-    delivered: "Entregado",
-};
 
 const NEXT_STATE = {
     preparing: "ready",
@@ -24,9 +17,9 @@ const NEXT_STATE = {
 };
 
 const NEXT_STATE_LABEL = {
-    preparing: "Listo",
-    ready: "Enviado",
-    sent: "Entregado",
+    preparing: "Ready",
+    ready: "Sent",
+    sent: "Delivered",
 };
 
 export class DeliveryScreen extends Component {
@@ -37,7 +30,7 @@ export class DeliveryScreen extends Component {
     setup() {
         this.pos = usePos();
         this.orm = useService("orm");
-        this.dialog = useService("dialog");
+        this.notification = useService("notification");
         this.state = useState({
             orders: [],
             loading: false,
@@ -48,7 +41,11 @@ export class DeliveryScreen extends Component {
 
     async loadOrders() {
         this.state.loading = true;
+        this.state.error = "";
         try {
+            await this.orm.call("pos.delivery.order", "sync_kds_states", [], {
+                session_id: this.pos.session?.id || false,
+            });
             const today = new Date();
             today.setHours(0, 0, 0, 0);
             const todayStr = today.toISOString().slice(0, 19).replace("T", " ");
@@ -59,7 +56,7 @@ export class DeliveryScreen extends Component {
                 { order: "start_time desc" }
             );
         } catch (e) {
-            this.state.error = "Error al cargar pedidos de delivery.";
+            this.state.error = _t("Error loading delivery orders.");
             console.error(e);
         } finally {
             this.state.loading = false;
@@ -105,34 +102,38 @@ export class DeliveryScreen extends Component {
             order.delivery_state = newState;
             this.state.orders = [...this.state.orders];
         } catch (e) {
-            console.error("Error al actualizar estado:", e);
+            console.error("Error updating delivery state:", e);
         }
     }
 
-    openNewOrderForm() {
-        this.dialog.add(NewDeliveryOrderPopup, {
-            confirm: async (data) => {
-                try {
-                    const sessionId = this.pos.session?.id || false;
-                    const [id] = await this.orm.create("pos.delivery.order", [
-                        {
-                            ...data,
-                            delivery_state: "preparing",
-                            payment_state: "unpaid",
-                            pos_session_id: sessionId,
-                        },
-                    ]);
-                    const [newOrder] = await this.orm.searchRead(
-                        "pos.delivery.order",
-                        [["id", "=", id]],
-                        DELIVERY_FIELDS
-                    );
-                    this.state.orders = [newOrder, ...this.state.orders];
-                } catch (e) {
-                    console.error("Error al crear pedido delivery:", e);
-                }
-            },
-        });
+    openNewDeliveryOrder() {
+        const order = this.pos.add_new_order();
+        order.is_delivery = true;
+        this.pos.showScreen("ProductScreen");
+    }
+
+    openDeliveryOrderEdit(record) {
+        if (record.delivery_state !== "preparing") return;
+        if (!record.pos_order_uid) {
+            this.notification.add(
+                _t("Order not linked. Cannot edit."),
+                { type: "warning" }
+            );
+            return;
+        }
+        const order = this.pos.models["pos.order"].find(
+            (o) => o.uuid === record.pos_order_uid
+        );
+        if (!order) {
+            this.notification.add(
+                _t("Order not found in memory. POS may have been restarted."),
+                { type: "warning" }
+            );
+            return;
+        }
+        order.delivery_record_id = record.id;
+        this.pos.selectedOrderUuid = order.uuid;
+        this.pos.showScreen("ProductScreen");
     }
 
     back() {
