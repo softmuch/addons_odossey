@@ -290,6 +290,7 @@ class Store implements PosStore {
       partner_id: json.partner_id,
       ab_service_type: json.ab_service_type,
       takeaway: json.takeaway,
+      is_delivery: json.is_delivery,
       lines: json.lines.map((id: number) => this.db.orderlineById(id)).filter(notEmpty),
     })
   }

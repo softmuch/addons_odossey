@@ -6,7 +6,7 @@
   "product_categories": "Categorías de Productos",
   "settings": "Configuración",
   "state": {
-    "cooking": "Cocinando",
+    "cooking": "En preparación",
     "ready": "Listo",
     "done": "Hecho",
     "cancel": "Cancelado"

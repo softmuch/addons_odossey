@@ -6,7 +6,7 @@
             <!-- Header -->
             <div class="delivery-header d-flex align-items-center justify-content-between px-4 py-3 bg-white border-bottom shadow-sm">
                 <button class="btn btn-light btn-lg" t-on-click="back">
-                    <i class="oi oi-chevron-left me-2"/>Back
+                    <i class="oi oi-chevron-left me-2"/><t t-esc="label('back')"/>
                 </button>
                 <h1 class="mb-0 fw-bold">
                     <i class="fa fa-motorcycle me-2 text-primary"/>Delivery
@@ -16,7 +16,7 @@
                         <i class="fa fa-refresh"/>
                     </button>
                     <button class="btn btn-primary btn-lg" t-on-click="openNewDeliveryOrder">
-                        <i class="fa fa-plus me-2"/>New Order
+                        <i class="fa fa-plus me-2"/><t t-esc="label('newOrder')"/>
                     </button>
                 </div>
             </div>
@@ -39,9 +39,9 @@
                     <div class="delivery-section mb-4">
                         <div class="delivery-section-header preparing d-flex align-items-center px-3 py-2 rounded-top">
                             <i class="fa fa-fire me-2"/>
-                            <strong>Preparing</strong>
+                            <strong t-esc="label('preparing')"/>
                             <span class="badge bg-white text-dark ms-2" t-esc="preparingOrders.length"/>
-                            <small class="ms-2 opacity-75">Click an order to edit it</small>
+                            <small class="ms-2 opacity-75" t-esc="label('clickToEdit')"/>
                         </div>
                         <t t-call="odossey_pos_delivery.DeliveryTable">
                             <t t-set="orders" t-value="preparingOrders"/>
@@ -53,7 +53,7 @@
                     <div class="delivery-section mb-4">
                         <div class="delivery-section-header ready d-flex align-items-center px-3 py-2 rounded-top">
                             <i class="fa fa-check me-2"/>
-                            <strong>Ready</strong>
+                            <strong t-esc="label('ready')"/>
                             <span class="badge bg-white text-dark ms-2" t-esc="readyOrders.length"/>
                         </div>
                         <t t-call="odossey_pos_delivery.DeliveryTable">
@@ -66,7 +66,7 @@
                     <div class="delivery-section mb-4">
                         <div class="delivery-section-header sent d-flex align-items-center px-3 py-2 rounded-top">
                             <i class="fa fa-bicycle me-2"/>
-                            <strong>Sent</strong>
+                            <strong t-esc="label('sent')"/>
                             <span class="badge bg-white text-dark ms-2" t-esc="sentOrders.length"/>
                         </div>
                         <t t-call="odossey_pos_delivery.DeliveryTable">
@@ -79,7 +79,7 @@
                     <div class="delivery-section mb-4">
                         <div class="delivery-section-header delivered d-flex align-items-center px-3 py-2 rounded-top">
                             <i class="fa fa-flag-checkered me-2"/>
-                            <strong>Delivered</strong>
+                            <strong t-esc="label('delivered')"/>
                             <span class="badge bg-white text-dark ms-2" t-esc="deliveredOrders.length"/>
                         </div>
                         <t t-call="odossey_pos_delivery.DeliveryTable">
@@ -100,19 +100,19 @@
                 <thead class="table-light">
                     <tr>
                         <th>#</th>
-                        <th>Time</th>
-                        <th>Customer</th>
-                        <th>Address</th>
-                        <th>Phone</th>
-                        <th>Payment</th>
-                        <th class="text-end">Total</th>
+                        <th t-esc="label('time')"/>
+                        <th t-esc="label('customer')"/>
+                        <th t-esc="label('address')"/>
+                        <th t-esc="label('phone')"/>
+                        <th t-esc="label('payment')"/>
+                        <th class="text-end" t-esc="label('total')"/>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <t t-if="orders.length === 0">
                         <tr>
-                            <td colspan="8" class="text-center text-muted py-3">No orders.</td>
+                            <td colspan="8" class="text-center text-muted py-3" t-esc="label('noOrders')"/>
                         </tr>
                     </t>
                     <t t-foreach="orders" t-as="order" t-key="order.id">
@@ -135,15 +135,18 @@
                             <td t-esc="order.partner_phone or '-'"/>
                             <td>
                                 <span t-if="order.payment_state === 'paid'"
-                                      class="badge bg-success">Paid</span>
-                                <span t-else="" class="badge bg-danger">Unpaid</span>
+                                      class="badge bg-success"
+                                      t-esc="label('paid')"/>
+                                <span t-else=""
+                                      class="badge bg-danger"
+                                      t-esc="label('unpaid')"/>
                             </td>
                             <td class="text-end fw-semibold" t-esc="formatAmount(order.amount_total)"/>
                             <td class="text-end" t-on-click.stop="">
-                                <t t-if="canAdvance(order)">
+                                <t t-if="this.canAdvance(order)">
                                     <button class="btn btn-sm btn-outline-primary"
-                                            t-on-click="() => advanceState(order)">
-                                        → <t t-esc="getNextStateLabel(order.delivery_state)"/>
+                                            t-on-click="() => this.advanceState(order)">
+                                        → <t t-esc="this.getNextStateLabel(order.delivery_state)"/>
                                     </button>
                                 </t>
                             </td>

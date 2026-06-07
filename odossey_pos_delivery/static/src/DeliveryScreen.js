@@ -1,4 +1,4 @@
-import { Component, useState, onMounted } from "@odoo/owl";
+import { Component, useState, onMounted, onWillUnmount } from "@odoo/owl";
 import { useService } from "@web/core/utils/hooks";
 import { usePos } from "@point_of_sale/app/store/pos_hook";
 import { registry } from "@web/core/registry";
@@ -16,12 +16,6 @@ const NEXT_STATE = {
     sent: "delivered",
 };
 
-const NEXT_STATE_LABEL = {
-    preparing: "Ready",
-    ready: "Sent",
-    sent: "Delivered",
-};
-
 export class DeliveryScreen extends Component {
     static template = "odossey_pos_delivery.DeliveryScreen";
     static name = "DeliveryScreen";
@@ -36,30 +30,64 @@ export class DeliveryScreen extends Component {
             loading: false,
             error: "",
         });
-        onMounted(() => this.loadOrders());
+        onMounted(() => {
+            this.loadOrders();
+            // Auto-refresh every 20 seconds to catch KDS state changes
+            this._refreshInterval = setInterval(() => this.loadOrders(), 20000);
+        });
+        onWillUnmount(() => {
+            if (this._refreshInterval) {
+                clearInterval(this._refreshInterval);
+            }
+        });
+    }
+
+    // Translated section labels (called from template via this.label())
+    label(key) {
+        const map = {
+            preparing: _t("Preparing"),
+            ready: _t("Ready"),
+            sent: _t("Sent"),
+            delivered: _t("Delivered"),
+            paid: _t("Paid"),
+            unpaid: _t("Unpaid"),
+            noOrders: _t("No orders."),
+            clickToEdit: _t("Click an order to edit it"),
+            back: _t("Back"),
+            newOrder: _t("New Order"),
+            time: _t("Time"),
+            customer: _t("Customer"),
+            address: _t("Address"),
+            phone: _t("Phone"),
+            payment: _t("Payment"),
+            total: _t("Total"),
+        };
+        return map[key] || key;
     }
 
     async loadOrders() {
-        this.state.loading = true;
         this.state.error = "";
-        try {
-            await this.orm.call("pos.delivery.order", "sync_kds_states", [], {
-                session_id: this.pos.session?.id || false,
-            });
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            const todayStr = today.toISOString().slice(0, 19).replace("T", " ");
-            this.state.orders = await this.orm.searchRead(
-                "pos.delivery.order",
-                [["start_time", ">=", todayStr]],
-                DELIVERY_FIELDS,
-                { order: "start_time desc" }
-            );
-        } catch (e) {
-            this.state.error = _t("Error loading delivery orders.");
-            console.error(e);
-        } finally {
-            this.state.loading = false;
+        if (!this.state.loading) {
+            this.state.loading = true;
+            try {
+                await this.orm.call("pos.delivery.order", "sync_kds_states", [], {
+                    session_id: this.pos.session?.id || false,
+                });
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const todayStr = today.toISOString().slice(0, 19).replace("T", " ");
+                this.state.orders = await this.orm.searchRead(
+                    "pos.delivery.order",
+                    [["start_time", ">=", todayStr]],
+                    DELIVERY_FIELDS,
+                    { order: "start_time desc" }
+                );
+            } catch (e) {
+                this.state.error = _t("Error loading delivery orders.");
+                console.error(e);
+            } finally {
+                this.state.loading = false;
+            }
         }
     }
 
@@ -87,7 +115,12 @@ export class DeliveryScreen extends Component {
     }
 
     getNextStateLabel(state) {
-        return NEXT_STATE_LABEL[state] || "";
+        const labels = {
+            preparing: _t("Ready"),
+            ready: _t("Sent"),
+            sent: _t("Delivered"),
+        };
+        return labels[state] || "";
     }
 
     canAdvance(order) {

@@ -180,11 +180,20 @@
         />
       </div>
 
-      <template #footer v-if="nextState || prevState">
+      <template #footer v-if="nextState || prevState || change.order.is_delivery">
         <div class="flex items-center">
           <el-button :loading="printing" size="large" circle @click="print">
             <el-icon v-if="!printing" :size="24"><Printer /></el-icon>
           </el-button>
+          <el-tag
+            v-if="change.order.is_delivery"
+            effect="dark"
+            type="warning"
+            class="font-semibold ml-2 !text-sm"
+            disable-transitions
+          >
+            🏍️ {{ $t('delivery') }}
+          </el-tag>
           <div class="grow"></div>
           <el-button v-if="!canceled && prevState" @click="returnAll">
             {{ $t(`state.${prevState}`) }}

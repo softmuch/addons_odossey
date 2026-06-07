@@ -160,6 +160,7 @@ export class Order {
   partner_id: number | false = false
   ab_service_type?: ServiceType = 'takeaway'
   takeaway?: boolean = false
+  is_delivery?: boolean = false
 
   lineIndexUUID: Record<string, OrderLine>
   lineIndex: Record<number, OrderLine>
