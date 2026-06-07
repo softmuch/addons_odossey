@@ -7,14 +7,14 @@
                 <p class="mb-0 fs-6" t-esc="props.body"/>
             </div>
             <t t-set-slot="footer">
-                <button class="btn btn-secondary btn-lg" t-on-click="cancel">
-                    <t t-esc="props.cancelLabel"/>
+                <button class="btn btn-danger btn-lg" t-on-click="proceed">
+                    <t t-esc="props.proceedLabel"/>
                 </button>
                 <button class="btn btn-primary btn-lg" t-on-click="sendToKitchen">
                     <t t-esc="props.orderLabel"/>
                 </button>
-                <button class="btn btn-primary btn-lg" t-on-click="proceed">
-                    <t t-esc="props.proceedLabel"/>
+                <button class="btn btn-secondary btn-lg" t-on-click="cancel">
+                    <t t-esc="props.cancelLabel"/>
                 </button>
             </t>
         </Dialog>
