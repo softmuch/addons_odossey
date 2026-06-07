@@ -44,7 +44,7 @@ class PosOrderChangeLineDelivery(models.Model):
                 continue
 
             delivery.delivery_state = target
-            config = delivery.pos_session_id.config_id
+            config = delivery.pos_session_id.config_id or pos_order.session_id.config_id
             if config:
                 config._notify('DELIVERY_STATE_CHANGE', {
                     'delivery_id': delivery.id,

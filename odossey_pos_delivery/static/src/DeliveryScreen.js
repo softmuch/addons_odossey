@@ -9,7 +9,7 @@ const _odoo = typeof odoo !== "undefined" ? odoo : {};
 const DELIVERY_FIELDS = [
     "id", "partner_name", "partner_phone", "delivery_address",
     "note", "delivery_state", "payment_state", "amount_total",
-    "start_time", "estimated_time", "shipping_cost", "pos_order_uid",
+    "start_time", "estimated_time", "shipping_cost", "pos_order_uid", "hidden",
 ];
 
 const NEXT_STATE = {
@@ -60,6 +60,9 @@ export class DeliveryScreen extends Component {
         if (order) {
             order.delivery_state = payload.delivery_state;
             this.state.orders = [...this.state.orders];
+        } else {
+            // Order not in local list (new order or created from another terminal).
+            this.loadOrders();
         }
     }
 
@@ -81,6 +84,7 @@ export class DeliveryScreen extends Component {
             payment: _t("Payment"),
             total: _t("Total"),
             advanceAll: _t("Advance All"),
+            hideAllPaid: _t("Hide All"),
         };
         return map[key] || key;
     }
@@ -121,10 +125,37 @@ export class DeliveryScreen extends Component {
         return this.state.orders.filter((o) => o.delivery_state === "sent");
     }
     get deliveredOrders() {
-        // Auto-exclude paid+delivered: they are done, no need to show
         return this.state.orders.filter(
-            (o) => o.delivery_state === "delivered" && o.payment_state !== "paid"
+            (o) => o.delivery_state === "delivered" && !o.hidden
         );
+    }
+
+    get deliveredPaidVisible() {
+        return this.deliveredOrders.filter((o) => o.payment_state === "paid");
+    }
+
+    async hideDeliveredOrder(order) {
+        try {
+            await this.orm.write("pos.delivery.order", [order.id], { hidden: true });
+            order.hidden = true;
+            this.state.orders = [...this.state.orders];
+        } catch (e) {
+            console.error("Error hiding delivery order:", e);
+        }
+    }
+
+    async hideAllDelivered() {
+        const ids = this.deliveredPaidVisible.map((o) => o.id);
+        if (!ids.length) return;
+        try {
+            await this.orm.write("pos.delivery.order", ids, { hidden: true });
+            for (const order of this.state.orders) {
+                if (ids.includes(order.id)) order.hidden = true;
+            }
+            this.state.orders = [...this.state.orders];
+        } catch (e) {
+            console.error("Error hiding delivery orders:", e);
+        }
     }
 
     formatTime(datetimeStr) {

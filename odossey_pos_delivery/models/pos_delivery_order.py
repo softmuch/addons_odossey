@@ -28,6 +28,7 @@ class PosDeliveryOrder(models.Model):
     estimated_time = fields.Integer(string='Estimated Time (min)')
     shipping_cost = fields.Float(string='Shipping Cost', digits=(12, 2))
     pos_order_uid = fields.Char(string='POS Order UUID')
+    hidden = fields.Boolean(string='Hidden', default=False)
 
     @api.model
     def sync_kds_states(self, session_id=False):
