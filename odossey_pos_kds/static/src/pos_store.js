@@ -56,6 +56,47 @@ patch(PosStore.prototype, {
   },
 
   /**
+   * Send order to KDS screen only — NO kitchen printer.
+   * Use instead of sendOrderInPreparationUpdateLastChange when printing must be suppressed.
+   */
+  async sendToKdsOnly(order, initialState = "cooking") {
+    const {
+      new: toAdd,
+      cancelled: toRemove,
+      noteUpdated,
+    } = changesToOrder(order, false, new Set(), false);
+
+    const orderChange = this.models["ab_pos.order.change"].create({
+      order_id: order,
+      sequence_number: order.ab_pos_changes.length + 1,
+    });
+
+    let addLine = (line, cancelled = false) => {
+      const product = this.models["product.product"].get(line.product_id);
+      const model = this.models["ab_pos.order.change.line"];
+      const changeLine = model.create({
+        change_id: orderChange,
+        product_id: product,
+        qty: cancelled ? -line.quantity : line.quantity,
+        note: line.note,
+        line_uuid: line.uuid,
+        state: initialState,
+      });
+      changeLine.attribute_value_ids = line.attribute_value_ids;
+    };
+
+    toAdd.forEach((line) => addLine(line));
+    toRemove.forEach((line) => addLine(line, true));
+    noteUpdated.forEach((line) => addLine({ ...line, quantity: 0 }));
+
+    order.updateLastOrderChange();
+
+    if (!SERIALIZABLE_MODELS) {
+      await this.syncAllOrders({ orders: [order] });
+    }
+  },
+
+  /**
    * Without this override the categories might get restricted by preparation printers 
    * @override https://github.com/odoo/odoo/blob/1ca879612fe546108fd1067839924ae8c25b2bb9/addons/point_of_sale/static/src/app/store/pos_store.js#L1057
    */

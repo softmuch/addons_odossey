@@ -38,7 +38,6 @@ export class DeliveryScreen extends Component {
             orders: [],
             loading: false,
             error: "",
-            hiddenIds: [],
         });
         this._onDeliveryStateChange = this._onDeliveryStateChange.bind(this);
         onMounted(() => {
@@ -82,8 +81,6 @@ export class DeliveryScreen extends Component {
             payment: _t("Payment"),
             total: _t("Total"),
             advanceAll: _t("Advance All"),
-            hide: _t("Hide"),
-            hideAll: _t("Hide All"),
         };
         return map[key] || key;
     }
@@ -124,8 +121,9 @@ export class DeliveryScreen extends Component {
         return this.state.orders.filter((o) => o.delivery_state === "sent");
     }
     get deliveredOrders() {
+        // Auto-exclude paid+delivered: they are done, no need to show
         return this.state.orders.filter(
-            (o) => o.delivery_state === "delivered" && !this.state.hiddenIds.includes(o.id)
+            (o) => o.delivery_state === "delivered" && o.payment_state !== "paid"
         );
     }
 
@@ -230,17 +228,6 @@ export class DeliveryScreen extends Component {
         for (const order of orders) {
             await this.advanceState(order);
         }
-    }
-
-    hideOrder(order) {
-        this.state.hiddenIds = [...this.state.hiddenIds, order.id];
-    }
-
-    hideAllDelivered() {
-        const allIds = this.state.orders
-            .filter((o) => o.delivery_state === "delivered")
-            .map((o) => o.id);
-        this.state.hiddenIds = [...new Set([...this.state.hiddenIds, ...allIds])];
     }
 
     openNewDeliveryOrder() {

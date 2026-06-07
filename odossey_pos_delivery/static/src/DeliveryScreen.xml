@@ -15,7 +15,7 @@
                     <button class="btn btn-outline-secondary btn-lg" t-on-click="loadOrders">
                         <i class="fa fa-refresh"/>
                     </button>
-                    <button class="btn btn-primary btn-lg" t-on-click="openNewDeliveryOrder">
+                    <button class="btn btn-warning btn-lg fw-bold" t-on-click="openNewDeliveryOrder">
                         <i class="fa fa-plus me-2"/><t t-esc="label('newOrder')"/>
                     </button>
                 </div>
@@ -95,20 +95,12 @@
                         </t>
                     </div>
 
-                    <!-- DELIVERED -->
+                    <!-- DELIVERED (unpaid only — paid orders are auto-removed) -->
                     <div class="delivery-section mb-4">
                         <div class="delivery-section-header delivered d-flex align-items-center px-3 py-2 rounded-top">
                             <i class="fa fa-flag-checkered me-2"/>
                             <strong t-esc="label('delivered')"/>
                             <span class="badge bg-white text-dark ms-2" t-esc="deliveredOrders.length"/>
-                            <div class="ms-auto">
-                                <button t-if="deliveredOrders.length > 0"
-                                        class="btn btn-sm btn-light"
-                                        t-on-click="hideAllDelivered">
-                                    <i class="fa fa-eye-slash me-1"/>
-                                    <t t-esc="label('hideAll')"/>
-                                </button>
-                            </div>
                         </div>
                         <t t-call="odossey_pos_delivery.DeliveryTable">
                             <t t-set="orders" t-value="deliveredOrders"/>
@@ -183,13 +175,6 @@
                                     <button class="btn btn-sm btn-outline-primary me-1"
                                             t-on-click="() => this.advanceState(order)">
                                         → <t t-esc="this.getNextStateLabel(order.delivery_state)"/>
-                                    </button>
-                                </t>
-                                <!-- Hide button (delivered section only) -->
-                                <t t-if="sectionState === 'delivered'">
-                                    <button class="btn btn-sm btn-outline-secondary"
-                                            t-on-click="() => this.hideOrder(order)">
-                                        <i class="fa fa-eye-slash"/>
                                     </button>
                                 </t>
                             </td>

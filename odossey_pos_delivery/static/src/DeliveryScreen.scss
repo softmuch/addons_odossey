@@ -52,6 +52,37 @@
     }
 }
 
+// Delivery nav button — orange when active
+.delivery-nav-button {
+    &.btn-delivery-active {
+        background-color: #fd7e14;
+        border-color: #fd7e14;
+        color: #fff;
+
+        &:hover, &:focus {
+            background-color: #e8700f;
+            border-color: #e8700f;
+            color: #fff;
+        }
+    }
+}
+
+// Topheader turns orange when the active order is a delivery order
+.pos-topheader.bg-delivery-order {
+    background-color: #fd7e14 !important;
+
+    // Keep buttons readable on orange background
+    .btn-light, .btn-secondary {
+        background-color: rgba(255, 255, 255, 0.85);
+        border-color: transparent;
+    }
+    .btn-primary {
+        background-color: #fff;
+        border-color: #fff;
+        color: #fd7e14;
+    }
+}
+
 // Popup overlay
 .delivery-popup-overlay {
     position: fixed;

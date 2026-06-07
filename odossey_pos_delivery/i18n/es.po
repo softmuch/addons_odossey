@@ -150,17 +150,6 @@ msgstr "Orden no encontrada en memoria. El POS puede haber sido reiniciado."
 msgid "Advance All"
 msgstr "Avanzar todo"
 
-#. module: odossey_pos_delivery
-#. odoo-javascript
-#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
-msgid "Hide"
-msgstr "Ocultar"
-
-#. module: odossey_pos_delivery
-#. odoo-javascript
-#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
-msgid "Hide All"
-msgstr "Ocultar todo"
 
 #. module: odossey_pos_delivery
 #. odoo-javascript

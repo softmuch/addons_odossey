@@ -329,3 +329,33 @@ msgstr ""
 #. module: odossey_pos_kds
 msgid "e.g. Kitchen Screen"
 msgstr "p.ej. Pantalla de Cocina"
+
+#. module: odossey_pos_kds
+#. odoo-javascript
+#: code:addons/odossey_pos_kds/static/src/kitchen_warning_dialog.xml:0
+msgid "Kitchen Screen Not Notified"
+msgstr "Cocina no notificada"
+
+#. module: odossey_pos_kds
+#. odoo-javascript
+#: code:addons/odossey_pos_kds/static/src/kitchen_warning_dialog.xml:0
+msgid "The order has not been sent to the kitchen screen. How would you like to proceed?"
+msgstr "El pedido no fue enviado a la pantalla de cocina. ¿Cómo deseas continuar?"
+
+#. module: odossey_pos_kds
+#. odoo-javascript
+#: code:addons/odossey_pos_kds/static/src/kitchen_warning_dialog.xml:0
+msgid "Order and Proceed"
+msgstr "Ordenar y proseguir"
+
+#. module: odossey_pos_kds
+#. odoo-javascript
+#: code:addons/odossey_pos_kds/static/src/kitchen_warning_dialog.xml:0
+msgid "Proceed"
+msgstr "Proseguir"
+
+#. module: odossey_pos_kds
+#. odoo-javascript
+#: code:addons/odossey_pos_kds/static/src/kitchen_warning_dialog.xml:0
+msgid "Cancel"
+msgstr "Cancelar"

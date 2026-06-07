@@ -2,7 +2,6 @@ import { PaymentScreen } from "@point_of_sale/app/screens/payment_screen/payment
 import { patch } from "@web/core/utils/patch";
 import { useService } from "@web/core/utils/hooks";
 import { _t } from "@web/core/l10n/translation";
-
 patch(PaymentScreen.prototype, {
     setup() {
         super.setup(...arguments);

@@ -9,4 +9,8 @@ patch(Navbar.prototype, {
     get isDeliveryScreen() {
         return this.pos.mainScreen.component?.name === "DeliveryScreen";
     },
+
+    get isDeliveryOrder() {
+        return this.pos.get_order()?.is_delivery || false;
+    },
 });
