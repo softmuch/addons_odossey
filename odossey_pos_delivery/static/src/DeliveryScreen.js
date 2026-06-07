@@ -102,7 +102,7 @@ export class DeliveryScreen extends Component {
                 const todayStr = today.toISOString().slice(0, 19).replace("T", " ");
                 this.state.orders = await this.orm.searchRead(
                     "pos.delivery.order",
-                    [["start_time", ">=", todayStr]],
+                    [["start_time", ">=", todayStr], ["hidden", "=", false]],
                     DELIVERY_FIELDS,
                     { order: "start_time desc" }
                 );

@@ -32,10 +32,22 @@ class PosDeliveryOrder(models.Model):
 
     @api.model
     def sync_kds_states(self, session_id=False):
-        """Fallback: update preparing→ready when all KDS lines are off cooking state."""
+        """Fallback: update preparing→ready when all KDS lines are off cooking state.
+        Also hides delivery orders whose linked POS order has been cancelled."""
+        # Hide delivery orders whose POS order is cancelled
+        hide_domain = [('hidden', '=', False), ('pos_order_uid', '!=', False)]
+        if session_id:
+            hide_domain.append(('pos_session_id', '=', session_id))
+        for delivery in self.search(hide_domain):
+            pos_order = self.env['pos.order'].search(
+                [('uuid', '=', delivery.pos_order_uid), ('state', '=', 'cancel')], limit=1
+            )
+            if pos_order:
+                delivery.write({'hidden': True})
+
         if 'ab_pos.order.change.line' not in self.env.registry:
             return True
-        domain = [('delivery_state', '=', 'preparing'), ('pos_order_uid', '!=', False)]
+        domain = [('delivery_state', '=', 'preparing'), ('pos_order_uid', '!=', False), ('hidden', '=', False)]
         if session_id:
             domain.append(('pos_session_id', '=', session_id))
         for delivery in self.search(domain):
