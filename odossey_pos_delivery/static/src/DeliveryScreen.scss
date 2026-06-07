@@ -1,0 +1,132 @@
+.delivery-screen {
+    background: #f4f6f9;
+
+    .delivery-header {
+        flex-shrink: 0;
+        min-height: 64px;
+
+        h1 {
+            font-size: 1.5rem;
+        }
+    }
+
+    .delivery-content {
+        padding-bottom: 2rem;
+    }
+
+    .delivery-section-header {
+        font-size: 1rem;
+        color: #fff;
+
+        &.preparing {
+            background: #fd7e14;
+        }
+        &.ready {
+            background: #198754;
+        }
+        &.sent {
+            background: #0d6efd;
+        }
+        &.delivered {
+            background: #6c757d;
+        }
+
+        .badge {
+            font-size: 0.85rem;
+        }
+    }
+
+    .delivery-table {
+        font-size: 0.9rem;
+
+        th {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            white-space: nowrap;
+        }
+
+        td {
+            vertical-align: middle;
+        }
+    }
+}
+
+// Popup overlay
+.delivery-popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.delivery-popup {
+    background: #fff;
+    border-radius: 12px;
+    width: 520px;
+    max-width: 95vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+
+    .delivery-popup-header {
+        padding: 1.25rem 1.5rem;
+        border-bottom: 1px solid #dee2e6;
+
+        h2 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+    }
+
+    .delivery-popup-body {
+        padding: 1.5rem;
+        overflow-y: auto;
+        flex: 1;
+    }
+
+    .delivery-popup-footer {
+        padding: 1rem 1.5rem;
+        border-top: 1px solid #dee2e6;
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.75rem;
+    }
+}
+
+// Customer search autocomplete dropdown
+.delivery-search-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    z-index: 10000;
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+.delivery-search-result {
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #f0f0f0;
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    &:hover {
+        background: #f0f4ff;
+    }
+}

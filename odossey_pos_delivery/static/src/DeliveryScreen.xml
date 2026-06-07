@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="odossey_pos_delivery.DeliveryScreen">
+        <div class="delivery-screen screen d-flex flex-column h-100">
+
+            <!-- Header -->
+            <div class="delivery-header d-flex align-items-center justify-content-between px-4 py-3 bg-white border-bottom shadow-sm">
+                <button class="btn btn-light btn-lg" t-on-click="back">
+                    <i class="oi oi-chevron-left me-2"/>Volver
+                </button>
+                <h1 class="mb-0 fw-bold">
+                    <i class="fa fa-motorcycle me-2 text-primary"/>Delivery
+                </h1>
+                <button class="btn btn-primary btn-lg" t-on-click="openNewOrderForm">
+                    <i class="fa fa-plus me-2"/>Nuevo Pedido
+                </button>
+            </div>
+
+            <!-- Loading / Error -->
+            <t t-if="state.loading">
+                <div class="d-flex justify-content-center align-items-center flex-grow-1">
+                    <div class="spinner-border text-primary" role="status"/>
+                </div>
+            </t>
+            <t t-elif="state.error">
+                <div class="alert alert-danger m-3" t-esc="state.error"/>
+            </t>
+
+            <!-- Content -->
+            <t t-else="">
+                <div class="delivery-content flex-grow-1 overflow-y-auto p-3">
+
+                    <!-- EN PREPARACIÓN -->
+                    <div class="delivery-section mb-4">
+                        <div class="delivery-section-header preparing d-flex align-items-center px-3 py-2 rounded-top">
+                            <i class="fa fa-fire me-2"/>
+                            <strong>En preparación</strong>
+                            <span class="badge bg-white text-dark ms-2" t-esc="preparingOrders.length"/>
+                        </div>
+                        <t t-call="odossey_pos_delivery.DeliveryTable">
+                            <t t-set="orders" t-value="preparingOrders"/>
+                        </t>
+                    </div>
+
+                    <!-- LISTO -->
+                    <div class="delivery-section mb-4">
+                        <div class="delivery-section-header ready d-flex align-items-center px-3 py-2 rounded-top">
+                            <i class="fa fa-check me-2"/>
+                            <strong>Listo</strong>
+                            <span class="badge bg-white text-dark ms-2" t-esc="readyOrders.length"/>
+                        </div>
+                        <t t-call="odossey_pos_delivery.DeliveryTable">
+                            <t t-set="orders" t-value="readyOrders"/>
+                        </t>
+                    </div>
+
+                    <!-- ENVIADO -->
+                    <div class="delivery-section mb-4">
+                        <div class="delivery-section-header sent d-flex align-items-center px-3 py-2 rounded-top">
+                            <i class="fa fa-bicycle me-2"/>
+                            <strong>Enviado</strong>
+                            <span class="badge bg-white text-dark ms-2" t-esc="sentOrders.length"/>
+                        </div>
+                        <t t-call="odossey_pos_delivery.DeliveryTable">
+                            <t t-set="orders" t-value="sentOrders"/>
+                        </t>
+                    </div>
+
+                    <!-- ENTREGADO -->
+                    <div class="delivery-section mb-4">
+                        <div class="delivery-section-header delivered d-flex align-items-center px-3 py-2 rounded-top">
+                            <i class="fa fa-flag-checkered me-2"/>
+                            <strong>Entregado</strong>
+                            <span class="badge bg-white text-dark ms-2" t-esc="deliveredOrders.length"/>
+                        </div>
+                        <t t-call="odossey_pos_delivery.DeliveryTable">
+                            <t t-set="orders" t-value="deliveredOrders"/>
+                        </t>
+                    </div>
+
+                </div>
+            </t>
+        </div>
+    </t>
+
+    <!-- Reusable table sub-template -->
+    <t t-name="odossey_pos_delivery.DeliveryTable">
+        <div class="table-responsive bg-white rounded-bottom border border-top-0">
+            <table class="table table-sm table-hover mb-0 delivery-table">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Hora</th>
+                        <th>Cliente</th>
+                        <th>Dirección</th>
+                        <th>Teléfono</th>
+                        <th>Pago</th>
+                        <th class="text-end">Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-if="orders.length === 0">
+                        <tr>
+                            <td colspan="8" class="text-center text-muted py-3">
+                                No hay pedidos.
+                            </td>
+                        </tr>
+                    </t>
+                    <t t-foreach="orders" t-as="order" t-key="order.id">
+                        <tr>
+                            <td class="fw-bold text-muted">#<t t-esc="order.id"/></td>
+                            <td t-esc="formatTime(order.start_time)"/>
+                            <td>
+                                <div class="fw-semibold" t-esc="order.partner_name or '-'"/>
+                                <t t-if="order.note">
+                                    <small class="text-muted d-block" t-esc="order.note"/>
+                                </t>
+                            </td>
+                            <td t-esc="order.delivery_address or '-'"/>
+                            <td t-esc="order.partner_phone or '-'"/>
+                            <td>
+                                <span t-if="order.payment_state === 'paid'"
+                                      class="badge bg-success">Pagado</span>
+                                <span t-else=""
+                                      class="badge bg-danger">No Pagado</span>
+                            </td>
+                            <td class="text-end fw-semibold" t-esc="formatAmount(order.amount_total)"/>
+                            <td class="text-end">
+                                <t t-if="canAdvance(order)">
+                                    <button class="btn btn-sm btn-outline-primary"
+                                            t-on-click="() => advanceState(order)">
+                                        → <t t-esc="getNextStateLabel(order.delivery_state)"/>
+                                    </button>
+                                </t>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+        </div>
+    </t>
+</templates>

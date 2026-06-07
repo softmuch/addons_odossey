@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="odossey_pos_delivery.NewDeliveryOrderPopup">
+        <div class="delivery-popup-overlay">
+            <div class="delivery-popup">
+
+                <div class="delivery-popup-header">
+                    <h2>Nuevo Pedido</h2>
+                </div>
+
+                <div class="delivery-popup-body">
+                    <t t-if="state.error">
+                        <div class="alert alert-danger py-2 mb-3" t-esc="state.error"/>
+                    </t>
+
+                    <!-- Customer search / partner button -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Cliente</label>
+
+                        <!-- Partner selected → show partner-button + clear -->
+                        <t t-if="state.selected_partner">
+                            <div class="d-flex align-items-center gap-2">
+                                <button class="button partner-button btn btn-light btn-lg flex-grow-1 lh-lg text-truncate highlight text-action"
+                                        t-on-click="clearPartner">
+                                    <i class="fa fa-user me-2" role="img"/>
+                                    <span class="partner-name" t-esc="state.selected_partner.name"/>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-lg px-3"
+                                        t-on-click="clearPartner"
+                                        title="Cambiar cliente">
+                                    <i class="fa fa-times"/>
+                                </button>
+                            </div>
+                        </t>
+
+                        <!-- No partner selected → search input + dropdown -->
+                        <t t-else="">
+                            <div class="position-relative">
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-text">
+                                        <i t-att-class="state.searching ? 'fa fa-spinner fa-spin' : 'fa fa-search'"/>
+                                    </span>
+                                    <input type="text"
+                                           class="form-control"
+                                           placeholder="Buscar por nombre o teléfono..."
+                                           t-model="state.search_query"
+                                           t-on-input="onSearchInput"
+                                           t-on-blur="hideResults"
+                                           autocomplete="off"/>
+                                </div>
+                                <t t-if="state.show_results">
+                                    <div class="delivery-search-dropdown">
+                                        <t t-foreach="state.search_results" t-as="partner" t-key="partner.id">
+                                            <div class="delivery-search-result"
+                                                 t-on-mousedown="() => this.selectPartner(partner)">
+                                                <i class="fa fa-user me-2 text-muted"/>
+                                                <span class="fw-bold" t-esc="partner.name"/>
+                                                <small class="text-muted ms-2"
+                                                       t-esc="partner.phone || partner.mobile || ''"/>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            Teléfono <span class="text-danger">*</span>
+                        </label>
+                        <input type="tel" class="form-control form-control-lg"
+                               placeholder="Teléfono de contacto"
+                               t-model="state.partner_phone"/>
+                    </div>
+
+                    <!-- Name -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            Nombre <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control form-control-lg"
+                               placeholder="Nombre del cliente"
+                               t-model="state.partner_name"/>
+                    </div>
+
+                    <!-- Address fields -->
+                    <div class="mb-1">
+                        <label class="form-label fw-bold">
+                            Dirección <span class="text-danger">*</span>
+                        </label>
+                    </div>
+                    <div class="row g-2 mb-3">
+                        <div class="col-8">
+                            <input type="text" class="form-control form-control-lg"
+                                   placeholder="Calle *"
+                                   t-model="state.street"/>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" class="form-control form-control-lg"
+                                   placeholder="Número *"
+                                   t-model="state.street_number"/>
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control form-control-lg"
+                                   placeholder="Piso/Depto"
+                                   t-model="state.floor_apt"/>
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control form-control-lg"
+                                   placeholder="Barrio"
+                                   t-model="state.neighborhood"/>
+                        </div>
+                    </div>
+
+                    <!-- Estimated time + Shipping cost -->
+                    <div class="row g-2 mb-3">
+                        <div class="col-7">
+                            <label class="form-label fw-bold">Tiempo estimado</label>
+                            <select class="form-select form-select-lg" t-model="state.estimated_time">
+                                <option value="10">10 minutos</option>
+                                <option value="20">20 minutos</option>
+                                <option value="30">30 minutos</option>
+                                <option value="40">40 minutos</option>
+                                <option value="50">50 minutos</option>
+                                <option value="60">1 hora</option>
+                                <option value="90">1 hora y media</option>
+                                <option value="120">2 horas</option>
+                            </select>
+                        </div>
+                        <div class="col-5">
+                            <label class="form-label fw-bold">Costo de envío</label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" min="0" step="0.01"
+                                       placeholder="0.00"
+                                       t-model="state.shipping_cost"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notes -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Comentario</label>
+                        <textarea class="form-control" rows="2"
+                                  placeholder="Instrucciones especiales, referencias..."
+                                  t-model="state.note"/>
+                    </div>
+                </div>
+
+                <div class="delivery-popup-footer">
+                    <button class="btn btn-light btn-lg" t-on-click="cancel">Cancelar</button>
+                    <button class="btn btn-primary btn-lg" t-on-click="confirm">Crear pedido</button>
+                </div>
+
+            </div>
+        </div>
+    </t>
+</templates>
