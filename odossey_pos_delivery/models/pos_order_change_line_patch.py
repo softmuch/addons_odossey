@@ -12,7 +12,7 @@ class PosOrderChangeLineDelivery(models.Model):
         return res
 
     def _sync_delivery_state(self):
-        """Bidirectional KDS ↔ Delivery state sync triggered by KDS line writes."""
+        """KDS → Delivery state sync. Mapping: cooking→preparing, ready→ready, done→sent."""
         for pos_order in self.mapped('change_id.order_id'):
             if not pos_order.uuid:
                 continue
@@ -24,26 +24,29 @@ class PosOrderChangeLineDelivery(models.Model):
                 continue
 
             any_cooking = any(l.state == 'cooking' for l in active_lines)
+            all_done = all(l.state == 'done' for l in active_lines)
             all_ready_or_done = all(l.state in ('ready', 'done') for l in active_lines)
+
+            if any_cooking:
+                target = 'preparing'
+            elif all_done:
+                target = 'sent'
+            elif all_ready_or_done:
+                target = 'ready'
+            else:
+                continue
 
             delivery = self.env['pos.delivery.order'].search([
                 ('pos_order_uid', '=', pos_order.uuid),
-                ('delivery_state', 'in', ['preparing', 'ready']),
+                ('delivery_state', 'in', ['preparing', 'ready', 'sent']),
             ], limit=1)
-            if not delivery:
+            if not delivery or delivery.delivery_state == target:
                 continue
 
-            new_state = None
-            if all_ready_or_done and delivery.delivery_state == 'preparing':
-                new_state = 'ready'
-            elif any_cooking and delivery.delivery_state == 'ready':
-                new_state = 'preparing'
-
-            if new_state:
-                delivery.delivery_state = new_state
-                config = delivery.pos_session_id.config_id
-                if config:
-                    config._notify('DELIVERY_STATE_CHANGE', {
-                        'delivery_id': delivery.id,
-                        'delivery_state': new_state,
-                    })
+            delivery.delivery_state = target
+            config = delivery.pos_session_id.config_id
+            if config:
+                config._notify('DELIVERY_STATE_CHANGE', {
+                    'delivery_id': delivery.id,
+                    'delivery_state': target,
+                })

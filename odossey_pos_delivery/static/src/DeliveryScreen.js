@@ -73,7 +73,6 @@ export class DeliveryScreen extends Component {
             paid: _t("Paid"),
             unpaid: _t("Unpaid"),
             noOrders: _t("No orders."),
-            clickToOpen: _t("Click to open"),
             back: _t("Back"),
             newOrder: _t("New Order"),
             time: _t("Time"),

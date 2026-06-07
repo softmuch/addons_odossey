@@ -41,7 +41,6 @@
                             <i class="fa fa-fire me-2"/>
                             <strong t-esc="label('preparing')"/>
                             <span class="badge bg-white text-dark ms-2" t-esc="preparingOrders.length"/>
-                            <small class="ms-3 opacity-75" t-esc="label('clickToOpen')"/>
                             <div class="ms-auto">
                                 <button t-if="preparingOrders.length > 0"
                                         class="btn btn-sm btn-light"

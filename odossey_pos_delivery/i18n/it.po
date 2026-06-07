@@ -147,12 +147,6 @@ msgstr "Ordine non trovato in memoria. Il POS potrebbe essere stato riavviato."
 #. module: odossey_pos_delivery
 #. odoo-javascript
 #: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
-msgid "Click to open"
-msgstr "Clicca per aprire"
-
-#. module: odossey_pos_delivery
-#. odoo-javascript
-#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
 msgid "Advance All"
 msgstr "Avanza tutto"
 
