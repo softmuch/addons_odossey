@@ -19,7 +19,7 @@
         color: #fff;
 
         &.preparing {
-            background: #fd7e14;
+            background: #ea580c;
         }
         &.ready {
             background: #198754;
@@ -52,44 +52,50 @@
     }
 }
 
-// Delivery nav button — always orange, lighter when active screen
+// Delivery nav button — rich amber, white when active (contrasts on dark navbar)
 .delivery-nav-button {
-    background-color: #fd7e14;
-    border-color: #fd7e14;
+    background-color: #ea580c;
+    border-color: #ea580c;
     color: #fff;
 
     &:hover, &:focus {
-        background-color: #e8700f;
-        border-color: #e8700f;
+        background-color: #c2410c;
+        border-color: #c2410c;
         color: #fff;
     }
 
     &.btn-delivery-active {
-        background-color: #ffd8a8;
-        border-color: #fd7e14;
-        color: #7c3700;
+        background-color: #fff;
+        border-color: #ea580c;
+        color: #ea580c;
 
         &:hover, &:focus {
-            background-color: #ffc68a;
-            border-color: #fd7e14;
-            color: #7c3700;
+            background-color: #fff7ed;
+            border-color: #c2410c;
+            color: #c2410c;
         }
     }
 }
 
-// Topheader turns orange when the active order is a delivery order
+// Topheader turns dark burnt-amber when delivery order is active or on DeliveryScreen
+// White button on dark bg = sharp contrast, premium look
 .pos-topheader.bg-delivery-order {
-    background-color: #fd7e14 !important;
+    background-color: #431407 !important;
 
-    // Keep buttons readable on orange background
     .btn-light, .btn-secondary {
-        background-color: rgba(255, 255, 255, 0.85);
-        border-color: transparent;
+        background-color: rgba(255, 255, 255, 0.12);
+        border-color: rgba(255, 255, 255, 0.2);
+        color: #fff;
+
+        &:hover, &:focus {
+            background-color: rgba(255, 255, 255, 0.22);
+            color: #fff;
+        }
     }
     .btn-primary {
         background-color: #fff;
         border-color: #fff;
-        color: #fd7e14;
+        color: #431407;
     }
 }
 
