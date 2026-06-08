@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-06-07 00:00+0000\n"
-"PO-Revision-Date: 2026-06-07 00:00+0000\n"
+"PO-Revision-Date: 2026-06-08 00:00+0000\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -22,7 +22,9 @@ msgid "POS Delivery Order"
 msgstr "Pedido Delivery"
 
 #. module: odossey_pos_delivery
+#. odoo-javascript
 #: model:ir.model.fields,field_description:odossey_pos_delivery.field_pos_delivery_order__partner_id
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
 msgid "Customer"
 msgstr "Cliente"
 
@@ -32,12 +34,16 @@ msgid "Name"
 msgstr "Nombre"
 
 #. module: odossey_pos_delivery
+#. odoo-javascript
 #: model:ir.model.fields,field_description:odossey_pos_delivery.field_pos_delivery_order__partner_phone
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
 msgid "Phone"
 msgstr "Teléfono"
 
 #. module: odossey_pos_delivery
+#. odoo-javascript
 #: model:ir.model.fields,field_description:odossey_pos_delivery.field_pos_delivery_order__delivery_address
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
 msgid "Address"
 msgstr "Dirección"
 
@@ -52,22 +58,30 @@ msgid "State"
 msgstr "Estado"
 
 #. module: odossey_pos_delivery
+#. odoo-javascript
 #: model:ir.model.fields.selection,name:odossey_pos_delivery.selection__pos_delivery_order__delivery_state__preparing
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
 msgid "Preparing"
 msgstr "En preparación"
 
 #. module: odossey_pos_delivery
+#. odoo-javascript
 #: model:ir.model.fields.selection,name:odossey_pos_delivery.selection__pos_delivery_order__delivery_state__ready
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
 msgid "Ready"
 msgstr "Listo"
 
 #. module: odossey_pos_delivery
+#. odoo-javascript
 #: model:ir.model.fields.selection,name:odossey_pos_delivery.selection__pos_delivery_order__delivery_state__sent
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
 msgid "Sent"
 msgstr "Enviado"
 
 #. module: odossey_pos_delivery
+#. odoo-javascript
 #: model:ir.model.fields.selection,name:odossey_pos_delivery.selection__pos_delivery_order__delivery_state__delivered
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
 msgid "Delivered"
 msgstr "Entregado"
 
@@ -77,17 +91,23 @@ msgid "Payment State"
 msgstr "Estado de pago"
 
 #. module: odossey_pos_delivery
+#. odoo-javascript
 #: model:ir.model.fields.selection,name:odossey_pos_delivery.selection__pos_delivery_order__payment_state__paid
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
 msgid "Paid"
 msgstr "Pagado"
 
 #. module: odossey_pos_delivery
+#. odoo-javascript
 #: model:ir.model.fields.selection,name:odossey_pos_delivery.selection__pos_delivery_order__payment_state__unpaid
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
 msgid "Unpaid"
-msgstr "No Pagado"
+msgstr "No pagado"
 
 #. module: odossey_pos_delivery
+#. odoo-javascript
 #: model:ir.model.fields,field_description:odossey_pos_delivery.field_pos_delivery_order__amount_total
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
 msgid "Total"
 msgstr "Total"
 
@@ -129,6 +149,48 @@ msgstr "Es Delivery"
 #. module: odossey_pos_delivery
 #. odoo-javascript
 #: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
+msgid "No orders."
+msgstr "Sin pedidos."
+
+#. module: odossey_pos_delivery
+#. odoo-javascript
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
+msgid "Back"
+msgstr "Regresar"
+
+#. module: odossey_pos_delivery
+#. odoo-javascript
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
+msgid "New Order"
+msgstr "Nueva orden"
+
+#. module: odossey_pos_delivery
+#. odoo-javascript
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
+msgid "Time"
+msgstr "Tiempo"
+
+#. module: odossey_pos_delivery
+#. odoo-javascript
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
+msgid "Payment"
+msgstr "Pago"
+
+#. module: odossey_pos_delivery
+#. odoo-javascript
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
+msgid "Hide All"
+msgstr "Ocultar todos"
+
+#. module: odossey_pos_delivery
+#. odoo-javascript
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
+msgid "Advance All"
+msgstr "Avanzar todo"
+
+#. module: odossey_pos_delivery
+#. odoo-javascript
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
 msgid "Error loading delivery orders."
 msgstr "Error al cargar pedidos de delivery."
 
@@ -143,13 +205,6 @@ msgstr "Orden no vinculada. No se puede editar."
 #: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
 msgid "Order not found in memory. POS may have been restarted."
 msgstr "Orden no encontrada en memoria. El POS puede haber sido reiniciado."
-
-#. module: odossey_pos_delivery
-#. odoo-javascript
-#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
-msgid "Advance All"
-msgstr "Avanzar todo"
-
 
 #. module: odossey_pos_delivery
 #. odoo-javascript
