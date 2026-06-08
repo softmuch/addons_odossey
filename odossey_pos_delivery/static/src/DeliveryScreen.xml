@@ -15,7 +15,7 @@
                     <button class="btn btn-outline-secondary btn-lg" t-on-click="loadOrders">
                         <i class="fa fa-refresh"/>
                     </button>
-                    <button class="btn btn-warning btn-lg fw-bold" t-on-click="openNewDeliveryOrder">
+                    <button class="btn btn-secondary btn-lg fw-bold" t-on-click="openNewDeliveryOrder">
                         <i class="fa fa-plus me-2"/><t t-esc="label('newOrder')"/>
                     </button>
                 </div>

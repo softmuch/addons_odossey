@@ -3,6 +3,7 @@ import { patch } from "@web/core/utils/patch";
 
 patch(Navbar.prototype, {
     get isExpressCheckout() {
+        if (this.pos.mainScreen?.component?.name === 'DeliveryScreen') return false;
         return !!this.pos.get_order()?.is_express_checkout;
     },
 

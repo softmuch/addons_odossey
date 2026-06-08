@@ -52,16 +52,16 @@
     }
 }
 
-// Delivery nav button — rich amber, white when active (contrasts on dark navbar)
+// Delivery nav button — transparent when inactive (like Plan button), colored only when active
 .delivery-nav-button {
-    background-color: #ea580c;
-    border-color: #ea580c;
-    color: #fff;
+    background-color: transparent;
+    border-color: transparent;
+    color: inherit;
 
     &:hover, &:focus {
-        background-color: #c2410c;
-        border-color: #c2410c;
-        color: #fff;
+        background-color: rgba(0, 0, 0, 0.08);
+        border-color: transparent;
+        color: inherit;
     }
 
     &.btn-delivery-active {
@@ -78,9 +78,10 @@
 }
 
 // Topheader turns dark burnt-amber when delivery order is active or on DeliveryScreen
-// White button on dark bg = sharp contrast, premium look
+// color: #fff ensures inactive transparent buttons inherit white text on dark bg
 .pos-topheader.bg-delivery-order {
     background-color: #431407 !important;
+    color: #fff;
 
     .btn-light, .btn-secondary {
         background-color: rgba(255, 255, 255, 0.12);

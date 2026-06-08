@@ -1,6 +1,8 @@
 /* Topheader turns deep teal in express checkout mode */
+/* color: #fff ensures inactive transparent buttons inherit white text on dark bg */
 .pos-topheader.express-checkout-active {
     background-color: #083344 !important;
+    color: #fff;
 }
 
 /* Readable buttons on dark teal navbar */
@@ -24,17 +26,17 @@
     color: #083344;
 }
 
-/* Quick Checkout button — teal, white when active (contrasts on dark navbar) */
+/* Quick Checkout button — transparent when inactive (like Plan button), colored only when active */
 .btn-express {
-    background-color: #0e7490;
-    border-color: #0e7490;
-    color: #fff;
+    background-color: transparent;
+    border-color: transparent;
+    color: inherit;
 }
 .btn-express:hover,
 .btn-express:focus {
-    background-color: #0c6278;
-    border-color: #0c6278;
-    color: #fff;
+    background-color: rgba(0, 0, 0, 0.08);
+    border-color: transparent;
+    color: inherit;
 }
 .btn-express.btn-express-active {
     background-color: #fff;
