@@ -28,6 +28,7 @@ export class DeliveryScreen extends Component {
     static template = "odossey_pos_delivery.DeliveryScreen";
     static name = "DeliveryScreen";
     static storeOnOrder = false;
+    static props = {};
 
     setup() {
         this.pos = usePos();
