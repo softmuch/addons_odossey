@@ -230,3 +230,15 @@ msgstr "Delivery: seleccioná un cliente con dirección completa (calle y ciudad
 #: code:addons/odossey_pos_delivery/static/src/overrides/pos_store_delivery.js:0
 msgid "Delivery: please select a customer with complete address (street and city) before payment."
 msgstr "Delivery: seleccioná un cliente con dirección completa (calle y ciudad) antes de cobrar."
+
+#. module: odossey_pos_delivery
+#. odoo-javascript
+#: code:addons/odossey_pos_delivery/static/src/overrides/navbar.xml:0
+msgid "Delivery"
+msgstr "Delivery"
+
+#. module: odossey_pos_delivery
+#. odoo-javascript
+#: code:addons/odossey_pos_delivery/static/src/overrides/navbar.xml:0
+msgid "Tables"
+msgstr "Mesas"

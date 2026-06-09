@@ -16,7 +16,8 @@
             <button class="table-free-order-label btn btn-express btn-lg lh-lg"
                     t-att-class="{'btn-express-active': isExpressCheckout}"
                     t-on-click="() => this.onExpressCheckout()">
-                <span>Quick Checkout</span>
+                <i class="fa fa-bolt me-1"/>
+                <span>Express Counter</span>
             </button>
         </xpath>
     </t>
