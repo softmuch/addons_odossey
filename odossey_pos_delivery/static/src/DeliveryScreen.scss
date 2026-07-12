@@ -52,6 +52,20 @@
     }
 }
 
+// "Tables" (back-button): transparent + hover darken when neither on FloorScreen (violet)
+// nor a table is open (#495057 inline bg) — same look/feel as Delivery/Mostrador buttons below.
+.back-button:not(.btn-primary) {
+    background-color: transparent;
+    border-color: transparent;
+    color: inherit;
+
+    &:hover, &:focus {
+        background-color: rgba(0, 0, 0, 0.08);
+        border-color: transparent;
+        color: inherit;
+    }
+}
+
 // Delivery nav button — transparent when inactive (like Plan button), colored only when active
 .delivery-nav-button {
     background-color: transparent;

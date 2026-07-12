@@ -7,10 +7,14 @@
         <xpath expr="//div[hasclass('pos-topheader')]" position="attributes">
             <attribute name="t-att-class">{'bg-delivery-order border-0': isDeliveryOrder || isDeliveryScreen}</attribute>
         </xpath>
-        <!-- Override pos_restaurant "Plan" text with "Tables". Text always white.
-             Bg: btn-primary (violet, same as pressed nav button) except when a table is open, then #495057. -->
+        <!-- Override pos_restaurant "Plan" text with "Tables".
+             - On FloorScreen: violet (btn-primary) + white text, like at start.
+             - Table open (selectedTable): bg #495057 + white text.
+             - Otherwise (Delivery/Mostrador express selected): transparent, inherits navbar
+               color/hover just like the Delivery/Mostrador nav buttons (see .back-button rule
+               in DeliveryScreen.scss). -->
         <xpath expr="//button[hasclass('back-button')]" position="attributes">
-            <attribute name="t-att-class">{'btn-primary': !pos.selectedTable, 'text-white': true}</attribute>
+            <attribute name="t-att-class">screen === 'FloorScreen' ? 'btn-primary text-white' : (pos.selectedTable ? 'text-white' : '')</attribute>
             <attribute name="t-att-style">pos.selectedTable ? 'background-color: #495057;' : ''</attribute>
         </xpath>
         <xpath expr="//button[hasclass('back-button')]/span" position="replace">
