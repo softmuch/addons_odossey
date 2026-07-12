@@ -7,10 +7,11 @@
         <xpath expr="//div[hasclass('pos-topheader')]" position="attributes">
             <attribute name="t-att-class">{'bg-delivery-order border-0': isDeliveryOrder || isDeliveryScreen}</attribute>
         </xpath>
-        <!-- Override pos_restaurant "Plan" text with "Tables": white on FloorScreen (orange bg), #495057 when a table is open (bg white, text was invisible) -->
+        <!-- Override pos_restaurant "Plan" text with "Tables". Text always white.
+             Bg: btn-primary (violet, same as pressed nav button) except when a table is open, then #495057. -->
         <xpath expr="//button[hasclass('back-button')]" position="attributes">
-            <attribute name="t-att-class">screen === 'FloorScreen' ? 'text-white' : ''</attribute>
-            <attribute name="t-att-style">screen === 'FloorScreen' ? '' : 'color: #495057;'</attribute>
+            <attribute name="t-att-class">{'btn-primary': !pos.selectedTable, 'text-white': true}</attribute>
+            <attribute name="t-att-style">pos.selectedTable ? 'background-color: #495057;' : ''</attribute>
         </xpath>
         <xpath expr="//button[hasclass('back-button')]/span" position="replace">
             <i t-if="!ui.isSmall" class="fa fa-th-large me-1"/>
