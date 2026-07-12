@@ -7,9 +7,10 @@
         <xpath expr="//div[hasclass('pos-topheader')]" position="attributes">
             <attribute name="t-att-class">{'bg-delivery-order border-0': isDeliveryOrder || isDeliveryScreen}</attribute>
         </xpath>
-        <!-- Override pos_restaurant "Plan" text with "Tables", keep text white when inactive -->
+        <!-- Override pos_restaurant "Plan" text with "Tables", keep text white always; give button bg #495057 when a table is open (text was invisible on white bg) -->
         <xpath expr="//button[hasclass('back-button')]" position="attributes">
             <attribute name="class" add="text-white" separator=" "/>
+            <attribute name="t-att-style">screen === 'FloorScreen' ? '' : 'background-color: #495057;'</attribute>
         </xpath>
         <xpath expr="//button[hasclass('back-button')]/span" position="replace">
             <i t-if="!ui.isSmall" class="fa fa-th-large me-1"/>
