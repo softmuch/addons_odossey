@@ -1,0 +1,95 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* odossey_pos_express_checkout_pricelist
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-21 00:00+0000\n"
+"PO-Revision-Date: 2026-07-21 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Spanish\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: odossey_pos_express_checkout_pricelist
+#: model_terms:ir.ui.view,arch_db:odossey_pos_express_checkout_pricelist.odossey_pos_express_checkout_pricelist_config_view
+msgid ""
+"Apply a different default pricelist depending on whether the order was "
+"started in Express Checkout mode or Floor (table) mode."
+msgstr ""
+"Aplicar una tarifa de precios distinta según si la orden se inició en modo"
+" Cobro Express o en modo Plano (mesas)."
+
+#. module: odossey_pos_express_checkout_pricelist
+#: model:ir.model,name:odossey_pos_express_checkout_pricelist.model_res_config_settings
+msgid "Config Settings"
+msgstr "Ajustes de configuración"
+
+#. module: odossey_pos_express_checkout_pricelist
+#: model:ir.model.fields,help:odossey_pos_express_checkout_pricelist.field_pos_config__floor_checkout_pricelist_id
+#: model:ir.model.fields,help:odossey_pos_express_checkout_pricelist.field_res_config_settings__floor_checkout_pricelist_id
+msgid ""
+"Default pricelist applied to orders started from the Floor (table) screen."
+msgstr ""
+"Tarifa de precios por defecto aplicada a las órdenes iniciadas desde la "
+"pantalla del Plano (mesas)."
+
+#. module: odossey_pos_express_checkout_pricelist
+#: model:ir.model.fields,help:odossey_pos_express_checkout_pricelist.field_pos_config__express_checkout_pricelist_id
+#: model:ir.model.fields,help:odossey_pos_express_checkout_pricelist.field_res_config_settings__express_checkout_pricelist_id
+msgid "Default pricelist applied to orders started in Express Checkout mode."
+msgstr ""
+"Tarifa de precios por defecto aplicada a las órdenes iniciadas en modo "
+"Cobro Express."
+
+#. module: odossey_pos_express_checkout_pricelist
+#: model:ir.model.fields,field_description:odossey_pos_express_checkout_pricelist.field_pos_config__express_checkout_pricelist_id
+#: model:ir.model.fields,field_description:odossey_pos_express_checkout_pricelist.field_res_config_settings__express_checkout_pricelist_id
+#: model_terms:ir.ui.view,arch_db:odossey_pos_express_checkout_pricelist.odossey_pos_express_checkout_pricelist_config_view
+msgid "Express Checkout Pricelist"
+msgstr "Tarifa Cobro Express"
+
+#. module: odossey_pos_express_checkout_pricelist
+#: model:ir.model.fields,field_description:odossey_pos_express_checkout_pricelist.field_pos_config__floor_checkout_pricelist_id
+#: model:ir.model.fields,field_description:odossey_pos_express_checkout_pricelist.field_res_config_settings__floor_checkout_pricelist_id
+#: model_terms:ir.ui.view,arch_db:odossey_pos_express_checkout_pricelist.odossey_pos_express_checkout_pricelist_config_view
+msgid "Floor Mode Pricelist"
+msgstr "Tarifa Modo Plano"
+
+#. module: odossey_pos_express_checkout_pricelist
+#: model:ir.model,name:odossey_pos_express_checkout_pricelist.model_pos_config
+msgid "Point of Sale Configuration"
+msgstr "Configuración del TPV"
+
+#. module: odossey_pos_express_checkout_pricelist
+#: model:ir.model.fields,field_description:odossey_pos_express_checkout_pricelist.field_pos_config__use_checkout_mode_pricelist
+#: model:ir.model.fields,field_description:odossey_pos_express_checkout_pricelist.field_res_config_settings__use_checkout_mode_pricelist
+msgid "Pricelist by Checkout Mode"
+msgstr "Tarifa según Modo de Cobro"
+
+#. module: odossey_pos_express_checkout_pricelist
+#: model:ir.model.fields,help:odossey_pos_express_checkout_pricelist.field_pos_config__use_checkout_mode_pricelist
+#: model:ir.model.fields,help:odossey_pos_express_checkout_pricelist.field_res_config_settings__use_checkout_mode_pricelist
+msgid ""
+"Use a different default pricelist depending on whether the order was started"
+" in Express Checkout mode or Floor (table) mode."
+msgstr ""
+"Usar una tarifa de precios distinta según si la orden se inició en modo "
+"Cobro Express o en modo Plano (mesas)."
+
+#. module: odossey_pos_express_checkout_pricelist
+#. odoo-python
+#: code:addons/odossey_pos_express_checkout_pricelist/models/pos_config.py:0
+msgid ""
+"You must enable 'Flexible Pricelists' (Pricing section) before activating "
+"'Pricelist by Checkout Mode': pricelists are not loaded in the POS session "
+"unless that setting is on."
+msgstr ""
+"Debe activar 'Listas de precios flexibles' (sección Precios) antes de "
+"activar 'Tarifa según Modo de Cobro': las listas de precios no se cargan "
+"en la sesión del POS a menos que esa opción esté activada."
