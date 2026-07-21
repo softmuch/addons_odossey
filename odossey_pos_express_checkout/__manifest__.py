@@ -7,6 +7,7 @@
     'assets': {
         'point_of_sale._assets_pos': [
             'odossey_pos_express_checkout/static/src/express_navbar.xml',
+            'odossey_pos_express_checkout/static/src/express_checkout_utils.js',
             'odossey_pos_express_checkout/static/src/express_navbar.js',
             'odossey_pos_express_checkout/static/src/express_receipt.js',
             'odossey_pos_express_checkout/static/src/express_checkout.css',
