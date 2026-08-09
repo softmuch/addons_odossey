@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="odossey_pos_show_price.ProductCard" t-inherit="point_of_sale.ProductCard" t-inherit-mode="extension">
+        <xpath expr="//article" position="inside">
+            <div t-if="props.price" class="product-price-strip w-100 text-center fw-bolder" t-esc="props.price"/>
+        </xpath>
+    </t>
+</templates>
