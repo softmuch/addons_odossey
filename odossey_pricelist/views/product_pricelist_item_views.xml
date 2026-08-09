@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="product_pricelist_item_view_search_inherit" model="ir.ui.view">
+        <field name="name">product.pricelist.item.search.odossey.inherit</field>
+        <field name="model">product.pricelist.item</field>
+        <field name="inherit_id" ref="product.product_pricelist_item_view_search"/>
+        <field name="arch" type="xml">
+            <filter name="Variant Rule" position="after">
+                <filter string="Category Rule" name="category_rule" domain="[('applied_on', '=', '2_product_category')]"/>
+                <filter string="Global Rule" name="global_rule" domain="[('applied_on', '=', '3_global')]"/>
+            </filter>
+            <field name="currency_id" position="after">
+                <field name="product_tmpl_id"/>
+                <field name="categ_id"/>
+            </field>
+            <filter name="visible" position="after">
+                <filter string="Currently Valid" name="odossey_valid_now"
+                    domain="['&amp;',
+                             '|', ('date_start', '=', False), ('date_start', '&lt;=', context_today().strftime('%Y-%m-%d')),
+                             '|', ('date_end', '=', False), ('date_end', '&gt;=', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter string="Expired" name="odossey_expired"
+                    domain="[('date_end', '!=', False), ('date_end', '&lt;', context_today().strftime('%Y-%m-%d'))]"/>
+            </filter>
+            <filter name="groupby_vendor" position="after">
+                <filter string="Category" name="groupby_categ" context="{'group_by': 'categ_id'}"/>
+                <filter string="Compute Price" name="groupby_compute_price" context="{'group_by': 'compute_price'}"/>
+                <filter string="Applied On" name="groupby_applied_on" context="{'group_by': 'applied_on'}"/>
+            </filter>
+        </field>
+    </record>
+
+    <record id="product_pricelist_item_tree_view_inherit" model="ir.ui.view">
+        <field name="name">product.pricelist.item.list.odossey.inherit</field>
+        <field name="model">product.pricelist.item</field>
+        <field name="inherit_id" ref="product.product_pricelist_item_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="pricelist_id" position="after">
+                <field name="applied_on" optional="hide"/>
+                <field name="categ_id" optional="hide"/>
+            </field>
+            <field name="price" position="after">
+                <field name="compute_price" optional="hide"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

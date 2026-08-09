@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <menuitem id="menu_odossey_pricelist_item_sale"
+        name="Price Rules"
+        parent="sale.product_menu_catalog"
+        action="product.product_pricelist_item_action"
+        groups="product.group_product_pricelist"
+        sequence="40"/>
+
+</odoo>
