@@ -5,7 +5,7 @@ patch(ProductScreen.prototype, {
     getProductPrice(product) {
         const order = this.pos.getOrder();
         const pricelist = order?.pricelist_id || this.pos.config.pricelist_id || false;
-        const taxDetails = product.getTaxDetails({ pricelist });
+        const taxDetails = product.getTaxDetails({ overridedValues: { pricelist } });
         const price =
             this.pos.config.iface_tax_included === "total"
                 ? taxDetails.total_included
