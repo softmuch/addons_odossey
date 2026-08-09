@@ -1,0 +1,49 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * odossey_pricelist
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Language-Team: \n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: odossey_pricelist
+#: model_terms:ir.ui.view,arch_db:odossey_pricelist.product_pricelist_item_view_search_inherit
+msgid "Category Rule"
+msgstr "Regola di categoria"
+
+#. module: odossey_pricelist
+#: model_terms:ir.ui.view,arch_db:odossey_pricelist.product_pricelist_item_view_search_inherit
+msgid "Global Rule"
+msgstr "Regola globale"
+
+#. module: odossey_pricelist
+#: model_terms:ir.ui.view,arch_db:odossey_pricelist.product_pricelist_item_view_search_inherit
+msgid "Currently Valid"
+msgstr "Attualmente valido"
+
+#. module: odossey_pricelist
+#: model_terms:ir.ui.view,arch_db:odossey_pricelist.product_pricelist_item_view_search_inherit
+msgid "Expired"
+msgstr "Scaduto"
+
+#. module: odossey_pricelist
+#: model_terms:ir.ui.view,arch_db:odossey_pricelist.product_pricelist_item_view_search_inherit
+msgid "Category"
+msgstr "Categoria"
+
+#. module: odossey_pricelist
+#: model_terms:ir.ui.view,arch_db:odossey_pricelist.product_pricelist_item_view_search_inherit
+msgid "Compute Price"
+msgstr "Calcola prezzo"
+
+#. module: odossey_pricelist
+#: model_terms:ir.ui.view,arch_db:odossey_pricelist.product_pricelist_item_view_search_inherit
+msgid "Applied On"
+msgstr "Applicata a"
