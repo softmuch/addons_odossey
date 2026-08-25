@@ -9,6 +9,11 @@
             <xpath expr="//button[@name='%(point_of_sale.action_pos_payment)d']" position="attributes">
                 <attribute name="invisible">state not in ('draft', 'partially_paid')</attribute>
             </xpath>
+            <xpath expr="//button[@name='%(point_of_sale.action_pos_payment)d']" position="before">
+                <button name="action_pos_order_set_draft" string="Volver a Borrador" type="object"
+                        invisible="state != 'partially_paid'"
+                        confirm="La orden volverá a borrador para poder editarla. ¿Continuar?"/>
+            </xpath>
         </field>
     </record>
 

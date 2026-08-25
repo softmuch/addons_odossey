@@ -125,6 +125,21 @@ class PosOrder(models.Model):
 
         return is_paid
 
+    def action_pos_order_set_draft(self):
+        """Send a partially paid order back to draft so it can be edited
+        (e.g. add lines) and re-confirmed, reusing the existing partial
+        payment "Payment" button to collect the (possibly larger) balance.
+
+        Restricted to ``partially_paid``: a fully ``paid``/``done`` order
+        already has its stock picking and/or invoice generated (see
+        ``_process_saved_order`` below), so reverting it to draft would
+        leave those inconsistent with the order. A ``partially_paid``
+        order never reached that point, so there is nothing to undo.
+        """
+        if any(order.state != 'partially_paid' for order in self):
+            raise UserError(_("Only a partially paid order can be sent back to draft."))
+        self.write({'state': 'draft'})
+
     def action_pos_order_paid(self):
         """Allow an order to be saved/finalized when it is only partially paid.
 
