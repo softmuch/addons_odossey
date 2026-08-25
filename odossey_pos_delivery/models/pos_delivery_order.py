@@ -30,6 +30,26 @@ class PosDeliveryOrder(models.Model):
     pos_order_uid = fields.Char(string='POS Order UUID')
     hidden = fields.Boolean(string='Hidden', default=False)
 
+    def unlink(self):
+        if 'ab_pos.order.change.line' in self.env.registry:
+            for delivery in self:
+                if not delivery.pos_order_uid:
+                    continue
+                pos_order = self.env['pos.order'].search(
+                    [('uuid', '=', delivery.pos_order_uid)], limit=1
+                )
+                if not pos_order:
+                    continue
+                change_lines = self.env['ab_pos.order.change.line'].search([
+                    ('change_id.order_id', '=', pos_order.id),
+                    ('state', '!=', 'cancel'),
+                ])
+                if change_lines:
+                    # skip_delivery_sync prevents our write() override from re-triggering
+                    change_lines.with_context(skip_delivery_sync=True).write({'state': 'cancel'})
+                    pos_order.note_order_change()
+        return super().unlink()
+
     @api.model
     def sync_kds_states(self, session_id=False):
         """Fallback: update preparing→ready when all KDS lines are off cooking state.

@@ -191,6 +191,18 @@ msgstr "Avanzar todo"
 #. module: odossey_pos_delivery
 #. odoo-javascript
 #: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
+msgid "Delete delivery order?"
+msgstr "¿Eliminar pedido de delivery?"
+
+#. module: odossey_pos_delivery
+#. odoo-javascript
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
+msgid "This will permanently delete this delivery order. This action cannot be undone."
+msgstr "Esto eliminará permanentemente este pedido de delivery. Esta acción no se puede deshacer."
+
+#. module: odossey_pos_delivery
+#. odoo-javascript
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
 msgid "Error loading delivery orders."
 msgstr "Error al cargar pedidos de delivery."
 

@@ -3,6 +3,7 @@ import { useService } from "@web/core/utils/hooks";
 import { usePos } from "@point_of_sale/app/store/pos_hook";
 import { registry } from "@web/core/registry";
 import { _t } from "@web/core/l10n/translation";
+import { ConfirmationDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
 // eslint-disable-next-line no-undef
 const _odoo = typeof odoo !== "undefined" ? odoo : {};
 
@@ -35,6 +36,7 @@ export class DeliveryScreen extends Component {
         this.orm = useService("orm");
         this.busService = useService("bus_service");
         this.notification = useService("notification");
+        this.dialog = useService("dialog");
         this.state = useState({
             orders: [],
             loading: false,
@@ -86,6 +88,8 @@ export class DeliveryScreen extends Component {
             total: _t("Total"),
             advanceAll: _t("Advance All"),
             hideAllPaid: _t("Hide All"),
+            deleteOrderTitle: _t("Delete delivery order?"),
+            deleteOrderBody: _t("This will permanently delete this delivery order. This action cannot be undone."),
         };
         return map[key] || key;
     }
@@ -260,6 +264,21 @@ export class DeliveryScreen extends Component {
         for (const order of orders) {
             await this.advanceState(order);
         }
+    }
+
+    deleteOrder(order) {
+        this.dialog.add(ConfirmationDialog, {
+            title: this.label("deleteOrderTitle"),
+            body: this.label("deleteOrderBody"),
+            confirm: async () => {
+                try {
+                    await this.orm.unlink("pos.delivery.order", [order.id]);
+                    this.state.orders = this.state.orders.filter((o) => o.id !== order.id);
+                } catch (e) {
+                    console.error("Error deleting delivery order:", e);
+                }
+            },
+        });
     }
 
     openNewDeliveryOrder() {

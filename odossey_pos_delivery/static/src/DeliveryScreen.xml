@@ -187,11 +187,16 @@
                                 </t>
                                 <!-- Hide button: only in delivered section, only for paid orders -->
                                 <t t-if="allowHideOrder and order.payment_state === 'paid'">
-                                    <button class="btn btn-sm btn-outline-secondary"
+                                    <button class="btn btn-sm btn-outline-secondary me-1"
                                             t-on-click="() => this.hideDeliveredOrder(order)">
                                         <i class="fa fa-eye-slash"/>
                                     </button>
                                 </t>
+                                <!-- Delete button -->
+                                <button class="btn btn-sm btn-outline-danger"
+                                        t-on-click="() => this.deleteOrder(order)">
+                                    <i class="fa fa-trash"/>
+                                </button>
                             </td>
                         </tr>
                     </t>
