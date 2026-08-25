@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="odossey_partial_payments_pos.PaymentScreenValidate"
+       t-inherit="point_of_sale.PaymentScreenValidate"
+       t-inherit-mode="extension">
+        <xpath expr="//button[hasclass('validation-button')]" position="after">
+            <button class="btn btn-secondary btn-lg py-3 lh-lg o_partial_payment_button"
+                t-if="currentOrder.amountPaid > 0 and !currentOrder.isPaid()"
+                t-on-click="() => this.validatePartialOrder()"
+                t-attf-class="{{ ui.isSmall ? 'btn-switchpane flex-fill' : 'button w-50' }}"
+            >
+                <span>Partial Payment</span>
+            </button>
+        </xpath>
+    </t>
+</templates>

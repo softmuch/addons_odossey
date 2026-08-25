@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_pos_pos_form_inherit_partial_payments" model="ir.ui.view">
+        <field name="name">pos.order.form.inherit.partial.payments</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='%(point_of_sale.action_pos_payment)d']" position="attributes">
+                <attribute name="invisible">state not in ('draft', 'partially_paid')</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
