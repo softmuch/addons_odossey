@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-extend='OrderDisplay' t-inherit='point_of_sale.OrderDisplay' t-inherit-mode='extension' >
+        <xpath expr="//div[hasclass('order-summary')]" position="inside">
+            <div class="d-flex justify-content-between w-100 fs-2" t-if="nf_state.total_discount">
+                Discount
+                <span t-esc="formattedTotalDiscount" class="total"/>
+            </div>
+        </xpath>
+    </t>
+</templates>
