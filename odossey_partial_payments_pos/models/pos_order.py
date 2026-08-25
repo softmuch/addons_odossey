@@ -4,7 +4,7 @@
 
 import logging
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import float_is_zero, float_round
 
@@ -23,6 +23,61 @@ class PosOrder(models.Model):
         selection_add=[('partially_paid', 'Partially Paid')],
         ondelete={'partially_paid': 'set default'},
     )
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        """Don't trust an incoming ``state: 'paid'`` at creation time.
+
+        The POS frontend optimistically sets ``order.state = "paid"``
+        locally as soon as the cashier hits Validate/Partial Payment,
+        *before* syncing (see ``finalizeValidation`` in
+        ``order_payment_validation.js``), and for a brand-new order (no
+        prior draft/parked ``pos.order`` record) core's ``_process_order``
+        creates the record directly with that ``state`` baked into
+        ``vals`` -- unlike its handling of an *existing* order being
+        re-synced, where it resets ``state`` back to the record's current
+        DB value first and lets ``_process_saved_order`` decide.
+
+        Without this, a genuinely partial payment would get created as
+        ``state == 'paid'`` and then our ``action_pos_order_paid`` (called
+        right after, from ``_process_saved_order``) would try to correct it
+        to ``partially_paid`` -- which core's own ``write()`` guard forbids
+        once a record has ever been 'paid'/'done'/'invoiced'
+        ("This order has already been paid...").
+
+        So: force it back to 'draft' at creation and let
+        ``action_pos_order_paid`` (called immediately afterwards in the
+        same request) decide the real final state, exactly like core
+        already does for the existing-order/re-sync path. A genuinely
+        fully-paid order ends up 'paid' either way -- this only changes
+        *when* that state is assigned, not the end result.
+        """
+        for vals in vals_list:
+            if vals.get('state') == 'paid':
+                vals['state'] = 'draft'
+        return super().create(vals_list)
+
+    def write(self, vals):
+        """Give a partially paid order its real name, instead of leaving it
+        as '/' like a draft.
+
+        Core only assigns the sequence-based name when a write sets
+        ``state`` to ``'paid'`` (see ``write()`` in core's
+        ``pos_order.py``). Since a partial payment now ends in
+        ``'partially_paid'`` instead, that condition never matched and the
+        order stayed named '/' indefinitely. Mirror the same logic for our
+        new state.
+        """
+        if vals.get('state') == 'partially_paid':
+            for order in self:
+                if order.name == '/':
+                    session = (
+                        self.env['pos.session'].browse(vals['session_id'])
+                        if not order.session_id and vals.get('session_id')
+                        else False
+                    )
+                    vals['name'] = order._compute_order_name(session)
+        return super().write(vals)
 
     def _is_order_paid_with_rounding(self):
         """Re-derive core's ``isPaid`` boolean from ``action_pos_order_paid``
