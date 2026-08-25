@@ -6,7 +6,7 @@ import logging
 
 from odoo import _, fields, models
 from odoo.exceptions import UserError
-from odoo.tools import float_is_zero
+from odoo.tools import float_is_zero, float_round
 
 _logger = logging.getLogger(__name__)
 
@@ -24,41 +24,76 @@ class PosOrder(models.Model):
         ondelete={'partially_paid': 'set default'},
     )
 
-    def action_pos_order_paid(self):
-        """Allow an order to be saved/finalized when it is only partially paid.
+    def _is_order_paid_with_rounding(self):
+        """Re-derive core's ``isPaid`` boolean from ``action_pos_order_paid``
+        (amount comparison + cash-rounding tolerance), WITHOUT calling it.
 
-        Core's implementation computes the same "isPaid" boolean used by
-        ``_is_pos_order_paid`` (with an extra cash-rounding tolerance on top)
-        and raises a ``UserError`` as soon as the order is not fully paid.
+        We used to let core raise its "Order %s is not fully paid." error
+        and catch it by comparing ``str(error)`` against a pre-translated
+        copy of that same message. That broke in practice: depending on
+        timing/context the two translations don't reliably compare equal
+        (and, more fundamentally, string-matching a translatable error
+        message is just the wrong tool for this). Recomputing the exact
+        same boolean core uses avoids the whole class of problem: no
+        exception is raised (and none needs to be caught) on the partial
+        payment path at all.
 
-        We always call ``super()`` first so a fully paid order (including
-        one only "paid" thanks to core's cash-rounding tolerance) behaves
-        100% like stock Odoo, ending in ``state == 'paid'``. We only step in
-        when core raises that specific "not fully paid" error: if some money
-        did come in (``amount_paid`` > 0), that's a deliberate partial
-        payment, so we flag the order as ``partially_paid`` instead of
-        blocking the save (stock/invoicing are left untouched, see our
-        override of ``_process_saved_order`` below). If nothing at all was
-        paid, that's not a "partial payment", it's "no payment", so we
-        re-raise core's original error unchanged.
+        NOTE: this duplicates core's formula on purpose, see
+        ``action_pos_order_paid`` in ``point_of_sale/models/pos_order.py``.
+        If core ever changes that formula, this needs to be updated to
+        match, or the two can silently disagree about edge cases (e.g. a
+        cash-rounding difference just inside/outside the tolerance).
         """
         self.ensure_one()
 
-        not_fully_paid_error = str(_("Order %s is not fully paid.", self.name))
+        if not self.config_id.cash_rounding \
+           or self.config_id.only_round_cash_method \
+           and not any(p.payment_method_id.is_cash_count for p in self.payment_ids):
+            total = self.amount_total
+        else:
+            total = float_round(
+                self.amount_total,
+                precision_rounding=self.config_id.rounding_method.rounding,
+                rounding_method=self.config_id.rounding_method.rounding_method,
+            )
 
-        try:
+        is_paid = float_is_zero(total - self.amount_paid, precision_rounding=self.currency_id.rounding)
+
+        if not is_paid and self.config_id.cash_rounding:
+            currency = self.currency_id
+            if self.config_id.rounding_method.rounding_method == "HALF-UP":
+                max_diff = currency.round(self.config_id.rounding_method.rounding / 2)
+            else:
+                max_diff = currency.round(self.config_id.rounding_method.rounding)
+            diff = currency.round(self.amount_total - self.amount_paid)
+            is_paid = abs(diff) <= max_diff
+
+        return is_paid
+
+    def action_pos_order_paid(self):
+        """Allow an order to be saved/finalized when it is only partially paid.
+
+        - Fully paid (per ``_is_order_paid_with_rounding``, same formula
+          core uses) -> behave exactly like core: ``super()`` ends in
+          ``state == 'paid'``.
+        - Nothing at all was paid (``amount_paid`` is zero) -> that's not a
+          "partial payment", it's "no payment": call ``super()`` too and let
+          core raise its usual error unchanged.
+        - Some money came in but not enough to cover the total -> deliberate
+          partial payment: flag the order as ``partially_paid`` instead of
+          blocking the save (stock/invoicing are left untouched, see our
+          override of ``_process_saved_order`` below). No exception is
+          raised or caught on this path.
+        """
+        self.ensure_one()
+
+        if self._is_order_paid_with_rounding() or float_is_zero(
+            self.amount_paid, precision_rounding=self.currency_id.rounding
+        ):
             return super().action_pos_order_paid()
-        except UserError as error:
-            if str(error) != not_fully_paid_error or float_is_zero(
-                self.amount_paid, precision_rounding=self.currency_id.rounding
-            ):
-                # Either a different error (e.g. raised by another module
-                # further down the inheritance chain) or there was really no
-                # payment at all: keep core's original behavior.
-                raise
 
-            self.write({'state': 'partially_paid'})
-            return True
+        self.write({'state': 'partially_paid'})
+        return True
 
     def _process_saved_order(self, draft):
         """Same as core, except stock pickings / cost computation are only
