@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_product_tree_view_pricelist_kanban" model="ir.ui.view">
+        <field name="name">product.product.list.pricelist.kanban</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_product_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="lst_price" position="attributes">
+                <attribute name="column_invisible">1</attribute>
+            </field>
+            <field name="lst_price" position="after">
+                <field name="pricelist_prices_html" widget="html" string="Pricelist Prices"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="product_kanban_view_pricelist_kanban" model="ir.ui.view">
+        <field name="name">product.product.kanban.pricelist.kanban</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_kanban_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//span[field[@name='lst_price']]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//span[field[@name='lst_price']]" position="after">
+                <div>
+                    <field name="pricelist_prices_html" widget="html"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_normal_form_view_pricelist_kanban" model="ir.ui.view">
+        <field name="name">product.product.form.pricelist.kanban</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//label[@for='lst_price']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[@name='list_price_uom']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[@name='list_price_uom']" position="after">
+                <label for="pricelist_prices_html" string="Pricelist Prices"/>
+                <field name="pricelist_prices_html" nolabel="1" widget="html" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_variant_easy_edit_view_pricelist_kanban" model="ir.ui.view">
+        <field name="name">product.product.view.form.easy.pricelist.kanban</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_variant_easy_edit_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='pricing']/label[@for='lst_price']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//group[@name='pricing']/label[@for='lst_price']/following-sibling::div[1]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//group[@name='pricing']/label[@for='lst_price']/following-sibling::div[1]" position="after">
+                <label for="pricelist_prices_html" string="Pricelist Prices"/>
+                <field name="pricelist_prices_html" nolabel="1" widget="html" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

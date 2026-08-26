@@ -1,0 +1,55 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * odossey_pricelist_kanban
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Language-Team: \n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: odossey_pricelist_kanban
+#: model:ir.model.fields,field_description:odossey_pricelist_kanban.field_odossey_pricelist_prices_mixin__display_name
+#: model:ir.model.fields,field_description:odossey_pricelist_kanban.field_product_product__display_name
+#: model:ir.model.fields,field_description:odossey_pricelist_kanban.field_product_template__display_name
+msgid "Display Name"
+msgstr "Nome visualizzato"
+
+#. module: odossey_pricelist_kanban
+#: model:ir.model.fields,field_description:odossey_pricelist_kanban.field_odossey_pricelist_prices_mixin__id
+#: model:ir.model.fields,field_description:odossey_pricelist_kanban.field_product_product__id
+#: model:ir.model.fields,field_description:odossey_pricelist_kanban.field_product_template__id
+msgid "ID"
+msgstr "ID"
+
+#. module: odossey_pricelist_kanban
+#: model:ir.model.fields,field_description:odossey_pricelist_kanban.field_odossey_pricelist_prices_mixin__pricelist_prices_html
+#: model:ir.model.fields,field_description:odossey_pricelist_kanban.field_product_product__pricelist_prices_html
+#: model:ir.model.fields,field_description:odossey_pricelist_kanban.field_product_template__pricelist_prices_html
+#: model_terms:ir.ui.view,arch_db:odossey_pricelist_kanban.product_normal_form_view_pricelist_kanban
+#: model_terms:ir.ui.view,arch_db:odossey_pricelist_kanban.product_product_tree_view_pricelist_kanban
+#: model_terms:ir.ui.view,arch_db:odossey_pricelist_kanban.product_template_only_form_view_pricelist_kanban
+#: model_terms:ir.ui.view,arch_db:odossey_pricelist_kanban.product_template_tree_view_pricelist_kanban
+#: model_terms:ir.ui.view,arch_db:odossey_pricelist_kanban.product_variant_easy_edit_view_pricelist_kanban
+msgid "Pricelist Prices"
+msgstr "Prezzi di listino"
+
+#. module: odossey_pricelist_kanban
+#: model:ir.model,name:odossey_pricelist_kanban.model_product_template
+msgid "Product"
+msgstr "Prodotto"
+
+#. module: odossey_pricelist_kanban
+#: model:ir.model,name:odossey_pricelist_kanban.model_product_product
+msgid "Product Variant"
+msgstr "Variante prodotto"
+
+#. module: odossey_pricelist_kanban
+#: model:ir.model,name:odossey_pricelist_kanban.model_odossey_pricelist_prices_mixin
+msgid "Show All Pricelist Prices"
+msgstr "Mostra tutti i prezzi di listino"
