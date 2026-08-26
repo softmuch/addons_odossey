@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="product_pricelist_item_tree_view_bulk_update_inherit" model="ir.ui.view">
+        <field name="name">product.pricelist.item.list.bulk.update.inherit</field>
+        <field name="model">product.pricelist.item</field>
+        <field name="inherit_id" ref="product.product_pricelist_item_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="pricelist_id" position="before">
+                <header>
+                    <button type="action"
+                        name="%(odossey_pricelist_sale_updater.action_pricelist_bulk_update_wizard)d"
+                        string="Actualizar masivo"
+                        class="btn btn-secondary"
+                        display="always"/>
+                </header>
+            </field>
+        </field>
+    </record>
+
+</odoo>
