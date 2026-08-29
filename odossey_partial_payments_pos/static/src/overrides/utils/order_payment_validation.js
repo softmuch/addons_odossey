@@ -93,6 +93,23 @@ patch(OrderPaymentValidation.prototype, {
                 return false;
             }
 
+            // A partial payment must be traceable to a real customer -- same
+            // rule/helper as l10n_latam_check_ext's check-payment guard
+            // (`pos.config._consumidor_final_anonimo_id`, loaded into the
+            // frontend by l10n_ar_pos for AR companies only; falls back to
+            // just requiring *some* partner if that id isn't available).
+            const partner = this.order.getPartner();
+            const anonymousId = this.pos.config._consumidor_final_anonimo_id;
+            if (!partner || (anonymousId && partner.id === anonymousId)) {
+                this.pos.dialog.add(AlertDialog, {
+                    title: _t("Cliente requerido"),
+                    body: _t(
+                        'Elegí un cliente distinto de "Consumidor Final Anónimo" antes de hacer un pago parcial.'
+                    ),
+                });
+                return false;
+            }
+
             // A deliberate partial payment is only allowed if the cashier
             // actually applied some payment: don't let an empty, zero-paid
             // order be validated as "partial".
