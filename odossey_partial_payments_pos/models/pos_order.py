@@ -19,8 +19,12 @@ class PosOrder(models.Model):
     # orders left in 'partially_paid' are simply reset to 'draft' instead of
     # being deleted outright (deleting real pos.order records on uninstall
     # would be unacceptable for a client database).
+    # Anchored on 'cancel' (not just appended) so it lands right after
+    # 'draft' in the selection's real order -- `statusbar_visible` in the
+    # view only filters which states show, it does NOT reorder them; the
+    # widget always follows this field's own selection order.
     state = fields.Selection(
-        selection_add=[('partially_paid', 'Partially Paid')],
+        selection_add=[('partially_paid', 'Partially Paid'), ('cancel',)],
         ondelete={'partially_paid': 'set default'},
     )
 
