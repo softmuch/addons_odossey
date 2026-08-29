@@ -20,4 +20,27 @@
         </field>
     </record>
 
+    <record id="view_pos_order_tree_inherit_partial_payments" model="ir.ui.view">
+        <field name="name">pos.order.list.inherit.partial.payments</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_order_tree"/>
+        <field name="arch" type="xml">
+            <field name="state" position="attributes">
+                <attribute name="decoration-warning">state == 'partially_paid'</attribute>
+                <attribute name="decoration-success">state not in ('draft', 'cancel', 'partially_paid')</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_pos_order_kanban_inherit_partial_payments" model="ir.ui.view">
+        <field name="name">pos.order.kanban.inherit.partial.payments</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_order_kanban"/>
+        <field name="arch" type="xml">
+            <field name="state" position="attributes">
+                <attribute name="options">{'classes': {'draft': 'default', 'partially_paid': 'warning', 'done': 'success', 'cancel': 'danger'}}</attribute>
+            </field>
+        </field>
+    </record>
+
 </odoo>
