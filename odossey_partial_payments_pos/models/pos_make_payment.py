@@ -45,8 +45,18 @@ class PosMakePayment(models.TransientModel):
 
         init_data = self.read()[0]
         payment_method = self.env['pos.payment.method'].browse(init_data['payment_method_id'][0])
+        # Duck-typed extension point from l10n_latam_check_ext (if installed):
+        # this module has no business knowing about AR check payments, but
+        # must still not silently drop that module's fields/validation when
+        # both are installed together (see l10n_latam_check_ext's
+        # models/pos_make_payment.py for why this exists -- its own check()
+        # never runs for a 'partially_paid' order, since this override
+        # returns before ever calling super()).
+        validate = getattr(self, '_l10n_latam_check_validate', None)
+        if validate:
+            validate(payment_method)
         if not float_is_zero(init_data['amount'], precision_rounding=currency.rounding):
-            order.add_payment({
+            payment_vals = {
                 'pos_order_id': order.id,
                 'amount': order._get_rounded_amount(
                     init_data['amount'],
@@ -54,7 +64,11 @@ class PosMakePayment(models.TransientModel):
                 ),
                 'name': init_data['payment_name'],
                 'payment_method_id': init_data['payment_method_id'][0],
-            })
+            }
+            extra_vals = getattr(self, '_l10n_latam_check_payment_vals', None)
+            if extra_vals:
+                payment_vals.update(extra_vals(payment_method))
+            order.add_payment(payment_vals)
 
         # `_send_order` is a session/frontend hook (a no-op in core, only
         # overridden by the online-ordering preparation-display module,
