@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_order_form_inherit_payment_transaction" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.payment.transaction</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_register_payment_transaction" string="Pagar" type="object"
+                        class="btn-primary" invisible="state != 'sale'"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Pagos" name="payment_transactions">
+                    <field name="payment_transaction_ids" nolabel="1" readonly="1">
+                        <list string="Pagos">
+                            <field name="reference"/>
+                            <field name="provider_id"/>
+                            <field name="payment_method_id"/>
+                            <field name="currency_id" column_invisible="1"/>
+                            <field name="amount" widget="monetary"/>
+                            <field name="state"/>
+                            <field name="create_date"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
