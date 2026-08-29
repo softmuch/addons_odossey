@@ -67,7 +67,28 @@ class PosOrder(models.Model):
         ``'partially_paid'`` instead, that condition never matched and the
         order stayed named '/' indefinitely. Mirror the same logic for our
         new state.
+
+        Also handles a backend-reopened order (see odoxeus_rioseed, which
+        relaxes the `lines`/`payment_ids` readonly for 'paid'/'done' orders):
+        core's own write(), called via super() below, would otherwise (a)
+        refuse to move a 'paid'/'done' order to anything outside
+        ('paid', 'done', 'invoiced') -- the "This order has already been
+        paid" guard -- and (b) raise "The paid amount is different from the
+        total amount of the order" once the edited lines/payments no longer
+        match. We sidestep both by writing `state` through the base ORM
+        directly (bypassing every model-level write() override, core's
+        included) *before* the real field write, so that by the time core's
+        write() runs, the order is already 'partially_paid' and neither
+        guard fires (both are conditioned on state in ('paid', 'done')).
         """
+        orders_to_reconcile = self.browse()
+        if vals.get('lines') or vals.get('payment_ids'):
+            orders_to_reconcile = self.filtered(
+                lambda o: o.state in ('paid', 'done') and o.nb_print == 0
+            )
+            if orders_to_reconcile:
+                models.Model.write(orders_to_reconcile, {'state': 'partially_paid'})
+
         if vals.get('state') == 'partially_paid':
             for order in self:
                 if order.name == '/':
@@ -77,7 +98,16 @@ class PosOrder(models.Model):
                         else False
                     )
                     vals['name'] = order._compute_order_name(session)
-        return super().write(vals)
+
+        res = super().write(vals)
+
+        if orders_to_reconcile:
+            orders_to_reconcile._compute_prices()
+            for order in orders_to_reconcile:
+                if order._is_order_paid_with_rounding():
+                    order.write({'state': 'paid'})
+
+        return res
 
     def _is_order_paid_with_rounding(self):
         """Re-derive core's ``isPaid`` boolean from ``action_pos_order_paid``

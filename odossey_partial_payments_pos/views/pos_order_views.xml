@@ -14,6 +14,9 @@
                         invisible="state != 'partially_paid'"
                         confirm="La orden volverá a borrador para poder editarla. ¿Continuar?"/>
             </xpath>
+            <xpath expr="(//field[@name='state'])[1]" position="attributes">
+                <attribute name="statusbar_visible">draft,partially_paid,paid,done</attribute>
+            </xpath>
         </field>
     </record>
 
