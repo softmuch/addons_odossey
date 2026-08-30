@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_pos_cash_extraction_list" model="ir.ui.view">
+        <field name="name">account.bank.statement.line.pos.cash.extraction.list</field>
+        <field name="model">account.bank.statement.line</field>
+        <field name="arch" type="xml">
+            <list string="Extracciones de caja" create="0" edit="0" delete="0" import="0" export_xlsx="0"
+                decoration-success="amount &gt; 0" decoration-danger="amount &lt; 0">
+                <field name="date" string="Fecha"/>
+                <field name="payment_ref" string="Descripción"/>
+                <field name="amount" string="Importe" sum="Total"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_pos_cash_extraction_search" model="ir.ui.view">
+        <field name="name">account.bank.statement.line.pos.cash.extraction.search</field>
+        <field name="model">account.bank.statement.line</field>
+        <field name="arch" type="xml">
+            <search string="Extracciones de caja">
+                <field name="payment_ref" string="Descripción"/>
+                <field name="pos_session_id"/>
+                <group expand="1" string="Group By">
+                    <filter name="groupby_date_day" string="Día" context="{'group_by': 'date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_pos_cash_extraction" model="ir.actions.act_window">
+        <field name="name">Extracciones de caja</field>
+        <field name="res_model">account.bank.statement.line</field>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_pos_cash_extraction_list"/>
+        <field name="search_view_id" ref="view_pos_cash_extraction_search"/>
+        <field name="domain">[('is_pos_manual_cash_move', '=', True)]</field>
+        <field name="context">{'group_by': 'date:day', 'search_default_groupby_date_day': 1}</field>
+    </record>
+
+    <menuitem id="menu_pos_cash_extraction"
+        name="Extracciones de caja"
+        parent="point_of_sale.menu_point_of_sale"
+        action="action_pos_cash_extraction"
+        groups="point_of_sale.group_pos_manager,point_of_sale.group_pos_user"
+        sequence="4"/>
+
+    <record id="view_pos_closing_diff_list" model="ir.ui.view">
+        <field name="name">account.bank.statement.line.pos.closing.diff.list</field>
+        <field name="model">account.bank.statement.line</field>
+        <field name="arch" type="xml">
+            <list string="Diferencia de cierre" create="0" edit="0" delete="0" import="0" export_xlsx="0"
+                decoration-success="amount &gt; 0" decoration-danger="amount &lt; 0">
+                <field name="date" string="Fecha"/>
+                <field name="payment_ref" string="Descripción"/>
+                <field name="amount" string="Importe" sum="Total"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_pos_closing_diff_search" model="ir.ui.view">
+        <field name="name">account.bank.statement.line.pos.closing.diff.search</field>
+        <field name="model">account.bank.statement.line</field>
+        <field name="arch" type="xml">
+            <search string="Diferencia de cierre">
+                <field name="payment_ref" string="Descripción"/>
+                <field name="pos_session_id"/>
+                <group expand="1" string="Group By">
+                    <filter name="groupby_date_day" string="Día" context="{'group_by': 'date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_pos_closing_diff" model="ir.actions.act_window">
+        <field name="name">Diferencia de cierre</field>
+        <field name="res_model">account.bank.statement.line</field>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_pos_closing_diff_list"/>
+        <field name="search_view_id" ref="view_pos_closing_diff_search"/>
+        <field name="domain">[('is_pos_closing_diff', '=', True)]</field>
+        <field name="context">{'group_by': 'date:day', 'search_default_groupby_date_day': 1}</field>
+    </record>
+
+    <menuitem id="menu_pos_closing_diff"
+        name="Diferencia de cierre"
+        parent="point_of_sale.menu_point_of_sale"
+        action="action_pos_closing_diff"
+        groups="point_of_sale.group_pos_manager,point_of_sale.group_pos_user"
+        sequence="5"/>
+
+</odoo>
