@@ -5,9 +5,10 @@
     'author': 'Odossey',
     'website': 'odossey.com',
     'summary': 'Menu to review all manual cash in/out movements made in POS sessions, grouped by day',
-    'depends': ['point_of_sale'],
+    'depends': ['point_of_sale', 'purchase'],
     'data': [
         'views/pos_cash_extraction_views.xml',
+        'views/purchase_order_views.xml',
     ],
     'installable': True,
     'application': False,
