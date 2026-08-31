@@ -16,11 +16,11 @@ patch(OrderWidget.prototype, {
         this.pos = usePos()
 
         let order = this.pos.get_order()
-        
+
         this.nf_state = useState({
-            total_discount : order.get_nf_global_discount || 0
+            total_discount : (order && order.get_nf_global_discount) || 0
         })
-        
+
         useEffect(() => {
             if (order && order.get_orderlines().length) {
                 const globalDiscount = order.get_orderlines().reduce((total, line) => {
@@ -32,7 +32,7 @@ patch(OrderWidget.prototype, {
 
                 order.nf_global_discoount = globalDiscount;
                 this.nf_state.total_discount = globalDiscount;
-            } else {
+            } else if (order) {
                 order.nf_global_discoount = 0;
                 this.nf_state.total_discount = 0;
             }
