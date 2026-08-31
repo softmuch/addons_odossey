@@ -282,6 +282,13 @@ export class DeliveryScreen extends Component {
     }
 
     openNewDeliveryOrder() {
+        // selectedTable must be cleared BEFORE creating the order: pos_restaurant's
+        // createNewOrder() attaches table_id = selectedTable to any order created while
+        // a table is still selected, which silently turned "new delivery order" into
+        // "another order on the same table" (the table's own order — and its products —
+        // would resurface as "the" order for that table). Same root cause and fix as
+        // odossey_pos_express_checkout's getOrCreateExpressOrder().
+        this.pos.selectedTable = null;
         const order = this.pos.add_new_order();
         order.is_delivery = true;
         this.pos.showScreen("ProductScreen");
