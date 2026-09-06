@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Copyright (C) 2026-Today: Part of Odossey.
 # @author:  Part of Odossey.
-# NOT WORKING YET
+# TODO: NOT WORKING YET
 {
     'name': 'Odossey || Sale Order Payment Transaction',
     'summary': """Odossey || Sale Order Payment Transaction""",

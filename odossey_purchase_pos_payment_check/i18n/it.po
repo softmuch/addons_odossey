@@ -1,0 +1,209 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* odossey_purchase_pos_payment_check
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e-20260622\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-06 17:48+0000\n"
+"PO-Revision-Date: 2026-09-06 17:48+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model,name:odossey_purchase_pos_payment_check.model_l10n_latam_check
+msgid "Account payment check"
+msgstr "Assegno di pagamento"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields,help:odossey_purchase_pos_payment_check.field_purchase_order_pay_freely__existing_check_id
+#: model:ir.model.fields,help:odossey_purchase_pos_payment_check.field_purchase_order_payment__existing_check_id
+#: model:ir.model.fields,help:odossey_purchase_pos_payment_check.field_purchase_order_payment_mixin__existing_check_id
+msgid ""
+"An existing third-party check already in the company's portfolio (received "
+"from a customer) -- handing it over to a supplier instead of creating a "
+"brand new check record."
+msgstr ""
+"Un assegno di terzi già presente nel portafoglio dell'azienda (ricevuto da "
+"un cliente), consegnato a un fornitore invece di crearne uno nuovo."
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_pay_freely__check_mode
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_payment__check_mode
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_payment_mixin__check_mode
+msgid "Check"
+msgstr "Assegno"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_pay_freely__l10n_latam_check_number
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_payment__l10n_latam_check_number
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_payment_mixin__l10n_latam_check_number
+msgid "Check Number"
+msgstr "Numero Assegno"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_pay_freely__l10n_latam_check_type
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_payment__l10n_latam_check_type
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_payment_mixin__l10n_latam_check_type
+msgid "Check Type"
+msgstr "Tipo di Assegno"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_pay_freely__existing_check_id
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_payment__existing_check_id
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_payment_mixin__existing_check_id
+msgid "Check to Hand Over"
+msgstr "Assegno da Consegnare"
+
+#. module: odossey_purchase_pos_payment_check
+#: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment_check.l10n_latam_check_view_form_handed
+msgid "Cheque"
+msgstr "Assegno"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.actions.act_window,name:odossey_purchase_pos_payment_check.action_purchase_own_checks
+#: model:ir.ui.menu,name:odossey_purchase_pos_payment_check.menu_purchase_own_checks
+#: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment_check.l10n_latam_check_view_tree_handed
+msgid "Cheques Propios"
+msgstr "Assegni Consegnati"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_check.selection__purchase_order_pay_freely__l10n_latam_check_type__common
+#: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_check.selection__purchase_order_payment__l10n_latam_check_type__common
+#: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_check.selection__purchase_order_payment_mixin__l10n_latam_check_type__common
+msgid "Common Check"
+msgstr "Assegno Comune"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_l10n_latam_check__currency_id
+msgid "Currency"
+msgstr "Valuta"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_check.selection__purchase_order_pay_freely__l10n_latam_check_type__deferred
+#: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_check.selection__purchase_order_payment__l10n_latam_check_type__deferred
+#: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_check.selection__purchase_order_payment_mixin__l10n_latam_check_type__deferred
+msgid "Deferred Payment Check (CPD)"
+msgstr "Assegno a Pagamento Differito (CPD)"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_l10n_latam_check__display_name
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_pay_freely__display_name
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_payment__display_name
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_payment_mixin__display_name
+msgid "Display Name"
+msgstr "Nome visualizzato"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_check.selection__purchase_order_pay_freely__check_mode__existing
+#: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_check.selection__purchase_order_payment__check_mode__existing
+#: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_check.selection__purchase_order_payment_mixin__check_mode__existing
+msgid "Existing Check"
+msgstr "Assegno Esistente"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_l10n_latam_check__handed_date
+msgid "Handed Date"
+msgstr "Data di Consegna"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_l10n_latam_check__handed_to_partner_id
+msgid "Handed To"
+msgstr "Consegnato A"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_l10n_latam_check__id
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_pay_freely__id
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_payment__id
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_payment_mixin__id
+msgid "ID"
+msgstr "ID"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_pay_freely__payment_method_type
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_payment__payment_method_type
+msgid "Integration"
+msgstr "Integrazione"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_pay_freely__l10n_latam_check_issue_date
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_payment__l10n_latam_check_issue_date
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_payment_mixin__l10n_latam_check_issue_date
+msgid "Issue Date"
+msgstr "Data di Emissione"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_pay_freely__l10n_latam_check_issuer_vat
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_payment__l10n_latam_check_issuer_vat
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_payment_mixin__l10n_latam_check_issuer_vat
+msgid "Issuer VAT"
+msgstr "Partita IVA Emittente"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_pay_freely__l10n_latam_check_bank_id
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_payment__l10n_latam_check_bank_id
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_payment_mixin__l10n_latam_check_bank_id
+msgid "Issuing Bank"
+msgstr "Banca Emittente"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_check.selection__purchase_order_pay_freely__check_mode__new
+#: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_check.selection__purchase_order_payment__check_mode__new
+#: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_check.selection__purchase_order_payment_mixin__check_mode__new
+msgid "New Check"
+msgstr "Nuovo Assegno"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model,name:odossey_purchase_pos_payment_check.model_purchase_order_pay_freely
+msgid "Pay Freely a Supplier's Open Purchase Orders"
+msgstr "Paga Liberamente gli Ordini di Acquisto Aperti di un Fornitore"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model,name:odossey_purchase_pos_payment_check.model_purchase_order_payment
+msgid "Pay a Purchase Order"
+msgstr "Paga un Ordine di Acquisto"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_pay_freely__l10n_latam_check_payment_date
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_payment__l10n_latam_check_payment_date
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_payment_mixin__l10n_latam_check_payment_date
+msgid "Payment Date"
+msgstr "Data di Incasso"
+
+#. module: odossey_purchase_pos_payment_check
+#. odoo-python
+#: code:addons/odossey_purchase_pos_payment_check/wizard/purchase_order_payment_mixin.py:0
+msgid "Select an existing check to hand over."
+msgstr "Seleziona un assegno esistente da consegnare."
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields,help:odossey_purchase_pos_payment_check.field_l10n_latam_check__handed_to_partner_id
+msgid ""
+"Set when this third-party check was handed over to a supplier to settle a "
+"purchase order, instead of being deposited or going through core's own "
+"third-party-check-transfer flow (which requires the check to have first been"
+" received through a real journal -- not the case for a check tracked via "
+"l10n_latam_check_ext's instant, journal-less creation)."
+msgstr ""
+"Impostato quando questo assegno di terzi viene consegnato a un fornitore "
+"per saldare un ordine di acquisto, invece di essere depositato o di "
+"seguire il flusso formale di trasferimento assegni di terzi (che richiede "
+"che l'assegno sia già stato ricevuto tramite un registro reale -- non è il "
+"caso di un assegno tracciato con la creazione istantanea e senza registro "
+"di l10n_latam_check_ext)."
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model,name:odossey_purchase_pos_payment_check.model_purchase_order_payment_mixin
+msgid "Shared logic to pay one or more purchase orders via pos.payment"
+msgstr "Logica condivisa per pagare uno o più ordini di acquisto tramite pos.payment"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields,help:odossey_purchase_pos_payment_check.field_l10n_latam_check__currency_id
+msgid "The payment's currency."
+msgstr "Valuta del pagamento."

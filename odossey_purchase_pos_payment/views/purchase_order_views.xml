@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="purchase_order_form_inherit_pos_payment" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit.pos.payment</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button
+                    string="Pay"
+                    name="action_purchase_pay"
+                    type="object"
+                    class="oe_highlight"
+                    invisible="state != 'purchase' or amount_difference &lt;= 0"
+                />
+            </xpath>
+            <xpath expr="//page[@name='purchase_delivery_invoice']" position="after">
+                <page string="Payments" name="pos_payments">
+                    <!-- Read-only ledger, unlike pos.order's own equivalent
+                         tab: a pos.payment row created here inline could
+                         never be given the real pos.order it requires
+                         (pos.payment.pos_order_id is a hard required=True
+                         on core), so all creation goes through the "Pay"
+                         button/wizard above instead. -->
+                    <field name="pos_payment_ids" colspan="4" nolabel="1" readonly="1">
+                        <list string="Payments">
+                            <field name="currency_id" column_invisible="True" />
+                            <field name="payment_date" />
+                            <field name="payment_method_id" />
+                            <field name="amount" />
+                            <field name="payment_method_payment_mode" optional="hide" />
+                            <field name="card_no" invisible="not card_no" />
+                            <field
+                                name="card_brand"
+                                string="Card's Brand"
+                                invisible="not card_brand or not card_no"
+                            />
+                            <field
+                                name="cardholder_name"
+                                invisible="not cardholder_name or not card_no"
+                            />
+                        </list>
+                    </field>
+                    <group class="oe_subtotal_footer" colspan="2" name="purchase_order_total">
+                        <field name="amount_total" class="h3" widget="monetary" />
+                        <field name="amount_paid" widget="monetary" class="h3" readonly="1" />
+                        <field name="amount_difference" widget="monetary" force_save="1" />
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

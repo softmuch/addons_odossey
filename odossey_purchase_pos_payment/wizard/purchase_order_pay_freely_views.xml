@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="purchase_order_pay_freely_view_form" model="ir.ui.view">
+        <field name="name">purchase.order.pay.freely.form</field>
+        <field name="model">purchase.order.pay.freely</field>
+        <field name="arch" type="xml">
+            <form string="Pay Freely">
+                <field name="company_id" invisible="1" />
+                <field name="currency_id" invisible="1" />
+                <group>
+                    <field name="partner_id" />
+                    <field name="payment_method_id" />
+                    <field name="amount" />
+                    <field name="payment_date" />
+                </group>
+                <footer>
+                    <button
+                        string="Validate"
+                        name="action_pay"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

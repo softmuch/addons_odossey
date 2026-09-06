@@ -1,0 +1,169 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* odossey_purchase_pos_payment
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e-20260622\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-06 16:43+0000\n"
+"PO-Revision-Date: 2026-09-06 16:43+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_payment__amount
+msgid "Amount"
+msgstr "Importe"
+
+#. module: odossey_purchase_pos_payment
+#: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment.purchase_order_payment_view_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: odossey_purchase_pos_payment
+#: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment.purchase_order_form_inherit_pos_payment
+msgid "Card's Brand"
+msgstr "Marca de la tarjeta"
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_payment__company_id
+msgid "Company"
+msgstr "Compañía"
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_payment__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_payment__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_payment__currency_id
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_pos_payment__display_name
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_payment__display_name
+msgid "Display Name"
+msgstr "Nombre para mostrar"
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order__amount_difference
+msgid "Due"
+msgstr "Adeudado"
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_pos_payment__id
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order__id
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_payment__id
+msgid "ID"
+msgstr "ID"
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_payment__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_payment__write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order__amount_paid
+msgid "Paid"
+msgstr "Pagado"
+
+#. module: odossey_purchase_pos_payment
+#. odoo-python
+#: code:addons/odossey_purchase_pos_payment/models/purchase_order.py:0
+#: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment.purchase_order_form_inherit_pos_payment
+#: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment.purchase_order_payment_view_form
+msgid "Pay"
+msgstr "Pagar"
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model,name:odossey_purchase_pos_payment.model_purchase_order_payment
+msgid "Pay a Purchase Order"
+msgstr "Pagar una orden de compra"
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_payment__payment_date
+msgid "Payment Date"
+msgstr "Fecha de pago"
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_payment__payment_method_id
+msgid "Payment Method"
+msgstr "Método de pago"
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order__pos_payment_ids
+#: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment.purchase_order_form_inherit_pos_payment
+msgid "Payments"
+msgstr "Pagos"
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model,name:odossey_purchase_pos_payment.model_pos_payment
+msgid "Point of Sale Payments"
+msgstr "Pagos en el punto de venta"
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model,name:odossey_purchase_pos_payment.model_purchase_order
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_pos_payment__purchase_order_id
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_payment__purchase_order_id
+msgid "Purchase Order"
+msgstr "Pedido de compra"
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,help:odossey_purchase_pos_payment.field_pos_payment__purchase_order_id
+msgid ""
+"Set when this payment represents money paid OUT to a supplier against this "
+"purchase order (amount is negative in that case) rather than money collected"
+" from a POS sale."
+msgstr ""
+"Se establece cuando este pago representa dinero pagado a un proveedor "
+"contra este pedido de compra (en ese caso el importe es negativo), en "
+"lugar de dinero cobrado en una venta del punto de venta."
+
+#. module: odossey_purchase_pos_payment
+#. odoo-python
+#: code:addons/odossey_purchase_pos_payment/wizard/purchase_order_payment.py:0
+msgid "The amount to pay must be greater than zero."
+msgstr "El importe a pagar debe ser mayor a cero."
+
+#. module: odossey_purchase_pos_payment
+#. odoo-python
+#: code:addons/odossey_purchase_pos_payment/wizard/purchase_order_payment.py:0
+msgid ""
+"The payment method \"%(method)s\" is not configured on the open session "
+"\"%(session)s\"."
+msgstr ""
+"El método de pago \"%(method)s\" no está configurado en la sesión abierta "
+"\"%(session)s\"."
+
+#. module: odossey_purchase_pos_payment
+#. odoo-python
+#: code:addons/odossey_purchase_pos_payment/wizard/purchase_order_payment.py:0
+msgid ""
+"There is no open Point of Sale session for this company. Open a session "
+"before paying a supplier this way."
+msgstr ""
+"No hay ninguna sesión de punto de venta abierta para esta compañía. Abra "
+"una sesión antes de pagarle a un proveedor de esta manera."
+
+#. module: odossey_purchase_pos_payment
+#: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment.purchase_order_payment_view_form
+msgid "Validate"
+msgstr "Validar"

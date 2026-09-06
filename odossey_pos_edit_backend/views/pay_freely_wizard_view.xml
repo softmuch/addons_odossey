@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_pay_freely_wizard_form" model="ir.ui.view">
+        <field name="name">pay.freely.wizard.form</field>
+        <field name="model">pay.freely.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Pagar Libremente">
+
+                <group string="Datos del Pago">
+                    <field name="partner_id"/>
+                    <field name="amount"/>
+                    <field name="payment_method_id"/>
+                    <field name="payment_method_type" invisible="1"/>
+                    <field name="payment_date"/>
+                    <field name="company_id" invisible="1"/>
+                    <field name="company_currency_id" invisible="1"/>
+                </group>
+
+                <group string="Datos del Cheque" invisible="payment_method_type != 'check'">
+                    <field name="l10n_latam_check_number"/>
+                    <field name="l10n_latam_check_bank_id"/>
+                    <field name="l10n_latam_check_issuer_vat"/>
+                    <field name="l10n_latam_check_type"/>
+                    <field name="l10n_latam_check_issue_date"/>
+                    <field name="l10n_latam_check_payment_date"/>
+                </group>
+
+                <p class="text-muted">
+                    Se aplicará el importe a las órdenes POS pendientes del cliente,
+                    de la más vieja a la más nueva. La última orden alcanzada puede
+                    quedar parcialmente pagada. Si el importe supera el total adeudado
+                    por esas órdenes, no se puede continuar.
+                </p>
+
+                <footer>
+                    <button
+                        name="action_pay"
+                        string="Pagar"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <button
+                        string="Cancelar"
+                        class="btn-secondary"
+                        special="cancel"
+                    />
+                </footer>
+
+            </form>
+        </field>
+    </record>
+
+</odoo>

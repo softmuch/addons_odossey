@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="odossey_pos_edit_backend.PayFreelyPopup">
+        <Dialog title="props.title" size="'md'">
+            <div class="d-flex flex-column gap-2">
+                <p class="text-muted mb-0">
+                    Cliente: <strong t-esc="props.partner.name"/>
+                </p>
+                <div class="form-group">
+                    <label class="form-label">Importe a Pagar</label>
+                    <input class="form-control fw-bold fs-5" type="text" inputmode="decimal"
+                        t-model="state.amountText" t-on-blur="formatAmountOnBlur"/>
+                    <div class="form-text">
+                        Total adeudado: <t t-esc="props.totalResidualLabel"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Método de Pago</label>
+                    <select class="form-select" t-model="state.payment_method_id">
+                        <t t-foreach="props.paymentMethods" t-as="pm" t-key="pm.id">
+                            <option t-att-value="pm.id" t-esc="pm.name"/>
+                        </t>
+                    </select>
+                </div>
+                <t t-if="isCheck">
+                    <div class="form-group">
+                        <label class="form-label">Número de Cheque</label>
+                        <input class="form-control" type="text" t-model="state.number"/>
+                    </div>
+                    <div class="form-group position-relative">
+                        <label class="form-label">Banco Emisor</label>
+                        <AutoComplete
+                            placeholder="'Buscar banco...'"
+                            sources="getBankSources()"
+                            value="state.bank_name"
+                            onInput="(params) => this.onBankInput(params)"
+                            autoSelect="true"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">CUIT Emisor</label>
+                        <input class="form-control" type="text" t-model="state.issuer_vat"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tipo de Cheque</label>
+                        <select class="form-select" t-model="state.check_type">
+                            <option value="common">Cheque Común</option>
+                            <option value="deferred">Cheque de Pago Diferido (CPD)</option>
+                        </select>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <div class="form-group flex-grow-1">
+                            <label class="form-label">Fecha de Emisión</label>
+                            <input class="form-control" type="date" t-model="state.issue_date"/>
+                        </div>
+                        <div class="form-group flex-grow-1">
+                            <label class="form-label">Fecha de Cobro</label>
+                            <input class="form-control" type="date" t-model="state.payment_date"/>
+                        </div>
+                    </div>
+                </t>
+            </div>
+            <t t-set-slot="footer">
+                <button class="btn btn-primary" t-att-disabled="!isValid" t-on-click="confirm">Confirmar</button>
+                <button class="btn btn-secondary" t-on-click="discard">Cancelar</button>
+            </t>
+        </Dialog>
+    </t>
+</templates>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Checks handed OUT to suppliers via this module's "existing check"
+         payment flow. Own tree/form (rather than reusing core
+         l10n_latam_check's own list/form) since the fields that matter here
+         (handed_to_partner_id/handed_date) aren't part of core's own check
+         ledger. See purchase_order_payment_mixin.py's
+         _pay_with_existing_check for why. -->
+    <record id="l10n_latam_check_view_tree_handed" model="ir.ui.view">
+        <field name="name">l10n_latam.check.list.handed</field>
+        <field name="model">l10n_latam.check</field>
+        <field name="arch" type="xml">
+            <list string="Cheques Propios">
+                <field name="name" />
+                <field name="issuer_vat" />
+                <field name="bank_id" />
+                <field name="check_type" />
+                <field name="amount" />
+                <field name="handed_to_partner_id" />
+                <field name="handed_date" />
+            </list>
+        </field>
+    </record>
+
+    <record id="l10n_latam_check_view_form_handed" model="ir.ui.view">
+        <field name="name">l10n_latam.check.form.handed</field>
+        <field name="model">l10n_latam.check</field>
+        <field name="arch" type="xml">
+            <form string="Cheque">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="issuer_vat" />
+                        <field name="bank_id" />
+                        <field name="check_type" />
+                        <field name="issue_date" />
+                        <field name="payment_date" />
+                        <field name="amount" />
+                        <field name="currency_id" />
+                        <field name="handed_to_partner_id" />
+                        <field name="handed_date" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_purchase_own_checks" model="ir.actions.act_window">
+        <field name="name">Cheques Propios</field>
+        <field name="res_model">l10n_latam.check</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="l10n_latam_check_view_tree_handed" />
+        <field name="domain">[('handed_to_partner_id', '!=', False)]</field>
+    </record>
+
+    <menuitem
+        action="action_purchase_own_checks"
+        id="menu_purchase_own_checks"
+        parent="purchase.menu_procurement_management"
+        sequence="20"
+    />
+</odoo>

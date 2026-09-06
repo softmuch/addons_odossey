@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_pos_pos_form_inherit_rioseed_edit" model="ir.ui.view">
+        <field name="name">pos.order.form.inherit.rioseed.edit</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='lines']" position="attributes">
+                <attribute name="readonly">state != 'draft'</attribute>
+            </xpath>
+            <xpath expr="//field[@name='payment_ids']" position="attributes">
+                <attribute name="readonly">state != 'draft'</attribute>
+            </xpath>
+            <xpath expr="//field[@name='payment_ids']/list/field[@name='payment_method_id']" position="after">
+                <field name="payment_method_type" column_invisible="1"/>
+                <field name="l10n_latam_check_number" invisible="payment_method_type != 'check'"/>
+                <field name="l10n_latam_check_bank_id" invisible="payment_method_type != 'check'"/>
+                <field name="l10n_latam_check_issuer_vat" invisible="payment_method_type != 'check'"/>
+                <field name="l10n_latam_check_type" invisible="payment_method_type != 'check'"/>
+                <field name="l10n_latam_check_issue_date" invisible="payment_method_type != 'check'"/>
+                <field name="l10n_latam_check_payment_date" invisible="payment_method_type != 'check'"/>
+            </xpath>
+            <xpath expr="//field[@name='lines']/list/field[@name='tax_ids']" position="attributes">
+                <attribute name="column_invisible">0</attribute>
+                <attribute name="readonly">0</attribute>
+                <attribute name="string">Impuestos</attribute>
+            </xpath>
+            <xpath expr="//field[@name='lines']/list/field[@name='tax_ids_after_fiscal_position']" position="attributes">
+                <attribute name="column_invisible">1</attribute>
+            </xpath>
+            <!-- odossey_partial_payments_pos's own "Volver a Borrador" button
+                 (action_pos_order_set_draft) assumes a 'partially_paid' order
+                 never generated a picking yet, which is no longer true once
+                 this module's action_rioseed_confirm_edit can also leave an
+                 order 'partially_paid' after creating real correction
+                 pickings. Without this, both buttons show at once on such an
+                 order, identically labeled, and clicking the wrong one skips
+                 rioseed_lines_snapshot entirely (the method itself is also
+                 overridden in models/pos_order.py to route these orders
+                 through action_rioseed_reopen_draft regardless of which
+                 button/entry point is used; this just avoids showing a
+                 second, redundant "Volver a Borrador" button here). -->
+            <xpath expr="//button[@name='action_pos_order_set_draft']" position="attributes">
+                <attribute name="invisible">state != 'partially_paid' or picking_ids</attribute>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <button name="action_rioseed_reopen_draft" string="Volver a Borrador" type="object"
+                        invisible="state not in ('paid', 'done', 'partially_paid') or account_move or nb_print &gt; 0"
+                        confirm="La orden volverá a borrador para poder editarla. ¿Continuar?"/>
+                <button name="action_rioseed_confirm_edit" string="Confirmar" type="object"
+                        class="btn-primary"
+                        invisible="state != 'draft'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- "Pagar libremente" moved here from the invoice list (account.move).
+         Now applies pos.payment to open POS orders instead of account.payment
+         to invoices. display="always" renders unconditionally, matching the
+         old invoice-list button's behavior. -->
+    <record id="view_pos_order_tree_inherit_pay_freely" model="ir.ui.view">
+        <field name="name">pos.order.list.inherit.pay.freely</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_order_tree"/>
+        <field name="arch" type="xml">
+            <header position="inside">
+                <button name="action_open_pay_freely_wizard"
+                    type="object"
+                    string="Pagar libremente"
+                    display="always"
+                    groups="point_of_sale.group_pos_user"/>
+            </header>
+        </field>
+    </record>
+
+</odoo>

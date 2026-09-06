@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="purchase_order_pay_freely_view_form_inherit_check" model="ir.ui.view">
+        <field name="name">purchase.order.pay.freely.form.inherit.check</field>
+        <field name="model">purchase.order.pay.freely</field>
+        <field name="inherit_id" ref="odossey_purchase_pos_payment.purchase_order_pay_freely_view_form" />
+        <field name="arch" type="xml">
+            <field name="payment_method_id" position="after">
+                <field name="payment_method_type" invisible="1" />
+                <field
+                    name="check_mode"
+                    widget="radio"
+                    options="{'horizontal': true}"
+                    invisible="payment_method_type != 'check'"
+                />
+                <field
+                    name="existing_check_id"
+                    invisible="payment_method_type != 'check' or check_mode != 'existing'"
+                />
+                <field
+                    name="l10n_latam_check_number"
+                    invisible="payment_method_type != 'check' or check_mode != 'new'"
+                />
+                <field
+                    name="l10n_latam_check_bank_id"
+                    invisible="payment_method_type != 'check' or check_mode != 'new'"
+                />
+                <field
+                    name="l10n_latam_check_issuer_vat"
+                    invisible="payment_method_type != 'check' or check_mode != 'new'"
+                />
+                <field
+                    name="l10n_latam_check_type"
+                    invisible="payment_method_type != 'check' or check_mode != 'new'"
+                />
+                <field
+                    name="l10n_latam_check_issue_date"
+                    invisible="payment_method_type != 'check' or check_mode != 'new'"
+                />
+                <field
+                    name="l10n_latam_check_payment_date"
+                    invisible="payment_method_type != 'check' or check_mode != 'new'"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>
