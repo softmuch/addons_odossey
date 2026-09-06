@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="purchase_order_view_tree_inherit_partial" model="ir.ui.view">
+        <field name="name">purchase.order.view.tree.inherit.partial</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_view_tree" />
+        <field name="arch" type="xml">
+            <!-- Row decorations live on the <list> element itself, not on a
+                 field. Core already sets decoration-muted/decoration-info
+                 there for state=='cancel'/invoice_status=='to invoice'. -->
+            <list position="attributes">
+                <attribute name="decoration-warning">payment_status == 'partially_paid'</attribute>
+                <attribute name="decoration-success">payment_status == 'paid'</attribute>
+            </list>
+            <field name="invoice_status" position="after">
+                <field name="payment_status" widget="badge"
+                    decoration-warning="payment_status == 'partially_paid'"
+                    decoration-success="payment_status == 'paid'"
+                    optional="show"
+                />
+            </field>
+        </field>
+    </record>
+
+    <record id="purchase_order_form_inherit_partial" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit.partial</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="odossey_purchase_pos_payment.purchase_order_form_inherit_pos_payment" />
+        <field name="arch" type="xml">
+            <field name="amount_difference" position="after">
+                <field name="payment_status" widget="badge"
+                    decoration-warning="payment_status == 'partially_paid'"
+                    decoration-success="payment_status == 'paid'"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>

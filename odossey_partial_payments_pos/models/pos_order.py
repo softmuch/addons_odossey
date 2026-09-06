@@ -199,6 +199,83 @@ class PosOrder(models.Model):
         self.write({'state': 'partially_paid'})
         return True
 
+    def _redistribute_overpayment(self):
+        """When this order ends up paid IN EXCESS (payments sum above its
+        own total), first shift the extra money to this same customer's
+        other ``partially_paid`` orders (oldest first), and bank whatever's
+        left as reusable credit (``pos.customer.credit``) once none remain.
+
+        All the actual money movement between orders is booked through a
+        dedicated, journal-less "Crédito Cliente" tender
+        (``pos.payment.method.is_credit_transfer``) rather than the real
+        payment method that caused the excess: preserving the original
+        tender on a cross-order/cross-session transfer would require it to
+        also be configured on whatever session the target order belongs to
+        (``pos.payment._check_payment_method_id``), which isn't guaranteed
+        and isn't the point here -- this is pure internal bookkeeping, not a
+        new real payment. Nothing here creates any *new* real money: the
+        negative correction line on `self` and the positive line(s) on the
+        target order(s) always sum to zero, so a session's own cash-close
+        totals are unaffected when both orders share a session, and are
+        correctly shifted between sessions when they don't (the excess
+        really did arrive in whichever session collected it, and is now
+        credited to a sale rung up in another one).
+        """
+        self.ensure_one()
+        excess = self.currency_id.round(self.amount_paid - self.amount_total)
+        if excess <= 0 or self.currency_id.is_zero(excess):
+            return
+        if not self.partner_id:
+            # Nothing sensible to redistribute or bank an anonymous
+            # overpayment against -- leave it as an unexplained excess on
+            # this order rather than silently discarding it.
+            return
+
+        credit_method = self.env['pos.payment.method']._get_or_create_credit_payment_method(
+            self.company_id
+        )
+        remaining = excess
+        # `pos.payment.create()` alone never updates `amount_paid` -- that
+        # field isn't an automatic compute, it's a plain stored value only
+        # ever kept in sync by whoever creates the payment (see
+        # `pos.order.add_payment`, which does exactly `create()` then
+        # `self.amount_paid = self._compute_amount_paid()`). Reuse it here
+        # instead of a raw `create()` so this doesn't drift out of sync.
+        self.sudo().add_payment({
+            'pos_order_id': self.id,
+            'amount': -remaining,
+            'payment_method_id': credit_method.id,
+        })
+
+        targets = self.env['pos.order'].sudo().search([
+            ('partner_id', '=', self.partner_id.id),
+            ('company_id', '=', self.company_id.id),
+            ('state', '=', 'partially_paid'),
+            ('id', '!=', self.id),
+        ], order='date_order asc, id asc')
+        for target in targets:
+            if remaining <= 0:
+                break
+            residual = target.currency_id.round(target.amount_total - target.amount_paid)
+            if residual <= 0:
+                continue
+            applied = min(remaining, residual)
+            target.sudo().add_payment({
+                'pos_order_id': target.id,
+                'amount': applied,
+                'payment_method_id': credit_method.id,
+            })
+            target._process_saved_order(False)
+            remaining = self.currency_id.round(remaining - applied)
+
+        if remaining > 0:
+            self.env['pos.customer.credit'].sudo().create({
+                'partner_id': self.partner_id.id,
+                'company_id': self.company_id.id,
+                'amount': remaining,
+                'origin_order_id': self.id,
+            })
+
     def _process_saved_order(self, draft):
         """Same as core, except stock pickings / cost computation are only
         triggered once the order actually reaches the 'paid' state.
@@ -213,6 +290,14 @@ class PosOrder(models.Model):
         """
         self.ensure_one()
         if not draft and self.state != 'cancel':
+            # Must run BEFORE `action_pos_order_paid`: `_is_order_paid_with_
+            # rounding` is a near-EQUALITY check (`total - amount_paid` is
+            # ~zero), not a `>=` one -- an overpaid order (`amount_paid`
+            # above `amount_total`) fails it and falls through to
+            # 'partially_paid' same as a genuine underpayment, unless the
+            # excess is already netted out of `amount_paid` by the time this
+            # runs.
+            self._redistribute_overpayment()
             self.action_pos_order_paid()
             if self.state == 'paid':
                 self._create_order_picking()

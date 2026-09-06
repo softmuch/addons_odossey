@@ -1,40 +1,240 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * odossey_partial_payments_pos
+# 	* odossey_partial_payments_pos
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0\n"
+"Project-Id-Version: Odoo Server 19.0+e-20260622\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-06 19:06+0000\n"
+"PO-Revision-Date: 2026-09-06 19:06+0000\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: \n"
 
 #. module: odossey_partial_payments_pos
-#: model:ir.model.fields.selection,name:odossey_partial_payments_pos.selection__pos_order__state__partially_paid
-msgid "Partially Paid"
-msgstr "Pagato Parzialmente"
+#. odoo-javascript
+#: code:addons/odossey_partial_payments_pos/static/src/overrides/utils/order_payment_validation.js:0
+msgid "%s required"
+msgstr "%s richiesto"
+
+#. module: odossey_partial_payments_pos
+#. odoo-javascript
+#: code:addons/odossey_partial_payments_pos/static/src/overrides/utils/order_payment_validation.js:0
+msgid "? Clicking \"Confirm\" will validate the payment."
+msgstr "? Facendo clic su \"Conferma\" il pagamento verrà convalidato."
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_pos_customer_credit__amount
+msgid "Amount"
+msgstr "Importo"
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_pos_customer_credit__used_order_id
+msgid "Applied To Order"
+msgstr "Applicato all'Ordine"
+
+#. module: odossey_partial_payments_pos
+#. odoo-javascript
+#: code:addons/odossey_partial_payments_pos/static/src/overrides/utils/order_payment_validation.js:0
+msgid "Are you sure that the customer wants to  pay"
+msgstr "Il cliente vuole veramente pagare"
+
+#. module: odossey_partial_payments_pos
+#. odoo-javascript
+#: code:addons/odossey_partial_payments_pos/static/src/overrides/utils/order_payment_validation.js:0
+msgid "Cannot return change without a cash payment method"
+msgstr "Impossibile dare il resto senza un metodo di pagamento di cassa"
+
+#. module: odossey_partial_payments_pos
+#. odoo-javascript
+#: code:addons/odossey_partial_payments_pos/static/src/overrides/utils/order_payment_validation.js:0
+msgid "Cliente requerido"
+msgstr "Cliente richiesto"
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_pos_customer_credit__company_id
+msgid "Company"
+msgstr "Azienda"
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model,name:odossey_partial_payments_pos.model_res_partner
+msgid "Contact"
+msgstr "Contatto"
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_pos_customer_credit__create_uid
+msgid "Created by"
+msgstr "Creato da"
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_pos_customer_credit__create_date
+msgid "Created on"
+msgstr "Data creazione"
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_pos_customer_credit__currency_id
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_pos_make_payment__currency_id
+msgid "Currency"
+msgstr "Valuta"
+
+#. module: odossey_partial_payments_pos
+#: model_terms:ir.ui.view,arch_db:odossey_partial_payments_pos.pos_customer_credit_view_search
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_pos_make_payment__customer_credit_balance
+msgid "Customer Credit Balance"
+msgstr "Saldo Credito Cliente"
+
+#. module: odossey_partial_payments_pos
+#: model:ir.actions.act_window,name:odossey_partial_payments_pos.pos_customer_credit_action
+#: model:ir.ui.menu,name:odossey_partial_payments_pos.menu_pos_customer_credit
+#: model_terms:ir.ui.view,arch_db:odossey_partial_payments_pos.pos_customer_credit_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_partial_payments_pos.pos_customer_credit_view_tree
+msgid "Customer Credits"
+msgstr "Crediti Clienti"
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model,name:odossey_partial_payments_pos.model_pos_customer_credit
+msgid "Customer POS Credit Ledger"
+msgstr "Registro Crediti POS del Cliente"
+
+#. module: odossey_partial_payments_pos
+#. odoo-python
+#: code:addons/odossey_partial_payments_pos/models/pos_make_payment.py:0
+msgid "Customer is required for %s payment method."
+msgstr "Il cliente è obbligatorio per il metodo di pagamento %s."
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_pos_customer_credit__date
+msgid "Date"
+msgstr "Data"
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_pos_customer_credit__display_name
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_pos_make_payment__display_name
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_pos_order__display_name
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_pos_payment_method__display_name
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_pos_session__display_name
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_res_partner__display_name
+msgid "Display Name"
+msgstr "Nome visualizzato"
+
+#. module: odossey_partial_payments_pos
+#. odoo-javascript
+#: code:addons/odossey_partial_payments_pos/static/src/overrides/utils/order_payment_validation.js:0
+msgid ""
+"Elegí un cliente distinto de \"Consumidor Final Anónimo\" antes de hacer un "
+"pago parcial."
+msgstr ""
+"Seleziona un cliente diverso da \"Consumidor Final Anónimo\" prima di "
+"effettuare un pagamento parziale."
+
+#. module: odossey_partial_payments_pos
+#. odoo-javascript
+#: code:addons/odossey_partial_payments_pos/static/src/overrides/utils/order_payment_validation.js:0
+msgid "Empty Order"
+msgstr "Ordine vuoto"
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_pos_customer_credit__origin_order_id
+msgid "From Order"
+msgstr "Dall'Ordine"
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_pos_customer_credit__id
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_pos_make_payment__id
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_pos_order__id
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_pos_payment_method__id
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_pos_session__id
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_res_partner__id
+msgid "ID"
+msgstr "ID"
+
+#. module: odossey_partial_payments_pos
+#. odoo-javascript
+#: code:addons/odossey_partial_payments_pos/static/src/overrides/utils/order_payment_validation.js:0
+msgid "Incorrect address for shipping"
+msgstr "Indirizzo errato per la spedizione"
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model.fields,help:odossey_partial_payments_pos.field_pos_payment_method__is_credit_transfer
+msgid ""
+"Internal, non-cash tender used only to move already-collected money between "
+"orders (overpayment redistribution) or to apply a previously banked customer"
+" credit -- never represents real cash/bank movement, so it needs no journal."
+msgstr ""
+"Metodo di pagamento interno, senza movimento di cassa, usato solo per "
+"spostare denaro già incassato tra ordini (redistribuzione dell'eccedenza) "
+"o per applicare un credito cliente precedentemente accantonato -- non "
+"rappresenta mai un movimento reale di cassa/banca, quindi non necessita di "
+"un registro."
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_pos_payment_method__is_credit_transfer
+msgid "Is Credit Transfer"
+msgstr "È Trasferimento di Credito"
+
+#. module: odossey_partial_payments_pos
+#: model_terms:ir.ui.view,arch_db:odossey_partial_payments_pos.view_pos_pos_form_inherit_partial_payments
+msgid "La orden volverá a borrador para poder editarla. ¿Continuar?"
+msgstr "L'ordine tornerà in bozza per poterlo modificare. Continuare?"
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_pos_customer_credit__write_uid
+msgid "Last Updated by"
+msgstr "Ultimo aggiornamento di"
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_pos_customer_credit__write_date
+msgid "Last Updated on"
+msgstr "Ultimo aggiornamento il"
+
+#. module: odossey_partial_payments_pos
+#. odoo-javascript
+#: code:addons/odossey_partial_payments_pos/static/src/overrides/utils/order_payment_validation.js:0
+msgid "Missing required"
+msgstr "Informazione obbligatoria mancante"
+
+#. module: odossey_partial_payments_pos
+#. odoo-python
+#: code:addons/odossey_partial_payments_pos/models/pos_order.py:0
+msgid "No invoice journal configured for this POS session."
+msgstr "Nessun registro di fatturazione configurato per questa sessione POS."
+
+#. module: odossey_partial_payments_pos
+#. odoo-python
+#: code:addons/odossey_partial_payments_pos/models/pos_order.py:0
+msgid "Only a partially paid order can be sent back to draft."
+msgstr "Solo un ordine parzialmente pagato può tornare in bozza."
 
 #. module: odossey_partial_payments_pos
 #. odoo-python
 #: code:addons/odossey_partial_payments_pos/models/pos_make_payment.py:0
 msgid "Order %s is now fully paid."
-msgstr "L'ordine %s è ora pagato per intero."
+msgstr "L'ordine %s è ora completamente pagato."
 
 #. module: odossey_partial_payments_pos
-#. odoo-python
-#: code:addons/odossey_partial_payments_pos/models/pos_make_payment.py:0
-msgid "Partial payment registered on order %(name)s. Remaining balance due: %(amount)s."
-msgstr "Pagamento parziale registrato sull'ordine %(name)s. Saldo residuo dovuto: %(amount)s."
+#: model:ir.model.fields,help:odossey_partial_payments_pos.field_pos_customer_credit__used_order_id
+msgid "Order this credit was used to pay (set when amount < 0)."
+msgstr "Ordine pagato con questo credito (impostato quando l'importo è negativo)."
 
 #. module: odossey_partial_payments_pos
-#. odoo-python
-#: code:addons/odossey_partial_payments_pos/models/pos_make_payment.py:0
-msgid "Payment registered"
-msgstr "Pagamento registrato"
+#: model:ir.model.fields,help:odossey_partial_payments_pos.field_pos_customer_credit__origin_order_id
+msgid "Order whose overpayment generated this credit (set when amount > 0)."
+msgstr "Ordine la cui eccedenza ha generato questo credito (impostato quando l'importo è positivo)."
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_res_partner__pos_credit_balance
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_res_users__pos_credit_balance
+msgid "POS Credit Balance"
+msgstr "Saldo Credito POS"
 
 #. module: odossey_partial_payments_pos
 #. odoo-javascript
@@ -44,7 +244,147 @@ msgid "Partial Payment"
 msgstr "Pagamento Parziale"
 
 #. module: odossey_partial_payments_pos
+#. odoo-python
+#: code:addons/odossey_partial_payments_pos/models/pos_make_payment.py:0
+msgid ""
+"Partial payment registered on order %(name)s. Remaining balance due: "
+"%(amount)s."
+msgstr ""
+"Pagamento parziale registrato sull'ordine %(name)s. Saldo residuo: "
+"%(amount)s."
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model.fields.selection,name:odossey_partial_payments_pos.selection__pos_order__state__partially_paid
+msgid "Partially Paid"
+msgstr "Parzialmente Pagato"
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_pos_customer_credit__partner_id
+msgid "Partner"
+msgstr "Contatto"
+
+#. module: odossey_partial_payments_pos
+#. odoo-python
+#: code:addons/odossey_partial_payments_pos/models/pos_make_payment.py:0
+msgid "Payment registered"
+msgstr "Pagamento registrato"
+
+#. module: odossey_partial_payments_pos
 #. odoo-javascript
 #: code:addons/odossey_partial_payments_pos/static/src/overrides/utils/order_payment_validation.js:0
-msgid "This order will be left Partially Paid. The remaining balance of %s will still be due and can be collected later."
-msgstr "Questo ordine rimarrà Pagato Parzialmente. Il saldo residuo di %s resterà dovuto e potrà essere incassato in seguito."
+msgid "Please Confirm Large Amount"
+msgstr "Confermare l'importo elevato"
+
+#. module: odossey_partial_payments_pos
+#. odoo-javascript
+#: code:addons/odossey_partial_payments_pos/static/src/overrides/utils/order_payment_validation.js:0
+msgid "Please select the Customer"
+msgstr "Selezionare il cliente"
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model,name:odossey_partial_payments_pos.model_pos_make_payment
+msgid "Point of Sale Make Payment Wizard"
+msgstr "Procedura Guidata Pagamento Punto Vendita"
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model,name:odossey_partial_payments_pos.model_pos_order
+msgid "Point of Sale Orders"
+msgstr "Ordini del Punto Vendita"
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model,name:odossey_partial_payments_pos.model_pos_payment_method
+msgid "Point of Sale Payment Methods"
+msgstr "Metodi di Pagamento del Punto Vendita"
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model,name:odossey_partial_payments_pos.model_pos_session
+msgid "Point of Sale Session"
+msgstr "Sessione del Punto Vendita"
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_res_partner__pos_credit_currency_id
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_res_users__pos_credit_currency_id
+msgid "Pos Credit Currency"
+msgstr "Valuta del Credito POS"
+
+#. module: odossey_partial_payments_pos
+#. odoo-javascript
+#: code:addons/odossey_partial_payments_pos/static/src/overrides/utils/order_payment_validation.js:0
+msgid "Select a payment method to validate the order."
+msgstr "Seleziona un metodo di pagamento per convalidare l'ordine."
+
+#. module: odossey_partial_payments_pos
+#. odoo-javascript
+#: code:addons/odossey_partial_payments_pos/static/src/overrides/utils/order_payment_validation.js:0
+msgid "Some required information is missing."
+msgstr "Mancano alcune informazioni obbligatorie."
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_pos_order__state
+msgid "Status"
+msgstr "Stato"
+
+#. module: odossey_partial_payments_pos
+#. odoo-javascript
+#: code:addons/odossey_partial_payments_pos/static/src/overrides/utils/order_payment_validation.js:0
+msgid "The selected customer needs an address."
+msgstr "Il cliente selezionato deve avere un indirizzo."
+
+#. module: odossey_partial_payments_pos
+#. odoo-javascript
+#: code:addons/odossey_partial_payments_pos/static/src/overrides/utils/order_payment_validation.js:0
+msgid ""
+"There is no cash payment method available in this point of sale to handle the change.\n"
+"\n"
+" Please pay the exact amount or add a cash payment method in the point of sale configuration"
+msgstr ""
+"In questo punto vendita non è disponibile alcun metodo di pagamento di "
+"cassa per gestire il resto.\n"
+"\n"
+" Si prega di pagare l'importo esatto o di aggiungere un metodo di "
+"pagamento di cassa nella configurazione del punto vendita"
+
+#. module: odossey_partial_payments_pos
+#. odoo-javascript
+#: code:addons/odossey_partial_payments_pos/static/src/overrides/utils/order_payment_validation.js:0
+msgid ""
+"There must be at least one product in your order before it can be validated "
+"and invoiced."
+msgstr ""
+"Deve esserci almeno un prodotto nell'ordine prima di poterlo convalidare e "
+"fatturare."
+
+#. module: odossey_partial_payments_pos
+#. odoo-javascript
+#: code:addons/odossey_partial_payments_pos/static/src/overrides/utils/order_payment_validation.js:0
+msgid ""
+"This order will be left Partially Paid. The remaining balance of %s will "
+"still be due and can be collected later."
+msgstr ""
+"Questo ordine rimarrà Parzialmente Pagato. Il saldo residuo di %s resterà "
+"dovuto e potrà essere incassato in seguito."
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_pos_make_payment__use_customer_credit
+msgid "Use Customer Credit"
+msgstr "Usa Credito Cliente"
+
+#. module: odossey_partial_payments_pos
+#: model_terms:ir.ui.view,arch_db:odossey_partial_payments_pos.view_pos_pos_form_inherit_partial_payments
+msgid "Volver a Borrador"
+msgstr "Ritorna in Bozza"
+
+#. module: odossey_partial_payments_pos
+#. odoo-javascript
+#: code:addons/odossey_partial_payments_pos/static/src/overrides/utils/order_payment_validation.js:0
+msgid ""
+"You need to select the customer before you can invoice or ship an order."
+msgstr ""
+"È necessario selezionare il cliente prima di poter fatturare o spedire un "
+"ordine."
+
+#. module: odossey_partial_payments_pos
+#. odoo-javascript
+#: code:addons/odossey_partial_payments_pos/static/src/overrides/utils/order_payment_validation.js:0
+msgid "for an order of"
+msgstr "per un ordine di"

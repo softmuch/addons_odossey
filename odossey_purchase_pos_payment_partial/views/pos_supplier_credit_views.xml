@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pos_supplier_credit_view_tree" model="ir.ui.view">
+        <field name="name">pos.supplier.credit.list</field>
+        <field name="model">pos.supplier.credit</field>
+        <field name="arch" type="xml">
+            <list string="Supplier Credits" create="0">
+                <field name="date" />
+                <field name="partner_id" />
+                <field name="amount" decoration-success="amount &gt; 0" decoration-danger="amount &lt; 0" />
+                <field name="origin_order_id" />
+                <field name="used_order_id" />
+                <field name="account_payment_id" />
+            </list>
+        </field>
+    </record>
+
+    <record id="pos_supplier_credit_view_search" model="ir.ui.view">
+        <field name="name">pos.supplier.credit.search</field>
+        <field name="model">pos.supplier.credit</field>
+        <field name="arch" type="xml">
+            <search string="Supplier Credits">
+                <field name="partner_id" />
+                <group>
+                    <filter name="group_by_partner" string="Supplier" domain="[]" context="{'group_by': 'partner_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="pos_supplier_credit_action" model="ir.actions.act_window">
+        <field name="name">Supplier Credits</field>
+        <field name="res_model">pos.supplier.credit</field>
+        <field name="view_mode">list</field>
+        <field name="context">{'search_default_group_by_partner': 1}</field>
+    </record>
+
+    <menuitem
+        id="menu_pos_supplier_credit"
+        parent="purchase.menu_procurement_management"
+        action="pos_supplier_credit_action"
+        sequence="21"
+    />
+</odoo>

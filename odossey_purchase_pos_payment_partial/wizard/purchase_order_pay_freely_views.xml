@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="purchase_order_pay_freely_view_form_inherit_partial" model="ir.ui.view">
+        <field name="name">purchase.order.pay.freely.form.inherit.partial</field>
+        <field name="model">purchase.order.pay.freely</field>
+        <field name="inherit_id" ref="odossey_purchase_pos_payment.purchase_order_pay_freely_view_form" />
+        <field name="arch" type="xml">
+            <field name="amount" position="before">
+                <field name="supplier_credit_balance" invisible="supplier_credit_balance &lt;= 0" />
+                <field name="use_supplier_credit" invisible="supplier_credit_balance &lt;= 0" />
+            </field>
+        </field>
+    </record>
+</odoo>

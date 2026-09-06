@@ -2,13 +2,89 @@
 # Copyright (C) 2026-Today: Part of Odossey.
 # @author:  Part of Odossey.
 
-from odoo import _, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import float_is_zero, formatLang
 
 
 class PosMakePayment(models.TransientModel):
     _inherit = 'pos.make.payment'
+
+    use_customer_credit = fields.Boolean(
+        default=True, string='Use Customer Credit'
+    )
+    currency_id = fields.Many2one(related='config_id.currency_id')
+    customer_credit_balance = fields.Monetary(
+        compute='_compute_customer_credit_balance', currency_field='currency_id'
+    )
+
+    def _get_order(self):
+        return self.env['pos.order'].browse(self.env.context.get('active_id', False))
+
+    def _compute_customer_credit_balance(self):
+        order = self._get_order()
+        for wizard in self:
+            wizard.customer_credit_balance = (
+                order.partner_id.pos_credit_balance if order.partner_id else 0.0
+            )
+
+    @api.model
+    def default_get(self, fields_list):
+        """Only adjusts the *suggested* ``amount`` shown on the form -- no
+        persistent write happens here (a wizard's ``default_get`` can be
+        called speculatively/without ever being confirmed, so applying the
+        credit for real has to wait for ``check()``).
+        """
+        res = super().default_get(fields_list)
+        if 'amount' not in fields_list or not res.get('use_customer_credit', True):
+            return res
+        order = self._get_order()
+        if not order or not order.partner_id:
+            return res
+        balance = order.partner_id.pos_credit_balance
+        if balance <= 0:
+            return res
+        residual = order.currency_id.round(order.amount_total - order.amount_paid)
+        applied = min(balance, residual)
+        res['amount'] = max(order.currency_id.round(res.get('amount', residual) - applied), 0.0)
+        return res
+
+    def _apply_customer_credit(self, order):
+        """Consume up to the order's own residual from the partner's banked
+        ``pos.customer.credit`` balance, booked as its own "Crédito Cliente"
+        payment line (never more than the residual -- this alone must never
+        overpay the order; whatever the cashier separately enters below can
+        still overpay it, and that's handled by
+        ``pos.order._redistribute_overpayment`` as usual).
+        """
+        self.ensure_one()
+        if not self.use_customer_credit or not order.partner_id:
+            return
+        balance = order.partner_id.pos_credit_balance
+        if balance <= 0:
+            return
+        residual = order.currency_id.round(order.amount_total - order.amount_paid)
+        if residual <= 0:
+            return
+        applied = min(balance, residual)
+        credit_method = self.env['pos.payment.method']._get_or_create_credit_payment_method(
+            order.company_id
+        )
+        # `add_payment` (not a raw `pos.payment.create()`) so `amount_paid`
+        # -- a plain stored field, not an automatic compute -- stays in
+        # sync; see the matching comment in
+        # `pos_order._redistribute_overpayment`.
+        order.sudo().add_payment({
+            'pos_order_id': order.id,
+            'amount': applied,
+            'payment_method_id': credit_method.id,
+        })
+        self.env['pos.customer.credit'].sudo().create({
+            'partner_id': order.partner_id.id,
+            'company_id': order.company_id.id,
+            'amount': -applied,
+            'used_order_id': order.id,
+        })
 
     def check(self):
         """Reuse the core "Payment" wizard to collect the remaining balance
@@ -30,7 +106,8 @@ class PosMakePayment(models.TransientModel):
         """
         self.ensure_one()
 
-        order = self.env['pos.order'].browse(self.env.context.get('active_id', False))
+        order = self._get_order()
+        self._apply_customer_credit(order)
 
         if order.state != 'partially_paid':
             return super().check()

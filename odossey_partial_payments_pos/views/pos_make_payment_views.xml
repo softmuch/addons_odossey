@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pos_payment_inherit_customer_credit" model="ir.ui.view">
+        <field name="name">pos.make.payment.form.inherit.customer.credit</field>
+        <field name="model">pos.make.payment</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_payment" />
+        <field name="arch" type="xml">
+            <field name="payment_method_id" position="after">
+                <field name="customer_credit_balance" invisible="customer_credit_balance &lt;= 0" />
+                <field name="use_customer_credit" invisible="customer_credit_balance &lt;= 0" />
+            </field>
+        </field>
+    </record>
+</odoo>

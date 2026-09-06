@@ -1,0 +1,202 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* odossey_purchase_pos_payment_partial
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e-20260622\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-06 19:06+0000\n"
+"PO-Revision-Date: 2026-09-06 19:06+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_pos_supplier_credit__amount
+msgid "Amount"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_pos_supplier_credit__used_order_id
+msgid "Applied To Order"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_pos_supplier_credit__account_payment_id
+msgid "Backing Payment"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_pos_supplier_credit__company_id
+msgid "Company"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model,name:odossey_purchase_pos_payment_partial.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_pos_supplier_credit__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_pos_supplier_credit__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_pos_supplier_credit__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_pos_supplier_credit__date
+msgid "Date"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_pos_supplier_credit__display_name
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_purchase_order_pay_freely__display_name
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_purchase_order_payment__display_name
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_purchase_order_payment_mixin__display_name
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_res_partner__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_pos_supplier_credit__origin_order_id
+msgid "From Order"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_pos_supplier_credit__id
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_purchase_order__id
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_purchase_order_pay_freely__id
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_purchase_order_payment__id
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_purchase_order_payment_mixin__id
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_pos_supplier_credit__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_pos_supplier_credit__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_partial.selection__purchase_order__payment_status__not_paid
+msgid "Not Paid"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model.fields,help:odossey_purchase_pos_payment_partial.field_pos_supplier_credit__used_order_id
+msgid "Order this credit was used to pay (set when amount < 0)."
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model.fields,help:odossey_purchase_pos_payment_partial.field_pos_supplier_credit__origin_order_id
+msgid "Order whose overpayment generated this credit (set when amount > 0)."
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_partial.selection__purchase_order__payment_status__paid
+msgid "Paid"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_partial.selection__purchase_order__payment_status__partially_paid
+msgid "Partially Paid"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model,name:odossey_purchase_pos_payment_partial.model_purchase_order_pay_freely
+msgid "Pay Freely a Supplier's Open Purchase Orders"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model,name:odossey_purchase_pos_payment_partial.model_purchase_order_payment
+msgid "Pay a Purchase Order"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_purchase_order__payment_status
+msgid "Payment Status"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_res_partner__pos_supplier_credit_currency_id
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_res_users__pos_supplier_credit_currency_id
+msgid "Pos Supplier Credit Currency"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model,name:odossey_purchase_pos_payment_partial.model_purchase_order
+msgid "Purchase Order"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model,name:odossey_purchase_pos_payment_partial.model_purchase_order_payment_mixin
+msgid "Shared logic to pay one or more purchase orders via pos.payment"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_pos_supplier_credit__partner_id
+#: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment_partial.pos_supplier_credit_view_search
+msgid "Supplier"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_purchase_order_pay_freely__supplier_credit_balance
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_purchase_order_payment__supplier_credit_balance
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_res_partner__pos_supplier_credit_balance
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_res_users__pos_supplier_credit_balance
+msgid "Supplier Credit Balance"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model,name:odossey_purchase_pos_payment_partial.model_pos_supplier_credit
+msgid "Supplier Credit Ledger (from Purchase Order overpayments)"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.actions.act_window,name:odossey_purchase_pos_payment_partial.pos_supplier_credit_action
+#: model:ir.ui.menu,name:odossey_purchase_pos_payment_partial.menu_pos_supplier_credit
+#: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment_partial.pos_supplier_credit_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment_partial.pos_supplier_credit_view_tree
+msgid "Supplier Credits"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#. odoo-python
+#: code:addons/odossey_purchase_pos_payment_partial/wizard/purchase_order_pay_freely.py:0
+#: code:addons/odossey_purchase_pos_payment_partial/wizard/purchase_order_payment.py:0
+msgid "The amount to pay must be greater than zero."
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model.fields,help:odossey_purchase_pos_payment_partial.field_pos_supplier_credit__account_payment_id
+msgid ""
+"The real, already-posted outbound payment whose leftover, unreconciled "
+"residual this credit actually is. Using this credit later reconciles against"
+" THIS SAME payment -- it never creates a new bank/cash movement, since the "
+"money was already sent to the supplier when this payment was made."
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_purchase_order_pay_freely__use_supplier_credit
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_purchase_order_payment__use_supplier_credit
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_purchase_order_payment_mixin__use_supplier_credit
+msgid "Use Supplier Credit"
+msgstr ""

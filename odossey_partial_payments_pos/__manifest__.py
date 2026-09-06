@@ -21,7 +21,10 @@ later, reusing the standard POS "Payment" flow.
     'depends': ['point_of_sale'],
     'version': '19.0.0.0.2',
     'data': [
+        'security/ir.model.access.csv',
         'views/pos_order_views.xml',
+        'views/pos_make_payment_views.xml',
+        'views/pos_customer_credit_views.xml',
     ],
     'assets': {
         'point_of_sale._assets_pos': [
