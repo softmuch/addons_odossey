@@ -50,41 +50,15 @@ class PosMakePayment(models.TransientModel):
         return res
 
     def _apply_customer_credit(self, order):
-        """Consume up to the order's own residual from the partner's banked
-        ``pos.customer.credit`` balance, booked as its own "Crédito Cliente"
-        payment line (never more than the residual -- this alone must never
-        overpay the order; whatever the cashier separately enters below can
-        still overpay it, and that's handled by
-        ``pos.order._redistribute_overpayment`` as usual).
+        """Wizard-level opt-in check; the actual consumption logic is shared
+        with the POS frontend touch checkout on ``pos.order`` itself (see
+        ``apply_customer_credit`` there), since both need the exact same
+        behavior.
         """
         self.ensure_one()
-        if not self.use_customer_credit or not order.partner_id:
+        if not self.use_customer_credit:
             return
-        balance = order.partner_id.pos_credit_balance
-        if balance <= 0:
-            return
-        residual = order.currency_id.round(order.amount_total - order.amount_paid)
-        if residual <= 0:
-            return
-        applied = min(balance, residual)
-        credit_method = self.env['pos.payment.method']._get_or_create_credit_payment_method(
-            order.company_id
-        )
-        # `add_payment` (not a raw `pos.payment.create()`) so `amount_paid`
-        # -- a plain stored field, not an automatic compute -- stays in
-        # sync; see the matching comment in
-        # `pos_order._redistribute_overpayment`.
-        order.sudo().add_payment({
-            'pos_order_id': order.id,
-            'amount': applied,
-            'payment_method_id': credit_method.id,
-        })
-        self.env['pos.customer.credit'].sudo().create({
-            'partner_id': order.partner_id.id,
-            'company_id': order.company_id.id,
-            'amount': -applied,
-            'used_order_id': order.id,
-        })
+        order.apply_customer_credit()
 
     def check(self):
         """Reuse the core "Payment" wizard to collect the remaining balance

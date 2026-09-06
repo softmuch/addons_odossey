@@ -80,6 +80,26 @@ patch(OrderPaymentValidation.prototype, {
             return false;
         }
 
+        // Fully (or further) covered by the partner's banked POS credit once
+        // the server applies it (`pos.order.apply_customer_credit`, run
+        // before `action_pos_order_paid` -- see `_process_saved_order`) --
+        // this is NOT a genuine partial payment (the cashier isn't choosing
+        // to under-collect), so it must succeed via the normal Validate
+        // path even with zero (or a partial) manual tender, and BEFORE the
+        // "select a payment method" gate right below, which would otherwise
+        // reject a zero-tender, credit-only order outright. Shares its
+        // condition with `pos.order.canBeValidated()` (see
+        // ../models/pos_order.js) so the button itself isn't CSS-disabled
+        // in this same situation. Checked here only, never used to
+        // fabricate a payment line client-side: the server independently
+        // computes and caps the applied amount against the real balance.
+        if (!this.invoicing && this.order.isCoveredByCustomerCredit()) {
+            if (!this.order._isValidEmptyOrder()) {
+                return false;
+            }
+            return true;
+        }
+
         if (
             !this.pos.currency.isZero(this.order.priceIncl) &&
             this.order.payment_ids.length === 0

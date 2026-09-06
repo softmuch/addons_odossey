@@ -13,4 +13,21 @@
             </button>
         </xpath>
     </t>
+
+    <t t-name="odossey_partial_payments_pos.PaymentScreenDue"
+       t-inherit="point_of_sale.PaymentScreenDue"
+       t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('total')]" position="after">
+            <div t-if="customerCreditBalance > 0 and !currentOrder.isPaid()"
+                class="o_customer_credit_toggle d-flex align-items-center justify-content-center gap-2 mt-1 fs-6 fw-normal">
+                <input type="checkbox" id="o_use_customer_credit"
+                    t-att-checked="useCustomerCredit"
+                    t-on-change="toggleCustomerCredit"/>
+                <label for="o_use_customer_credit" class="mb-0">
+                    <span>Use Customer Credit</span>
+                    <t t-esc="' (' + this.env.utils.formatCurrency(customerCreditBalance) + ')'"/>
+                </label>
+            </div>
+        </xpath>
+    </t>
 </templates>

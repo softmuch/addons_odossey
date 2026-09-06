@@ -2,13 +2,21 @@
 # Copyright (C) 2026-Today: Part of Odossey.
 # @author:  Part of Odossey.
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 CREDIT_METHOD_NAME = 'Crédito Cliente'
 
 
 class PosPaymentMethod(models.Model):
     _inherit = 'pos.payment.method'
+
+    @api.model
+    def _load_pos_data_fields(self, config):
+        # Needed by the POS frontend touch checkout to filter this internal
+        # tender out of the manually-selectable payment method buttons (see
+        # overrides/screens/payment_screen.js) -- it must only ever be
+        # created/consumed server-side, never hand-tendered.
+        return super()._load_pos_data_fields(config) + ['is_credit_transfer']
 
     is_credit_transfer = fields.Boolean(
         default=False,

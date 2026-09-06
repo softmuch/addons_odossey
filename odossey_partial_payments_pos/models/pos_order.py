@@ -27,6 +27,13 @@ class PosOrder(models.Model):
         selection_add=[('partially_paid', 'Partially Paid'), ('cancel',)],
         ondelete={'partially_paid': 'set default'},
     )
+    # Persisted (not just a wizard-transient flag) so the POS frontend touch
+    # checkout -- which never goes through `pos.make.payment` -- can drive
+    # the same opt-in/opt-out choice via its own checkbox, synced like any
+    # other order field. `pos.make.payment` keeps its own separate
+    # `use_customer_credit` field for the backend-wizard flow; both end up
+    # calling the same `apply_customer_credit()` below.
+    use_customer_credit = fields.Boolean(default=True)
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -199,6 +206,44 @@ class PosOrder(models.Model):
         self.write({'state': 'partially_paid'})
         return True
 
+    def apply_customer_credit(self):
+        """Consume up to this order's own residual from `self.partner_id`'s
+        banked `pos.customer.credit` balance, booked as its own "Crédito
+        Cliente" payment line. Shared by the backend `pos.make.payment`
+        wizard (see its own `_apply_customer_credit`, gated by the wizard's
+        transient field) and the POS frontend touch checkout below (gated
+        by this order's own persisted `use_customer_credit` field).
+
+        Never applies more than the order's own residual -- this alone must
+        never overpay the order; whatever else gets tendered can still
+        overpay it, and that's handled by `_redistribute_overpayment` as
+        usual.
+        """
+        self.ensure_one()
+        if not self.partner_id:
+            return
+        balance = self.partner_id.pos_credit_balance
+        if balance <= 0:
+            return
+        residual = self.currency_id.round(self.amount_total - self.amount_paid)
+        if residual <= 0:
+            return
+        applied = min(balance, residual)
+        credit_method = self.env['pos.payment.method']._get_or_create_credit_payment_method(
+            self.company_id
+        )
+        self.sudo().add_payment({
+            'pos_order_id': self.id,
+            'amount': applied,
+            'payment_method_id': credit_method.id,
+        })
+        self.env['pos.customer.credit'].sudo().create({
+            'partner_id': self.partner_id.id,
+            'company_id': self.company_id.id,
+            'amount': -applied,
+            'used_order_id': self.id,
+        })
+
     def _redistribute_overpayment(self):
         """When this order ends up paid IN EXCESS (payments sum above its
         own total), first shift the extra money to this same customer's
@@ -290,6 +335,13 @@ class PosOrder(models.Model):
         """
         self.ensure_one()
         if not draft and self.state != 'cancel':
+            # Applying banked credit first (not just redistributing excess
+            # after the fact) lets it cover part or all of THIS order too --
+            # not only ones it's already overpaid -- exactly like the
+            # backend wizard's own ordering (`_apply_customer_credit` before
+            # its own payment branch).
+            if self.use_customer_credit:
+                self.apply_customer_credit()
             # Must run BEFORE `action_pos_order_paid`: `_is_order_paid_with_
             # rounding` is a near-EQUALITY check (`total - amount_paid` is
             # ~zero), not a `>=` one -- an overpaid order (`amount_paid`

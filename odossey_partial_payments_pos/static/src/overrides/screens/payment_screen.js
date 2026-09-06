@@ -9,6 +9,42 @@ patch(PaymentScreen.prototype, {
     setup() {
         super.setup(...arguments);
         this.validatePartialOrder = useAsyncLockedMethod(this.validatePartialOrder);
+        // The "Crédito Cliente" tender (see pos_payment_method.py) is pure
+        // internal bookkeeping created/consumed by the server itself
+        // (`pos.order.apply_customer_credit` / `_redistribute_overpayment`)
+        // -- it must never be offered as a manually-selectable payment
+        // button, or a cashier could tender an arbitrary "credit" amount
+        // with no real balance behind it. The checkbox below (see
+        // ../../../views/pos_make_payment_views.xml's backend equivalent)
+        // is the only supported way to apply it.
+        this.payment_methods_from_config = this.payment_methods_from_config.filter(
+            (paymentMethod) => !paymentMethod.is_credit_transfer
+        );
+    },
+
+    /**
+     * Current order's partner's banked POS credit balance, or 0 if there is
+     * no partner. Drives both the visibility and the label of the "Use
+     * Customer Credit" checkbox below.
+     */
+    get customerCreditBalance() {
+        const partner = this.currentOrder.getPartner();
+        return partner ? partner.pos_credit_balance || 0 : 0;
+    },
+
+    get useCustomerCredit() {
+        return this.currentOrder.use_customer_credit ?? true;
+    },
+
+    /**
+     * Only flips a flag stored on the order itself -- the actual
+     * consumption (capped at the real available balance, never at
+     * whatever's displayed here) happens server-side in
+     * `pos.order.apply_customer_credit` when the order syncs, exactly like
+     * the backend wizard's own checkbox.
+     */
+    toggleCustomerCredit(ev) {
+        this.currentOrder.use_customer_credit = ev.target.checked;
     },
 
     /**
