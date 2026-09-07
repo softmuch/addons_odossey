@@ -46,4 +46,23 @@ patch(PosOrder.prototype, {
             (this.isCoveredByCustomerCredit() && this._isValidEmptyOrder() && !this.isCustomerRequired)
         );
     },
+
+    /**
+     * `amount_return` (set by core, right below, to `this.change`) is what
+     * the server's `_process_payment_lines` uses to decide whether to
+     * create its own automatic cash "return"/change payment on sync (see
+     * `point_of_sale/models/pos_order.py`) -- it does this unconditionally,
+     * *before* `pos.order._redistribute_overpayment` (server-side, also on
+     * sync) ever gets a look, so a non-zero `amount_return` always wins the
+     * excess as plain cash change regardless of anything else. Zero it out
+     * here when the cashier explicitly chose, via the "Sobrepago" prompt in
+     * `order_payment_validation.js`'s `isOrderValid`, to leave the excess
+     * for the server to redistribute/bank as customer credit instead.
+     */
+    setOrderPrices() {
+        super.setOrderPrices();
+        if (this.uiState.creditOverpaymentInstead) {
+            this.amount_return = 0;
+        }
+    },
 });

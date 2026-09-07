@@ -202,6 +202,44 @@ patch(OrderPaymentValidation.prototype, {
             return false;
         }
 
+        // A cash overpayment leaves `order.change` non-zero, which core's
+        // own `_process_payment_lines` (server-side, on sync -- see
+        // `point_of_sale/models/pos_order.py`) turns into an automatic
+        // "return"/change payment on the CASH method the instant the order
+        // reaches the server, regardless of anything done client-side.
+        // That zeroes `amountPaid` back down to the order's own total
+        // *before* `pos.order._redistribute_overpayment` (also server-side,
+        // running right after) ever gets a look, so it sees no excess left
+        // to shift to the customer's other open orders or bank as reusable
+        // credit -- the whole feature silently no-ops. Only relevant with a
+        // real customer: an anonymous walk-in has no account to credit, so
+        // cash change stays the only sensible outcome and this never asks.
+        const overpaymentPartner = this.order.getPartner();
+        const overpaymentAnonymousId = this.pos.config._consumidor_final_anonimo_id;
+        const hasRealPartner =
+            overpaymentPartner &&
+            !(overpaymentAnonymousId && overpaymentPartner.id === overpaymentAnonymousId);
+        if (
+            hasRealPartner &&
+            !this.pos.currency.isZero(this.order.change) &&
+            this.order.uiState.creditOverpaymentInstead === undefined
+        ) {
+            const giveChange = await ask(this.pos.dialog, {
+                title: _t("Sobrepago"),
+                body: _t(
+                    'Esta orden tiene un excedente de %s. ¿Querés entregarlo como vuelto en efectivo, o dejarlo para que se acredite/reparta automáticamente a favor del cliente?',
+                    this.pos.env.utils.formatCurrency(Math.abs(this.order.change))
+                ),
+                confirmLabel: _t("Dar vuelto"),
+                cancelLabel: _t("Acreditar al cliente"),
+            });
+            // Read by `pos.order.setOrderPrices()` (see
+            // ../models/pos_order.js) to zero `amount_return` instead of
+            // sending `order.change` to the server when the cashier opted
+            // to credit it instead of handing back cash.
+            this.order.uiState.creditOverpaymentInstead = !giveChange;
+        }
+
         if (!this.order._isValidEmptyOrder()) {
             return false;
         }
