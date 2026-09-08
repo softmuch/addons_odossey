@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_pos_config_kanban_close_session" model="ir.ui.view">
+        <field name="name">pos.config.kanban.close.session</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_config_kanban"/>
+        <field name="arch" type="xml">
+            <button name="open_ui" type="object" position="after">
+                <button t-if="record.current_session_state.raw_value == 'opened'"
+                        class="btn btn-secondary"
+                        name="action_close_session_from_kanban"
+                        type="object"
+                        groups="point_of_sale.group_pos_manager">
+                    Cerrar caja registradora
+                </button>
+            </button>
+        </field>
+    </record>
+
+</odoo>
