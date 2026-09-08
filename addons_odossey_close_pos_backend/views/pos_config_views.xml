@@ -6,7 +6,7 @@
         <field name="model">pos.config</field>
         <field name="inherit_id" ref="point_of_sale.view_pos_config_kanban"/>
         <field name="arch" type="xml">
-            <button name="open_ui" type="object" position="after">
+            <div name="card_left" position="inside">
                 <button t-if="record.current_session_state.raw_value == 'opened'"
                         class="btn btn-secondary"
                         name="action_close_session_from_kanban"
@@ -14,7 +14,7 @@
                         groups="point_of_sale.group_pos_manager">
                     Cerrar caja registradora
                 </button>
-            </button>
+            </div>
         </field>
     </record>
 
