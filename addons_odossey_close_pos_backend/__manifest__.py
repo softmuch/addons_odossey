@@ -8,19 +8,18 @@
     'description': """
 Agrega un botón "Cerrar caja registradora" en la vista kanban de configuraciones
 de Punto de Venta (point_of_sale.view_pos_config_kanban), al lado del botón
-"Continue Selling" / "Open Register", que abre la sesión de POS y dispara
-automáticamente el popup nativo de cierre de caja (ClosePosPopup), exactamente
-el mismo proceso de conteo/validación que al cerrar desde el propio POS.
+"Continue Selling" / "Open Register". Abre un wizard 100% backend (no navega
+a /pos/ui) que llama a los mismos métodos que usa el POS para cerrar la sesión
+(post_closing_cash_details, update_closing_control_state_session,
+action_pos_session_closing_control), incluyendo el wizard nativo de descuadre
+contable cuando corresponde.
 """,
     'depends': ['point_of_sale'],
     'data': [
+        'security/ir.model.access.csv',
         'views/pos_config_views.xml',
+        'views/close_session_wizard_views.xml',
     ],
-    'assets': {
-        'point_of_sale._assets_pos': [
-            'addons_odossey_close_pos_backend/static/src/overrides/pos_store.js',
-        ],
-    },
     'installable': True,
     'application': False,
     'auto_install': False,

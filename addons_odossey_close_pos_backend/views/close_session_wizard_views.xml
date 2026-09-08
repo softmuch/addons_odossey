@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_pos_close_session_backend_wizard_form" model="ir.ui.view">
+        <field name="name">pos.close.session.backend.wizard.form</field>
+        <field name="model">pos.close.session.backend.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Cerrar caja registradora">
+                <field name="session_id" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="cash_control" invisible="1"/>
+                <group>
+                    <field name="closing_info" nolabel="1" readonly="1"
+                           style="white-space: pre-wrap; font-family: monospace;"/>
+                </group>
+                <group>
+                    <field name="counted_cash" invisible="not cash_control"/>
+                    <field name="closing_notes"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Cerrar caja registradora" class="btn-primary"/>
+                    <button string="Descartar" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

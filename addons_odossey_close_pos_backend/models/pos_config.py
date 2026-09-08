@@ -6,21 +6,23 @@ class PosConfig(models.Model):
     _inherit = 'pos.config'
 
     def action_close_session_from_kanban(self):
-        """Open the real POS session UI and trigger its closing popup.
+        """Open a backend wizard to close the currently open session.
 
-        Reuses the exact front-end closing flow (cash count, payment
-        breakdown, difference validation, wizard on imbalance...) instead of
-        reimplementing it in the backend: navigates into /pos/ui like
-        open_ui does, with an extra `close_session` flag picked up by our JS
-        override (static/src/overrides/pos_store.js) to call
-        PosStore.closeSession() as soon as the session data is loaded.
+        Stays entirely in the backend (no navigation into /pos/ui): the
+        wizard (pos.close.session.backend.wizard) calls the same session
+        methods the POS front-end uses to close a register
+        (post_closing_cash_details, update_closing_control_state_session,
+        action_pos_session_closing_control), including the hand-off to the
+        core pos.close.session.wizard when there's an accounting imbalance.
         """
         self.ensure_one()
         if not self.current_session_id:
             raise UserError(_("There is no open session to close."))
-        pos_url = '/pos/ui/%d?from_backend=True&close_session=True' % self.id
         return {
-            'type': 'ir.actions.act_url',
-            'url': pos_url,
-            'target': 'self',
+            'name': _('Cerrar caja registradora'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'pos.close.session.backend.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {'default_session_id': self.current_session_id.id},
         }
