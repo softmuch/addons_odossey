@@ -1,5 +1,5 @@
 # License OPL-1
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class PosPayment(models.Model):
@@ -13,6 +13,41 @@ class PosPayment(models.Model):
         "supplier against this purchase order (amount is negative in that "
         "case) rather than money collected from a POS sale.",
     )
+    # `pos_order_id` is deliberately left empty for a supplier payment (see
+    # `_pay_purchase_orders` in the wizard mixin -- there's no real POS sale
+    # to attach it to, so no shadow `pos.order` is created just to satisfy
+    # the field). Core declares it `required=True`; relaxed here since a
+    # purchase payment genuinely has none.
+    pos_order_id = fields.Many2one(required=False)
+    # `company_id`/`partner_id`/`currency_id` are core `related` fields
+    # sourced FROM `pos_order_id`, so they'd otherwise come out empty here
+    # too. Redeclared `store=True, readonly=False` (same fix already applied
+    # to `l10n_latam.check.company_id`/`partner_id` in `l10n_latam_check_ext`
+    # for the identical reason: an Odoo related field without
+    # `readonly=False` silently ignores any value passed to it in
+    # `create()`/`write()` and always recomputes from the relation instead)
+    # so `_get_pos_payment_vals` below can set them explicitly from the
+    # purchase order. `session_id`/`user_id` are left as plain empty
+    # `related` fields -- nothing in this module's own code needs them, and
+    # they're excluded from `rule_pos_payment_multi_company`/the payment-
+    # method-vs-session constrain that would otherwise choke on them (see
+    # `_check_payment_method_id` below).
+    company_id = fields.Many2one(related="pos_order_id.company_id", store=True, readonly=False)
+    partner_id = fields.Many2one(related="pos_order_id.partner_id", store=True, readonly=False)
+    currency_id = fields.Many2one(related="pos_order_id.currency_id", store=True, readonly=False)
+
+    @api.constrains("payment_method_id")
+    def _check_payment_method_id(self):
+        """Core's own version validates `payment_method_id` against the
+        payment's `session_id.config_id.payment_method_ids` -- meaningless
+        for a supplier payment, which never has a `pos_order_id`/session at
+        all (see the field comments above): without this override, core's
+        constrain would reject EVERY one of these on create, since an empty
+        `session_id.config_id.payment_method_ids` never contains anything.
+        Only run core's check on payments that actually belong to a real
+        POS sale.
+        """
+        return super(PosPayment, self.filtered("pos_order_id"))._check_payment_method_id()
 
     def create(self, vals_list):
         payments = super().create(vals_list)
@@ -102,7 +137,7 @@ class PosPayment(models.Model):
                         "amount": abs(payment.amount),
                         "journal_id": journal.id,
                         "date": payment.payment_date,
-                        "memo": payment.pos_order_id.name,
+                        "memo": purchase_order.name,
                         "write_off_line_vals": [],
                     }
                 )

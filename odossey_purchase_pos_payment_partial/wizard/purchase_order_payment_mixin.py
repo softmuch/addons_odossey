@@ -175,10 +175,10 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
             consumed_total += applied
 
         if consumed_total > 0:
-            session = self._get_open_pos_session(company)
-            pos_order = self._create_shadow_pos_order(session, company, partner, consumed_total)
             self.env['pos.payment'].with_context(skip_purchase_order_account_payment=True).create({
-                'pos_order_id': pos_order.id,
+                'company_id': order.company_id.id,
+                'partner_id': order.partner_id.id,
+                'currency_id': order.currency_id.id,
                 'amount': -consumed_total,
                 'payment_method_id': payment_method.id,
                 'purchase_order_id': order.id,

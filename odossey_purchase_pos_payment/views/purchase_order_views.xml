@@ -17,11 +17,11 @@
             <xpath expr="//page[@name='purchase_delivery_invoice']" position="after">
                 <page string="Payments" name="pos_payments">
                     <!-- Read-only ledger, unlike pos.order's own equivalent
-                         tab: a pos.payment row created here inline could
-                         never be given the real pos.order it requires
-                         (pos.payment.pos_order_id is a hard required=True
-                         on core), so all creation goes through the "Pay"
-                         button/wizard above instead. -->
+                         tab: a pos.payment row created here inline would
+                         skip the wizard's own accounting (posting/
+                         reconciling the matching account.payment, see
+                         models/pos_payment.py), so all creation goes
+                         through the "Pay" button/wizard above instead. -->
                     <field name="pos_payment_ids" colspan="4" nolabel="1" readonly="1">
                         <list string="Payments">
                             <field name="currency_id" column_invisible="True" />

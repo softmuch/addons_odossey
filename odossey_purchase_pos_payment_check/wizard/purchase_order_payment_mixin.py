@@ -83,15 +83,13 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
             PurchaseOrderPaymentMixin, self.with_context(_l10n_latam_check_id=check.id)
         )._pay_purchase_orders(company, partner, payment_method, payment_date, order_amounts)
 
-    def _get_pos_payment_vals(self, pos_order, order, amount, payment_method, payment_date):
+    def _get_pos_payment_vals(self, order, amount, payment_method, payment_date):
         # Threads the check created up front in the 'new check' branch above
         # into every payment's own vals (see the comment there for why this
         # goes through context instead of an instance attribute). Only
         # applies to that branch: `_pay_with_existing_check` builds its own
         # `pos.payment` vals directly and never reaches this method.
-        vals = super()._get_pos_payment_vals(
-            pos_order, order, amount, payment_method, payment_date
-        )
+        vals = super()._get_pos_payment_vals(order, amount, payment_method, payment_date)
         if payment_method.payment_method_type == "check":
             vals["l10n_latam_check_id"] = self.env.context.get("_l10n_latam_check_id")
             vals["l10n_latam_check_number"] = self.l10n_latam_check_number
@@ -123,17 +121,15 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
         `views/purchase_check_views.xml`) -- not core's own check ledger.
         """
         check = self.existing_check_id
-        session = self._get_open_pos_session(company)
-        self._check_payment_method(payment_method, session)
-        total = sum(amount for _order, amount in order_amounts)
-        pos_order = self._create_shadow_pos_order(session, company, partner, total)
 
         payments = self.env["pos.payment"]
         for order, amount in order_amounts:
             payments |= self.env["pos.payment"].with_context(
                 skip_purchase_order_account_payment=True
             ).create({
-                "pos_order_id": pos_order.id,
+                "company_id": order.company_id.id,
+                "partner_id": order.partner_id.id,
+                "currency_id": order.currency_id.id,
                 "amount": -amount,
                 "payment_method_id": payment_method.id,
                 "payment_date": payment_date,
@@ -170,7 +166,7 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
                 "amount": check.amount,
                 "journal_id": journal.id,
                 "date": payment_date,
-                "memo": pos_order.name,
+                "memo": ", ".join(order.name for order, _amount in order_amounts),
                 "write_off_line_vals": [],
             })
             account_payments.action_post()
