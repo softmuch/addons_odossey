@@ -11,6 +11,7 @@
         "security/ir.model.access.csv",
         "views/purchase_order_views.xml",
         "views/purchase_order_tree_views.xml",
+        "views/pos_payment_views.xml",
         "wizard/purchase_order_payment_views.xml",
         "wizard/purchase_order_pay_freely_views.xml",
     ],

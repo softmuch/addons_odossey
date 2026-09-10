@@ -58,17 +58,17 @@ patch(PaymentScreen.prototype, {
     },
 
     /**
-     * How much of the balance would actually apply right now: capped at
-     * the order's own total, and 0 whenever the checkbox is off. Drives
-     * `displayedTotalDue` below -- purely a checkout-screen display, never
-     * touches `currentOrder.totalDue` itself (that stays the order's real
-     * total, still needed as-is for invoicing/accounting/receipts).
+     * How much of the balance would actually apply right now -- delegates
+     * to `pos.order.appliedCustomerCredit()` (nets against whatever's
+     * already tendered too, not just the order's raw total; see there for
+     * why that matters once a payment line already exists before the
+     * checkbox/credit gets factored in). Drives `displayedTotalDue` below
+     * -- purely a checkout-screen display, never touches
+     * `currentOrder.totalDue` itself (that stays the order's real total,
+     * still needed as-is for invoicing/accounting/receipts).
      */
     get appliedCustomerCredit() {
-        if (!this.useCustomerCredit) {
-            return 0;
-        }
-        return Math.min(this.customerCreditBalance, this.currentOrder.totalDue);
+        return this.currentOrder.appliedCustomerCredit();
     },
 
     /**

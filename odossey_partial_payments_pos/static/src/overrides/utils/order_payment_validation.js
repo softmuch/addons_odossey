@@ -100,9 +100,18 @@ patch(OrderPaymentValidation.prototype, {
             return true;
         }
 
+        // Zero payment lines is only acceptable here when it's a deliberate
+        // credit-only PARTIAL payment (the `allowPartial` branch right
+        // below handles it, gated by `hasEffectivePayment`'s own
+        // credit-aware check) -- a genuine "nothing selected, nothing
+        // banked either" click still gets the normal nudge. The fully-
+        // covered case (checkbox on, credit alone already covers the
+        // whole order) was already returned `true` above and never reaches
+        // this line at all.
         if (
             !this.pos.currency.isZero(this.order.priceIncl) &&
-            this.order.payment_ids.length === 0
+            this.order.payment_ids.length === 0 &&
+            !(this.allowPartial && this.order.appliedCustomerCredit() > 0)
         ) {
             this.pos.notification.add(_t("Select a payment method to validate the order."));
             return false;
@@ -131,16 +140,24 @@ patch(OrderPaymentValidation.prototype, {
             }
 
             // A deliberate partial payment is only allowed if the cashier
-            // actually applied some payment: don't let an empty, zero-paid
-            // order be validated as "partial".
-            const hasEffectivePayment = this.order.payment_ids.some(
-                (line) => line.isDone() && line.getAmount() > 0
-            );
+            // actually applied some payment -- a real tendered line, OR
+            // (new) banked credit that's about to apply on its own with
+            // zero payment lines (see the "select a payment method" gate
+            // above, which already let this through on that same basis).
+            // Don't let an order with neither be validated as "partial".
+            const hasEffectivePayment =
+                this.order.payment_ids.some((line) => line.isDone() && line.getAmount() > 0) ||
+                this.order.appliedCustomerCredit() > 0;
             if (!hasEffectivePayment) {
                 return false;
             }
 
-            const remaining = this.order.priceIncl - this.order.amountPaid;
+            // Net of whatever customer credit is about to apply too -- not
+            // just real tenders -- so the confirmation dialog's "remaining
+            // balance" always matches what the order will actually still
+            // owe once `apply_customer_credit` runs server-side on sync.
+            const remaining =
+                this.order.priceIncl - this.order.amountPaid - this.order.appliedCustomerCredit();
             const confirmed = await new Promise((resolve) => {
                 this.pos.dialog.add(ConfirmationDialog, {
                     title: _t("Partial Payment"),

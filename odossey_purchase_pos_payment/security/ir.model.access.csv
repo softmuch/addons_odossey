@@ -1,3 +1,4 @@
 id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
 access_purchase_order_payment_user,purchase.order.payment,model_purchase_order_payment,purchase.group_purchase_user,1,1,1,1
 access_purchase_order_pay_freely_user,purchase.order.pay.freely,model_purchase_order_pay_freely,purchase.group_purchase_user,1,1,1,1
+access_pos_payment_purchase_user,pos.payment purchase user,point_of_sale.model_pos_payment,purchase.group_purchase_user,1,0,0,0

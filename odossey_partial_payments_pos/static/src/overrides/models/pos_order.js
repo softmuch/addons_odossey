@@ -30,6 +30,30 @@ patch(PosOrder.prototype, {
     },
 
     /**
+     * How much of the available customer credit would actually apply right
+     * now, capped at both the balance and what's left after real tenders
+     * (`apply_customer_credit` server-side never applies more than its own
+     * residual -- see its own docstring -- so this mirrors that cap
+     * exactly). 0 whenever the checkbox is off, there's nothing banked, or
+     * real tenders already cover the order on their own. Shared by
+     * `isCoveredByCustomerCredit()` below and by
+     * `order_payment_validation.js`'s own partial-payment remaining-balance
+     * message, so both always agree on the same figure the server will
+     * actually apply.
+     */
+    appliedCustomerCredit() {
+        const availableCredit = this._availableCustomerCredit();
+        if (availableCredit <= 0) {
+            return 0;
+        }
+        const remainingBeforeCredit = this.currency.round(this.priceIncl - this.amountPaid);
+        if (remainingBeforeCredit <= 0) {
+            return 0;
+        }
+        return Math.min(availableCredit, remainingBeforeCredit);
+    },
+
+    /**
      * True when the partner's banked POS credit, together with whatever's
      * already tendered, fully covers this order -- i.e. it will end up
      * `state == 'paid'` once `pos.order.apply_customer_credit` runs
@@ -40,15 +64,8 @@ patch(PosOrder.prototype, {
      * (so the click, once it lands, is actually accepted).
      */
     isCoveredByCustomerCredit() {
-        const availableCredit = this._availableCustomerCredit();
-        if (availableCredit <= 0) {
-            return false;
-        }
         const remainingBeforeCredit = this.currency.round(this.priceIncl - this.amountPaid);
-        return (
-            remainingBeforeCredit > 0 &&
-            this.currency.round(availableCredit - remainingBeforeCredit) >= 0
-        );
+        return remainingBeforeCredit > 0 && this.appliedCustomerCredit() >= remainingBeforeCredit;
     },
 
     /**

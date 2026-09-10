@@ -4,12 +4,17 @@
        t-inherit="point_of_sale.PaymentScreenValidate"
        t-inherit-mode="extension">
         <xpath expr="//button[hasclass('validation-button')]" position="after">
-            <!-- Not offered once credit + what's tendered already fully
-                 cover the order (`isCoveredByCustomerCredit`): there's
-                 nothing "partial" left to register, Validate alone closes
-                 it (see `canBeValidated`/`isOrderValid`). -->
+            <!-- Offered as soon as there's SOMETHING to register against the
+                 order: real cash/card tendered, or just banked credit
+                 with the checkbox on (a cashier can register a credit-only
+                 partial payment with zero payment lines: see
+                 `order_payment_validation.js`'s own credit-aware
+                 `hasEffectivePayment`), as long as it wouldn't already
+                 close the order outright (`isCoveredByCustomerCredit`):
+                 there's nothing "partial" left to register then, Validate
+                 alone closes it (see `canBeValidated`/`isOrderValid`). -->
             <button class="btn btn-secondary btn-lg py-3 lh-lg o_partial_payment_button"
-                t-if="currentOrder.amountPaid > 0 and !currentOrder.isPaid() and !currentOrder.isCoveredByCustomerCredit()"
+                t-if="(currentOrder.amountPaid > 0 or currentOrder.appliedCustomerCredit() > 0) and !currentOrder.isPaid() and !currentOrder.isCoveredByCustomerCredit()"
                 t-on-click="() => this.validatePartialOrder()"
                 t-attf-class="{{ ui.isSmall ? 'btn-switchpane flex-fill' : 'button w-50' }}"
             >
