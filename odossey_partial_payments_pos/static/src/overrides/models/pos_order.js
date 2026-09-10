@@ -14,22 +14,33 @@ patch(PosOrder.prototype, {
     },
 
     /**
-     * True when the partner's banked POS credit (see
-     * `pos.customer.credit`), together with whatever's already tendered,
-     * fully covers this order -- i.e. it will end up `state == 'paid'` once
-     * `pos.order.apply_customer_credit` runs server-side on sync, even
-     * though nothing client-side has actually made `amountPaid` reach
-     * `priceIncl` yet. Shared by `canBeValidated()` below (so the Validate
-     * button isn't CSS-`disabled`/inert on a real touchscreen) and by
-     * `order_payment_validation.js`'s `isOrderValid` (so the click, once it
-     * lands, is actually accepted).
+     * The partner's banked POS credit (see `pos.customer.credit`) that
+     * would actually apply to this order right now: 0 whenever the
+     * checkbox is off, there's no real partner (never the anonymous one --
+     * it has no account to credit against), or nothing is banked. Shared by
+     * `isCoveredByCustomerCredit()` and `getDefaultAmountDueToPayIn()`
+     * below so both agree on the exact same figure the server's own
+     * `apply_customer_credit()` will use at sync time.
      */
-    isCoveredByCustomerCredit() {
+    _availableCustomerCredit() {
         const partner = this.getPartner();
         const anonymousId = this.config._consumidor_final_anonimo_id;
         const isRealPartner = partner && !(anonymousId && partner.id === anonymousId);
-        const availableCredit =
-            this.use_customer_credit && isRealPartner ? partner.pos_credit_balance || 0 : 0;
+        return this.use_customer_credit && isRealPartner ? partner.pos_credit_balance || 0 : 0;
+    },
+
+    /**
+     * True when the partner's banked POS credit, together with whatever's
+     * already tendered, fully covers this order -- i.e. it will end up
+     * `state == 'paid'` once `pos.order.apply_customer_credit` runs
+     * server-side on sync, even though nothing client-side has actually
+     * made `amountPaid` reach `priceIncl` yet. Shared by `canBeValidated()`
+     * below (so the Validate button isn't CSS-`disabled`/inert on a real
+     * touchscreen) and by `order_payment_validation.js`'s `isOrderValid`
+     * (so the click, once it lands, is actually accepted).
+     */
+    isCoveredByCustomerCredit() {
+        const availableCredit = this._availableCustomerCredit();
         if (availableCredit <= 0) {
             return false;
         }
@@ -38,6 +49,39 @@ patch(PosOrder.prototype, {
             remainingBeforeCredit > 0 &&
             this.currency.round(availableCredit - remainingBeforeCredit) >= 0
         );
+    },
+
+    /**
+     * Net of whatever customer credit will actually apply at sync time --
+     * otherwise a cashier tapping a payment method (Efectivo, Tarjeta...)
+     * after ticking "Use Credit" gets the FULL order total pre-filled
+     * (core's own `remainingDue`, credit-unaware) instead of just the real
+     * cash/card portion, defeating the checkbox: they'd end up tendering
+     * the whole order in cash, `amount_paid` would already equal
+     * `amount_total` by the time the order syncs, and the server's own
+     * `apply_customer_credit()` (residual <= 0 -> no-op) would then never
+     * create the credit payment line at all -- silently ignoring the
+     * credit exactly as reported.
+     *
+     * Only nets against the REMAINING due at the moment this new line is
+     * about to be added (`this.remainingDue`, i.e. before this line's own
+     * amount is counted) -- matching `apply_customer_credit`'s own
+     * `residual = amount_total - amount_paid` at sync time, since only
+     * real payment lines exist client-side (the credit line itself is only
+     * ever created server-side). The cashier can still freely overtype a
+     * bigger or smaller amount afterwards -- overpayment redistribution/
+     * banking and partial-payment handling are untouched, both already
+     * cope with a real residual left after credit is applied.
+     */
+    getDefaultAmountDueToPayIn(paymentMethod) {
+        const amount = super.getDefaultAmountDueToPayIn(paymentMethod);
+        const remaining = this.remainingDue;
+        const availableCredit = this._availableCustomerCredit();
+        if (remaining <= 0 || availableCredit <= 0) {
+            return amount;
+        }
+        const net = this.currency.round(remaining - availableCredit);
+        return net > 0 ? net : 0;
     },
 
     canBeValidated() {

@@ -4,8 +4,12 @@
        t-inherit="point_of_sale.PaymentScreenValidate"
        t-inherit-mode="extension">
         <xpath expr="//button[hasclass('validation-button')]" position="after">
+            <!-- Not offered once credit + what's tendered already fully
+                 cover the order (`isCoveredByCustomerCredit`): there's
+                 nothing "partial" left to register, Validate alone closes
+                 it (see `canBeValidated`/`isOrderValid`). -->
             <button class="btn btn-secondary btn-lg py-3 lh-lg o_partial_payment_button"
-                t-if="currentOrder.amountPaid > 0 and !currentOrder.isPaid()"
+                t-if="currentOrder.amountPaid > 0 and !currentOrder.isPaid() and !currentOrder.isCoveredByCustomerCredit()"
                 t-on-click="() => this.validatePartialOrder()"
                 t-attf-class="{{ ui.isSmall ? 'btn-switchpane flex-fill' : 'button w-50' }}"
             >
@@ -29,9 +33,11 @@
     <t t-name="odossey_partial_payments_pos.PaymentScreenButtons"
        t-inherit="point_of_sale.PaymentScreenButtons"
        t-inherit-mode="extension">
-        <xpath expr="//button[hasclass('js_invoice')]" position="after">
+        <!-- Own full-width row, right under the Customer/Recibo-Factura row
+             (not squeezed between them), for more room to read/tap. -->
+        <xpath expr="//button[hasclass('js_invoice')]/parent::div" position="after">
             <div t-if="customerCreditBalance > 0 and !currentOrder.isPaid()"
-                class="o_customer_credit_toggle button btn btn-secondary btn-lg d-flex align-items-center justify-content-center gap-2 w-100 lh-lg">
+                class="o_customer_credit_toggle button btn btn-secondary btn-lg d-flex align-items-center justify-content-center gap-2 w-100 lh-lg py-3">
                 <input type="checkbox" id="o_use_customer_credit"
                     t-att-checked="useCustomerCredit"
                     t-on-change="toggleCustomerCredit"/>

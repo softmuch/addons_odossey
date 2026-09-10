@@ -1,5 +1,6 @@
 /** @odoo-module */
 
+import { useEffect } from "@odoo/owl";
 import { patch } from "@web/core/utils/patch";
 import { useAsyncLockedMethod } from "@point_of_sale/app/hooks/hooks";
 import { PaymentScreen } from "@point_of_sale/app/screens/payment_screen/payment_screen";
@@ -19,6 +20,26 @@ patch(PaymentScreen.prototype, {
         // is the only supported way to apply it.
         this.payment_methods_from_config = this.payment_methods_from_config.filter(
             (paymentMethod) => !paymentMethod.is_credit_transfer
+        );
+        // `partner.pos_credit_balance` is only as fresh as whenever this
+        // partner's record last got (re)loaded into the local IndexedDB
+        // cache -- opening the POS session, or a live search -- which can
+        // be stale by however long the session's been open. The checkbox
+        // above and `displayedTotalDue`/`getDefaultAmountDueToPayIn` all
+        // read straight off that cached field, so a stale number here
+        // silently mis-prices the whole checkout. Force a real, live
+        // server read of just this field the moment checkout opens (and
+        // again any time the order's partner changes while still on this
+        // screen, e.g. the cashier picks one via the "Cliente" button) --
+        // `pos.data.read` overwrites the cached record in place, so every
+        // getter below picks up the fresh value on the very next render.
+        useEffect(
+            (partner) => {
+                if (partner) {
+                    this.pos.data.read("res.partner", [partner.id], ["pos_credit_balance"]);
+                }
+            },
+            () => [this.currentOrder.getPartner()]
         );
     },
 
