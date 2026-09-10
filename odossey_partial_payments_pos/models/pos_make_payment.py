@@ -28,6 +28,22 @@ class PosMakePayment(models.TransientModel):
                 order.partner_id.pos_credit_balance if order.partner_id else 0.0
             )
 
+    def _credit_discounted_amount(self, order, base_amount):
+        """``base_amount`` minus whatever of the partner's banked credit
+        would actually apply, capped at both the available balance and the
+        order's own residual -- shared by ``default_get`` (initial suggestion)
+        and the ``use_customer_credit`` onchange (live toggle), so the
+        displayed ``amount`` always matches the checkbox's current state.
+        """
+        if not self.use_customer_credit or not order or not order.partner_id:
+            return base_amount
+        balance = order.partner_id.pos_credit_balance
+        if balance <= 0:
+            return base_amount
+        residual = order.currency_id.round(order.amount_total - order.amount_paid)
+        applied = min(balance, residual)
+        return max(order.currency_id.round(base_amount - applied), 0.0)
+
     @api.model
     def default_get(self, fields_list):
         """Only adjusts the *suggested* ``amount`` shown on the form -- no
@@ -36,18 +52,23 @@ class PosMakePayment(models.TransientModel):
         credit for real has to wait for ``check()``).
         """
         res = super().default_get(fields_list)
-        if 'amount' not in fields_list or not res.get('use_customer_credit', True):
+        if 'amount' not in fields_list:
             return res
         order = self._get_order()
-        if not order or not order.partner_id:
-            return res
-        balance = order.partner_id.pos_credit_balance
-        if balance <= 0:
-            return res
-        residual = order.currency_id.round(order.amount_total - order.amount_paid)
-        applied = min(balance, residual)
-        res['amount'] = max(order.currency_id.round(res.get('amount', residual) - applied), 0.0)
+        # `self.use_customer_credit` isn't set yet at this point (the record
+        # doesn't exist) -- `new()` a throwaway with the field's own default
+        # (True) unless the caller is pre-seeding it via context/res.
+        wizard = self.new({'use_customer_credit': res.get('use_customer_credit', True)})
+        res['amount'] = wizard._credit_discounted_amount(order, res.get('amount', 0.0))
         return res
+
+    @api.onchange('use_customer_credit')
+    def _onchange_use_customer_credit(self):
+        order = self._get_order()
+        if not order:
+            return
+        residual = order.currency_id.round(order.amount_total - order.amount_paid)
+        self.amount = self._credit_discounted_amount(order, residual)
 
     def _apply_customer_credit(self, order):
         """Wizard-level opt-in check; the actual consumption logic is shared

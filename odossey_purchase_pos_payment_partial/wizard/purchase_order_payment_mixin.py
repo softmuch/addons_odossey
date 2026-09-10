@@ -9,6 +9,24 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
         default=True, string='Use Supplier Credit'
     )
 
+    def _credit_discounted_amount(self, currency, base_amount, partner):
+        """``base_amount`` minus whatever of ``partner``'s banked supplier
+        credit would actually apply, capped at the available balance --
+        shared by both wizards' ``default_get``/onchange so the displayed
+        ``amount`` always matches the ``use_supplier_credit`` checkbox's
+        current state. Never caps at a per-order residual here (unlike the
+        POS-side equivalent): a leftover beyond what's owed gets
+        redistributed/banked instead of rejected, so there's no "residual"
+        ceiling to apply credit against upfront.
+        """
+        if not self.use_supplier_credit or not partner:
+            return base_amount
+        balance = partner.pos_supplier_credit_balance
+        if balance <= 0:
+            return base_amount
+        applied = min(balance, base_amount)
+        return max(currency.round(base_amount - applied), 0.0)
+
     def _is_free_amount_entry(self):
         # Once this module is installed, an amount exceeding what's owed is
         # never a mistake to reject: it gets redistributed to the
@@ -89,22 +107,30 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
         })
 
     def _consume_supplier_credit_for_order(self, order, max_amount, payment_method):
-        """Reconciles up to `max_amount` (and never more than the order's
-        own residual) against real, already-posted advance payments backing
-        the supplier's banked credit, oldest banked row first. Returns the
-        amount actually consumed, so the caller knows how much LESS still
-        needs a real, new payment. Never creates a new account.payment --
-        the money was already sent to the supplier when the credit was
-        banked; this only re-targets which bill it settles.
+        """Consumes up to `max_amount` (and never more than the order's own
+        residual) of the supplier's banked credit, oldest banked row first.
+        Returns the amount actually consumed, so the caller knows how much
+        of what it asked for actually landed.
+
+        Reconciles against a real, already-posted advance payment IF there's
+        an open bill to reconcile it against right now. If there isn't (a
+        very normal case here: paying a PO before its vendor bill lands),
+        the banked advance payment simply stays unreconciled for now -- same
+        as a bill-less cash advance (see `pos_payment.py`'s own no-open-bill
+        fallback) -- and nets against a future bill later. Either way the
+        credit is consumed for THIS order's own bookkeeping below, so
+        `amount_paid`/`payment_status` and the credit balance both stay
+        truthful regardless of whether a bill exists yet. Never creates a
+        new `account.payment` -- the money was already sent to the supplier
+        when the credit was banked.
 
         Also books a purely internal, non-reconciling `pos.payment` for the
         consumed amount (`skip_purchase_order_account_payment` -- the same
         context flag `odossey_purchase_pos_payment_check` already uses to
         avoid a second, redundant `account.payment`), purely so this
-        order's own `amount_paid`/`payment_status` stay truthful: the real
-        accounting reconciliation above already settles the bill, but
-        without this, the order would still look under-paid by exactly the
-        consumed amount, contradicting its own now-settled bill.
+        order's own `amount_paid`/`payment_status` stay truthful: without
+        this, the order would still look under-paid by exactly the consumed
+        amount, contradicting the credit that was just applied to it.
         """
         self.ensure_one()
         partner = order.partner_id
@@ -117,7 +143,6 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
         credit_rows = self.env['pos.supplier.credit'].sudo().search([
             ('partner_id', '=', partner.id), ('company_id', '=', company.id), ('amount', '>', 0),
         ], order='date asc, id asc')
-        open_bills = order._get_open_bills()
         consumed_total = 0.0
         for row in credit_rows:
             if to_consume <= 0:
@@ -133,12 +158,11 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
             payable_line = row.account_payment_id.move_id.line_ids.filtered(
                 lambda line: line.account_id.account_type == 'liability_payable' and not line.reconciled
             )
-            bill_lines = open_bills.line_ids.filtered(
+            bill_lines = order._get_open_bills().line_ids.filtered(
                 lambda line: line.account_id.account_type == 'liability_payable' and not line.reconciled
             )
-            if not (payable_line and bill_lines):
-                continue
-            (payable_line | bill_lines).reconcile()
+            if payable_line and bill_lines:
+                (payable_line | bill_lines).reconcile()
 
             self.env['pos.supplier.credit'].sudo().create({
                 'partner_id': partner.id,
@@ -149,7 +173,6 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
             })
             to_consume -= applied
             consumed_total += applied
-            open_bills = order._get_open_bills()
 
         if consumed_total > 0:
             session = self._get_open_pos_session(company)

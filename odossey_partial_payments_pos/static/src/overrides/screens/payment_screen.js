@@ -37,6 +37,29 @@ patch(PaymentScreen.prototype, {
     },
 
     /**
+     * How much of the balance would actually apply right now: capped at
+     * the order's own total, and 0 whenever the checkbox is off. Drives
+     * `displayedTotalDue` below -- purely a checkout-screen display, never
+     * touches `currentOrder.totalDue` itself (that stays the order's real
+     * total, still needed as-is for invoicing/accounting/receipts).
+     */
+    get appliedCustomerCredit() {
+        if (!this.useCustomerCredit) {
+            return 0;
+        }
+        return Math.min(this.customerCreditBalance, this.currentOrder.totalDue);
+    },
+
+    /**
+     * The "amount to pay" shown to the cashier, net of whatever credit is
+     * about to be applied -- so the big number on screen always matches
+     * what actually still needs to be tendered.
+     */
+    get displayedTotalDue() {
+        return Math.max(this.currentOrder.totalDue - this.appliedCustomerCredit, 0);
+    },
+
+    /**
      * Only flips a flag stored on the order itself -- the actual
      * consumption (capped at the real available balance, never at
      * whatever's displayed here) happens server-side in

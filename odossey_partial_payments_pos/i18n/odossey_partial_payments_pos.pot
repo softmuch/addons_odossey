@@ -352,11 +352,15 @@ msgid ""
 msgstr ""
 
 #. module: odossey_partial_payments_pos
-#. odoo-javascript
-#: code:addons/odossey_partial_payments_pos/static/src/overrides/screens/payment_screen.xml:0
 #: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_pos_make_payment__use_customer_credit
 #: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_pos_order__use_customer_credit
 msgid "Use Customer Credit"
+msgstr ""
+
+#. module: odossey_partial_payments_pos
+#. odoo-javascript
+#: code:addons/odossey_partial_payments_pos/static/src/overrides/screens/payment_screen.xml:0
+msgid "Use Credit"
 msgstr ""
 
 #. module: odossey_partial_payments_pos

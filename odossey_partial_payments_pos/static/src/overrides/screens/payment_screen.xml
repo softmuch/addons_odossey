@@ -17,14 +17,27 @@
     <t t-name="odossey_partial_payments_pos.PaymentScreenDue"
        t-inherit="point_of_sale.PaymentScreenDue"
        t-inherit-mode="extension">
-        <xpath expr="//div[hasclass('total')]" position="after">
+        <!-- Net of any customer credit about to be applied (see
+             `displayedTotalDue`); `currentOrder.totalDue` itself is left
+             untouched, it's still the real order total used elsewhere
+             (invoicing, receipts, accounting). -->
+        <xpath expr="//PriceFormatter" position="attributes">
+            <attribute name="price">this.env.utils.formatCurrency(displayedTotalDue)</attribute>
+        </xpath>
+    </t>
+
+    <t t-name="odossey_partial_payments_pos.PaymentScreenButtons"
+       t-inherit="point_of_sale.PaymentScreenButtons"
+       t-inherit-mode="extension">
+        <xpath expr="//button[hasclass('js_invoice')]" position="after">
             <div t-if="customerCreditBalance > 0 and !currentOrder.isPaid()"
-                class="o_customer_credit_toggle d-flex align-items-center justify-content-center gap-2 mt-1 fs-6 fw-normal">
+                class="o_customer_credit_toggle button btn btn-secondary btn-lg d-flex align-items-center justify-content-center gap-2 w-100 lh-lg">
                 <input type="checkbox" id="o_use_customer_credit"
                     t-att-checked="useCustomerCredit"
                     t-on-change="toggleCustomerCredit"/>
-                <label for="o_use_customer_credit" class="mb-0">
-                    <span>Use Customer Credit</span>
+                <label for="o_use_customer_credit" class="mb-0 d-flex align-items-center gap-1">
+                    <i class="fa fa-credit-card-alt me-1"/>
+                    <span>Use Credit</span>
                     <t t-esc="' (' + this.env.utils.formatCurrency(customerCreditBalance) + ')'"/>
                 </label>
             </div>

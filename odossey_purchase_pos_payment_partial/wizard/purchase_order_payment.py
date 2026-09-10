@@ -1,5 +1,5 @@
 # License OPL-1
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -14,31 +14,75 @@ class PurchaseOrderPayment(models.TransientModel):
                 wizard.purchase_order_id.partner_id.pos_supplier_credit_balance
             )
 
+    @api.model
+    def default_get(self, fields_list):
+        """Discount the suggested `amount` (base module's own default: the
+        order's full residual) by the supplier's banked credit, same as
+        `pos.make.payment` does on the POS side -- so the form opens already
+        showing what's actually left to pay in real money.
+        """
+        res = super().default_get(fields_list)
+        if 'amount' not in fields_list or not res.get('purchase_order_id'):
+            return res
+        order = self.env['purchase.order'].browse(res['purchase_order_id'])
+        wizard = self.new({'use_supplier_credit': res.get('use_supplier_credit', True)})
+        res['amount'] = wizard._credit_discounted_amount(
+            order.currency_id, res.get('amount', 0.0), order.partner_id
+        )
+        return res
+
+    @api.onchange('use_supplier_credit')
+    def _onchange_use_supplier_credit(self):
+        order = self.purchase_order_id
+        if not order:
+            return
+        residual = order.currency_id.round(order.amount_total - order.amount_paid)
+        self.amount = self._credit_discounted_amount(order.currency_id, residual, order.partner_id)
+
     def action_pay(self):
         """Full override (not calling `super()`): the base method always
         applies its full `amount` to `self.purchase_order_id` alone. This
         module needs to, in order: (1) optionally consume banked supplier
-        credit first, (2) apply whatever real amount remains to THIS order
-        up to its own residual, (3) redirect any leftover to the same
-        supplier's other partially-paid orders, oldest first, and (4) bank
-        whatever's left after that as new supplier credit -- instead of
-        ever creating one oversized payment against a single bill.
+        credit to cover the GAP between `self.amount` (already shown net of
+        credit -- see `default_get`/`_onchange_use_supplier_credit`) and the
+        order's real residual, (2) apply `self.amount` itself as a real
+        payment to THIS order up to its own (now credit-reduced) residual,
+        (3) redirect any leftover to the same supplier's other
+        partially-paid orders, oldest first, and (4) bank whatever's left
+        after that as new supplier credit -- instead of ever creating one
+        oversized payment against a single bill.
+
+        `self.amount` is deliberately never reduced by the consumed credit
+        here -- it's already net of it. Subtracting again would silently
+        shortchange the order by the credit amount (the earlier bug this
+        replaces): consuming and paying are two independent contributions
+        that both need to land in full, not one carved out of the other.
         """
         self.ensure_one()
         order = self.purchase_order_id
-        if self.amount <= 0:
+        residual = order.currency_id.round(order.amount_total - order.amount_paid)
+        credit_gap = 0.0
+        if self.use_supplier_credit:
+            credit_gap = max(order.currency_id.round(residual - self.amount), 0.0)
+        # A $0 `amount` is only valid when banked credit is about to cover
+        # the whole gap on its own (e.g. residual == available credit,
+        # nothing left to tender in real money) -- otherwise it's a no-op
+        # the user almost certainly didn't intend.
+        if self.amount <= 0 and credit_gap <= 0:
             raise UserError(_("The amount to pay must be greater than zero."))
 
-        remaining = self.amount
-        if self.use_supplier_credit:
-            remaining -= self._consume_supplier_credit_for_order(
-                order, remaining, self.payment_method_id
+        if credit_gap > 0:
+            self._consume_supplier_credit_for_order(
+                order, credit_gap, self.payment_method_id
             )
 
+        remaining = self.amount
         order_amounts = []
         if remaining > 0:
-            residual = order.currency_id.round(order.amount_total - order.amount_paid)
-            primary_amount = min(remaining, residual)
+            # Re-derived, not reused from above: consuming credit just now
+            # may have already reduced how much this order still owes.
+            primary_residual = order.currency_id.round(order.amount_total - order.amount_paid)
+            primary_amount = min(remaining, primary_residual)
             if primary_amount > 0:
                 order_amounts.append((order, primary_amount))
                 remaining = order.currency_id.round(remaining - primary_amount)
