@@ -6,6 +6,14 @@ from odoo.exceptions import UserError
 class PurchaseOrderPayFreely(models.TransientModel):
     _inherit = 'purchase.order.pay.freely'
 
+    # See the matching override/comment on purchase.order.payment: credit
+    # alone can cover everything (amount ends up 0), in which case no real
+    # payment method is needed at all.
+    payment_method_id = fields.Many2one(
+        required=False,
+        domain="[('company_id', '=', company_id), ('show_in_purchase', '=', True), "
+        "('is_credit_transfer', '=', False)]",
+    )
     supplier_credit_balance = fields.Monetary(compute='_compute_supplier_credit_balance')
 
     def _compute_supplier_credit_balance(self):
@@ -60,11 +68,11 @@ class PurchaseOrderPayFreely(models.TransientModel):
         # almost certainly didn't intend.
         if self.amount <= 0 and credit_gap <= 0:
             raise UserError(_("The amount to pay must be greater than zero."))
+        if self.amount > 0 and not self.payment_method_id:
+            raise UserError(_("Select a payment method."))
 
         if credit_gap > 0:
-            self._consume_supplier_credit_for_order(
-                orders[0], credit_gap, self.payment_method_id
-            )
+            self._consume_supplier_credit_for_order(orders[0], credit_gap)
 
         remaining = self.amount
         order_amounts = []

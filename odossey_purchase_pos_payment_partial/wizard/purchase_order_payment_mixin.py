@@ -106,7 +106,7 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
             'account_payment_id': account_payment.id,
         })
 
-    def _consume_supplier_credit_for_order(self, order, max_amount, payment_method):
+    def _consume_supplier_credit_for_order(self, order, max_amount):
         """Consumes up to `max_amount` (and never more than the order's own
         residual) of the supplier's banked credit, oldest banked row first.
         Returns the amount actually consumed, so the caller knows how much
@@ -130,7 +130,13 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
         avoid a second, redundant `account.payment`), purely so this
         order's own `amount_paid`/`payment_status` stay truthful: without
         this, the order would still look under-paid by exactly the consumed
-        amount, contradicting the credit that was just applied to it.
+        amount, contradicting the credit that was just applied to it. Always
+        tagged with the shared "Crédito Cliente/Proveedor" internal tender
+        (`pos.payment.method._get_or_create_credit_payment_method`, same one
+        `odossey_partial_payments_pos` uses on the customer side) -- never
+        the wizard's own `payment_method_id`, which represents the real
+        money leg (if any) and has nothing to do with how the credit itself
+        gets tendered.
         """
         self.ensure_one()
         partner = order.partner_id
@@ -175,12 +181,13 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
             consumed_total += applied
 
         if consumed_total > 0:
+            credit_method = self.env['pos.payment.method']._get_or_create_credit_payment_method(company)
             self.env['pos.payment'].with_context(skip_purchase_order_account_payment=True).create({
                 'company_id': order.company_id.id,
                 'partner_id': order.partner_id.id,
                 'currency_id': order.currency_id.id,
                 'amount': -consumed_total,
-                'payment_method_id': payment_method.id,
+                'payment_method_id': credit_method.id,
                 'purchase_order_id': order.id,
             })
         return consumed_total

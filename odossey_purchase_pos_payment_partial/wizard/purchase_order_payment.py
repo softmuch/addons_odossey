@@ -6,6 +6,17 @@ from odoo.exceptions import UserError
 class PurchaseOrderPayment(models.TransientModel):
     _inherit = 'purchase.order.payment'
 
+    # Base module's own field is required=True -- relaxed here since credit
+    # alone can fully cover the order (amount ends up 0, see default_get/
+    # _onchange_use_supplier_credit below), in which case no real payment
+    # method is ever needed. `action_pay` still enforces it whenever
+    # `amount > 0` (real money to tender), it just isn't a blind form-level
+    # requirement anymore.
+    payment_method_id = fields.Many2one(
+        required=False,
+        domain="[('company_id', '=', company_id), ('show_in_purchase', '=', True), "
+        "('is_credit_transfer', '=', False)]",
+    )
     supplier_credit_balance = fields.Monetary(compute='_compute_supplier_credit_balance')
 
     def _compute_supplier_credit_balance(self):
@@ -70,11 +81,17 @@ class PurchaseOrderPayment(models.TransientModel):
         # the user almost certainly didn't intend.
         if self.amount <= 0 and credit_gap <= 0:
             raise UserError(_("The amount to pay must be greater than zero."))
+        # A payment method is only actually needed for the real-money leg
+        # below (`_pay_purchase_orders`/`_redistribute_purchase_overpayment`)
+        # -- credit consumption uses its own dedicated "Crédito Cliente/
+        # Proveedor" tender instead (see `_consume_supplier_credit_for_order`),
+        # never the one picked here. Don't block on it when there's nothing
+        # left to tender in real money.
+        if self.amount > 0 and not self.payment_method_id:
+            raise UserError(_("Select a payment method."))
 
         if credit_gap > 0:
-            self._consume_supplier_credit_for_order(
-                order, credit_gap, self.payment_method_id
-            )
+            self._consume_supplier_credit_for_order(order, credit_gap)
 
         remaining = self.amount
         order_amounts = []

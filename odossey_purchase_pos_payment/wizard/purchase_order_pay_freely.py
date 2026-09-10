@@ -20,7 +20,7 @@ class PurchaseOrderPayFreely(models.TransientModel):
     payment_method_id = fields.Many2one(
         comodel_name="pos.payment.method",
         required=True,
-        domain="[('company_id', '=', company_id)]",
+        domain="[('company_id', '=', company_id), ('show_in_purchase', '=', True)]",
     )
     amount = fields.Monetary(required=True)
     payment_date = fields.Date(default=fields.Date.context_today, required=True)

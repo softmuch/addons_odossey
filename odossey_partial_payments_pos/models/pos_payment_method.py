@@ -4,7 +4,7 @@
 
 from odoo import api, fields, models
 
-CREDIT_METHOD_NAME = 'Crédito Cliente'
+CREDIT_METHOD_NAME = 'Crédito Cliente/Proveedor'
 
 
 class PosPaymentMethod(models.Model):
@@ -22,16 +22,20 @@ class PosPaymentMethod(models.Model):
         default=False,
         help='Internal, non-cash tender used only to move already-collected '
         'money between orders (overpayment redistribution) or to apply a '
-        "previously banked customer credit -- never represents real cash/"
-        'bank movement, so it needs no journal.',
+        "previously banked customer/supplier credit -- never represents "
+        'real cash/bank movement, so it needs no journal.',
     )
 
     def _get_or_create_credit_payment_method(self, company):
-        """Find-or-create the dedicated internal "Crédito Cliente" tender for
-        `company`, and make sure it's usable on every one of that company's
-        POS configs (adding a brand new config later still needs this run
+        """Find-or-create the dedicated internal "Crédito Cliente/Proveedor"
+        tender for `company` -- shared by the customer-credit flow here and
+        the supplier-credit one in `odossey_purchase_pos_payment_partial`,
+        same record either way (found by `is_credit_transfer`, not by name).
+        Also makes sure it's usable on every one of that company's POS
+        configs (adding a brand new config later still needs this run
         again, or the config's own default payment methods won't include
-        it).
+        it) -- a no-op when called from the purchase side, which has no POS
+        config to add it to.
         """
         method = self.sudo().search([
             ('company_id', '=', company.id), ('is_credit_transfer', '=', True),

@@ -6,7 +6,7 @@
     "category": "Purchases",
     "license": "OPL-1",
     "author": "Odossey",
-    "depends": ["odossey_purchase_pos_payment"],
+    "depends": ["odossey_purchase_pos_payment", "odossey_partial_payments_pos"],
     "data": [
         "security/ir.model.access.csv",
         "views/purchase_order_views.xml",
