@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e-20260622\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-06 19:06+0000\n"
-"PO-Revision-Date: 2026-09-06 19:06+0000\n"
+"POT-Creation-Date: 2026-09-10 10:03+0000\n"
+"PO-Revision-Date: 2026-09-10 10:03+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -131,8 +131,20 @@ msgid "Pay a Purchase Order"
 msgstr ""
 
 #. module: odossey_purchase_pos_payment_partial
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_purchase_order_pay_freely__payment_method_id
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_purchase_order_payment__payment_method_id
+msgid "Payment Method"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_purchase_order__payment_status
 msgid "Payment Status"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_res_partner__pos_supplier_credit_ids
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_res_users__pos_supplier_credit_ids
+msgid "Pos Supplier Credit"
 msgstr ""
 
 #. module: odossey_purchase_pos_payment_partial
@@ -144,6 +156,13 @@ msgstr ""
 #. module: odossey_purchase_pos_payment_partial
 #: model:ir.model,name:odossey_purchase_pos_payment_partial.model_purchase_order
 msgid "Purchase Order"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_partial
+#. odoo-python
+#: code:addons/odossey_purchase_pos_payment_partial/wizard/purchase_order_pay_freely.py:0
+#: code:addons/odossey_purchase_pos_payment_partial/wizard/purchase_order_payment.py:0
+msgid "Select a payment method."
 msgstr ""
 
 #. module: odossey_purchase_pos_payment_partial

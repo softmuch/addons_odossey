@@ -10,9 +10,14 @@ class PurchaseOrder(models.Model):
         inverse_name="purchase_order_id",
         string="Payments",
     )
-    amount_paid = fields.Monetary(compute="_compute_amount_paid", string="Paid")
+    # `store=True`: a "Group By Proveedor" list groups via a server-side
+    # `read_group` SQL aggregation, which can only sum a real DB column --
+    # an unstored compute field's `sum=` attribute silently stops showing
+    # any total (per-group or grand total) the moment the list is grouped,
+    # even though it still summed fine client-side in the ungrouped view.
+    amount_paid = fields.Monetary(compute="_compute_amount_paid", string="Paid", store=True)
     amount_difference = fields.Monetary(
-        compute="_compute_amount_paid", string="Due"
+        compute="_compute_amount_paid", string="Due", store=True
     )
 
     @api.depends("pos_payment_ids.amount", "amount_total")

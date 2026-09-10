@@ -205,3 +205,23 @@ msgstr ""
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_purchase_order_payment_mixin__use_supplier_credit
 msgid "Use Supplier Credit"
 msgstr "Usar Crédito del Proveedor"
+
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_purchase_order_pay_freely__payment_method_id
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_purchase_order_payment__payment_method_id
+msgid "Payment Method"
+msgstr "Método de Pago"
+
+#. module: odossey_purchase_pos_payment_partial
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_res_partner__pos_supplier_credit_ids
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_partial.field_res_users__pos_supplier_credit_ids
+msgid "Pos Supplier Credit"
+msgstr "Créditos del Proveedor (PdV)"
+
+#. module: odossey_purchase_pos_payment_partial
+#. odoo-python
+#: code:addons/odossey_purchase_pos_payment_partial/wizard/purchase_order_pay_freely.py:0
+#: code:addons/odossey_purchase_pos_payment_partial/wizard/purchase_order_payment.py:0
+msgid "Select a payment method."
+msgstr "Seleccioná un método de pago."

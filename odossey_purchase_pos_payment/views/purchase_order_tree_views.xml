@@ -21,6 +21,9 @@
                     groups="purchase.group_purchase_user"
                 />
             </header>
+            <field name="amount_total" position="after">
+                <field name="amount_difference" widget="monetary" optional="show" string="Adeudado" sum="Adeudado" />
+            </field>
         </field>
     </record>
 </odoo>

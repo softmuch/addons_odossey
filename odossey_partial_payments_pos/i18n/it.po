@@ -393,3 +393,52 @@ msgstr ""
 #: code:addons/odossey_partial_payments_pos/static/src/overrides/utils/order_payment_validation.js:0
 msgid "for an order of"
 msgstr "per un ordine di"
+
+
+#. module: odossey_partial_payments_pos
+#. odoo-javascript
+#: code:addons/odossey_partial_payments_pos/static/src/overrides/utils/order_payment_validation.js:0
+msgid "Acreditar al cliente"
+msgstr "Accreditare al cliente"
+
+#. module: odossey_partial_payments_pos
+#. odoo-javascript
+#: code:addons/odossey_partial_payments_pos/static/src/overrides/utils/order_payment_validation.js:0
+msgid "Dar vuelto"
+msgstr "Dare il resto"
+
+#. module: odossey_partial_payments_pos
+#. odoo-javascript
+#: code:addons/odossey_partial_payments_pos/static/src/overrides/utils/order_payment_validation.js:0
+msgid ""
+"Esta orden tiene un excedente de %s. ¿Querés entregarlo como vuelto en "
+"efectivo, o dejarlo para que se acredite/reparta automáticamente a favor del"
+" cliente?"
+msgstr "Questo ordine ha un'eccedenza di %s. Vuoi consegnarla come resto in contanti, o lasciarla per accreditarla/distribuirla automaticamente a favore del cliente?"
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model.fields,help:odossey_partial_payments_pos.field_pos_payment_method__is_credit_transfer
+msgid ""
+"Internal, non-cash tender used only to move already-collected money between "
+"orders (overpayment redistribution) or to apply a previously banked "
+"customer/supplier credit -- never represents real cash/bank movement, so it "
+"needs no journal."
+msgstr "Mezzo di pagamento interno, senza movimento reale di denaro: usato solo per spostare denaro già incassato tra ordini (redistribuzione del sovrapagamento) o per applicare un credito cliente/fornitore già accreditato. Non rappresenta mai un movimento reale di contanti/banca, per questo non serve un giornale."
+
+#. module: odossey_partial_payments_pos
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_res_partner__pos_customer_credit_ids
+#: model:ir.model.fields,field_description:odossey_partial_payments_pos.field_res_users__pos_customer_credit_ids
+msgid "Pos Customer Credit"
+msgstr "Crediti Cliente (PdV)"
+
+#. module: odossey_partial_payments_pos
+#. odoo-javascript
+#: code:addons/odossey_partial_payments_pos/static/src/overrides/utils/order_payment_validation.js:0
+msgid "Sobrepago"
+msgstr "Sovrapagamento"
+
+
+#. module: odossey_partial_payments_pos
+#: model_terms:ir.ui.view,arch_db:odossey_partial_payments_pos.view_pos_order_tree_inherit_partial_payments
+msgid "Adeudado"
+msgstr "Dovuto"

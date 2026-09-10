@@ -29,6 +29,9 @@
                 <attribute name="decoration-warning">state == 'partially_paid'</attribute>
                 <attribute name="decoration-success">state not in ('draft', 'cancel', 'partially_paid')</attribute>
             </field>
+            <field name="amount_total" position="after">
+                <field name="amount_difference" widget="monetary" optional="show" string="Adeudado" sum="Adeudado" />
+            </field>
         </field>
     </record>
 

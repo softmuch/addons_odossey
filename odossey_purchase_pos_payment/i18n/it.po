@@ -167,3 +167,72 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment.purchase_order_payment_view_form
 msgid "Validate"
 msgstr "Valida"
+
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_pos_payment__partner_id
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,help:odossey_purchase_pos_payment.field_pos_payment_method__show_in_purchase
+msgid ""
+"Offered as a payment method when paying a purchase order (Compras > Pagar / "
+"Pagar Libremente). Unchecked for a method like \"Cuenta de cliente\" that "
+"makes no sense on the supplier side."
+msgstr "Offerto come metodo di pagamento quando si paga un ordine di acquisto (Acquisti > Paga / Paga Liberamente). Deselezionato per un metodo come \"Conto cliente\" che non ha senso lato fornitore."
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_pos_payment__pos_order_id
+msgid "Order"
+msgstr "Ordine"
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.actions.act_window,name:odossey_purchase_pos_payment.action_pos_payment_purchase
+#: model:ir.ui.menu,name:odossey_purchase_pos_payment.menu_pos_payment_purchase
+msgid "Pagos"
+msgstr "Pagamenti"
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_pay_freely__partner_id
+msgid "Partner"
+msgstr "Fornitore"
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.actions.act_window,name:odossey_purchase_pos_payment.purchase_order_pay_freely_action
+#: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment.purchase_order_pay_freely_view_form
+#: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment.purchase_order_view_tree_inherit_pay_freely
+msgid "Pay Freely"
+msgstr "Paga Liberamente"
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model,name:odossey_purchase_pos_payment.model_purchase_order_pay_freely
+msgid "Pay Freely a Supplier's Open Purchase Orders"
+msgstr "Paga Liberamente gli Ordini di Acquisto Aperti di un Fornitore"
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model,name:odossey_purchase_pos_payment.model_pos_payment_method
+msgid "Point of Sale Payment Methods"
+msgstr "Metodi di pagamento del Punto Vendita"
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model,name:odossey_purchase_pos_payment.model_purchase_order_payment_mixin
+msgid "Shared logic to pay one or more purchase orders via pos.payment"
+msgstr "Logica condivisa per pagare uno o più ordini di acquisto tramite pos.payment"
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_pos_payment_method__show_in_purchase
+msgid "Show in Purchase"
+msgstr "Mostra in Acquisti"
+
+#. module: odossey_purchase_pos_payment
+#. odoo-python
+#: code:addons/odossey_purchase_pos_payment/wizard/purchase_order_pay_freely.py:0
+msgid "The amount exceeds this supplier's total open balance (%(total)s)."
+msgstr "L'importo supera il saldo totale dovuto a questo fornitore (%(total)s)."
+
+
+#. module: odossey_purchase_pos_payment
+#: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment.purchase_order_view_tree_inherit_pay_freely
+msgid "Adeudado"
+msgstr "Dovuto"
