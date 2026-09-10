@@ -9,8 +9,8 @@
 
                 <group string="Datos del Pago">
                     <field name="partner_id"/>
-                    <field name="amount"/>
                     <field name="payment_method_id"/>
+                    <field name="amount"/>
                     <field name="payment_method_type" invisible="1"/>
                     <field name="payment_date"/>
                     <field name="company_id" invisible="1"/>

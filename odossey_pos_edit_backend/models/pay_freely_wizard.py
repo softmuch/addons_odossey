@@ -109,12 +109,21 @@ class PayFreelyWizard(models.TransientModel):
 
     def _get_open_orders(self):
         self.ensure_one()
-        return self.env['pos.order'].search([
+        orders = self.env['pos.order'].search([
             ('partner_id', '=', self.partner_id.id),
             ('state', 'in', ('draft', 'partially_paid')),
             ('currency_id', '=', self.company_currency_id.id),
             ('company_id', '=', self.company_id.id),
         ], order='date_order asc, id asc')
+        # An order that's already fully paid or overpaid (e.g. `partially_paid`
+        # only because of a since-corrected overpayment) has a zero/negative
+        # residual -- including it here would drag the customer's total
+        # residual negative, defaulting `amount` to a negative value that
+        # then can never be raised back up (see `_onchange_amount_cap`: any
+        # positive amount "exceeds" a negative total_residual and gets
+        # snapped back down). Same filter the purchase-side sibling already
+        # applies (`purchase.order.pay.freely._get_open_orders`).
+        return orders.filtered(lambda o: o.amount_total - o.amount_paid > 0)
 
     def _get_total_residual(self):
         self.ensure_one()

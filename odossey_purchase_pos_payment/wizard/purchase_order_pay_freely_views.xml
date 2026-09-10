@@ -13,6 +13,13 @@
                     <field name="amount" />
                     <field name="payment_date" />
                 </group>
+                <p class="text-muted">
+                    Se aplicará el importe a las órdenes de compra pendientes del
+                    proveedor, de la más vieja a la más nueva. La última orden
+                    alcanzada puede quedar parcialmente pagada. Si el importe
+                    supera el total adeudado por esas órdenes, no se puede
+                    continuar.
+                </p>
                 <footer>
                     <button
                         string="Validate"
