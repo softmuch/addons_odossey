@@ -35,6 +35,28 @@ class PosOrder(models.Model):
     # calling the same `apply_customer_credit()` below.
     use_customer_credit = fields.Boolean(default=True)
 
+    # Core's own `amount_difference` (point_of_sale/models/pos_order.py) is
+    # NOT a real compute field -- it's assigned by hand inside
+    # `_compute_prices()`, a plain method the POS frontend never calls
+    # during normal order creation/sync (it's only invoked for the rare
+    # backend-reopen-edit / refund / manual-form-onchange paths). That left
+    # it stuck at its Monetary default (0.0) for virtually every order, and
+    # its sign (amount_paid - amount_total, positive when OVERpaid) is the
+    # opposite of what "Adeudado" (amount owed) should mean anyway. This is
+    # a real compute field, kept fresh automatically, with the sign that
+    # actually matches "Adeudado": positive while something is still owed,
+    # zero/negative once paid in full or overpaid.
+    amount_owed = fields.Monetary(
+        string="Adeudado",
+        compute='_compute_amount_owed',
+        store=True,
+    )
+
+    @api.depends('amount_paid', 'amount_total')
+    def _compute_amount_owed(self):
+        for order in self:
+            order.amount_owed = order.amount_total - order.amount_paid
+
     @api.model_create_multi
     def create(self, vals_list):
         """Don't trust an incoming ``state: 'paid'`` at creation time.

@@ -17,6 +17,9 @@
             <xpath expr="(//field[@name='state'])[1]" position="attributes">
                 <attribute name="statusbar_visible">draft,partially_paid,paid,done</attribute>
             </xpath>
+            <xpath expr="//field[@name='amount_difference']" position="replace">
+                <field name="amount_owed" widget="monetary" force_save="1"/>
+            </xpath>
         </field>
     </record>
 
@@ -30,7 +33,7 @@
                 <attribute name="decoration-success">state not in ('draft', 'cancel', 'partially_paid')</attribute>
             </field>
             <field name="amount_total" position="after">
-                <field name="amount_difference" widget="monetary" optional="show" string="Adeudado" sum="Adeudado" />
+                <field name="amount_owed" widget="monetary" optional="show" sum="Adeudado" />
             </field>
         </field>
     </record>
