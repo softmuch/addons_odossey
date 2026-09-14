@@ -200,6 +200,7 @@ msgstr "Proveedor"
 
 #. module: odossey_purchase_pos_payment
 #: model:ir.actions.act_window,name:odossey_purchase_pos_payment.purchase_order_pay_freely_action
+#: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment.purchase_order_kpis_tree_inherit_pay_freely
 #: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment.purchase_order_pay_freely_view_form
 #: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment.purchase_order_view_tree_inherit_pay_freely
 msgid "Pay Freely"

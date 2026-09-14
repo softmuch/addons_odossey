@@ -26,4 +26,21 @@
             </field>
         </field>
     </record>
+
+    <record id="purchase_order_kpis_tree_inherit_pay_freely" model="ir.ui.view">
+        <field name="name">purchase.order.kpis.tree.inherit.pay.freely</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_kpis_tree" />
+        <field name="arch" type="xml">
+            <header position="inside">
+                <button
+                    name="%(purchase_order_pay_freely_action)d"
+                    type="action"
+                    string="Pay Freely"
+                    display="always"
+                    groups="purchase.group_purchase_user"
+                />
+            </header>
+        </field>
+    </record>
 </odoo>
