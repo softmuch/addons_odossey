@@ -269,8 +269,11 @@ class PosOrder(models.Model):
     def _redistribute_overpayment(self):
         """When this order ends up paid IN EXCESS (payments sum above its
         own total), first shift the extra money to this same customer's
-        other ``partially_paid`` orders (oldest first), and bank whatever's
-        left as reusable credit (``pos.customer.credit``) once none remain.
+        other open orders -- ``draft`` (never paid at all) or
+        ``partially_paid`` alike, oldest first, same domain as "Pagar
+        Libremente" (``pay.freely.wizard._get_open_orders``) -- and bank
+        whatever's left as reusable credit (``pos.customer.credit``) once
+        none remain.
 
         All the actual money movement between orders is booked through a
         dedicated, journal-less "Crédito Cliente" tender
@@ -317,7 +320,7 @@ class PosOrder(models.Model):
         targets = self.env['pos.order'].sudo().search([
             ('partner_id', '=', self.partner_id.id),
             ('company_id', '=', self.company_id.id),
-            ('state', '=', 'partially_paid'),
+            ('state', 'in', ('draft', 'partially_paid')),
             ('id', '!=', self.id),
         ], order='date_order asc, id asc')
         for target in targets:
