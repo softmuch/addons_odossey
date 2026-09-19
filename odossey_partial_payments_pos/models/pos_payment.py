@@ -2,14 +2,48 @@
 # Copyright (C) 2026-Today: Part of Odossey.
 # @author:  Part of Odossey.
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.tools import float_is_zero
 
 
 class PosPayment(models.Model):
     _inherit = 'pos.payment'
 
+    @api.constrains('amount')
+    def _check_amount(self):
+        """Core refuses any payment on an invoiced order. An order invoiced
+        while partially paid still has a balance to collect: its remaining
+        payments are allowed (they get reconciled with the invoice, see
+        `_account_payments_of_invoiced_orders`)."""
+        for payment in self:
+            order = payment.pos_order_id
+            if order.state == 'partially_paid' and order.account_move:
+                continue
+            super(PosPayment, payment)._check_amount()
+
+    def _account_payments_of_invoiced_orders(self):
+        """Payments added to an order that is ALREADY invoiced (invoiced
+        while partially paid): book each one the way the invoicing itself
+        does (`_generate_pos_order_invoice`) and reconcile it with the
+        invoice. Cheques keep their own deferred flow (their payment move
+        creation returns nothing here)."""
+        for order, payments in self.grouped('pos_order_id').items():
+            invoice = order.account_move
+            payments = payments.filtered(
+                lambda p: not p.account_move_id and p.payment_method_id.type != 'pay_later' and p.amount
+            )
+            if not invoice or not payments:
+                continue
+            closed = order.session_id.state == 'closed'
+            moves = payments._create_payment_moves(closed)
+            if not moves:
+                continue
+            order._reconcile_invoice_payments(invoice, moves)
+            if closed:
+                order._create_misc_reversal_move(moves)
+
     def _create_late_account_payments(self):
+        self._account_payments_of_invoiced_orders()
         """Book money collected AFTER its POS session was closed.
 
         A `pos.payment` only reaches the books through the session closing

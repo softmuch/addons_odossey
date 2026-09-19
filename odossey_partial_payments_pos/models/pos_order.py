@@ -117,7 +117,7 @@ class PosOrder(models.Model):
         orders_to_reconcile = self.browse()
         if vals.get('lines') or vals.get('payment_ids'):
             orders_to_reconcile = self.filtered(
-                lambda o: o.state in ('paid', 'done') and o.nb_print == 0
+                lambda o: o.state in ('paid', 'done') and o.nb_print == 0 and not o.account_move
             )
             if orders_to_reconcile:
                 models.Model.write(orders_to_reconcile, {'state': 'partially_paid'})
@@ -202,6 +202,19 @@ class PosOrder(models.Model):
         if any(order.state != 'partially_paid' for order in self):
             raise UserError(_("Only a partially paid order can be sent back to draft."))
         self.write({'state': 'draft'})
+
+    def _generate_pos_order_invoice(self):
+        """Core sets the order to 'done' as soon as it is invoiced. An order
+        that is only partially paid may be invoiced too (the invoice is for
+        the full total and ONLY the payments actually made get reconciled
+        with it -- the invoice stays partially paid with the exact
+        remainder): keep it 'partially_paid' so the rest can still be
+        collected, instead of freezing it as 'done'."""
+        invoice = super()._generate_pos_order_invoice()
+        for order in self:
+            if not order._is_order_paid_with_rounding():
+                models.Model.write(order, {'state': 'partially_paid'})
+        return invoice
 
     def action_pos_order_paid(self):
         """Allow an order to be saved/finalized when it is only partially paid.
@@ -391,7 +404,15 @@ class PosOrder(models.Model):
                 self._create_order_picking()
                 self._compute_total_cost_in_real_time()
 
-        if self.to_invoice and self.state == 'paid' and self.config_id.invoice_journal_id:
+        if self.account_move and self.state == 'paid':
+            # An already invoiced order that just got fully paid (it was
+            # invoiced while partially paid, see `_generate_pos_order_invoice`
+            # below): it is finished, no second invoice.
+            models.Model.write(self, {'state': 'done'})
+        elif (
+            self.to_invoice and self.state in ('paid', 'partially_paid')
+            and not self.account_move and self.config_id.invoice_journal_id
+        ):
             self._generate_pos_order_invoice()
         elif not self.config_id.invoice_journal_id:
             _logger.warning('Trying to create an invoice without any journal configured')

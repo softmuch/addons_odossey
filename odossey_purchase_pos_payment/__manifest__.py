@@ -2,7 +2,7 @@
 {
     "name": "Purchase Order POS Payment",
     "summary": "Pay purchase orders by registering negative pos.payment records, mirror image of a POS sale payment.",
-    "version": "19.0.1.1.0",
+    "version": "19.0.1.2.0",
     "category": "Purchases",
     "license": "OPL-1",
     "author": "Odossey",
@@ -12,6 +12,8 @@
         "views/purchase_order_views.xml",
         "views/purchase_order_tree_views.xml",
         "views/pos_payment_views.xml",
+        "views/account_move_views.xml",
+        "data/ir_cron_data.xml",
         "wizard/purchase_order_payment_views.xml",
         "wizard/purchase_order_pay_freely_views.xml",
     ],

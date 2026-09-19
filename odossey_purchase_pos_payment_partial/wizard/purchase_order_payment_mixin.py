@@ -192,7 +192,9 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
                 lambda line: line.account_id.account_type == 'liability_payable' and not line.reconciled
             )
             if payable_line and bill_lines:
-                (payable_line | bill_lines).reconcile()
+                # Capped to what this order actually consumes of the credit:
+                # a plain `.reconcile()` would spend the whole advance.
+                self.env['account.move']._reconcile_credit_advance(payable_line, bill_lines, applied)
 
             self.env['pos.supplier.credit'].sudo().create({
                 'partner_id': partner.id,

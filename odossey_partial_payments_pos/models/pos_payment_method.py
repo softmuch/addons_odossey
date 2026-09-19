@@ -45,10 +45,16 @@ class PosPaymentMethod(models.Model):
                 'name': CREDIT_METHOD_NAME,
                 'company_id': company.id,
                 'is_credit_transfer': True,
+                # One closing line PER CUSTOMER (on its own receivable
+                # account) instead of one anonymous combined line in the POS
+                # receivable account.
+                'split_transactions': True,
                 # No journal_id on purpose: `_compute_type` then resolves
                 # `type` to 'pay_later', same as core's own "Customer
                 # Account" -- no real cash/bank ledger impact.
             })
+        if not method.split_transactions:
+            method.write({'split_transactions': True})
         configs = self.env['pos.config'].sudo().search([('company_id', '=', company.id)])
         missing = configs.filtered(lambda c: method not in c.payment_method_ids)
         if missing:

@@ -1,5 +1,9 @@
 # License OPL-1
+import logging
+
 from odoo import api, fields, models
+
+_logger = logging.getLogger(__name__)
 
 
 class PosPayment(models.Model):
@@ -169,3 +173,35 @@ class PosPayment(models.Model):
                 )
                 account_payments.action_post()
             payment.account_move_id = account_payments.move_id[:1].id
+
+    def action_create_missing_purchase_move(self):
+        """Book the accounting entry of supplier payments that never got one
+        (see `_cron_repair_purchase_payments`)."""
+        self.filtered(lambda p: not p.account_move_id)._create_purchase_order_account_payment()
+
+    @api.model
+    def _cron_repair_purchase_payments(self):
+        """Safety net, idempotent: (1) a supplier payment with a real journal
+        that has NO accounting entry gets it now; (2) posted vendor bills
+        still open whose order has payments get their advances reconciled
+        again (the reconciliation done when the bill is posted never blocks
+        the posting, so it can fail silently)."""
+        missing = self.search([
+            ("purchase_order_id", "!=", False),
+            ("account_move_id", "=", False),
+            ("amount", "!=", 0),
+            ("payment_method_id.journal_id", "!=", False),
+        ])
+        for payment in missing:
+            try:
+                with self.env.cr.savepoint():
+                    payment.action_create_missing_purchase_move()
+            except Exception:
+                _logger.exception("Could not book the missing entry of pos.payment %s", payment.id)
+        bills = self.env["account.move"].search([
+            ("move_type", "=", "in_invoice"),
+            ("state", "=", "posted"),
+            ("payment_state", "in", ("not_paid", "partial")),
+        ]).filtered(lambda b: b.line_ids.purchase_line_id.order_id.pos_payment_ids)
+        bills.action_reconcile_purchase_advances()
+        return True

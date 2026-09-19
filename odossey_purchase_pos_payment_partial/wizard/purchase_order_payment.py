@@ -36,11 +36,17 @@ class PurchaseOrderPayment(models.TransientModel):
         res = super().default_get(fields_list)
         if 'amount' not in fields_list or not res.get('purchase_order_id'):
             return res
-        order = self.env['purchase.order'].browse(res['purchase_order_id'])
-        wizard = self.new({'use_supplier_credit': res.get('use_supplier_credit', True)})
-        res['amount'] = wizard._credit_discounted_amount(
-            order.company_id.currency_id, res.get('amount', 0.0), order.partner_id
-        )
+        # Recomputed from scratch (NOT netted again on top of the base
+        # default, which already goes through `_get_default_amount` below):
+        # discounting twice made the wizard suggest an amount short by the
+        # supplier credit.
+        wizard = self.new({
+            'purchase_order_id': res['purchase_order_id'],
+            'payment_date': fields.Date.context_today(self),
+            'rate': res.get('rate', 1.0),
+            'use_supplier_credit': res.get('use_supplier_credit', True),
+        })
+        res['amount'] = wizard._get_default_amount()
         return res
 
     def _get_default_amount(self):

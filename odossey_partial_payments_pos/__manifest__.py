@@ -19,7 +19,7 @@ later, reusing the standard POS "Payment" flow.
 """,
     'category': 'Point of sale',
     'depends': ['point_of_sale'],
-    'version': '19.0.0.0.2',
+    'version': '19.0.0.0.3',
     'data': [
         'security/ir.model.access.csv',
         'views/pos_order_views.xml',
