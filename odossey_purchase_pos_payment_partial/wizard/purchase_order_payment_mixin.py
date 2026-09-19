@@ -106,7 +106,7 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
             'account_payment_id': account_payment.id,
         })
 
-    def _consume_supplier_credit_for_order(self, order, max_amount):
+    def _consume_supplier_credit_for_order(self, order, max_amount, rate=None):
         """Consumes up to `max_amount` (and never more than the order's own
         residual) of the supplier's banked credit, oldest banked row first.
         Returns the amount actually consumed, so the caller knows how much
@@ -137,11 +137,21 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
         the wizard's own `payment_method_id`, which represents the real
         money leg (if any) and has nothing to do with how the credit itself
         gets tendered.
+
+        Credit is always kept in the company currency. `rate` (company
+        currency per 1 unit of the order's currency) is only given by the
+        multi-currency "Pay Freely": `max_amount` and the returned amount
+        are then company currency too, and the order's own residual is
+        converted with it. Left `None`, `max_amount` is taken to be in the
+        order's own currency (single-order wizard).
         """
         self.ensure_one()
         partner = order.partner_id
         company = order.company_id
         residual = order.currency_id.round(order.amount_total - order.amount_paid)
+        residual_paid_currency = residual
+        if rate is not None:
+            residual = company.currency_id.round(residual * rate)
         to_consume = min(max_amount, residual)
         if to_consume <= 0:
             return 0.0
@@ -182,11 +192,22 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
 
         if consumed_total > 0:
             credit_method = self.env['pos.payment.method']._get_or_create_credit_payment_method(company)
+            payment_currency = order.currency_id
+            reference_amount = consumed_total
+            if rate is not None:
+                payment_currency = company.currency_id
+                # Covering the whole residual settles it exactly, without a
+                # stray cent from the round trip through the rate.
+                if consumed_total >= residual:
+                    reference_amount = residual_paid_currency
+                else:
+                    reference_amount = min(order.currency_id.round(consumed_total / rate), residual_paid_currency)
             self.env['pos.payment'].with_context(skip_purchase_order_account_payment=True).create({
                 'company_id': order.company_id.id,
                 'partner_id': order.partner_id.id,
-                'currency_id': order.currency_id.id,
+                'currency_id': payment_currency.id,
                 'amount': -consumed_total,
+                'reference_amount': -reference_amount,
                 'payment_method_id': credit_method.id,
                 'purchase_order_id': order.id,
             })

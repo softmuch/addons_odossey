@@ -9,13 +9,22 @@
                 <field name="currency_id" invisible="1" />
                 <group>
                     <field name="partner_id" />
+                    <field name="rate_ids" colspan="2" invisible="not rate_ids">
+                        <list editable="bottom" create="0" delete="0">
+                            <field name="currency_id" string="1 unidad de" force_save="1" />
+                            <field name="rate" string="equivale a" />
+                            <field name="company_currency_id" string="(moneda de la empresa)" />
+                        </list>
+                    </field>
                     <field name="payment_method_id" />
                     <field name="amount" />
                     <field name="payment_date" />
                 </group>
                 <p class="text-muted">
                     Se aplicará el importe a las órdenes de compra pendientes del
-                    proveedor, de la más vieja a la más nueva. La última orden
+                    proveedor, de la más vieja a la más nueva. El importe se expresa en la
+                    moneda de la empresa; las órdenes en otra moneda se convierten
+                    con el tipo de cambio indicado arriba. La última orden
                     alcanzada puede quedar parcialmente pagada. Si el importe
                     supera el total adeudado por esas órdenes, no se puede
                     continuar.

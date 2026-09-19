@@ -6,6 +6,15 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
     _name = "purchase.order.payment.mixin"
     _description = "Shared logic to pay one or more purchase orders via pos.payment"
 
+    def _get_payment_currency_amounts(self, order, amount):
+        """`(currency, reference_amount)` for a payment of `amount` against
+        `order`: the currency `amount` is expressed in, and its equivalent
+        in the order's own currency (what settles the order). By default
+        both are the order's own -- overridden by wizards that pay in
+        another currency (see `purchase.order.pay.freely`).
+        """
+        return order.currency_id, amount
+
     def _get_pos_payment_vals(self, order, amount, payment_method, payment_date):
         """Isolated as its own method (instead of inlined in the loop below)
         so an extension module (e.g. one adding cheque fields to this
@@ -21,11 +30,13 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
         needs `readonly=False` before an explicit value in `create()`
         actually sticks, instead of being silently recomputed away).
         """
+        currency, reference_amount = self._get_payment_currency_amounts(order, amount)
         return {
             "company_id": order.company_id.id,
             "partner_id": order.partner_id.id,
-            "currency_id": order.currency_id.id,
+            "currency_id": currency.id,
             "amount": -amount,
+            "reference_amount": -reference_amount,
             "payment_method_id": payment_method.id,
             "payment_date": payment_date,
             "purchase_order_id": order.id,

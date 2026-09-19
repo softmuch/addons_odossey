@@ -20,23 +20,18 @@ class PurchaseOrderPayFreely(models.TransientModel):
         for wizard in self:
             wizard.supplier_credit_balance = wizard.partner_id.pos_supplier_credit_balance
 
-    @api.onchange('partner_id')
-    def _onchange_partner_id_amount(self):
-        """Override (not extend): base sets `amount` to the raw open-orders
-        total -- here it must already reflect the supplier credit discount,
-        same as the partner is picked.
-        """
-        if self.partner_id:
-            self.amount = self._credit_discounted_amount(
-                self.currency_id, self._get_total_residual(), self.partner_id
-            )
+    def _get_default_amount(self):
+        """Override (not extend): base suggests the raw open-orders total --
+        here it must already reflect the supplier credit discount, same as
+        the partner is picked. Both are in the company currency."""
+        return self._credit_discounted_amount(
+            self.currency_id, self._get_total_residual(), self.partner_id
+        )
 
     @api.onchange('use_supplier_credit')
     def _onchange_use_supplier_credit(self):
         if self.partner_id:
-            self.amount = self._credit_discounted_amount(
-                self.currency_id, self._get_total_residual(), self.partner_id
-            )
+            self.amount = self._get_default_amount()
 
     def action_pay(self):
         """Full override (not calling `super()`): the base method rejects
@@ -56,7 +51,7 @@ class PurchaseOrderPayFreely(models.TransientModel):
         """
         self.ensure_one()
         orders = self._get_open_orders()
-        total_residual = sum(orders.mapped("amount_difference"))
+        total_residual = self._get_total_residual()
 
         credit_gap = 0.0
         if self.use_supplier_credit and orders:
@@ -72,18 +67,11 @@ class PurchaseOrderPayFreely(models.TransientModel):
             raise UserError(_("Select a payment method."))
 
         if credit_gap > 0:
-            self._consume_supplier_credit_for_order(orders[0], credit_gap)
+            self._consume_supplier_credit_for_order(
+                orders[0], credit_gap, rate=self._get_rate(orders[0].currency_id),
+            )
 
-        remaining = self.amount
-        order_amounts = []
-        for order in orders:
-            if remaining <= 0:
-                break
-            applied = min(remaining, order.amount_difference)
-            if applied <= 0:
-                continue
-            order_amounts.append((order, applied))
-            remaining = self.company_id.currency_id.round(remaining - applied)
+        order_amounts, remaining = self._distribute_amount(orders, self.amount)
 
         if order_amounts:
             self._pay_purchase_orders(

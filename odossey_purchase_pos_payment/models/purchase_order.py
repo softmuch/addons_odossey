@@ -20,11 +20,11 @@ class PurchaseOrder(models.Model):
         compute="_compute_amount_paid", string="Due", store=True
     )
 
-    @api.depends("pos_payment_ids.amount", "amount_total")
+    @api.depends("pos_payment_ids.reference_amount", "amount_total")
     def _compute_amount_paid(self):
         for order in self:
             order.amount_paid = sum(
-                abs(payment.amount) for payment in order.pos_payment_ids
+                abs(payment.reference_amount) for payment in order.pos_payment_ids
             )
             order.amount_difference = order.amount_total - order.amount_paid
 

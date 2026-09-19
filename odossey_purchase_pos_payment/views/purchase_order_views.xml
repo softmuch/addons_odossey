@@ -28,6 +28,8 @@
                             <field name="payment_date" />
                             <field name="payment_method_id" />
                             <field name="amount" />
+                            <field name="reference_currency_id" column_invisible="True" />
+                            <field name="reference_amount" />
                             <field name="payment_method_payment_mode" optional="hide" />
                             <field name="card_no" invisible="not card_no" />
                             <field

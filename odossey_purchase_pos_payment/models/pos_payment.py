@@ -19,6 +19,21 @@ class PosPayment(models.Model):
     # the field). Core declares it `required=True`; relaxed here since a
     # purchase payment genuinely has none.
     pos_order_id = fields.Many2one(required=False)
+    # `amount` is the money that actually left the company (company
+    # currency when paying a foreign-currency order through a fixed
+    # exchange rate, see `purchase.order.pay.freely`); `reference_amount` is
+    # the equivalent in the PURCHASE ORDER's own currency -- the number
+    # `purchase.order.amount_paid`/`payment_status` are computed from, so a
+    # payment made in another currency still settles the order correctly.
+    reference_currency_id = fields.Many2one(
+        related="purchase_order_id.currency_id", string="Order Currency"
+    )
+    reference_amount = fields.Monetary(
+        string="Reference Amount",
+        currency_field="reference_currency_id",
+        help="Equivalent of this payment in the purchase order's own "
+        "currency (same sign as Amount).",
+    )
     # `company_id`/`partner_id`/`currency_id` are core `related` fields
     # sourced FROM `pos_order_id`, so they'd otherwise come out empty here
     # too. Redeclared `store=True, readonly=False` (same fix already applied
@@ -49,7 +64,14 @@ class PosPayment(models.Model):
         """
         return super(PosPayment, self.filtered("pos_order_id"))._check_payment_method_id()
 
+    @api.model_create_multi
     def create(self, vals_list):
+        # Callers that pay in the order's own currency (every flow except
+        # the multi-currency "Pay Freely") don't set `reference_amount`:
+        # it's then simply `amount`.
+        for vals in vals_list:
+            if vals.get("purchase_order_id") and "reference_amount" not in vals:
+                vals["reference_amount"] = vals.get("amount", 0.0)
         payments = super().create(vals_list)
         # A caller that needs a SINGLE `account.payment` shared across
         # several of these payments at once (e.g. handing over one existing
@@ -95,6 +117,9 @@ class PosPayment(models.Model):
                         {
                             "payment_date": payment.payment_date,
                             "amount": abs(payment.amount),
+                            # Without it the wizard defaults to the bills'
+                            # currency and would read `amount` in it.
+                            "currency_id": payment.currency_id.id,
                             "journal_id": journal.id,
                             "group_payment": True,
                         }
@@ -135,6 +160,7 @@ class PosPayment(models.Model):
                         "partner_type": "supplier",
                         "partner_id": purchase_order.partner_id.id,
                         "amount": abs(payment.amount),
+                        "currency_id": payment.currency_id.id,
                         "journal_id": journal.id,
                         "date": payment.payment_date,
                         "memo": purchase_order.name,

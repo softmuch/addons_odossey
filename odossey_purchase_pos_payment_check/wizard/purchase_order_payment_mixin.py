@@ -124,13 +124,15 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
 
         payments = self.env["pos.payment"]
         for order, amount in order_amounts:
+            currency, reference_amount = self._get_payment_currency_amounts(order, amount)
             payments |= self.env["pos.payment"].with_context(
                 skip_purchase_order_account_payment=True
             ).create({
                 "company_id": order.company_id.id,
                 "partner_id": order.partner_id.id,
-                "currency_id": order.currency_id.id,
+                "currency_id": currency.id,
                 "amount": -amount,
+                "reference_amount": -reference_amount,
                 "payment_method_id": payment_method.id,
                 "payment_date": payment_date,
                 "purchase_order_id": order.id,

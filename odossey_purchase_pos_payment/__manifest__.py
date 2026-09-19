@@ -2,7 +2,7 @@
 {
     "name": "Purchase Order POS Payment",
     "summary": "Pay purchase orders by registering negative pos.payment records, mirror image of a POS sale payment.",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "category": "Purchases",
     "license": "OPL-1",
     "author": "Odossey",
