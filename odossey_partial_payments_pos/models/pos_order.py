@@ -214,7 +214,89 @@ class PosOrder(models.Model):
         for order in self:
             if not order._is_order_paid_with_rounding():
                 models.Model.write(order, {'state': 'partially_paid'})
+            # Core skips the 'pay_later' internal credit tender (no entry, and
+            # not in the closing entry of an invoiced order): reconcile the
+            # invoice with the customer's credit already in the books.
+            order._reconcile_customer_credit_with_invoice(order.account_move)
         return invoice
+
+    def _get_open_credit_lines(self, receivable_account, accounting_partner):
+        """The customer's OPEN credit lines on its own receivable account (the
+        banked credit as the books see it: from an overpayment of an invoiced
+        order, or the closing entry's per-customer line of the internal credit
+        tender), oldest first.
+
+        The closing entry also books the internal credit tender as a
+        debit/credit PAIR of the same move for a credit shifted between two
+        orders (`_redistribute_overpayment`): it nets to zero and is not
+        available credit -- reconciled with itself first, otherwise picking
+        the oldest lines would consume half of a pair and orphan the other."""
+        AML = self.env['account.move.line'].sudo()
+        method = self.env['pos.payment.method']._get_or_create_credit_payment_method(self.company_id)
+        base = [
+            ('partner_id', '=', accounting_partner.id),
+            ('account_id', '=', receivable_account.id),
+            ('company_id', '=', self.company_id.id),
+            ('parent_state', '=', 'posted'),
+            ('reconciled', '=', False),
+        ]
+        transfers = AML.search(base + [('name', 'ilike', method.name)])
+        for _move, group in transfers.grouped('move_id').items():
+            if len(group) > 1 and self.currency_id.is_zero(sum(group.mapped('amount_residual'))):
+                group.reconcile()
+        return AML.search(base + [('amount_residual', '<', 0)], order='date asc, id asc')
+
+    def _reconcile_customer_credit_with_invoice(self, invoice):
+        """Reconcile the invoice's receivable line with the customer's open
+        credit lines, for at most what this order consumed of the internal
+        credit tender and hasn't been applied yet.
+        No accounting entry is needed: the money is already in the books as
+        an open credit on the same account and partner -- only the invoice
+        was never matched against it. Returns the amount reconciled."""
+        self.ensure_one()
+        if not invoice or invoice.state != 'posted':
+            return 0.0
+        partner = self.env['res.partner']._find_accounting_partner(invoice.partner_id)
+        receivable = partner.with_company(self.company_id).property_account_receivable_id
+        if not receivable.reconcile:
+            return 0.0
+        method = self.env['pos.payment.method']._get_or_create_credit_payment_method(self.company_id)
+        # What this order consumed of the credit tender and hasn't been
+        # reconciled yet (tracked on each tender payment: idempotent).
+        tenders = self.payment_ids.filtered(lambda p: p.payment_method_id.is_credit_transfer and p.amount > 0)
+        consumed = sum(p.amount - p.credit_reconciled_amount for p in tenders)
+        invoice_line = invoice.line_ids.filtered(lambda l: l.account_id == receivable and not l.reconciled)
+        consumed = min(self.currency_id.round(consumed), sum(invoice_line.mapped('amount_residual')))
+        if consumed <= 0 or not invoice_line:
+            return 0.0
+        selected = self.env['account.move.line']
+        gathered = 0.0
+        for line in self._get_open_credit_lines(receivable, partner):
+            if gathered >= consumed - 1e-4:
+                break
+            selected |= line
+            gathered += -line.amount_residual
+        if not selected:
+            _logger.warning(
+                "Order %s: credit tender %s has no open credit line on %s for %s "
+                "(customer credit ledger and accounting do not match)",
+                self.name, consumed, receivable.display_name, partner.display_name,
+            )
+            return 0.0
+        (invoice_line | selected).sudo().with_company(self.company_id).reconcile()
+        applied = min(gathered, consumed)
+        left = applied
+        for tender in tenders:
+            share = min(left, tender.amount - tender.credit_reconciled_amount)
+            if share > 0:
+                tender.sudo().credit_reconciled_amount += share
+                left -= share
+        invoice.message_post(body=_(
+            "Customer credit applied: %(amount)s, from %(moves)s.",
+            amount=invoice.currency_id.format(applied),
+            moves=", ".join(selected.mapped('move_id.name')),
+        ))
+        return applied
 
     def action_pos_order_paid(self):
         """Allow an order to be saved/finalized when it is only partially paid.
@@ -286,6 +368,10 @@ class PosOrder(models.Model):
             'amount': -applied,
             'used_order_id': self.id,
         })
+        # Credit applied to an order that is ALREADY invoiced (late payment):
+        # reconcile that invoice with the customer's credit in the books too.
+        if self.account_move:
+            self._reconcile_customer_credit_with_invoice(self.account_move)
         return applied
 
     def _redistribute_overpayment(self):

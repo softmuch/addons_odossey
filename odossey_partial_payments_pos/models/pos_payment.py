@@ -9,6 +9,16 @@ from odoo.tools import float_is_zero
 class PosPayment(models.Model):
     _inherit = 'pos.payment'
 
+    credit_reconciled_amount = fields.Monetary(
+        string='Credit reconciled',
+        currency_field='currency_id',
+        default=0.0,
+        copy=False,
+        help='Part of an internal credit tender payment already reconciled '
+        "against the customer's credit in the books (see "
+        '`pos.order._reconcile_customer_credit_with_invoice`).',
+    )
+
     @api.constrains('amount')
     def _check_amount(self):
         """Core refuses any payment on an invoiced order. An order invoiced
@@ -29,6 +39,10 @@ class PosPayment(models.Model):
         creation returns nothing here)."""
         for order, payments in self.grouped('pos_order_id').items():
             invoice = order.account_move
+            if invoice:
+                # The internal credit tender ('pay_later', no entry): its
+                # invoice reconciliation is against the customer's credit.
+                order._reconcile_customer_credit_with_invoice(invoice)
             payments = payments.filtered(
                 lambda p: not p.account_move_id and p.payment_method_id.type != 'pay_later' and p.amount
             )

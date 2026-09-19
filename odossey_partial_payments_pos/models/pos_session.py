@@ -22,9 +22,21 @@ class PosSession(models.Model):
                 order.amount_paid = order._compute_amount_paid()
                 if order._is_order_paid_with_rounding():
                     order.action_pos_order_paid()
-        return super().action_pos_session_closing_control(
+        result = super().action_pos_session_closing_control(
             balancing_account, amount_to_balance, bank_payment_method_diffs
         )
+        # The credit a customer banked during THIS session only reaches the
+        # books with the closing entry: only now can the invoices of this
+        # session's orders that used it be reconciled against it.
+        for session in self.filtered(lambda s: s.state == 'closed'):
+            for order in session.order_ids.filtered(
+                lambda o: o.account_move and any(
+                    p.payment_method_id.is_credit_transfer and p.amount > p.credit_reconciled_amount
+                    for p in o.payment_ids
+                )
+            ):
+                order._reconcile_customer_credit_with_invoice(order.account_move)
+        return result
 
     def _close_session_action(self, amount_to_balance):
         """Auto-resolve the "Force Close Session" wizard instead of showing
