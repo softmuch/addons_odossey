@@ -210,7 +210,12 @@ class PosOrder(models.Model):
         with it -- the invoice stays partially paid with the exact
         remainder): keep it 'partially_paid' so the rest can still be
         collected, instead of freezing it as 'done'."""
-        invoice = super()._generate_pos_order_invoice()
+        # Core generates the invoice PDF at the very end of the invoicing,
+        # BEFORE the customer credit is reconciled below: the PDF would list
+        # only the payments made in the checkout and "amount due" would still
+        # include the credit part. Hold the PDF back and generate it after.
+        generate_pdf = self.env.context.get('generate_pdf', True)
+        invoice = super(PosOrder, self.with_context(generate_pdf=False))._generate_pos_order_invoice()
         for order in self:
             if not order._is_order_paid_with_rounding():
                 models.Model.write(order, {'state': 'partially_paid'})
@@ -218,6 +223,8 @@ class PosOrder(models.Model):
             # not in the closing entry of an invoiced order): reconcile the
             # invoice with the customer's credit already in the books.
             order._reconcile_customer_credit_with_invoice(order.account_move)
+        if generate_pdf and invoice:
+            invoice.with_context(skip_invoice_sync=True)._generate_and_send()
         return invoice
 
     def _get_open_credit_lines(self, receivable_account, accounting_partner):
@@ -245,6 +252,21 @@ class PosOrder(models.Model):
             if len(group) > 1 and self.currency_id.is_zero(sum(group.mapped('amount_residual'))):
                 group.reconcile()
         return AML.search(base + [('amount_residual', '<', 0)], order='date asc, id asc')
+
+    def _refresh_invoice_pdf(self, invoice):
+        """An invoice PDF generated before a payment got reconciled shows
+        stale "paid / amount due" lines: regenerate it (without sending
+        anything again) when there already is one."""
+        if not invoice.invoice_pdf_report_id:
+            return
+        try:
+            with self.env.cr.savepoint():
+                invoice.invoice_pdf_report_id.sudo().unlink()
+                self.env['account.move.send'].sudo()._generate_and_send_invoices(
+                    invoice, sending_methods=[], allow_fallback_pdf=True
+                )
+        except Exception:
+            _logger.exception("Could not refresh the PDF of invoice %s", invoice.display_name)
 
     def _reconcile_customer_credit_with_invoice(self, invoice):
         """Reconcile the invoice's receivable line with the customer's open
@@ -291,6 +313,7 @@ class PosOrder(models.Model):
             if share > 0:
                 tender.sudo().credit_reconciled_amount += share
                 left -= share
+        self._refresh_invoice_pdf(invoice)
         invoice.message_post(body=_(
             "Customer credit applied: %(amount)s, from %(moves)s.",
             amount=invoice.currency_id.format(applied),
