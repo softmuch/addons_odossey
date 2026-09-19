@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_l10n_latam_check_purchase_user,l10n_latam.check purchase user,l10n_latam_check.model_l10n_latam_check,purchase.group_purchase_user,1,0,0,0
+access_l10n_latam_check_pos_user,l10n_latam.check pos user,l10n_latam_check.model_l10n_latam_check,point_of_sale.group_pos_user,1,0,0,0
+access_pos_payment_check_purchase_user,pos.payment check purchase user,point_of_sale.model_pos_payment,purchase.group_purchase_user,1,0,0,0
+access_pos_order_check_purchase_user,pos.order check purchase user,point_of_sale.model_pos_order,purchase.group_purchase_user,1,0,0,0
