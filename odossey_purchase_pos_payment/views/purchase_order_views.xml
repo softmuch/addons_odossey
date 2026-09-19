@@ -37,15 +37,17 @@
                                 column_invisible="parent.currency_id == parent.company_currency_id"
                             />
                             <field name="payment_method_payment_mode" optional="hide" />
-                            <field name="card_no" invisible="not card_no" />
+                            <field name="card_no" invisible="not card_no" optional="hide"/>
                             <field
                                 name="card_brand"
                                 string="Card's Brand"
                                 invisible="not card_brand or not card_no"
+                                optional="hide"
                             />
                             <field
                                 name="cardholder_name"
                                 invisible="not cardholder_name or not card_no"
+                                optional="hide"
                             />
                         </list>
                     </field>

@@ -153,6 +153,26 @@
         </field>
     </record>
 
+    <!-- Purchase order "Payments" tab: click a payment to open it in a
+         read-only form with all its information (card + check data), and
+         the check columns are available (hidden by default) next to the
+         card ones. -->
+    <record id="purchase_order_form_inherit_pos_payment_check" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit.pos.payment.check</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="odossey_purchase_pos_payment.purchase_order_form_inherit_pos_payment" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='pos_payment_ids']" position="attributes">
+                <attribute name="context">{'form_view_ref': 'l10n_latam_check_ext.view_pos_payment_form_readonly'}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='pos_payment_ids']/list/field[@name='reference_amount']" position="after">
+                <field name="l10n_latam_check_number" optional="hide" />
+                <field name="l10n_latam_check_bank_id" optional="hide" />
+                <field name="l10n_latam_check_payment_date" optional="hide" />
+            </xpath>
+        </field>
+    </record>
+
     <!-- Both check lists are reachable from the "Orders" menu of the
          Purchase AND the Point of Sale apps: "Cheques Propios" (checks
          handed to suppliers, above) and "Cheques de Terceros" (customers'
