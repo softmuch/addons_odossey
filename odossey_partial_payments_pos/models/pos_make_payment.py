@@ -104,8 +104,13 @@ class PosMakePayment(models.TransientModel):
         order = self._get_order()
         self._apply_customer_credit(order)
 
+        payments_before = set(order.payment_ids.ids)
         if order.state != 'partially_paid':
-            return super().check()
+            result = super().check()
+            order.payment_ids.filtered(
+                lambda p: p.id not in payments_before
+            )._create_late_account_payments()
+            return result
 
         if self.payment_method_id.split_transactions and not order.partner_id:
             raise UserError(_(
@@ -150,6 +155,11 @@ class PosMakePayment(models.TransientModel):
         # already-closed session, so unlike core's `check()` we don't call
         # them here.
         order._process_saved_order(False)
+        # Money collected after the session closed has no closing entry to
+        # land in (see `pos.payment._create_late_account_payments`).
+        order.payment_ids.filtered(
+            lambda p: p.id not in payments_before
+        )._create_late_account_payments()
 
         if order.state == 'paid':
             message = _("Order %s is now fully paid.", order.name)

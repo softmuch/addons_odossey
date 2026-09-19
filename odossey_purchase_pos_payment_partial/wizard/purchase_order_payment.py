@@ -122,14 +122,21 @@ class PurchaseOrderPayment(models.TransientModel):
                 order_amounts.append((order, primary_amount))
                 remaining = company_currency.round(remaining - primary_amount)
 
+        leftover = 0.0
         if remaining > 0:
-            order_amounts += self._redistribute_purchase_overpayment(
+            extra_amounts, leftover = self._redistribute_purchase_overpayment(
                 order, self.payment_method_id, self.payment_date, remaining
             )
+            order_amounts += extra_amounts
 
         if order_amounts:
             self._pay_purchase_orders(
                 self.company_id, order.partner_id, self.payment_method_id,
                 self.payment_date, order_amounts,
+            )
+        if leftover > 0:
+            self._bank_supplier_credit(
+                self.company_id, order.partner_id, self.payment_method_id,
+                self.payment_date, leftover, order,
             )
         return True

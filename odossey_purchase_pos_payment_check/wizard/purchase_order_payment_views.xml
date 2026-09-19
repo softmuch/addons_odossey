@@ -5,6 +5,7 @@
         <field name="model">purchase.order.payment</field>
         <field name="inherit_id" ref="odossey_purchase_pos_payment.purchase_order_payment_view_form" />
         <field name="arch" type="xml">
+<data>
             <field name="payment_method_id" position="after">
                 <field name="payment_method_type" invisible="1" />
                 <field name="company_bank_ids" invisible="1" />
@@ -43,6 +44,14 @@
                     invisible="payment_method_type != 'check' or check_mode != 'new'"
                 />
             </field>
+            <!-- An existing check is only handed over whole: its value is
+                 the amount, not editable (supplier credit, if any, is
+                 applied on top of it). -->
+            <field name="amount" position="attributes">
+                <attribute name="readonly">payment_method_type == 'check' and check_mode == 'existing'</attribute>
+                <attribute name="force_save">1</attribute>
+            </field>
+        </data>
         </field>
     </record>
 </odoo>

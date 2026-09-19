@@ -16,6 +16,15 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
         self.ensure_one()
         return self.amount, 0.0
 
+    def _get_existing_instrument_account_payment(self):
+        """The `account.payment` of a fixed-value instrument (an existing
+        check handed over, see `odossey_purchase_pos_payment_check`) that
+        already covers whatever exceeds the orders paid -- so that surplus
+        is booked as supplier credit against THAT payment instead of a
+        second, duplicated one. Empty by default."""
+        self.ensure_one()
+        return self.env["account.payment"]
+
     def _get_rate(self, currency):
         """Company currency units per 1 unit of `currency`. Wizards that let
         the user type the rate override this and fall back to `super()`."""

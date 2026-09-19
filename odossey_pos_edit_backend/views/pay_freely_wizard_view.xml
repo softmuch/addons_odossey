@@ -32,7 +32,7 @@
                     Se aplicará el importe a las órdenes POS pendientes del cliente,
                     de la más vieja a la más nueva. La última orden alcanzada puede
                     quedar parcialmente pagada. Si el importe supera el total adeudado
-                    por esas órdenes, no se puede continuar. Si el cliente tiene crédito a favor y
+                    por esas órdenes, el excedente queda como crédito a favor del cliente. Si el cliente tiene crédito a favor y
                     se usa, se aplica como un pago aparte, y el importe indicado es el
                     dinero que se cobra además de ese crédito.
                 </p>

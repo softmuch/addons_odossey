@@ -85,14 +85,10 @@ export class PayFreelyPopup extends Component {
         this.state.amountText = formatFloat(this.defaultAmount);
     }
 
-    // Same rule as the backend wizard's own `_onchange_amount_cap`: an
-    // amount higher than what's actually owed has nowhere to go (no
-    // advance-payment concept for pos.order), so it's snapped back down to
-    // the max instead of letting the cashier submit a value that would just
-    // get rejected server-side.
+    // An amount above what's owed is allowed (any payment method): the
+    // excess is banked as customer credit server-side.
     formatAmountOnBlur() {
-        const capped = Math.min(Math.max(this.amount, 0), this.props.totalResidual);
-        this.state.amountText = formatFloat(capped);
+        this.state.amountText = formatFloat(Math.max(this.amount, 0));
     }
 
     getBankSources() {
@@ -125,7 +121,7 @@ export class PayFreelyPopup extends Component {
 
     get isValid() {
         const amount = this.amount;
-        if (!(amount >= 0 && amount <= this.props.totalResidual)) {
+        if (!(amount >= 0)) {
             return false;
         }
         // 0 is fine only when the credit covers everything owed.

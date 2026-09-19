@@ -73,11 +73,11 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
             order_amounts.append((target, applied))
             remaining = company.currency_id.round(remaining - applied)
 
-        if remaining > 0:
-            self._bank_supplier_credit(company, partner, payment_method, payment_date, remaining, primary_order)
-            remaining = 0.0
-
-        return order_amounts
+        # What's left is NOT banked here: the caller banks it AFTER
+        # `_pay_purchase_orders` (a fixed-value instrument's own
+        # `account.payment` -- see `_get_existing_instrument_account_payment`
+        # -- only exists once the payments are created).
+        return order_amounts, remaining
 
     def _bank_supplier_credit(self, company, partner, payment_method, payment_date, amount, origin_order):
         """A real, posted, outbound `account.payment` for `amount`, with
@@ -89,6 +89,18 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
         reconciles against THIS SAME payment -- no new money ever moves
         twice for the same credit.
         """
+        existing = self._get_existing_instrument_account_payment()
+        if existing:
+            # The instrument's account.payment already sent the whole face
+            # value to the supplier: only record the credit, against it.
+            self.env['pos.supplier.credit'].sudo().create({
+                'partner_id': partner.id,
+                'company_id': company.id,
+                'amount': amount,
+                'origin_order_id': origin_order.id,
+                'account_payment_id': existing.id,
+            })
+            return
         account_payment = self.env['account.payment'].sudo().create({
             'payment_type': 'outbound',
             'partner_type': 'supplier',

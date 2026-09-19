@@ -120,19 +120,6 @@ class PayFreelyWizard(models.TransientModel):
         if self.partner_id:
             self.amount = self._get_default_amount()
 
-    @api.onchange('amount')
-    def _onchange_amount_cap(self):
-        """An amount higher than what's actually owed has nowhere to go
-        (see `action_pay`'s own hard rejection for the same reason: unlike
-        the old invoice-based wizard, there's no advance-payment fallback
-        for pos.order) -- snap it back down to the max instead of letting
-        the cashier type a value that would just get rejected on submit.
-        """
-        if self.partner_id:
-            total_residual = self._get_total_residual()
-            if self.amount > total_residual:
-                self.amount = total_residual
-
     @api.constrains('amount')
     def _check_amount(self):
         for wizard in self:
@@ -224,14 +211,10 @@ class PayFreelyWizard(models.TransientModel):
         currency = self.company_currency_id
         orders = self._get_open_orders()
         total_residual = self._get_total_residual()
-        if currency.compare_amounts(self.amount, total_residual) > 0:
-            raise UserError(_(
-                "El importe (%(amount)s) supera el total adeudado (%(total)s) por las "
-                "órdenes abiertas de %(partner)s.",
-                amount=formatLang(self.env, self.amount, currency_obj=currency),
-                total=formatLang(self.env, total_residual, currency_obj=currency),
-                partner=self.partner_id.display_name,
-            ))
+        # An `amount` above what's owed is allowed (any payment method): the
+        # excess goes to the last order reached, which ends up overpaid, and
+        # `_process_saved_order` -> `_redistribute_overpayment` (see
+        # odossey_partial_payments_pos) banks it as customer credit.
 
         credit_to_apply = self._get_credit_to_apply()
         # A 0 `amount` is only valid when the credit is about to cover it
@@ -263,13 +246,18 @@ class PayFreelyWizard(models.TransientModel):
 
         available = self.amount
         payments = self.env['pos.payment']
+        owing = orders.filtered(
+            lambda o: o.currency_id.round(o.amount_total - o._compute_amount_paid()) > 0
+        )
+        # Any excess over what's owed lands on the last order reached.
+        last_order = (owing or orders)[-1:]
         for order in orders:
             if currency.is_zero(available):
                 break
             residual = order.currency_id.round(order.amount_total - order._compute_amount_paid())
-            if currency.is_zero(residual) or residual < 0:
+            if (currency.is_zero(residual) or residual < 0) and order != last_order:
                 continue
-            pay_amount = min(available, residual)
+            pay_amount = available if order == last_order else min(available, residual)
 
             payment_vals = {
                 'pos_order_id': order.id,
@@ -287,6 +275,10 @@ class PayFreelyWizard(models.TransientModel):
         for order in touched:
             order.amount_paid = order._compute_amount_paid()
             order._process_saved_order(False)
+        # Money collected after the session closed has no closing entry to
+        # land in: book it as a real account.payment (see
+        # `pos.payment._create_late_account_payments`).
+        payments._create_late_account_payments()
         paid_orders = touched
 
         return {

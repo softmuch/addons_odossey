@@ -24,6 +24,15 @@
             <field name="amount_total" position="after">
                 <field name="amount_difference" widget="monetary" optional="show" string="Adeudado" sum="Adeudado" />
             </field>
+                <!-- core's own currency_id column (hidden, right after the
+                     total): shown, right after "Adeudado" instead. -->
+                <field name="amount_difference" position="after">
+                    <field name="currency_id" position="move" />
+                </field>
+                <field name="currency_id" position="attributes">
+                    <attribute name="column_invisible" />
+                    <attribute name="optional">show</attribute>
+                </field>
         </field>
     </record>
 
