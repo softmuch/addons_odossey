@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e-20260622\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-19 09:16+0000\n"
+"POT-Creation-Date: 2026-09-19 10:57+0000\n"
 "PO-Revision-Date: 2026-09-06 17:48+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -33,6 +33,11 @@ msgstr ""
 "Un cheque de terceros ya existente en la cartera de la compañía (recibido de"
 " un cliente) -- se lo entrega a un proveedor en lugar de crear un cheque "
 "nuevo."
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_l10n_latam_check__purchase_paid_amount
+msgid "Aplicado a órdenes"
+msgstr "Aplicado a órdenes"
 
 #. module: odossey_purchase_pos_payment_check
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_pay_freely__check_mode
@@ -64,8 +69,8 @@ msgstr "Cheque a Entregar"
 
 #. module: odossey_purchase_pos_payment_check
 #: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment_check.l10n_latam_check_view_form_handed
-msgid "Cheque"
-msgstr "Cheque"
+msgid "Cheque Propio"
+msgstr "Cheque Propio"
 
 #. module: odossey_purchase_pos_payment_check
 #: model:ir.actions.act_window,name:odossey_purchase_pos_payment_check.action_purchase_own_checks
@@ -88,6 +93,12 @@ msgid "Common Check"
 msgstr "Cheque Común"
 
 #. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_pay_freely__company_bank_ids
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_payment__company_bank_ids
+msgid "Company Bank"
+msgstr "Bancos de la compañía"
+
+#. module: odossey_purchase_pos_payment_check
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_l10n_latam_check__currency_id
 msgid "Currency"
 msgstr "Moneda"
@@ -101,6 +112,7 @@ msgstr "Cheque de Pago Diferido (CPD)"
 
 #. module: odossey_purchase_pos_payment_check
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_l10n_latam_check__display_name
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_pos_payment__display_name
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_pay_freely__display_name
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_payment__display_name
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_payment_mixin__display_name
@@ -115,6 +127,11 @@ msgid "ECHEQ or Electronic Check"
 msgstr "ECHEQ o Cheque Electrónico"
 
 #. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_l10n_latam_check__purchase_surplus_amount
+msgid "Excedente"
+msgstr "Excedente"
+
+#. module: odossey_purchase_pos_payment_check
 #: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_check.selection__purchase_order_pay_freely__check_mode__existing
 #: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_check.selection__purchase_order_payment__check_mode__existing
 #: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_check.selection__purchase_order_payment_mixin__check_mode__existing
@@ -123,21 +140,32 @@ msgstr "Cheque Existente"
 
 #. module: odossey_purchase_pos_payment_check
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_l10n_latam_check__handed_date
-msgid "Handed Date"
-msgstr "Fecha de Entrega"
+msgid "Fecha de giro"
+msgstr "Fecha de giro"
 
 #. module: odossey_purchase_pos_payment_check
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_l10n_latam_check__handed_to_partner_id
-msgid "Handed To"
-msgstr "Entregado A"
+msgid "Girado a"
+msgstr "Girado a"
 
 #. module: odossey_purchase_pos_payment_check
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_l10n_latam_check__id
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_pos_payment__id
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_pay_freely__id
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_payment__id
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_payment_mixin__id
 msgid "ID"
 msgstr "ID"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_pos_payment__paid_reference_amount
+msgid "Importe en moneda de la orden"
+msgstr "Importe en moneda de la orden"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_pos_payment__paid_amount
+msgid "Importe pagado"
+msgstr "Importe pagado"
 
 #. module: odossey_purchase_pos_payment_check
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_pay_freely__payment_method_type
@@ -167,11 +195,40 @@ msgid "Issuing Bank"
 msgstr "Banco Emisor"
 
 #. module: odossey_purchase_pos_payment_check
+#: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment_check.l10n_latam_check_view_form_handed
+msgid "Marcar como No Pagado"
+msgstr "Marcar como No Pagado"
+
+#. module: odossey_purchase_pos_payment_check
+#: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment_check.l10n_latam_check_view_form_handed
+msgid "Marcar como Pagado"
+msgstr "Marcar como Pagado"
+
+#. module: odossey_purchase_pos_payment_check
 #: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_check.selection__purchase_order_pay_freely__check_mode__new
 #: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_check.selection__purchase_order_payment__check_mode__new
 #: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_check.selection__purchase_order_payment_mixin__check_mode__new
 msgid "New Check"
 msgstr "Cheque Nuevo"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_l10n_latam_check__purchase_payment_ids
+msgid "Pagos de compra"
+msgstr "Pagos de compra"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields,help:odossey_purchase_pos_payment_check.field_l10n_latam_check__purchase_surplus_amount
+msgid ""
+"Part of the check's amount NOT applied to any order (e.g. banked as supplier"
+" credit)."
+msgstr ""
+"Parte del importe del cheque que NO se aplicó a ninguna orden (p. ej. "
+"acreditada como crédito de proveedor)."
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields,help:odossey_purchase_pos_payment_check.field_l10n_latam_check__purchase_paid_amount
+msgid "Part of the check's amount that went to purchase orders."
+msgstr "Parte del importe del cheque que se aplicó a órdenes de compra."
 
 #. module: odossey_purchase_pos_payment_check
 #: model:ir.model,name:odossey_purchase_pos_payment_check.model_purchase_order_pay_freely
@@ -189,6 +246,17 @@ msgstr "Pagar una Orden de Compra"
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_payment_mixin__l10n_latam_check_payment_date
 msgid "Payment Date"
 msgstr "Fecha de Cobro"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model,name:odossey_purchase_pos_payment_check.model_pos_payment
+msgid "Point of Sale Payments"
+msgstr "Pagos de punto de venta"
+
+#. module: odossey_purchase_pos_payment_check
+#: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment_check.l10n_latam_check_view_form_handed
+#: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment_check.l10n_latam_check_view_tree_handed
+msgid "Proveedor"
+msgstr "Proveedor"
 
 #. module: odossey_purchase_pos_payment_check
 #. odoo-python
@@ -239,6 +307,32 @@ msgstr ""
 "el crédito de proveedor aplicado (%(amount)s)."
 
 #. module: odossey_purchase_pos_payment_check
+#. odoo-python
+#: code:addons/odossey_purchase_pos_payment_check/wizard/purchase_order_payment_mixin.py:0
+msgid ""
+"The check %(name)s can no longer be handed over: it is not an available "
+"third-party check."
+msgstr ""
+"El cheque %(name)s ya no se puede girar: no es un cheque de terceros "
+"disponible."
+
+#. module: odossey_purchase_pos_payment_check
 #: model:ir.model.fields,help:odossey_purchase_pos_payment_check.field_l10n_latam_check__currency_id
 msgid "The payment's currency."
 msgstr "Moneda del pago."
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_l10n_latam_check__purchase_order_ids
+#: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment_check.l10n_latam_check_view_form_handed
+#: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment_check.l10n_latam_check_view_form_transferred
+msgid "Órdenes de compra pagadas"
+msgstr "Órdenes de compra pagadas"
+
+#~ msgid "Cheque"
+#~ msgstr "Cheque"
+
+#~ msgid "Handed Date"
+#~ msgstr "Fecha de Entrega"
+
+#~ msgid "Handed To"
+#~ msgstr "Entregado A"

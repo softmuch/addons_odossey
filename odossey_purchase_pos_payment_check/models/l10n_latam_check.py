@@ -1,5 +1,5 @@
 # License OPL-1
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class L10nLatamCheck(models.Model):
@@ -15,7 +15,7 @@ class L10nLatamCheck(models.Model):
 
     handed_to_partner_id = fields.Many2one(
         comodel_name="res.partner",
-        string="Handed To",
+        string="Girado a",
         readonly=True,
         copy=False,
         help="Set when this third-party check was handed over to a "
@@ -25,4 +25,42 @@ class L10nLatamCheck(models.Model):
         "real journal -- not the case for a check tracked via "
         "l10n_latam_check_ext's instant, journal-less creation).",
     )
-    handed_date = fields.Date(readonly=True, copy=False)
+    handed_date = fields.Date(string="Fecha de giro", readonly=True, copy=False)
+
+    # Purchase orders this check paid (fully or partially). Every purchase
+    # payment settled with a check -- a brand new own check, or a customer's
+    # check handed over ("girado") -- is one `pos.payment` per order linked
+    # to the check, so the whole picture is derivable from those rows.
+    purchase_payment_ids = fields.One2many(
+        comodel_name="pos.payment",
+        inverse_name="l10n_latam_check_id",
+        domain=[("purchase_order_id", "!=", False)],
+        string="Pagos de compra",
+        readonly=True,
+    )
+    purchase_order_ids = fields.Many2many(
+        comodel_name="purchase.order",
+        string="Órdenes de compra pagadas",
+        compute="_compute_purchase_payment_info",
+    )
+    purchase_paid_amount = fields.Monetary(
+        string="Aplicado a órdenes",
+        compute="_compute_purchase_payment_info",
+        help="Part of the check's amount that went to purchase orders.",
+    )
+    purchase_surplus_amount = fields.Monetary(
+        string="Excedente",
+        compute="_compute_purchase_payment_info",
+        help="Part of the check's amount NOT applied to any order (e.g. "
+        "banked as supplier credit).",
+    )
+
+    @api.depends("purchase_payment_ids.amount", "amount")
+    def _compute_purchase_payment_info(self):
+        for check in self:
+            payments = check.purchase_payment_ids
+            check.purchase_order_ids = payments.purchase_order_id
+            check.purchase_paid_amount = sum(abs(p.amount) for p in payments)
+            check.purchase_surplus_amount = (
+                max(check.amount - check.purchase_paid_amount, 0.0) if payments else 0.0
+            )

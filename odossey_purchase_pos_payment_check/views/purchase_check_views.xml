@@ -1,45 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Checks handed OUT to suppliers via this module's "existing check"
-         payment flow. Own tree/form (rather than reusing core
-         l10n_latam_check's own list/form) since the fields that matter here
-         (handed_to_partner_id/handed_date) aren't part of core's own check
-         ledger. See purchase_order_payment_mixin.py's
-         _pay_with_existing_check for why. -->
+    <!-- "Cheques Propios": checks the company itself issued to suppliers
+         (check_kind = 'own', e.g. a brand new check handed over by the
+         purchase payment wizards). Each one lists the purchase orders it
+         paid, fully or partially, derived from the pos.payment rows that
+         link them (see l10n_latam_check.purchase_payment_ids). -->
     <record id="l10n_latam_check_view_tree_handed" model="ir.ui.view">
-        <field name="name">l10n_latam.check.list.handed</field>
+        <field name="name">l10n_latam.check.list.own</field>
         <field name="model">l10n_latam.check</field>
         <field name="arch" type="xml">
-            <list string="Cheques Propios">
+            <list string="Cheques Propios" create="false">
                 <field name="name" />
-                <field name="issuer_vat" />
+                <field name="issuer_vat" optional="hide" />
                 <field name="bank_id" />
                 <field name="check_type" />
+                <field name="payment_date" />
+                <field name="partner_id" string="Proveedor" />
                 <field name="amount" />
-                <field name="handed_to_partner_id" />
-                <field name="handed_date" />
+                <field name="purchase_order_ids" widget="many2many_tags" optional="show" />
+                <field name="purchase_paid_amount" optional="hide" />
+                <field name="check_state_own" widget="badge"
+                       decoration-success="check_state_own == 'paid'"
+                       decoration-danger="check_state_own == 'not_paid'" />
             </list>
         </field>
     </record>
 
     <record id="l10n_latam_check_view_form_handed" model="ir.ui.view">
-        <field name="name">l10n_latam.check.form.handed</field>
+        <field name="name">l10n_latam.check.form.own</field>
         <field name="model">l10n_latam.check</field>
+        <!-- Low precedence: only the "Cheques Propios" action (below) opens
+             it explicitly; every other way into a check (e.g. the
+             third-party list) keeps using core's own form. -->
+        <field name="priority">100</field>
         <field name="arch" type="xml">
-            <form string="Cheque">
+            <form string="Cheque Propio" edit="false" create="false">
+                <header>
+                    <field name="check_state" invisible="1" />
+                    <button name="action_mark_paid" string="Marcar como Pagado" type="object"
+                            class="btn-secondary" invisible="check_state != 'not_paid'" />
+                    <button name="action_mark_not_paid" string="Marcar como No Pagado" type="object"
+                            class="btn-secondary" invisible="check_state != 'paid'" />
+                </header>
                 <sheet>
                     <group>
-                        <field name="name" />
-                        <field name="issuer_vat" />
-                        <field name="bank_id" />
-                        <field name="check_type" />
-                        <field name="issue_date" />
-                        <field name="payment_date" />
-                        <field name="amount" />
-                        <field name="currency_id" />
-                        <field name="handed_to_partner_id" />
-                        <field name="handed_date" />
+                        <group>
+                            <field name="name" />
+                            <field name="issuer_vat" />
+                            <field name="bank_id" />
+                            <field name="check_type" />
+                            <field name="check_state_own" widget="badge"
+                                   decoration-success="check_state_own == 'paid'"
+                                   decoration-danger="check_state_own == 'not_paid'" />
+                        </group>
+                        <group>
+                            <field name="partner_id" string="Proveedor" />
+                            <field name="issue_date" />
+                            <field name="payment_date" />
+                            <field name="amount" />
+                            <field name="currency_id" />
+                        </group>
                     </group>
+                    <notebook>
+                        <page string="Órdenes de compra pagadas" name="purchase_orders">
+                            <field name="purchase_payment_ids" readonly="1" nolabel="1">
+                                <list>
+                                    <field name="purchase_order_id" />
+                                    <field name="payment_date" />
+                                    <field name="payment_method_id" />
+                                    <field name="paid_amount" />
+                                    <field name="reference_currency_id" column_invisible="True" />
+                                    <field name="paid_reference_amount" />
+                                </list>
+                            </field>
+                            <group class="oe_subtotal_footer">
+                                <field name="purchase_paid_amount" />
+                                <field name="purchase_surplus_amount" />
+                            </group>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
@@ -50,7 +89,68 @@
         <field name="res_model">l10n_latam.check</field>
         <field name="view_mode">list,form</field>
         <field name="view_id" ref="l10n_latam_check_view_tree_handed" />
-        <field name="domain">[('handed_to_partner_id', '!=', False)]</field>
+        <field name="search_view_id" ref="l10n_latam_check.view_account_payment_search" />
+        <field name="domain">[('check_kind', '=', 'own')]</field>
+    </record>
+    <record id="action_purchase_own_checks_view_list" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1" />
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="l10n_latam_check_view_tree_handed" />
+        <field name="act_window_id" ref="action_purchase_own_checks" />
+    </record>
+    <record id="action_purchase_own_checks_view_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="l10n_latam_check_view_form_handed" />
+        <field name="act_window_id" ref="action_purchase_own_checks" />
+    </record>
+
+    <!-- Third-party checks: a check handed over ("Girado") to a supplier
+         stays in "Cheques de Terceros" with the partner it went to and the
+         purchase orders it paid, next to the POS orders the customer had
+         paid with it (added by l10n_latam_check_ext). -->
+    <record id="l10n_latam_check_view_form_transferred" model="ir.ui.view">
+        <field name="name">l10n_latam.check.form.transferred</field>
+        <field name="model">l10n_latam.check</field>
+        <field name="inherit_id" ref="l10n_latam_check.l10n_latam_check_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='check_state_third']" position="after">
+                <field name="handed_to_partner_id" invisible="check_state != 'transferred'" />
+                <field name="handed_date" invisible="check_state != 'transferred'" />
+            </xpath>
+            <xpath expr="//notebook[@name='check_orders']" position="inside">
+                <page string="Órdenes de compra pagadas" name="purchase_orders"
+                      invisible="check_kind != 'third_party' or check_state != 'transferred'">
+                    <field name="purchase_payment_ids" readonly="1" nolabel="1">
+                        <list>
+                            <field name="purchase_order_id" />
+                            <field name="payment_date" />
+                            <field name="payment_method_id" />
+                            <field name="paid_amount" />
+                            <field name="reference_currency_id" column_invisible="True" />
+                            <field name="paid_reference_amount" />
+                        </list>
+                    </field>
+                    <group class="oe_subtotal_footer">
+                        <field name="purchase_paid_amount" />
+                        <field name="purchase_surplus_amount" />
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="l10n_latam_check_view_tree_transferred" model="ir.ui.view">
+        <field name="name">l10n_latam.check.list.transferred</field>
+        <field name="model">l10n_latam.check</field>
+        <field name="inherit_id" ref="l10n_latam_check.view_account_third_party_check_tree" />
+        <field name="arch" type="xml">
+            <field name="pos_order_ids" position="after">
+                <field name="handed_to_partner_id" optional="show" />
+                <field name="handed_date" optional="hide" />
+                <field name="purchase_order_ids" widget="many2many_tags" optional="show" />
+            </field>
+        </field>
     </record>
 
     <!-- Both check lists are reachable from the "Orders" menu of the

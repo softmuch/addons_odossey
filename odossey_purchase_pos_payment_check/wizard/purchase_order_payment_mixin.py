@@ -20,13 +20,21 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
     existing_check_id = fields.Many2one(
         comodel_name="l10n_latam.check",
         string="Check to Hand Over",
-        domain="[('company_id', '=', company_id), ('handed_to_partner_id', '=', False)]",
+        domain="[('company_id', '=', company_id), ('check_kind', '=', 'third_party'), "
+        "('check_state', '=', 'not_paid')]",
         help="An existing third-party check already in the company's "
         "portfolio (received from a customer) -- handing it over to a "
         "supplier instead of creating a brand new check record.",
     )
     l10n_latam_check_number = fields.Char(string="Check Number")
-    l10n_latam_check_bank_id = fields.Many2one(comodel_name="res.bank", string="Issuing Bank")
+    # An own check is issued on one of the company's own bank accounts
+    # (`company.partner_id.bank_ids`): `company_bank_ids` (computed on each
+    # concrete wizard, where `company_id` lives) feeds the domain below.
+    l10n_latam_check_bank_id = fields.Many2one(
+        comodel_name="res.bank",
+        string="Issuing Bank",
+        domain="[('id', 'in', company_bank_ids)]",
+    )
     l10n_latam_check_issuer_vat = fields.Char(string="Issuer VAT")
     l10n_latam_check_type = fields.Selection(
         selection=[
@@ -36,8 +44,33 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
         ],
         string="Check Type",
     )
-    l10n_latam_check_issue_date = fields.Date(string="Issue Date")
+    l10n_latam_check_issue_date = fields.Date(
+        string="Issue Date", default=fields.Date.context_today
+    )
     l10n_latam_check_payment_date = fields.Date(string="Payment Date")
+
+    def _get_company_banks(self):
+        self.ensure_one()
+        return self.company_id.partner_id.bank_ids.bank_id
+
+    @api.onchange("check_mode", "payment_method_id")
+    def _onchange_check_mode_own_check_defaults(self):
+        """Issuing a brand new (own) check: propose the company's defaults
+        (`res.partner.default_bank_id`/`default_check_type` of
+        `company.partner_id`, set in l10n_latam_check_ext) and its own VAT
+        as issuer, without overwriting anything already typed in."""
+        if self.check_mode != "new" or self.payment_method_id.payment_method_type != "check":
+            return
+        company = self.company_id
+        partner = company.partner_id
+        if not self.l10n_latam_check_bank_id:
+            self.l10n_latam_check_bank_id = partner.default_bank_id.bank_id
+        if not self.l10n_latam_check_issuer_vat:
+            self.l10n_latam_check_issuer_vat = company.vat
+        if not self.l10n_latam_check_type:
+            self.l10n_latam_check_type = partner.default_check_type
+        if not self.l10n_latam_check_issue_date:
+            self.l10n_latam_check_issue_date = fields.Date.context_today(self)
 
     @api.onchange("existing_check_id")
     def _onchange_existing_check_id(self):
@@ -140,6 +173,11 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
             "amount": total,
             "company_id": company.id,
             "partner_id": partner.id,
+            # A check issued to a supplier is an OWN check (not one
+            # received from a customer, which is what a check with no
+            # payment_id is otherwise assumed to be).
+            "check_kind": "own",
+            "check_state": "not_paid",
         })
         return super(
             PurchaseOrderPaymentMixin, self.with_context(_l10n_latam_check_id=check.id)
@@ -183,6 +221,11 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
         `views/purchase_check_views.xml`) -- not core's own check ledger.
         """
         check = self.existing_check_id
+        if check.check_kind != "third_party" or check.check_state != "not_paid":
+            raise UserError(_(
+                "The check %(name)s can no longer be handed over: it is not "
+                "an available third-party check.", name=check.name,
+            ))
         if sum(amount for _order, amount in order_amounts) > check.amount:
             raise UserError(_(
                 "The amount to pay cannot exceed the amount of the selected "
@@ -241,4 +284,8 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
             account_payments.action_post()
         payments.account_move_id = account_payments.move_id[:1].id
 
-        check.write({"handed_to_partner_id": partner.id, "handed_date": payment_date})
+        check.write({
+            "handed_to_partner_id": partner.id,
+            "handed_date": payment_date,
+            "check_state": "transferred",
+        })

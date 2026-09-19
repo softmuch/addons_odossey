@@ -2,7 +2,7 @@
 {
     "name": "Purchase Order POS Payment - Check",
     "summary": "Add cheque fields to the purchase-order payment popups, mirror image of l10n_latam_check_ext's pos.make.payment support.",
-    "version": "19.0.1.0.0",
+    "version": "19.0.2.0.0",
     "category": "Purchases",
     "license": "OPL-1",
     "author": "Odossey",
