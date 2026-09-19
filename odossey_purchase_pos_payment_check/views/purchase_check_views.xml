@@ -91,6 +91,7 @@
         <field name="view_id" ref="l10n_latam_check_view_tree_handed" />
         <field name="search_view_id" ref="l10n_latam_check.view_account_payment_search" />
         <field name="domain">[('check_kind', '=', 'own')]</field>
+        <field name="context">{'search_default_check_state_pending': 1}</field>
     </record>
     <record id="action_purchase_own_checks_view_list" model="ir.actions.act_window.view">
         <field name="sequence" eval="1" />
