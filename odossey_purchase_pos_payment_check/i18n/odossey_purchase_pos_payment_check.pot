@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e-20260622\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-19 08:14+0000\n"
-"PO-Revision-Date: 2026-09-19 08:14+0000\n"
+"POT-Creation-Date: 2026-09-19 08:30+0000\n"
+"PO-Revision-Date: 2026-09-19 08:30+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -199,6 +199,14 @@ msgstr ""
 #. module: odossey_purchase_pos_payment_check
 #: model:ir.model,name:odossey_purchase_pos_payment_check.model_purchase_order_payment_mixin
 msgid "Shared logic to pay one or more purchase orders via pos.payment"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment_check
+#. odoo-python
+#: code:addons/odossey_purchase_pos_payment_check/wizard/purchase_order_payment_mixin.py:0
+msgid ""
+"The amount to pay cannot exceed the amount of the selected check "
+"(%(amount)s)."
 msgstr ""
 
 #. module: odossey_purchase_pos_payment_check

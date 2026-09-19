@@ -44,6 +44,20 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
         if self.existing_check_id:
             self.amount = self.existing_check_id.amount
 
+    def _is_existing_check_payment(self):
+        return bool(
+            self.payment_method_id.payment_method_type == "check"
+            and self.check_mode == "existing"
+            and self.existing_check_id
+        )
+
+    @api.onchange("amount", "check_mode", "payment_method_id")
+    def _onchange_amount_cap_existing_check(self):
+        """A handed-over check has one fixed face value: `amount` can't
+        exceed it."""
+        if self._is_existing_check_payment() and self.amount > self.existing_check_id.amount:
+            self.amount = self.existing_check_id.amount
+
     def _is_free_amount_entry(self):
         if self.check_mode == "existing" and self.existing_check_id:
             return False
@@ -122,6 +136,11 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
         `views/purchase_check_views.xml`) -- not core's own check ledger.
         """
         check = self.existing_check_id
+        if sum(amount for _order, amount in order_amounts) > check.amount:
+            raise UserError(_(
+                "The amount to pay cannot exceed the amount of the selected "
+                "check (%(amount)s).", amount=check.amount,
+            ))
 
         payments = self.env["pos.payment"]
         for order, amount in order_amounts:
