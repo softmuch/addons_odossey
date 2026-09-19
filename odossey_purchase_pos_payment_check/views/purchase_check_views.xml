@@ -36,6 +36,8 @@
         <field name="arch" type="xml">
             <form string="Cheque Propio" edit="false" create="false">
                 <header>
+                    <button name="action_edit_own_check" string="Editar" type="object"
+                            class="btn-secondary" groups="account.group_account_invoice" />
                     <field name="check_state" invisible="1" />
                     <button name="action_mark_paid" string="Marcar como Pagado" type="object"
                             class="btn-secondary" invisible="check_state != 'not_paid'" />
@@ -81,6 +83,23 @@
                     </notebook>
                 </sheet>
             </form>
+        </field>
+    </record>
+
+    <!-- Editable twin of the own-check form above ("Editar" / "Bloquear"). -->
+    <record id="l10n_latam_check_view_form_handed_edit" model="ir.ui.view">
+        <field name="name">l10n_latam.check.form.own.edit</field>
+        <field name="model">l10n_latam.check</field>
+        <field name="inherit_id" ref="l10n_latam_check_view_form_handed" />
+        <field name="mode">primary</field>
+        <field name="priority">110</field>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="attributes">
+                <attribute name="edit">true</attribute>
+            </xpath>
+            <button name="action_edit_own_check" position="replace">
+                <button name="action_lock_own_check" string="Bloquear" type="object" class="btn-primary" />
+            </button>
         </field>
     </record>
 
@@ -167,9 +186,9 @@
                 <attribute name="context">{'form_view_ref': 'l10n_latam_check_ext.view_pos_payment_form_readonly'}</attribute>
             </xpath>
             <xpath expr="//field[@name='pos_payment_ids']/list/field[@name='reference_amount']" position="after">
-                <field name="l10n_latam_check_number" optional="hide" />
-                <field name="l10n_latam_check_bank_id" optional="hide" />
-                <field name="l10n_latam_check_payment_date" optional="hide" />
+                <field name="l10n_latam_check_number" column_invisible="1" />
+                <field name="l10n_latam_check_bank_id" column_invisible="1" />
+                <field name="l10n_latam_check_payment_date" column_invisible="1" />
             </xpath>
         </field>
     </record>

@@ -14,12 +14,12 @@
             </xpath>
             <xpath expr="//field[@name='payment_ids']/list/field[@name='payment_method_id']" position="after">
                 <field name="payment_method_type" column_invisible="1"/>
-                <field name="l10n_latam_check_number" invisible="payment_method_type != 'check'"/>
-                <field name="l10n_latam_check_bank_id" invisible="payment_method_type != 'check'"/>
-                <field name="l10n_latam_check_issuer_vat" invisible="payment_method_type != 'check'"/>
-                <field name="l10n_latam_check_type" invisible="payment_method_type != 'check'"/>
-                <field name="l10n_latam_check_issue_date" invisible="payment_method_type != 'check'"/>
-                <field name="l10n_latam_check_payment_date" invisible="payment_method_type != 'check'"/>
+                <field name="l10n_latam_check_number" column_invisible="1"/>
+                <field name="l10n_latam_check_bank_id" column_invisible="1"/>
+                <field name="l10n_latam_check_issuer_vat" column_invisible="1"/>
+                <field name="l10n_latam_check_type" column_invisible="1"/>
+                <field name="l10n_latam_check_issue_date" column_invisible="1"/>
+                <field name="l10n_latam_check_payment_date" column_invisible="1"/>
             </xpath>
             <xpath expr="//field[@name='lines']/list/field[@name='tax_ids']" position="attributes">
                 <attribute name="column_invisible">0</attribute>

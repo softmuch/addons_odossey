@@ -64,3 +64,13 @@ class L10nLatamCheck(models.Model):
             check.purchase_surplus_amount = (
                 max(check.amount - check.purchase_paid_amount, 0.0) if payments else 0.0
             )
+
+    def action_edit_own_check(self):
+        return self._action_open_form_view(
+            "odossey_purchase_pos_payment_check.l10n_latam_check_view_form_handed_edit"
+        )
+
+    def action_lock_own_check(self):
+        return self._action_open_form_view(
+            "odossey_purchase_pos_payment_check.l10n_latam_check_view_form_handed"
+        )
