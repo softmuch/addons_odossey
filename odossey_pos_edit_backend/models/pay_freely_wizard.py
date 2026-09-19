@@ -240,14 +240,8 @@ class PayFreelyWizard(models.TransientModel):
         }
 
     def action_pay(self):
-        result = self._apply_payment()
-        return {
-            'name': _('Pagos Creados'),
-            'type': 'ir.actions.act_window',
-            'res_model': 'pos.payment',
-            'view_mode': 'list,form',
-            'domain': [('id', 'in', result['payments'].ids)],
-        }
+        self._apply_payment()
+        return True
 
     @api.model
     def get_partner_debt_info(self, partner_id):
