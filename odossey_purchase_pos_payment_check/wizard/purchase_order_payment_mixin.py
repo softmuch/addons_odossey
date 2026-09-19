@@ -41,8 +41,18 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
 
     @api.onchange("existing_check_id")
     def _onchange_existing_check_id(self):
-        if self.existing_check_id:
-            self.amount = self.existing_check_id.amount
+        if not self.existing_check_id:
+            return
+        amount = self.existing_check_id.amount
+        if "use_supplier_credit" in self._fields and self.use_supplier_credit:
+            # The check's own value is the floor (an oversized check is
+            # still handed over in full, the surplus banked as credit);
+            # banked supplier credit can top it up towards what's actually
+            # owed, up to the check + credit limit.
+            amount = max(
+                amount, min(self._get_default_amount(), self._get_existing_check_limit())
+            )
+        self.amount = amount
 
     def _is_existing_check_payment(self):
         return bool(
@@ -51,12 +61,49 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
             and self.existing_check_id
         )
 
+    def _get_existing_check_limit(self):
+        """The most `amount` can be when handing over `existing_check_id`:
+        the check's own face value, plus the supplier's banked credit when
+        it's being applied too (`use_supplier_credit`, a field added by
+        `odossey_purchase_pos_payment_partial` -- not a dependency of this
+        module, hence the `_fields` guards). Company currency."""
+        self.ensure_one()
+        limit = self.existing_check_id.amount
+        if "use_supplier_credit" in self._fields and self.use_supplier_credit:
+            partner = (
+                self.partner_id if "partner_id" in self._fields
+                else self.purchase_order_id.partner_id
+            )
+            limit += max(partner.pos_supplier_credit_balance, 0.0)
+        return limit
+
     @api.onchange("amount", "check_mode", "payment_method_id")
     def _onchange_amount_cap_existing_check(self):
         """A handed-over check has one fixed face value: `amount` can't
-        exceed it."""
-        if self._is_existing_check_payment() and self.amount > self.existing_check_id.amount:
-            self.amount = self.existing_check_id.amount
+        exceed it (plus banked supplier credit, if it's applied)."""
+        if self._is_existing_check_payment():
+            limit = self._get_existing_check_limit()
+            if self.amount > limit:
+                self.amount = limit
+
+    def _split_amount_for_credit(self):
+        """Handing over an existing check: the check itself pays its face
+        value at most; anything `amount` has beyond it (allowed only up to
+        the supplier's banked credit, see `_get_existing_check_limit`) is a
+        separate payment out of that credit."""
+        money_amount, credit_extra = super()._split_amount_for_credit()
+        if not self._is_existing_check_payment():
+            return money_amount, credit_extra
+        limit = self._get_existing_check_limit()
+        if money_amount > limit:
+            raise UserError(_(
+                "The amount to pay cannot exceed the selected check's amount "
+                "plus any supplier credit applied (%(amount)s).", amount=limit,
+            ))
+        check_amount = self.existing_check_id.amount
+        if money_amount > check_amount:
+            return check_amount, money_amount - check_amount
+        return money_amount, credit_extra
 
     def _is_free_amount_entry(self):
         if self.check_mode == "existing" and self.existing_check_id:

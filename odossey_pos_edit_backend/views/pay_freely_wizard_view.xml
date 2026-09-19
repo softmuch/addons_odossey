@@ -9,7 +9,9 @@
 
                 <group string="Datos del Pago">
                     <field name="partner_id"/>
-                    <field name="payment_method_id"/>
+                    <field name="customer_credit_balance" invisible="customer_credit_balance &lt;= 0"/>
+                    <field name="use_customer_credit" invisible="customer_credit_balance &lt;= 0"/>
+                    <field name="payment_method_id" required="amount &gt; 0"/>
                     <field name="amount"/>
                     <field name="payment_method_type" invisible="1"/>
                     <field name="payment_date"/>
@@ -30,7 +32,9 @@
                     Se aplicará el importe a las órdenes POS pendientes del cliente,
                     de la más vieja a la más nueva. La última orden alcanzada puede
                     quedar parcialmente pagada. Si el importe supera el total adeudado
-                    por esas órdenes, no se puede continuar.
+                    por esas órdenes, no se puede continuar. Si el cliente tiene crédito a favor y
+                    se usa, se aplica como un pago aparte, y el importe indicado es el
+                    dinero que se cobra además de ese crédito.
                 </p>
 
                 <footer>

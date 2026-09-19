@@ -39,6 +39,6 @@
         id="menu_pos_supplier_credit"
         parent="purchase.menu_procurement_management"
         action="pos_supplier_credit_action"
-        sequence="21"
+        sequence="22"
     />
 </odoo>

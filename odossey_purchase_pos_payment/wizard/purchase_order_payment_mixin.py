@@ -6,6 +6,16 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
     _name = "purchase.order.payment.mixin"
     _description = "Shared logic to pay one or more purchase orders via pos.payment"
 
+    def _split_amount_for_credit(self):
+        """`(money_amount, credit_extra)`: how much of `amount` goes through
+        the chosen payment method as real money, and how much of it must
+        instead come out of the supplier's banked credit (a separate
+        payment). By default it's all money. Overridden e.g. when handing
+        over an existing check, whose fixed value can't absorb more than
+        its face amount (see `odossey_purchase_pos_payment_check`)."""
+        self.ensure_one()
+        return self.amount, 0.0
+
     def _get_rate(self, currency):
         """Company currency units per 1 unit of `currency`. Wizards that let
         the user type the rate override this and fall back to `super()`."""

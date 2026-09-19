@@ -38,11 +38,15 @@ patch(ControlButtons.prototype, {
         }
 
         const banks = this.pos.models["res.bank"] ? this.pos.models["res.bank"].getAll() : [];
-        const paymentMethods = this.pos.models["pos.payment.method"].getAll();
+        const paymentMethods = this.pos.models["pos.payment.method"]
+            .getAll()
+            .filter((pm) => !pm.is_credit_transfer);
         const payload = await makeAwaitable(this.dialog, PayFreelyPopup, {
             partner,
             totalResidual: info.total_residual,
             totalResidualLabel: this.pos.env.utils.formatCurrency(info.total_residual),
+            creditBalance: info.credit_balance || 0,
+            creditBalanceLabel: this.pos.env.utils.formatCurrency(info.credit_balance || 0),
             paymentMethods,
             banks,
         });
@@ -55,6 +59,7 @@ patch(ControlButtons.prototype, {
                 partner_id: partner.id,
                 amount: payload.amount,
                 payment_method_id: payload.payment_method_id,
+                use_customer_credit: payload.use_customer_credit,
                 payment_date: new Date().toISOString().split("T")[0],
                 l10n_latam_check_number: payload.number,
                 l10n_latam_check_bank_id: payload.bank_id,

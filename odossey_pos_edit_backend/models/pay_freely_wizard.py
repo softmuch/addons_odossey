@@ -13,6 +13,10 @@ class PayFreelyWizard(models.TransientModel):
         string='Cliente',
         required=True,
     )
+    # Money tendered through `payment_method_id` -- with `use_customer_credit`
+    # on, the customer's banked credit is applied ON TOP of it (as its own
+    # separate "Crédito Cliente/Proveedor" payment), so it can be 0 when the
+    # credit alone covers everything owed.
     amount = fields.Monetary(
         string='Importe a Pagar',
         required=True,
@@ -29,8 +33,13 @@ class PayFreelyWizard(models.TransientModel):
     payment_method_id = fields.Many2one(
         comodel_name='pos.payment.method',
         string='Método de Pago',
-        required=True,
-        domain="[('company_id', '=', company_id)]",
+        domain="[('company_id', '=', company_id), ('is_credit_transfer', '=', False)]",
+    )
+    use_customer_credit = fields.Boolean(string='Usar crédito a favor del cliente', default=True)
+    customer_credit_balance = fields.Monetary(
+        string='Crédito a favor del cliente',
+        currency_field='company_currency_id',
+        compute='_compute_customer_credit_balance',
     )
     # Same reasoning as pos.payment/pos.make.payment's own mirrored field
     # (see l10n_latam_check_ext): a dotted `payment_method_id.payment_method_type`
@@ -80,14 +89,36 @@ class PayFreelyWizard(models.TransientModel):
         ):
             self.l10n_latam_check_issuer_vat = self.partner_id.vat
 
-    @api.onchange('partner_id')
+    @api.depends('partner_id')
+    def _compute_customer_credit_balance(self):
+        for wizard in self:
+            wizard.customer_credit_balance = wizard.partner_id.pos_credit_balance
+
+    def _get_default_amount(self):
+        """The customer's outstanding total across their open POS orders,
+        net of the banked credit that would be applied to it -- the common
+        case is paying it off in full, so this saves re-typing that total."""
+        self.ensure_one()
+        total = self._get_total_residual()
+        if self.use_customer_credit:
+            total -= min(max(self.customer_credit_balance, 0.0), total)
+        return self.company_currency_id.round(total)
+
+    def _get_credit_to_apply(self):
+        """Credit consumed: it covers whatever the typed `amount` leaves
+        uncovered (up to the balance), like purchase orders' supplier credit."""
+        self.ensure_one()
+        if not self.use_customer_credit:
+            return 0.0
+        gap = self._get_total_residual() - self.amount
+        return self.company_currency_id.round(
+            min(max(self.customer_credit_balance, 0.0), max(gap, 0.0))
+        )
+
+    @api.onchange('partner_id', 'use_customer_credit')
     def _onchange_partner_id_amount(self):
-        """Suggest the customer's full outstanding total across their open
-        POS orders as soon as they're picked -- the common case is paying
-        it off in full, so this saves re-typing/copying that total by hand.
-        """
         if self.partner_id:
-            self.amount = self._get_total_residual()
+            self.amount = self._get_default_amount()
 
     @api.onchange('amount')
     def _onchange_amount_cap(self):
@@ -105,8 +136,8 @@ class PayFreelyWizard(models.TransientModel):
     @api.constrains('amount')
     def _check_amount(self):
         for wizard in self:
-            if wizard.amount <= 0:
-                raise ValidationError(_('El importe a pagar debe ser mayor a cero.'))
+            if wizard.amount < 0:
+                raise ValidationError(_('El importe a pagar no puede ser negativo.'))
 
     def _get_open_orders(self):
         self.ensure_one()
@@ -202,18 +233,41 @@ class PayFreelyWizard(models.TransientModel):
                 partner=self.partner_id.display_name,
             ))
 
+        credit_to_apply = self._get_credit_to_apply()
+        # A 0 `amount` is only valid when the credit is about to cover it
+        # all -- otherwise it's a no-op the user almost surely didn't intend.
+        if self.amount <= 0 and credit_to_apply <= 0:
+            raise UserError(_('El importe a pagar debe ser mayor a cero.'))
+        if self.amount > 0 and not self.payment_method_id:
+            raise UserError(_('Elegí un método de pago.'))
+
+        # Everything below runs `_process_saved_order` itself, once per
+        # order: don't let it ALSO auto-consume credit (see
+        # `skip_auto_customer_credit` in odossey_partial_payments_pos).
+        orders = orders.with_context(skip_auto_customer_credit=True)
+        touched = self.env['pos.order']
+        credit_applied = 0.0
+        credit_left = credit_to_apply
+        for order in orders:
+            if currency.is_zero(credit_left):
+                break
+            applied = order.apply_customer_credit(max_amount=credit_left)
+            if applied:
+                credit_left = currency.round(credit_left - applied)
+                credit_applied += applied
+                touched |= order
+
         check = False
-        if self.payment_method_id.payment_method_type == 'check':
+        if self.amount > 0 and self.payment_method_id.payment_method_type == 'check':
             check = self._l10n_latam_check_create()
 
         available = self.amount
         payments = self.env['pos.payment']
-        paid_orders = self.env['pos.order']
         for order in orders:
             if currency.is_zero(available):
                 break
-            residual = order.amount_total - order.amount_paid
-            if currency.is_zero(residual):
+            residual = order.currency_id.round(order.amount_total - order._compute_amount_paid())
+            if currency.is_zero(residual) or residual < 0:
                 continue
             pay_amount = min(available, residual)
 
@@ -226,18 +280,20 @@ class PayFreelyWizard(models.TransientModel):
             }
             if check:
                 payment_vals.update(self._l10n_latam_check_payment_vals(check))
-            payment = self.env['pos.payment'].create(payment_vals)
+            payments |= self.env['pos.payment'].create(payment_vals)
+            touched |= order
+            available -= pay_amount
+
+        for order in touched:
             order.amount_paid = order._compute_amount_paid()
             order._process_saved_order(False)
-
-            payments |= payment
-            paid_orders |= order
-            available -= pay_amount
+        paid_orders = touched
 
         return {
             'payments': payments,
             'orders': paid_orders,
-            'applied': self.amount - available,
+            'applied': self.amount - available + credit_applied,
+            'credit_applied': credit_applied,
         }
 
     def action_pay(self):
@@ -253,8 +309,10 @@ class PayFreelyWizard(models.TransientModel):
         create a wizard just to read this.
         """
         wizard = self.new({'partner_id': partner_id})
+        total = wizard._get_total_residual()
         return {
-            'total_residual': wizard._get_total_residual(),
+            'total_residual': total,
+            'credit_balance': min(max(wizard.customer_credit_balance, 0.0), total),
             'currency_id': wizard.company_currency_id.id,
         }
 

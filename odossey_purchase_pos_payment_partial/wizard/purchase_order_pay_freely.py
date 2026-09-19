@@ -16,6 +16,7 @@ class PurchaseOrderPayFreely(models.TransientModel):
     )
     supplier_credit_balance = fields.Monetary(compute='_compute_supplier_credit_balance')
 
+    @api.depends('partner_id')
     def _compute_supplier_credit_balance(self):
         for wizard in self:
             wizard.supplier_credit_balance = wizard.partner_id.pos_supplier_credit_balance
@@ -53,10 +54,14 @@ class PurchaseOrderPayFreely(models.TransientModel):
         orders = self._get_open_orders()
         total_residual = self._get_total_residual()
 
+        # See `purchase.order.payment.action_pay`: the part of `amount` an
+        # existing check can't absorb comes out of the supplier credit.
+        money_amount, credit_extra = self._split_amount_for_credit()
         credit_gap = 0.0
         if self.use_supplier_credit and orders:
-            credit_gap = max(
-                self.company_id.currency_id.round(total_residual - self.amount), 0.0
+            credit_gap = (
+                min(credit_extra, total_residual) if credit_extra
+                else max(self.company_id.currency_id.round(total_residual - money_amount), 0.0)
             )
         # A $0 `amount` is only valid when banked credit is about to cover
         # the whole gap on its own -- otherwise it's a no-op the user
@@ -71,7 +76,7 @@ class PurchaseOrderPayFreely(models.TransientModel):
                 orders[0], credit_gap, rate=self._get_rate(orders[0].currency_id),
             )
 
-        order_amounts, remaining = self._distribute_amount(orders, self.amount)
+        order_amounts, remaining = self._distribute_amount(orders, money_amount)
 
         if order_amounts:
             self._pay_purchase_orders(

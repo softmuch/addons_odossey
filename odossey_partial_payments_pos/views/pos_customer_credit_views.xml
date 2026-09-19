@@ -38,7 +38,7 @@
         id="menu_pos_customer_credit"
         parent="point_of_sale.menu_point_of_sale"
         action="pos_customer_credit_action"
-        sequence="4"
+        sequence="6"
         groups="point_of_sale.group_pos_manager,point_of_sale.group_pos_user"
     />
 </odoo>

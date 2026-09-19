@@ -13,6 +13,8 @@ export class PayFreelyPopup extends Component {
         partner: Object,
         totalResidual: Number,
         totalResidualLabel: { type: String, optional: true },
+        creditBalance: { type: Number, optional: true },
+        creditBalanceLabel: { type: String, optional: true },
         paymentMethods: Array,
         banks: { type: Array, optional: true },
         getPayload: Function,
@@ -22,11 +24,14 @@ export class PayFreelyPopup extends Component {
         title: _t("Pagar Libremente"),
         banks: [],
         totalResidualLabel: "",
+        creditBalance: 0,
+        creditBalanceLabel: "",
     };
 
     setup() {
         this.state = useState({
-            amountText: formatFloat(this.props.totalResidual),
+            use_customer_credit: true,
+            amountText: formatFloat(this.props.totalResidual - this.props.creditBalance),
             payment_method_id: this.props.paymentMethods[0]?.id || false,
             number: "",
             bank_id: false,
@@ -64,14 +69,30 @@ export class PayFreelyPopup extends Component {
         }
     }
 
+    // Credit the checkbox would apply: the balance, never more than owed.
+    get creditToUse() {
+        return this.state.use_customer_credit && this.props.creditBalance > 0
+            ? Math.min(this.props.creditBalance, this.props.totalResidual)
+            : 0;
+    }
+
+    // Money to charge by default: what's owed net of the credit applied.
+    get defaultAmount() {
+        return Math.max(this.props.totalResidual - this.creditToUse, 0);
+    }
+
+    onUseCreditChange() {
+        this.state.amountText = formatFloat(this.defaultAmount);
+    }
+
     // Same rule as the backend wizard's own `_onchange_amount_cap`: an
     // amount higher than what's actually owed has nowhere to go (no
     // advance-payment concept for pos.order), so it's snapped back down to
     // the max instead of letting the cashier submit a value that would just
     // get rejected server-side.
     formatAmountOnBlur() {
-        const capped = Math.min(this.amount, this.props.totalResidual);
-        this.state.amountText = formatFloat(capped > 0 ? capped : this.props.totalResidual);
+        const capped = Math.min(Math.max(this.amount, 0), this.props.totalResidual);
+        this.state.amountText = formatFloat(capped);
     }
 
     getBankSources() {
@@ -103,10 +124,19 @@ export class PayFreelyPopup extends Component {
     }
 
     get isValid() {
-        if (!(this.amount > 0 && this.amount <= this.props.totalResidual && this.state.payment_method_id)) {
+        const amount = this.amount;
+        if (!(amount >= 0 && amount <= this.props.totalResidual)) {
             return false;
         }
-        if (this.isCheck) {
+        // 0 is fine only when the credit covers everything owed.
+        const creditCovers = this.props.totalResidual - amount <= this.creditToUse + 0.005;
+        if (amount <= 0 && !(this.creditToUse > 0 && creditCovers)) {
+            return false;
+        }
+        if (amount > 0 && !this.state.payment_method_id) {
+            return false;
+        }
+        if (amount > 0 && this.isCheck) {
             return Boolean(
                 this.state.number && this.state.bank_id && this.state.issue_date && this.state.payment_date
             );
@@ -121,7 +151,8 @@ export class PayFreelyPopup extends Component {
         this.props.getPayload({
             ...this.state,
             amount: this.amount,
-            payment_method_id: Number(this.state.payment_method_id),
+            payment_method_id: this.amount > 0 ? Number(this.state.payment_method_id) : false,
+            use_customer_credit: Boolean(this.creditToUse),
         });
         this.props.close();
     }

@@ -8,6 +8,7 @@
     "author": "Odossey",
     "depends": ["odossey_purchase_pos_payment", "l10n_latam_check_ext"],
     "data": [
+        "security/ir.model.access.csv",
         "views/purchase_check_views.xml",
         "wizard/purchase_order_payment_views.xml",
         "wizard/purchase_order_pay_freely_views.xml",

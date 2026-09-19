@@ -53,10 +53,32 @@
         <field name="domain">[('handed_to_partner_id', '!=', False)]</field>
     </record>
 
+    <!-- Both check lists are reachable from the "Orders" menu of the
+         Purchase AND the Point of Sale apps: "Cheques Propios" (checks
+         handed to suppliers, above) and "Cheques de Terceros" (customers'
+         checks in portfolio, core l10n_latam_check's own action as
+         extended by l10n_latam_check_ext, which already has its own entry
+         in the POS app). -->
     <menuitem
         action="action_purchase_own_checks"
         id="menu_purchase_own_checks"
         parent="purchase.menu_procurement_management"
+        sequence="21"
+    />
+    <menuitem
+        id="menu_purchase_third_party_checks"
+        name="Cheques de Terceros"
+        action="l10n_latam_check.action_third_party_check"
+        parent="purchase.menu_procurement_management"
         sequence="20"
+        groups="purchase.group_purchase_user"
+    />
+    <menuitem
+        id="menu_pos_own_checks"
+        name="Cheques Propios"
+        action="action_purchase_own_checks"
+        parent="point_of_sale.menu_point_of_sale"
+        sequence="5"
+        groups="point_of_sale.group_pos_manager,point_of_sale.group_pos_user"
     />
 </odoo>

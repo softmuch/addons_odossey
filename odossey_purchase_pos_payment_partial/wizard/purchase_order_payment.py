@@ -19,6 +19,7 @@ class PurchaseOrderPayment(models.TransientModel):
     )
     supplier_credit_balance = fields.Monetary(compute='_compute_supplier_credit_balance')
 
+    @api.depends('purchase_order_id.partner_id')
     def _compute_supplier_credit_balance(self):
         for wizard in self:
             wizard.supplier_credit_balance = (
@@ -81,9 +82,17 @@ class PurchaseOrderPayment(models.TransientModel):
         company_currency = self.company_id.currency_id
         rate = self._get_rate(order.currency_id)
         residual = self._get_order_residual(order)
+        # `money_amount` goes through the chosen payment method; a
+        # `credit_extra` beyond it (e.g. an existing check that can't
+        # absorb the whole `amount`) must come out of the supplier credit
+        # as its own payment instead.
+        money_amount, credit_extra = self._split_amount_for_credit()
         credit_gap = 0.0
         if self.use_supplier_credit:
-            credit_gap = max(company_currency.round(residual - self.amount), 0.0)
+            credit_gap = (
+                min(credit_extra, residual) if credit_extra
+                else max(company_currency.round(residual - money_amount), 0.0)
+            )
         # A $0 `amount` is only valid when banked credit is about to cover
         # the whole gap on its own (e.g. residual == available credit,
         # nothing left to tender in real money) -- otherwise it's a no-op
@@ -102,7 +111,7 @@ class PurchaseOrderPayment(models.TransientModel):
         if credit_gap > 0:
             self._consume_supplier_credit_for_order(order, credit_gap, rate=rate)
 
-        remaining = self.amount
+        remaining = money_amount
         order_amounts = []
         if remaining > 0:
             # Re-derived, not reused from above: consuming credit just now

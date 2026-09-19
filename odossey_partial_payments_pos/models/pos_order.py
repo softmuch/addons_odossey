@@ -228,7 +228,7 @@ class PosOrder(models.Model):
         self.write({'state': 'partially_paid'})
         return True
 
-    def apply_customer_credit(self):
+    def apply_customer_credit(self, max_amount=None):
         """Consume up to this order's own residual from `self.partner_id`'s
         banked `pos.customer.credit` balance, booked as its own "Crédito
         Cliente" payment line. Shared by the backend `pos.make.payment`
@@ -240,17 +240,25 @@ class PosOrder(models.Model):
         never overpay the order; whatever else gets tendered can still
         overpay it, and that's handled by `_redistribute_overpayment` as
         usual.
+
+        `max_amount` (optional) further caps what's consumed -- used by "Pagar
+        Libremente", which sizes the credit to just the part of the total the
+        typed amount doesn't already cover. Returns the amount applied.
         """
         self.ensure_one()
         if not self.partner_id:
-            return
+            return 0.0
         balance = self.partner_id.pos_credit_balance
         if balance <= 0:
-            return
+            return 0.0
         residual = self.currency_id.round(self.amount_total - self.amount_paid)
         if residual <= 0:
-            return
+            return 0.0
         applied = min(balance, residual)
+        if max_amount is not None:
+            applied = min(applied, max_amount)
+        if applied <= 0:
+            return 0.0
         credit_method = self.env['pos.payment.method']._get_or_create_credit_payment_method(
             self.company_id
         )
@@ -265,6 +273,7 @@ class PosOrder(models.Model):
             'amount': -applied,
             'used_order_id': self.id,
         })
+        return applied
 
     def _redistribute_overpayment(self):
         """When this order ends up paid IN EXCESS (payments sum above its
@@ -365,7 +374,9 @@ class PosOrder(models.Model):
             # not only ones it's already overpaid -- exactly like the
             # backend wizard's own ordering (`_apply_customer_credit` before
             # its own payment branch).
-            if self.use_customer_credit:
+            # `skip_auto_customer_credit`: "Pagar Libremente" applies credit
+            # itself, explicitly and sized to its own checkbox/amount.
+            if self.use_customer_credit and not self.env.context.get('skip_auto_customer_credit'):
                 self.apply_customer_credit()
             # Must run BEFORE `action_pos_order_paid`: `_is_order_paid_with_
             # rounding` is a near-EQUALITY check (`total - amount_paid` is
