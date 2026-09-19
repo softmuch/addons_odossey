@@ -38,17 +38,22 @@ class PurchaseOrderPayment(models.TransientModel):
         order = self.env['purchase.order'].browse(res['purchase_order_id'])
         wizard = self.new({'use_supplier_credit': res.get('use_supplier_credit', True)})
         res['amount'] = wizard._credit_discounted_amount(
-            order.currency_id, res.get('amount', 0.0), order.partner_id
+            order.company_id.currency_id, res.get('amount', 0.0), order.partner_id
         )
         return res
 
+    def _get_default_amount(self):
+        """Override (not extend): the base suggestion (the order's residual,
+        company currency) net of the supplier's banked credit."""
+        return self._credit_discounted_amount(
+            self.currency_id, super()._get_default_amount(),
+            self.purchase_order_id.partner_id,
+        )
+
     @api.onchange('use_supplier_credit')
     def _onchange_use_supplier_credit(self):
-        order = self.purchase_order_id
-        if not order:
-            return
-        residual = order.currency_id.round(order.amount_total - order.amount_paid)
-        self.amount = self._credit_discounted_amount(order.currency_id, residual, order.partner_id)
+        if self.purchase_order_id:
+            self.amount = self._get_default_amount()
 
     def action_pay(self):
         """Full override (not calling `super()`): the base method always
@@ -71,10 +76,14 @@ class PurchaseOrderPayment(models.TransientModel):
         """
         self.ensure_one()
         order = self.purchase_order_id
-        residual = order.currency_id.round(order.amount_total - order.amount_paid)
+        # Everything below is in the company currency (what `amount` is
+        # expressed in); `rate` converts the order's own residual to it.
+        company_currency = self.company_id.currency_id
+        rate = self._get_rate(order.currency_id)
+        residual = self._get_order_residual(order)
         credit_gap = 0.0
         if self.use_supplier_credit:
-            credit_gap = max(order.currency_id.round(residual - self.amount), 0.0)
+            credit_gap = max(company_currency.round(residual - self.amount), 0.0)
         # A $0 `amount` is only valid when banked credit is about to cover
         # the whole gap on its own (e.g. residual == available credit,
         # nothing left to tender in real money) -- otherwise it's a no-op
@@ -91,18 +100,18 @@ class PurchaseOrderPayment(models.TransientModel):
             raise UserError(_("Select a payment method."))
 
         if credit_gap > 0:
-            self._consume_supplier_credit_for_order(order, credit_gap)
+            self._consume_supplier_credit_for_order(order, credit_gap, rate=rate)
 
         remaining = self.amount
         order_amounts = []
         if remaining > 0:
             # Re-derived, not reused from above: consuming credit just now
             # may have already reduced how much this order still owes.
-            primary_residual = order.currency_id.round(order.amount_total - order.amount_paid)
+            primary_residual = self._get_order_residual(order)
             primary_amount = min(remaining, primary_residual)
             if primary_amount > 0:
                 order_amounts.append((order, primary_amount))
-                remaining = order.currency_id.round(remaining - primary_amount)
+                remaining = company_currency.round(remaining - primary_amount)
 
         if remaining > 0:
             order_amounts += self._redistribute_purchase_overpayment(

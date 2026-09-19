@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e-20260622\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-06 17:48+0000\n"
+"POT-Creation-Date: 2026-09-19 08:14+0000\n"
 "PO-Revision-Date: 2026-09-06 17:48+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -101,6 +101,13 @@ msgid "Display Name"
 msgstr "Nome visualizzato"
 
 #. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_check.selection__purchase_order_pay_freely__l10n_latam_check_type__echeq
+#: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_check.selection__purchase_order_payment__l10n_latam_check_type__echeq
+#: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_check.selection__purchase_order_payment_mixin__l10n_latam_check_type__echeq
+msgid "ECHEQ or Electronic Check"
+msgstr "ECHEQ o Assegno Elettronico"
+
+#. module: odossey_purchase_pos_payment_check
 #: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_check.selection__purchase_order_pay_freely__check_mode__existing
 #: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_check.selection__purchase_order_payment__check_mode__existing
 #: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_check.selection__purchase_order_payment_mixin__check_mode__existing
@@ -191,17 +198,18 @@ msgid ""
 " received through a real journal -- not the case for a check tracked via "
 "l10n_latam_check_ext's instant, journal-less creation)."
 msgstr ""
-"Impostato quando questo assegno di terzi viene consegnato a un fornitore "
-"per saldare un ordine di acquisto, invece di essere depositato o di "
-"seguire il flusso formale di trasferimento assegni di terzi (che richiede "
-"che l'assegno sia già stato ricevuto tramite un registro reale -- non è il "
-"caso di un assegno tracciato con la creazione istantanea e senza registro "
-"di l10n_latam_check_ext)."
+"Impostato quando questo assegno di terzi viene consegnato a un fornitore per"
+" saldare un ordine di acquisto, invece di essere depositato o di seguire il "
+"flusso formale di trasferimento assegni di terzi (che richiede che l'assegno"
+" sia già stato ricevuto tramite un registro reale -- non è il caso di un "
+"assegno tracciato con la creazione istantanea e senza registro di "
+"l10n_latam_check_ext)."
 
 #. module: odossey_purchase_pos_payment_check
 #: model:ir.model,name:odossey_purchase_pos_payment_check.model_purchase_order_payment_mixin
 msgid "Shared logic to pay one or more purchase orders via pos.payment"
-msgstr "Logica condivisa per pagare uno o più ordini di acquisto tramite pos.payment"
+msgstr ""
+"Logica condivisa per pagare uno o più ordini di acquisto tramite pos.payment"
 
 #. module: odossey_purchase_pos_payment_check
 #: model:ir.model.fields,help:odossey_purchase_pos_payment_check.field_l10n_latam_check__currency_id

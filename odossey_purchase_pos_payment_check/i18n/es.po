@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e-20260622\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-06 17:48+0000\n"
+"POT-Creation-Date: 2026-09-19 08:14+0000\n"
 "PO-Revision-Date: 2026-09-06 17:48+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -30,8 +30,8 @@ msgid ""
 "from a customer) -- handing it over to a supplier instead of creating a "
 "brand new check record."
 msgstr ""
-"Un cheque de terceros ya existente en la cartera de la compañía (recibido "
-"de un cliente) -- se lo entrega a un proveedor en lugar de crear un cheque "
+"Un cheque de terceros ya existente en la cartera de la compañía (recibido de"
+" un cliente) -- se lo entrega a un proveedor en lugar de crear un cheque "
 "nuevo."
 
 #. module: odossey_purchase_pos_payment_check
@@ -100,6 +100,13 @@ msgstr "Cheque de Pago Diferido (CPD)"
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment_check.field_purchase_order_payment_mixin__display_name
 msgid "Display Name"
 msgstr "Nombre para mostrar"
+
+#. module: odossey_purchase_pos_payment_check
+#: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_check.selection__purchase_order_pay_freely__l10n_latam_check_type__echeq
+#: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_check.selection__purchase_order_payment__l10n_latam_check_type__echeq
+#: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_check.selection__purchase_order_payment_mixin__l10n_latam_check_type__echeq
+msgid "ECHEQ or Electronic Check"
+msgstr "ECHEQ o Cheque Electrónico"
 
 #. module: odossey_purchase_pos_payment_check
 #: model:ir.model.fields.selection,name:odossey_purchase_pos_payment_check.selection__purchase_order_pay_freely__check_mode__existing
@@ -193,16 +200,17 @@ msgid ""
 "l10n_latam_check_ext's instant, journal-less creation)."
 msgstr ""
 "Se establece cuando este cheque de terceros se entrega a un proveedor para "
-"saldar una orden de compra, en lugar de depositarlo o de usar el "
-"mecanismo formal de transferencia de cheques de terceros (que exige que el "
-"cheque ya haya sido recibido a través de un diario real -- no es el caso "
-"de un cheque registrado mediante la creación instantánea y sin diario de "
+"saldar una orden de compra, en lugar de depositarlo o de usar el mecanismo "
+"formal de transferencia de cheques de terceros (que exige que el cheque ya "
+"haya sido recibido a través de un diario real -- no es el caso de un cheque "
+"registrado mediante la creación instantánea y sin diario de "
 "l10n_latam_check_ext)."
 
 #. module: odossey_purchase_pos_payment_check
 #: model:ir.model,name:odossey_purchase_pos_payment_check.model_purchase_order_payment_mixin
 msgid "Shared logic to pay one or more purchase orders via pos.payment"
-msgstr "Lógica compartida para pagar una o más órdenes de compra vía pos.payment"
+msgstr ""
+"Lógica compartida para pagar una o más órdenes de compra vía pos.payment"
 
 #. module: odossey_purchase_pos_payment_check
 #: model:ir.model.fields,help:odossey_purchase_pos_payment_check.field_l10n_latam_check__currency_id

@@ -8,8 +8,17 @@
                 <field name="purchase_order_id" invisible="1" />
                 <field name="company_id" invisible="1" />
                 <field name="currency_id" invisible="1" />
+                <field name="foreign_currency" invisible="1" />
                 <group>
                     <field name="payment_method_id" />
+                    <label for="rate" invisible="not foreign_currency" />
+                    <div class="d-flex align-items-baseline gap-2" invisible="not foreign_currency">
+                        <span>1</span>
+                        <field name="order_currency_id" readonly="1" force_save="1" nolabel="1" options="{'no_open': True}" />
+                        <span>=</span>
+                        <field name="rate" nolabel="1" class="oe_inline" />
+                        <field name="currency_id" readonly="1" force_save="1" nolabel="1" options="{'no_open': True}" />
+                    </div>
                     <field name="amount" />
                     <field name="payment_date" />
                 </group>

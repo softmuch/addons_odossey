@@ -6,14 +6,42 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
     _name = "purchase.order.payment.mixin"
     _description = "Shared logic to pay one or more purchase orders via pos.payment"
 
+    def _get_rate(self, currency):
+        """Company currency units per 1 unit of `currency`. Wizards that let
+        the user type the rate override this and fall back to `super()`."""
+        self.ensure_one()
+        company_currency = self.company_id.currency_id
+        if not currency or currency == company_currency:
+            return 1.0
+        return self.env["res.currency"]._get_conversion_rate(
+            currency, company_currency, self.company_id, self.payment_date
+        )
+
+    def _get_order_residual(self, order):
+        """What `order` still owes, in the company currency."""
+        self.ensure_one()
+        return self.company_id.currency_id.round(
+            order.amount_difference * self._get_rate(order.currency_id)
+        )
+
     def _get_payment_currency_amounts(self, order, amount):
-        """`(currency, reference_amount)` for a payment of `amount` against
-        `order`: the currency `amount` is expressed in, and its equivalent
-        in the order's own currency (what settles the order). By default
-        both are the order's own -- overridden by wizards that pay in
-        another currency (see `purchase.order.pay.freely`).
+        """`(currency, reference_amount)` for a payment of `amount` (company
+        currency) against `order`. The payment is booked in the company
+        currency; `reference_amount` is its equivalent in the order's own
+        currency (what settles the order), from the wizard's exchange rate.
+        Paying the whole residual settles it exactly, without a stray cent
+        from the round trip through the rate.
         """
-        return order.currency_id, amount
+        company_currency = order.company_id.currency_id
+        if order.currency_id == company_currency:
+            return company_currency, amount
+        rate = self._get_rate(order.currency_id)
+        residual = order.amount_difference
+        if amount >= self._get_order_residual(order):
+            reference = residual
+        else:
+            reference = min(order.currency_id.round(amount / rate), residual)
+        return company_currency, reference
 
     def _get_pos_payment_vals(self, order, amount, payment_method, payment_date):
         """Isolated as its own method (instead of inlined in the loop below)

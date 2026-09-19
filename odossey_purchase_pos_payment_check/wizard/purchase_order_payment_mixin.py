@@ -32,6 +32,7 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
         selection=[
             ("common", "Common Check"),
             ("deferred", "Deferred Payment Check (CPD)"),
+            ("echeq", "ECHEQ or Electronic Check"),
         ],
         string="Check Type",
     )

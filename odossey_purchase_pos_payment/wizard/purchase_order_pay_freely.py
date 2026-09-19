@@ -43,26 +43,13 @@ class PurchaseOrderPayFreely(models.TransientModel):
         return orders.filtered(lambda o: o.amount_difference > 0).sorted("date_order")
 
     def _get_rate(self, currency):
-        """Company currency units per 1 unit of `currency`: the rate typed
-        in the wizard, or the current one from the currency table if the
-        line isn't there (yet)."""
+        """The rate typed in the wizard, or the current one from the
+        currency table if the line isn't there (yet)."""
         self.ensure_one()
-        company_currency = self.company_id.currency_id
-        if not currency or currency == company_currency:
-            return 1.0
         line = self.rate_ids.filtered(lambda r: r.currency_id == currency)[:1]
         if line and line.rate > 0:
             return line.rate
-        return self.env["res.currency"]._get_conversion_rate(
-            currency, company_currency, self.company_id, self.payment_date
-        )
-
-    def _get_order_residual(self, order):
-        """What `order` still owes, in the company currency."""
-        self.ensure_one()
-        return self.company_id.currency_id.round(
-            order.amount_difference * self._get_rate(order.currency_id)
-        )
+        return super()._get_rate(currency)
 
     def _get_total_residual(self):
         self.ensure_one()
@@ -78,9 +65,7 @@ class PurchaseOrderPayFreely(models.TransientModel):
             for currency in self._get_open_orders().currency_id - company_currency:
                 commands.append(Command.create({
                     "currency_id": currency.id,
-                    "rate": self.env["res.currency"]._get_conversion_rate(
-                        currency, company_currency, self.company_id, self.payment_date
-                    ),
+                    "rate": super()._get_rate(currency),
                 }))
         self.rate_ids = commands
 
@@ -116,23 +101,6 @@ class PurchaseOrderPayFreely(models.TransientModel):
             order_amounts.append((order, applied))
             remaining = currency.round(remaining - applied)
         return order_amounts, remaining
-
-    def _get_payment_currency_amounts(self, order, amount):
-        """The payment is booked in the company currency; the equivalent in
-        the order's own currency (`reference_amount`, what settles the
-        order) comes from the wizard's exchange rate. Paying the whole
-        residual in company currency settles it exactly, without a stray
-        cent from the round trip."""
-        company_currency = order.company_id.currency_id
-        if order.currency_id == company_currency:
-            return company_currency, amount
-        rate = self._get_rate(order.currency_id)
-        residual = order.amount_difference
-        if amount >= self._get_order_residual(order):
-            reference = residual
-        else:
-            reference = min(order.currency_id.round(amount / rate), residual)
-        return company_currency, reference
 
     @api.onchange("amount")
     def _onchange_amount_cap(self):

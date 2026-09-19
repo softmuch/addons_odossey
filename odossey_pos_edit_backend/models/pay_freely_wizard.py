@@ -64,6 +64,7 @@ class PayFreelyWizard(models.TransientModel):
         selection=[
             ("common", "Cheque Común"),
             ("deferred", "Cheque de Pago Diferido (CPD)"),
+            ("echeq", "ECHEQ o Cheque Electrónico"),
         ],
         string="Tipo de Cheque",
     )

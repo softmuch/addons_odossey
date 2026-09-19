@@ -16,6 +16,9 @@
             </xpath>
             <xpath expr="//page[@name='purchase_delivery_invoice']" position="after">
                 <page string="Payments" name="pos_payments">
+                    <!-- `parent.company_currency_id` in the list below only
+                         resolves if the form itself loads the field. -->
+                    <field name="company_currency_id" invisible="1" />
                     <!-- Read-only ledger, unlike pos.order's own equivalent
                          tab: a pos.payment row created here inline would
                          skip the wizard's own accounting (posting/
@@ -29,7 +32,10 @@
                             <field name="payment_method_id" />
                             <field name="amount" />
                             <field name="reference_currency_id" column_invisible="True" />
-                            <field name="reference_amount" />
+                            <field
+                                name="reference_amount"
+                                column_invisible="parent.currency_id == parent.company_currency_id"
+                            />
                             <field name="payment_method_payment_mode" optional="hide" />
                             <field name="card_no" invisible="not card_no" />
                             <field

@@ -6,14 +6,34 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e-20260622\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-10 10:39+0000\n"
-"PO-Revision-Date: 2026-09-10 10:39+0000\n"
+"POT-Creation-Date: 2026-09-19 07:52+0000\n"
+"PO-Revision-Date: 2026-09-19 07:52+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: odossey_purchase_pos_payment
+#: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment.purchase_order_pay_freely_view_form
+msgid "(moneda de la empresa)"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment
+#: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment.purchase_order_pay_freely_view_form
+msgid "1 unidad de"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment
+#: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment.purchase_order_payment_view_form
+msgid "<span>1</span>"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment
+#: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment.purchase_order_payment_view_form
+msgid "<span>=</span>"
+msgstr ""
 
 #. module: odossey_purchase_pos_payment
 #: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment.purchase_order_view_tree_inherit_pay_freely
@@ -45,13 +65,20 @@ msgid "Company"
 msgstr ""
 
 #. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_pay_freely_rate__company_currency_id
+msgid "Company Currency"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_pay_freely__create_uid
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_pay_freely_rate__create_uid
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_payment__create_uid
 msgid "Created by"
 msgstr ""
 
 #. module: odossey_purchase_pos_payment
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_pay_freely__create_date
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_pay_freely_rate__create_date
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_payment__create_date
 msgid "Created on"
 msgstr ""
@@ -59,7 +86,9 @@ msgstr ""
 #. module: odossey_purchase_pos_payment
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_pos_payment__currency_id
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_pay_freely__currency_id
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_pay_freely_rate__currency_id
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_payment__currency_id
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_payment__order_currency_id
 msgid "Currency"
 msgstr ""
 
@@ -73,6 +102,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_pos_payment_method__display_name
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order__display_name
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_pay_freely__display_name
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_pay_freely_rate__display_name
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_payment__display_name
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_payment_mixin__display_name
 msgid "Display Name"
@@ -84,10 +114,52 @@ msgid "Due"
 msgstr ""
 
 #. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,help:odossey_purchase_pos_payment.field_pos_payment__reference_amount
+msgid ""
+"Equivalent of this payment in the purchase order's own currency (same sign "
+"as Amount)."
+msgstr ""
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_pay_freely_rate__rate
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_payment__rate
+msgid "Exchange Rate"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_pay_freely__rate_ids
+msgid "Exchange Rates"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model,name:odossey_purchase_pos_payment.model_purchase_order_pay_freely_rate
+msgid "Exchange rate used by Pay Freely for one foreign currency"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_payment__foreign_currency
+msgid "Foreign Currency"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,help:odossey_purchase_pos_payment.field_purchase_order_payment__rate
+msgid ""
+"How many units of the company currency 1 unit of the order's currency is "
+"worth."
+msgstr ""
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,help:odossey_purchase_pos_payment.field_purchase_order_pay_freely_rate__rate
+msgid ""
+"How many units of the company currency 1 unit of this currency is worth."
+msgstr ""
+
+#. module: odossey_purchase_pos_payment
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_pos_payment__id
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_pos_payment_method__id
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order__id
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_pay_freely__id
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_pay_freely_rate__id
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_payment__id
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_payment_mixin__id
 msgid "ID"
@@ -95,12 +167,14 @@ msgstr ""
 
 #. module: odossey_purchase_pos_payment
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_pay_freely__write_uid
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_pay_freely_rate__write_uid
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_payment__write_uid
 msgid "Last Updated by"
 msgstr ""
 
 #. module: odossey_purchase_pos_payment
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_pay_freely__write_date
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_pay_freely_rate__write_date
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_payment__write_date
 msgid "Last Updated on"
 msgstr ""
@@ -116,6 +190,11 @@ msgstr ""
 #. module: odossey_purchase_pos_payment
 #: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_pos_payment__pos_order_id
 msgid "Order"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_pos_payment__reference_currency_id
+msgid "Order Currency"
 msgstr ""
 
 #. module: odossey_purchase_pos_payment
@@ -196,6 +275,23 @@ msgid "Purchase Order"
 msgstr ""
 
 #. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_pos_payment__reference_amount
+msgid "Reference Amount"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment
+#: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment.purchase_order_pay_freely_view_form
+msgid ""
+"Se aplicará el importe a las órdenes de compra pendientes del\n"
+"                    proveedor, de la más vieja a la más nueva. El importe se expresa en la\n"
+"                    moneda de la empresa; las órdenes en otra moneda se convierten\n"
+"                    con el tipo de cambio indicado arriba. La última orden\n"
+"                    alcanzada puede quedar parcialmente pagada. Si el importe\n"
+"                    supera el total adeudado por esas órdenes, no se puede\n"
+"                    continuar."
+msgstr ""
+
+#. module: odossey_purchase_pos_payment
 #: model:ir.model.fields,help:odossey_purchase_pos_payment.field_pos_payment__purchase_order_id
 msgid ""
 "Set when this payment represents money paid OUT to a supplier against this "
@@ -227,7 +323,24 @@ msgid "The amount to pay must be greater than zero."
 msgstr ""
 
 #. module: odossey_purchase_pos_payment
+#. odoo-python
+#: code:addons/odossey_purchase_pos_payment/wizard/purchase_order_pay_freely_rate.py:0
+#: code:addons/odossey_purchase_pos_payment/wizard/purchase_order_payment.py:0
+msgid "The exchange rate must be greater than zero."
+msgstr ""
+
+#. module: odossey_purchase_pos_payment
 #: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment.purchase_order_pay_freely_view_form
 #: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment.purchase_order_payment_view_form
 msgid "Validate"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment
+#: model:ir.model.fields,field_description:odossey_purchase_pos_payment.field_purchase_order_pay_freely_rate__wizard_id
+msgid "Wizard"
+msgstr ""
+
+#. module: odossey_purchase_pos_payment
+#: model_terms:ir.ui.view,arch_db:odossey_purchase_pos_payment.purchase_order_pay_freely_view_form
+msgid "equivale a"
 msgstr ""

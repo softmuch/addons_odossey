@@ -64,12 +64,14 @@ class PurchaseOrderPaymentMixin(models.AbstractModel):
         for target in self._get_redistribution_targets(partner, company, exclude=primary_order):
             if remaining <= 0:
                 break
-            residual = target.currency_id.round(target.amount_total - target.amount_paid)
+            # `remaining` is in the company currency: compare it with the
+            # target's residual converted to it.
+            residual = self._get_order_residual(target)
             if residual <= 0:
                 continue
             applied = min(remaining, residual)
             order_amounts.append((target, applied))
-            remaining = target.currency_id.round(remaining - applied)
+            remaining = company.currency_id.round(remaining - applied)
 
         if remaining > 0:
             self._bank_supplier_credit(company, partner, payment_method, payment_date, remaining, primary_order)
