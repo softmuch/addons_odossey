@@ -3,6 +3,7 @@ import psycopg2
 
 from odoo import models, fields, tools, _
 from odoo.exceptions import UserError
+from odoo.tools import float_is_zero, float_round
 
 _logger = logging.getLogger(__name__)
 
@@ -151,6 +152,8 @@ class PosOrderV2(models.Model):
         move_vals['invoice_line_ids'] = adjusted_lines
 
         new_move = self._create_invoice(move_vals)
+        if payments:
+            self._fit_split_invoice_total(new_move, sum(payments.mapped('amount')))
         new_move.sudo().with_company(self.company_id).with_context(
             **self._get_invoice_post_context()
         )._post()
@@ -168,6 +171,37 @@ class PosOrderV2(models.Model):
 
         if self.env.context.get('generate_pdf', True):
             new_move.with_context(skip_invoice_sync=True)._generate_and_send()
+
+    def _fit_split_invoice_total(self, move, target):
+        """Make the (draft) split invoice total equal to the amount paid in the round.
+
+        Every line price is scaled by `factor` and rounded to the price precision, and the
+        taxes are rounded again, so with totals that do not split evenly the invoice can
+        differ by a few cents from the payment (leaving it partially paid). The difference
+        is absorbed by the last unit-quantity line and, if a residual remains, by a
+        tax-free rounding line.
+        """
+        rounding = self.currency_id.rounding
+
+        def get_diff():
+            return float_round(target - move.amount_total, precision_rounding=rounding)
+
+        diff = get_diff()
+        if float_is_zero(diff, precision_rounding=rounding):
+            return
+        line = move.invoice_line_ids.filtered(
+            lambda l: l.display_type == 'product' and l.quantity == 1 and l.price_unit
+        )[-1:]
+        if line:
+            line.price_unit += diff
+            diff = get_diff()
+        if not float_is_zero(diff, precision_rounding=rounding):
+            move.write({'invoice_line_ids': [(0, 0, {
+                'name': _('Rounding'),
+                'quantity': 1,
+                'price_unit': diff,
+                'tax_ids': [(5, 0, 0)],
+            })]})
 
     def _apply_split_payment_to_invoice(self, invoice_move, payment_ids_set):
         """Reconcile a specific set of pos.payment records with invoice_move.

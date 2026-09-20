@@ -65,6 +65,22 @@ patch(PaymentScreen.prototype, {
                 this.currentOrder.remove_paymentline(line);
             }
         }
+        // The change of a split round must be computed here, before splitDone() marks the
+        // round's payments as completed (afterwards get_change() is always 0 and the backend
+        // would receive no change: intermediate rounds are synced as draft and the last one
+        // would end up overpaid and stuck in draft). Keep only the net cash of this person's
+        // round (tendered - change) so that the remaining persons, possibly paying with
+        // another method, get the right amount.
+        const order = this.currentOrder;
+        if (order.is_split) {
+            const change = order.get_change();
+            const cashLine = this.paymentLines
+                .filter((l) => !l.is_completed_split_payment && l.payment_method_id.is_cash_count)
+                .at(-1);
+            if (change > 0 && cashLine && cashLine.amount >= change) {
+                cashLine.set_amount(cashLine.amount - change);
+            }
+        }
         this.pos.addPendingOrder([this.currentOrder.id]);
         // Capture invoice intent BEFORE splitDone() resets/marks payments so the
         // backend receives to_invoice=true on THIS sync and creates the invoice.
@@ -73,6 +89,8 @@ patch(PaymentScreen.prototype, {
         const wantsInvoice = this.currentOrder.is_to_invoice();
         if (this.currentOrder.is_split) {
             await this.currentOrder.splitDone();
+            // splitDone() resets n_payments: keep the payment counter of the screen in sync.
+            this.splitState.value = this.currentOrder.n_payments;
         } else {
             this.currentOrder.state = "paid";
         }

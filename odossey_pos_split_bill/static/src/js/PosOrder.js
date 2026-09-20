@@ -66,10 +66,9 @@ patch(PosOrder.prototype, {
     if (!paymentline) {
       // Only sum payments from the CURRENT split round (exclude completed rounds)
       // to avoid showing incorrect change when previous persons' lines accumulate.
-      const completedUuids = this.completedSplitPaymentUuids;
-      const currentPaid = this.is_split && completedUuids
+      const currentPaid = this.is_split
           ? this.payment_ids
-              .filter((p) => p.is_done() && !p.is_change && !completedUuids.has(p.uuid))
+              .filter((p) => p.is_done() && !p.is_change && !p.is_completed_split_payment)
               .reduce((sum, p) => sum + p.get_amount(), 0)
           : this.get_total_paid();
       change = currentPaid - this.get_total_with_tax_split() - this.get_rounding_applied();
@@ -206,9 +205,8 @@ patch(PosOrder.prototype, {
       // Exclude completed split-round payments from the remaining calculation.
       // Those lines stay in payment_ids for accounting but must not reduce
       // the amount still due for the CURRENT person's payment screen.
-      const completedUuids = this.completedSplitPaymentUuids;
       const validPayments = this.payment_ids.filter(
-          (p) => p.is_done() && !p.is_change && !(completedUuids?.has(p.uuid))
+          (p) => p.is_done() && !p.is_change && !p.is_completed_split_payment
       );
       for (const [payment, isLast] of validPayments.map((p, i) => [p, i === validPayments.length - 1])) {
           const paymentAmount = documentSign * payment.get_amount();
