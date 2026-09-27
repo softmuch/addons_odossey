@@ -58,13 +58,11 @@
                             <td><span t-out="e.material_id.name or ''"/></td>
                             <td class="text-end"><span t-out="e.duration"/></td>
                         </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
+                        <tr class="border-top border-dark">
                             <td colspan="5"><strong>Total: <span t-out="len(items)"/> airings</strong></td>
                             <td class="text-end"><strong t-out="sum(items.mapped('duration'))"/></td>
                         </tr>
-                    </tfoot>
+                    </tbody>
                 </table>
                 <div class="mt-3" t-out="doc.company_id.radio_certificate_note"/>
                 <div class="row mt-5">
