@@ -72,7 +72,8 @@ class TravelTrip(models.Model):
     def _web_get_pricelist(self):
         self.ensure_one()
         if self.web_currency == 'trip':
-            return self._get_booking_pricelist()
+            # sudo: read by the public user (the website pages are rendered for visitors)
+            return self._get_booking_pricelist().sudo()
         company_currency = self.company_id.currency_id
         Pricelist = self.env['product.pricelist'].sudo()
         pricelist = Pricelist.search([

@@ -120,7 +120,7 @@
                         <i class="fa fa-lock me-1" title="Price frozen"/>
                         Your price is frozen since <span t-field="sale_order.travel_frozen_date"/>.
                     </div>
-                    <div t-elif="sale_order.state in ('draft', 'sent') and sale_order.travel_deposit_required" class="alert alert-info mt-3 mb-0 py-2">
+                    <div t-elif="sale_order.state in ('draft', 'sent') and sale_order.travel_deposit_required and not sale_order.is_expired" class="alert alert-info mt-3 mb-0 py-2">
                         <i class="fa fa-unlock me-1" title="Deposit pending"/>
                         Pay the deposit to confirm the booking and freeze the price.
                     </div>

@@ -219,3 +219,15 @@ class TestWebsiteBooking(AccountTestInvoicingCommon, HttpCase):
         self.assertEqual(caribe.currency_id, self.company.currency_id,
                          "A USD trip is sold online in pesos")
 
+    def test_catalogue_trip_currency_public(self):
+        """A published trip paid online in its own currency renders for visitors."""
+        usd = self.env.ref('base.USD')
+        usd.active = True
+        self.trip.write({'currency_id': usd.id, 'web_currency': 'trip'})
+        self._setup_website()
+        response = self.url_open('/viajes')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("Web trip", response.text)
+        response = self.url_open(self.trip.website_url)
+        self.assertEqual(response.status_code, 200)
+
