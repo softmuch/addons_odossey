@@ -33,6 +33,7 @@ Travel agency management (Community only)
         'data/travel_cancellation_policy_data.xml',
         'data/mail_template_data.xml',
         'data/ir_cron_data.xml',
+        'data/travel_setup_data.xml',
         'report/travel_forecast_report_views.xml',
         'report/travel_profitability_report_views.xml',
         'report/travel_reports.xml',

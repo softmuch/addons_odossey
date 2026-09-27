@@ -80,6 +80,7 @@ class TravelTrip(models.Model):
             ('company_id', 'in', [False, self.company_id.id]),
         ], limit=1)
         if not pricelist:
+            self._travel_enable_pricelists()
             pricelist = Pricelist.create({
                 'name': self.env._("Travel %s", company_currency.name),
                 'currency_id': company_currency.id,

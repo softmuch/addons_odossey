@@ -1,4 +1,6 @@
-from datetime import timedelta
+from datetime import datetime, time, timedelta
+
+import pytz
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
@@ -15,8 +17,9 @@ class TravelActivity(models.Model):
 
     name = fields.Char(string="Activity", required=True)
     active = fields.Boolean(default=True)
+    # no check_company: the company of the activity comes from its trip
     trip_id = fields.Many2one('travel.trip', string="Trip", required=True, ondelete='cascade',
-                              index=True, check_company=True)
+                              index=True, domain="[('company_id', 'in', allowed_company_ids)]")
     company_id = fields.Many2one(related='trip_id.company_id', store=True, index=True)
     activity_type = fields.Selection(
         selection=[
@@ -91,6 +94,15 @@ class TravelActivity(models.Model):
                 partners = activity.partner_ids
             activity.passenger_partner_ids = partners
             activity.participant_count = len(partners)
+
+    @api.onchange('trip_id')
+    def _onchange_trip_id_dates(self):
+        """New activity without dates (created from a list): the departure day at 9:00."""
+        if self.trip_id.date_start and not self.start:
+            tz = pytz.timezone(self.env.user.tz or 'UTC')
+            local = tz.localize(datetime.combine(self.trip_id.date_start, time(9, 0)))
+            self.start = local.astimezone(pytz.utc).replace(tzinfo=None)
+            self.stop = self.start + timedelta(hours=2)
 
     @api.onchange('start', 'allday')
     def _onchange_start(self):

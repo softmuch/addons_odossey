@@ -502,6 +502,14 @@ class TravelTrip(models.Model):
             },
         }
 
+    @api.model
+    def _travel_enable_pricelists(self):
+        """Enable the pricelists of Sales (Settings > Pricelists) for all the internal users."""
+        group = self.env.ref('product.group_product_pricelist', raise_if_not_found=False)
+        user_group = self.env.ref('base.group_user')
+        if group and group not in user_group.implied_ids:
+            user_group.sudo().write({'implied_ids': [Command.link(group.id)]})
+
     def _get_booking_pricelist(self):
         """Pricelist of the bookings: the one of the trip or a pricelist in the trip currency
         (created if needed) so that the booking is sold in the currency of the trip."""
@@ -514,6 +522,7 @@ class TravelTrip(models.Model):
             ('company_id', 'in', [False, self.company_id.id]),
         ], limit=1)
         if not pricelist:
+            self._travel_enable_pricelists()
             pricelist = Pricelist.create({
                 'name': self.env._("Travel %s", self.currency_id.name),
                 'currency_id': self.currency_id.id,

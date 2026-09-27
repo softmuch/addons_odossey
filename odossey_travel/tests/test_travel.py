@@ -554,6 +554,13 @@ class TestTravel(AccountTestInvoicingCommon):
         # deposit pending: 20% cancellation probability
         self.assertAlmostEqual(row.expected_cost, (800 * 2 + 50) * 0.8)
 
+    def test_25_pricelists_enabled(self):
+        """Trips in another currency use pricelists: the feature must be enabled, otherwise
+        saving the settings archives them."""
+        self.assertTrue(self.env.user.has_group('product.group_product_pricelist'))
+        settings = self.env['res.config.settings'].create({})
+        self.assertTrue(settings.group_product_pricelist)
+
     def test_24_demo_loader(self):
         usd = self.env.ref('base.USD')
         symbol = usd.symbol

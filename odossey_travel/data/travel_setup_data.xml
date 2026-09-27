@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Trips sold in another currency use pricelists: enable the feature, otherwise saving the
+         settings archives them ("You are deactivating the pricelist feature"). -->
+    <function model="travel.trip" name="_travel_enable_pricelists"/>
+</odoo>

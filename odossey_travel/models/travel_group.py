@@ -17,8 +17,10 @@ class TravelGroup(models.Model):
     _check_company_auto = True
 
     name = fields.Char(string="Group", required=True, tracking=True)
+    # no check_company: the company of the group comes from its trip
     trip_id = fields.Many2one('travel.trip', string="Trip", required=True, tracking=True,
-                              check_company=True, index=True)
+                              index=True, domain="[('company_id', 'in', allowed_company_ids), "
+                                                 "('state', 'not in', ('done', 'cancel'))]")
     company_id = fields.Many2one(related='trip_id.company_id', store=True, index=True)
     currency_id = fields.Many2one(related='trip_id.currency_id')
     group_type = fields.Selection(
