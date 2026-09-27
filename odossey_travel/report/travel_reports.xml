@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="paperformat_travel_landscape" model="report.paperformat">
+        <field name="name">Travel Quotation (A4 landscape)</field>
+        <field name="format">A4</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">46</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">8</field>
+        <field name="margin_right">8</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">41</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_travel_quotation" model="ir.actions.report">
+        <field name="name">Travel Quotation</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odossey_travel.report_travel_quotation</field>
+        <field name="report_file">odossey_travel.report_travel_quotation</field>
+        <field name="print_report_name">'Quotation - %s' % (object.trip_id.destination or object.name)</field>
+        <field name="paperformat_id" ref="paperformat_travel_landscape"/>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="action_report_travel_trip_quotation" model="ir.actions.report">
+        <field name="name">Trip Quotation</field>
+        <field name="model">travel.trip</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odossey_travel.report_travel_trip_quotation</field>
+        <field name="report_file">odossey_travel.report_travel_trip_quotation</field>
+        <field name="print_report_name">'Quotation - %s' % object.destination</field>
+        <field name="paperformat_id" ref="paperformat_travel_landscape"/>
+        <field name="binding_model_id" ref="model_travel_trip"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="action_report_travel_profitability" model="ir.actions.report">
+        <field name="name">Net Profitability</field>
+        <field name="model">travel.trip</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odossey_travel.report_travel_profitability</field>
+        <field name="report_file">odossey_travel.report_travel_profitability</field>
+        <field name="print_report_name">'Net Profitability'</field>
+        <field name="paperformat_id" ref="paperformat_travel_landscape"/>
+        <field name="binding_model_id" ref="model_travel_trip"/>
+        <field name="binding_type">report</field>
+        <field name="group_ids" eval="[Command.link(ref('odossey_travel.group_travel_manager'))]"/>
+    </record>
+</odoo>

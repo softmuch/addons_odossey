@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="cancellation_policy_standard" model="travel.cancellation.policy">
+        <field name="name">Standard group trip</field>
+        <field name="sequence">1</field>
+        <field name="deposit_refundable" eval="False"/>
+        <field name="note"><![CDATA[<p>The deposit is not refundable. Cancellations: more than 60 days before departure, the deposit is retained; between 60 and 31 days, 60% of the total; between 30 and 8 days, 80%; 7 days or less and no-show, 100%. Law: Res. 256/2000 (Argentina).</p>]]></field>
+    </record>
+    <record id="cancellation_rule_60" model="travel.cancellation.rule">
+        <field name="policy_id" ref="cancellation_policy_standard"/>
+        <field name="days_before">60</field>
+        <field name="penalty_percent">60</field>
+    </record>
+    <record id="cancellation_rule_30" model="travel.cancellation.rule">
+        <field name="policy_id" ref="cancellation_policy_standard"/>
+        <field name="days_before">30</field>
+        <field name="penalty_percent">80</field>
+    </record>
+    <record id="cancellation_rule_7" model="travel.cancellation.rule">
+        <field name="policy_id" ref="cancellation_policy_standard"/>
+        <field name="days_before">7</field>
+        <field name="penalty_percent">100</field>
+    </record>
+</odoo>

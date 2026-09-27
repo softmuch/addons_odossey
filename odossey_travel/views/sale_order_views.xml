@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sale_order_view_form_travel" model="ir.ui.view">
+        <field name="name">sale.order.form.travel</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_travel_load_services" type="object" string="Load Trip Services"
+                        invisible="not trip_id or state not in ('draft', 'sent')"
+                        help="Add the services of the trip for the passengers of the booking, at the current prices."/>
+                <button name="action_travel_register_deposit" type="object" string="Invoice Deposit"
+                        class="btn-primary"
+                        invisible="not trip_id or state != 'sale' or travel_price_frozen or invoice_status == 'invoiced'"
+                        help="Invoice the deposit that freezes the price of the trip."/>
+                <button name="action_travel_cancel_booking" type="object" string="Cancel Booking"
+                        invisible="not trip_id or state != 'sale'"
+                        help="Cancel the booking applying the cancellation policy of the trip."/>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_trip" type="object" class="oe_stat_button" icon="fa-plane"
+                        invisible="not trip_id" string="Trip"/>
+            </xpath>
+            <xpath expr="//sheet/div[hasclass('oe_title')]" position="before">
+                <div class="alert alert-success d-flex align-items-center flex-wrap gap-2" role="alert"
+                     invisible="not travel_price_frozen or state == 'cancel'">
+                    <i title="Frozen" class="fa fa-lock"/>
+                    <span>Price frozen on <field name="travel_frozen_date" class="fw-bold"/>: the deposit has been paid.</span>
+                </div>
+                <div class="alert alert-warning d-flex align-items-center flex-wrap gap-2" role="alert"
+                     invisible="travel_booking_state != 'pending'">
+                    <i title="Pending" class="fa fa-unlock"/>
+                    <span>Deposit pending: the price is frozen once <field name="travel_deposit_required" class="fw-bold"/> is paid.</span>
+                </div>
+                <div class="alert alert-danger d-flex align-items-center flex-wrap gap-2" role="alert"
+                     invisible="not travel_cancel_date">
+                    <i title="Cancelled" class="fa fa-ban"/>
+                    <span>Booking cancelled on <field name="travel_cancel_date" class="fw-bold"/>
+                        (<field name="travel_cancel_reason"/>). Penalty retained:
+                        <field name="travel_penalty_amount" class="fw-bold"/>, to refund:
+                        <field name="travel_refund_amount" class="fw-bold"/>.</span>
+                </div>
+                <div class="alert alert-warning d-flex align-items-center flex-wrap gap-2" role="alert"
+                     invisible="not travel_document_warning">
+                    <i title="Warning" class="fa fa-exclamation-triangle"/>
+                    <span><field name="travel_document_warning" class="fw-bold"/> passenger(s) with missing or expiring documents.</span>
+                </div>
+            </xpath>
+            <field name="validity_date" position="before">
+                <field name="trip_id" readonly="state not in ('draft', 'sent')"
+                       options="{'no_quick_create': True}"/>
+                <field name="travel_group_id" invisible="not trip_id"
+                       readonly="state == 'cancel'" context="{'default_trip_id': trip_id}"/>
+            </field>
+            <xpath expr="//notebook/page[@name='order_lines']" position="after">
+                <page string="Travel" name="travel" invisible="not trip_id">
+                    <group>
+                        <group string="Trip">
+                            <field name="travel_date_start"/>
+                            <field name="travel_date_end"/>
+                            <field name="travel_balance_due_date"/>
+                            <field name="travel_group_type" invisible="not travel_group_id"/>
+                        </group>
+                        <group string="Payments">
+                            <field name="travel_booking_state" widget="badge"
+                                   decoration-info="travel_booking_state == 'quotation'"
+                                   decoration-warning="travel_booking_state == 'pending'"
+                                   decoration-primary="travel_booking_state == 'deposit'"
+                                   decoration-success="travel_booking_state == 'paid'"
+                                   decoration-danger="travel_booking_state == 'cancelled'"/>
+                            <field name="travel_deposit_required"/>
+                            <field name="travel_amount_paid"/>
+                            <field name="travel_amount_due"/>
+                            <field name="travel_price_frozen"/>
+                        </group>
+                    </group>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <h5 class="mb-0">Passengers</h5>
+                        <button name="action_travel_scan_passenger" type="object" class="btn btn-link"
+                                icon="fa-barcode" string="Scan Document"
+                                invisible="state == 'cancel'"/>
+                    </div>
+                    <field name="travel_passenger_ids" readonly="state == 'cancel'">
+                        <list editable="bottom" decoration-danger="document_state != 'ok'">
+                            <field name="sequence" widget="handle"/>
+                            <field name="partner_id" context="{'res_partner_search_mode': 'customer'}"/>
+                            <field name="passenger_type"/>
+                            <field name="room_type"/>
+                            <field name="room_number" optional="show"/>
+                            <field name="vat" optional="show"/>
+                            <field name="passport_number" optional="show"/>
+                            <field name="passport_expiry_date" optional="show"/>
+                            <field name="age_at_departure" optional="hide"/>
+                            <field name="notes" optional="show"/>
+                            <field name="document_state" widget="badge"
+                                   decoration-success="document_state == 'ok'"
+                                   decoration-danger="document_state != 'ok'"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="travel_booking_view_list" model="ir.ui.view">
+        <field name="name">sale.order.list.travel</field>
+        <field name="model">sale.order</field>
+        <field name="priority">50</field>
+        <field name="arch" type="xml">
+            <list string="Bookings" decoration-muted="state == 'cancel'" sample="1">
+                <field name="name"/>
+                <field name="trip_id"/>
+                <field name="travel_date_start" optional="show"/>
+                <field name="partner_id"/>
+                <field name="travel_group_id" optional="show"/>
+                <field name="travel_pax_count" sum="Total"/>
+                <field name="user_id" widget="many2one_avatar_user" optional="hide"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="amount_total" sum="Total"/>
+                <field name="travel_deposit_required" optional="hide"/>
+                <field name="travel_amount_paid" sum="Total"/>
+                <field name="travel_amount_due" sum="Total"/>
+                <field name="travel_price_frozen" optional="show"/>
+                <field name="travel_booking_state" widget="badge"
+                       decoration-info="travel_booking_state == 'quotation'"
+                       decoration-warning="travel_booking_state == 'pending'"
+                       decoration-primary="travel_booking_state == 'deposit'"
+                       decoration-success="travel_booking_state == 'paid'"
+                       decoration-danger="travel_booking_state == 'cancelled'"/>
+                <field name="invoice_status" optional="hide"/>
+                <field name="state" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="travel_booking_view_kanban" model="ir.ui.view">
+        <field name="name">sale.order.kanban.travel</field>
+        <field name="model">sale.order</field>
+        <field name="priority">50</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="trip_id" quick_create="false" group_create="false" sample="1">
+                <field name="currency_id"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex">
+                            <field name="partner_id" class="fw-bold"/>
+                            <field name="amount_total" widget="monetary" class="ms-auto fw-bold"/>
+                        </div>
+                        <div class="text-muted">
+                            <field name="name"/> · <field name="travel_pax_count"/> pax
+                            <t t-if="record.travel_group_id.raw_value"> · <field name="travel_group_id"/></t>
+                        </div>
+                        <footer class="pt-1">
+                            <field name="travel_booking_state" widget="badge"
+                                   decoration-info="travel_booking_state == 'quotation'"
+                                   decoration-warning="travel_booking_state == 'pending'"
+                                   decoration-primary="travel_booking_state == 'deposit'"
+                                   decoration-success="travel_booking_state == 'paid'"
+                                   decoration-danger="travel_booking_state == 'cancelled'"/>
+                            <field name="user_id" widget="many2one_avatar_user" class="ms-auto"/>
+                        </footer>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="travel_booking_view_search" model="ir.ui.view">
+        <field name="name">sale.order.search.travel</field>
+        <field name="model">sale.order</field>
+        <field name="priority">50</field>
+        <field name="arch" type="xml">
+            <search string="Bookings">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="trip_id"/>
+                <field name="travel_group_id"/>
+                <field name="travel_passenger_ids" string="Passenger"
+                       filter_domain="[('travel_passenger_ids.partner_id', 'ilike', self)]"/>
+                <filter name="quotations" string="Quotations" domain="[('travel_booking_state', '=', 'quotation')]"/>
+                <filter name="confirmed" string="Confirmed" domain="[('travel_booking_state', 'in', ('pending', 'deposit', 'paid'))]"/>
+                <filter name="pending" string="Deposit Pending" domain="[('travel_booking_state', '=', 'pending')]"/>
+                <filter name="frozen" string="Price Frozen" domain="[('travel_price_frozen', '=', True)]"/>
+                <filter name="with_balance" string="With Balance" domain="[('travel_amount_due', '>', 0), ('state', '=', 'sale')]"/>
+                <filter name="cancelled" string="Cancelled" domain="[('travel_booking_state', '=', 'cancelled')]"/>
+                <separator/>
+                <filter name="upcoming" string="Upcoming Trips" domain="[('travel_date_start', '>=', 'today')]"/>
+                <filter name="my" string="My Bookings" domain="[('user_id', '=', uid)]"/>
+                <group>
+                    <filter name="group_trip" string="Trip" context="{'group_by': 'trip_id'}"/>
+                    <filter name="group_group" string="Travel Group" context="{'group_by': 'travel_group_id'}"/>
+                    <filter name="group_state" string="Booking Status" context="{'group_by': 'travel_booking_state'}"/>
+                    <filter name="group_customer" string="Customer" context="{'group_by': 'partner_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="travel_booking_action" model="ir.actions.act_window">
+        <field name="name">Bookings by Trip</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">list,kanban,form,pivot,graph</field>
+        <field name="domain">[('trip_id', '!=', False)]</field>
+        <field name="search_view_id" ref="travel_booking_view_search"/>
+        <field name="context">{'search_default_group_trip': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create a booking</p>
+            <p>A booking is a quotation / sale order linked to a trip. The bookings of different
+                customers are grouped by trip.</p>
+        </field>
+    </record>
+    <record id="travel_booking_action_view_list" model="ir.actions.act_window.view">
+        <field name="sequence">1</field>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="travel_booking_view_list"/>
+        <field name="act_window_id" ref="travel_booking_action"/>
+    </record>
+    <record id="travel_booking_action_view_kanban" model="ir.actions.act_window.view">
+        <field name="sequence">2</field>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="travel_booking_view_kanban"/>
+        <field name="act_window_id" ref="travel_booking_action"/>
+    </record>
+</odoo>

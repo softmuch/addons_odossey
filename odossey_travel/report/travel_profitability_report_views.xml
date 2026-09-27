@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="travel_profitability_report_view_pivot" model="ir.ui.view">
+        <field name="name">travel.profitability.report.pivot</field>
+        <field name="model">travel.profitability.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Net Profitability" sample="1">
+                <field name="trip_id" type="row"/>
+                <field name="gross_amount" type="measure"/>
+                <field name="vat_amount" type="measure"/>
+                <field name="perception_amount" type="measure"/>
+                <field name="revenue_amount" type="measure"/>
+                <field name="cost_amount" type="measure"/>
+                <field name="fee_amount" type="measure"/>
+                <field name="iibb_amount" type="measure"/>
+                <field name="net_amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="travel_profitability_report_view_graph" model="ir.ui.view">
+        <field name="name">travel.profitability.report.graph</field>
+        <field name="model">travel.profitability.report</field>
+        <field name="arch" type="xml">
+            <graph string="Net Profitability" type="bar" sample="1">
+                <field name="trip_id"/>
+                <field name="net_amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="travel_profitability_report_view_list" model="ir.ui.view">
+        <field name="name">travel.profitability.report.list</field>
+        <field name="model">travel.profitability.report</field>
+        <field name="arch" type="xml">
+            <list string="Net Profitability">
+                <field name="date"/>
+                <field name="trip_id"/>
+                <field name="move_id"/>
+                <field name="partner_id"/>
+                <field name="product_id" optional="show"/>
+                <field name="line_kind" widget="badge"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="gross_amount" sum="Total"/>
+                <field name="vat_amount" sum="Total"/>
+                <field name="perception_amount" sum="Total"/>
+                <field name="other_tax_amount" sum="Total" optional="hide"/>
+                <field name="revenue_amount" sum="Total"/>
+                <field name="cost_amount" sum="Total"/>
+                <field name="fee_amount" sum="Total"/>
+                <field name="iibb_amount" sum="Total"/>
+                <field name="net_amount" sum="Total"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="travel_profitability_report_view_search" model="ir.ui.view">
+        <field name="name">travel.profitability.report.search</field>
+        <field name="model">travel.profitability.report</field>
+        <field name="arch" type="xml">
+            <search string="Net Profitability">
+                <field name="trip_id"/>
+                <field name="partner_id"/>
+                <field name="move_id"/>
+                <filter name="revenue" string="Revenue" domain="[('line_kind', '=', 'revenue')]"/>
+                <filter name="taxes" string="Taxes" domain="[('line_kind', 'in', ('vat', 'perception', 'other_tax'))]"/>
+                <filter name="costs" string="Costs" domain="[('line_kind', 'in', ('cost', 'fee'))]"/>
+                <separator/>
+                <filter name="date" string="Date" date="date"/>
+                <group>
+                    <filter name="group_trip" string="Trip" context="{'group_by': 'trip_id'}"/>
+                    <filter name="group_group" string="Travel Group" context="{'group_by': 'travel_group_id'}"/>
+                    <filter name="group_kind" string="Kind" context="{'group_by': 'line_kind'}"/>
+                    <filter name="group_month" string="Month" context="{'group_by': 'date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="travel_profitability_report_action" model="ir.actions.act_window">
+        <field name="name">Net Profitability</field>
+        <field name="res_model">travel.profitability.report</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="search_view_id" ref="travel_profitability_report_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No posted entries linked to trips yet</p>
+            <p>Gross invoiced − VAT − perceptions = net revenue; net revenue − supplier costs − fees −
+                gross income tax (IIBB) = net profit. Print the PDF from the trips list.</p>
+        </field>
+    </record>
+</odoo>

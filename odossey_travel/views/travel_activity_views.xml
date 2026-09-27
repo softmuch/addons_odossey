@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="travel_activity_view_calendar" model="ir.ui.view">
+        <field name="name">travel.activity.calendar</field>
+        <field name="model">travel.activity</field>
+        <field name="arch" type="xml">
+            <calendar string="Travel Calendar" date_start="start" date_stop="stop"
+                      all_day="allday" color="trip_id" mode="month" quick_create="0"
+                      event_open_popup="1" event_limit="5">
+                <field name="trip_id" filters="1"/>
+                <field name="activity_type"/>
+                <field name="location"/>
+                <field name="carrier" invisible="not carrier"/>
+                <field name="participant_count"/>
+                <field name="passenger_partner_ids" widget="many2many_tags"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="travel_activity_view_list" model="ir.ui.view">
+        <field name="name">travel.activity.list</field>
+        <field name="model">travel.activity</field>
+        <field name="arch" type="xml">
+            <list string="Trip Activities">
+                <field name="start"/>
+                <field name="stop" optional="show"/>
+                <field name="name"/>
+                <field name="trip_id"/>
+                <field name="activity_type" widget="badge"
+                       decoration-info="activity_type == 'trip'"
+                       decoration-success="activity_type in ('excursion', 'lodging')"
+                       decoration-warning="activity_type in ('document', 'payment')"/>
+                <field name="location" optional="show"/>
+                <field name="participant_count" optional="show"/>
+                <field name="supplier_id" optional="hide"/>
+                <field name="user_id" optional="hide" widget="many2one_avatar_user"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="travel_activity_view_form" model="ir.ui.view">
+        <field name="name">travel.activity.form</field>
+        <field name="model">travel.activity</field>
+        <field name="arch" type="xml">
+            <form string="Trip Activity">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_trip" type="object" class="oe_stat_button"
+                                icon="fa-plane" string="Trip"/>
+                    </div>
+                    <div class="alert alert-info" role="alert" invisible="not is_trip">
+                        <i title="Info" class="fa fa-info-circle me-1"/>
+                        This entry is the trip itself and is updated automatically from the trip.
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" readonly="is_trip" placeholder="e.g. Flight to Puerto Plata"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="is_trip" invisible="1"/>
+                            <field name="trip_id" readonly="is_trip or id"/>
+                            <field name="activity_type" readonly="is_trip"/>
+                            <field name="location" readonly="is_trip"/>
+                            <field name="supplier_id" invisible="is_trip"/>
+                            <field name="user_id" widget="many2one_avatar_user"/>
+                        </group>
+                        <group>
+                            <field name="start" readonly="is_trip"/>
+                            <field name="stop" readonly="is_trip"/>
+                            <field name="allday" readonly="is_trip"/>
+                        </group>
+                    </group>
+                    <group string="Flight" invisible="activity_type != 'flight'">
+                        <group>
+                            <field name="carrier"/>
+                            <field name="flight_number"/>
+                            <field name="route"/>
+                        </group>
+                        <group>
+                            <field name="stops"/>
+                            <field name="baggage"/>
+                        </group>
+                    </group>
+                    <group string="Lodging" invisible="activity_type != 'lodging'">
+                        <group>
+                            <field name="hotel_stars"/>
+                        </group>
+                        <group>
+                            <field name="board_basis"/>
+                        </group>
+                    </group>
+                    <group string="Passengers" invisible="is_trip">
+                        <field name="all_passengers"/>
+                        <field name="partner_ids" widget="many2many_tags_avatar"
+                               invisible="all_passengers"/>
+                    </group>
+                    <group string="Participants" invisible="not all_passengers and not is_trip">
+                        <field name="passenger_partner_ids" widget="many2many_tags_avatar"
+                               nolabel="1" colspan="2"/>
+                    </group>
+                    <field name="note" placeholder="Details, meeting point, what to bring..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="travel_activity_view_search" model="ir.ui.view">
+        <field name="name">travel.activity.search</field>
+        <field name="model">travel.activity</field>
+        <field name="arch" type="xml">
+            <search string="Trip Activities">
+                <field name="name"/>
+                <field name="trip_id"/>
+                <field name="passenger_partner_ids" string="Passenger"/>
+                <field name="location"/>
+                <filter name="trips" string="Trips" domain="[('activity_type', '=', 'trip')]"/>
+                <filter name="itinerary" string="Itinerary" domain="[('activity_type', '!=', 'trip')]"/>
+                <separator/>
+                <filter name="flights" string="Flights" domain="[('activity_type', '=', 'flight')]"/>
+                <filter name="lodging" string="Lodging" domain="[('activity_type', '=', 'lodging')]"/>
+                <filter name="excursions" string="Excursions" domain="[('activity_type', '=', 'excursion')]"/>
+                <filter name="deadlines" string="Deadlines"
+                        domain="[('activity_type', 'in', ('document', 'payment'))]"/>
+                <separator/>
+                <filter name="my" string="My Trips" domain="[('trip_id.user_id', '=', uid)]"/>
+                <separator/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_trip" string="Trip" context="{'group_by': 'trip_id'}"/>
+                    <filter name="group_type" string="Type" context="{'group_by': 'activity_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="travel_activity_action" model="ir.actions.act_window">
+        <field name="name">Travel Calendar</field>
+        <field name="res_model">travel.activity</field>
+        <field name="view_mode">calendar,list,form</field>
+        <field name="search_view_id" ref="travel_activity_view_search"/>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Plan your first trip</p>
+            <p>Every trip and every activity of its passengers (flights, lodging, excursions,
+                deadlines...) appears in this calendar.</p>
+        </field>
+    </record>
+</odoo>

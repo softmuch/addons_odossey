@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_travel_trip_user,travel.trip user,model_travel_trip,group_travel_user,1,1,1,0
+access_travel_trip_manager,travel.trip manager,model_travel_trip,group_travel_manager,1,1,1,1
+access_travel_trip_component_user,travel.trip.component user,model_travel_trip_component,group_travel_user,1,1,1,1
+access_travel_activity_user,travel.activity user,model_travel_activity,group_travel_user,1,1,1,1
+access_travel_passenger_user,travel.passenger user,model_travel_passenger,group_travel_user,1,1,1,1
+access_travel_group_user,travel.group user,model_travel_group,group_travel_user,1,1,1,1
+access_travel_cancellation_policy_user,travel.cancellation.policy user,model_travel_cancellation_policy,group_travel_user,1,0,0,0
+access_travel_cancellation_policy_manager,travel.cancellation.policy manager,model_travel_cancellation_policy,group_travel_manager,1,1,1,1
+access_travel_cancellation_rule_user,travel.cancellation.rule user,model_travel_cancellation_rule,group_travel_user,1,0,0,0
+access_travel_cancellation_rule_manager,travel.cancellation.rule manager,model_travel_cancellation_rule,group_travel_manager,1,1,1,1
+access_travel_forecast_report_user,travel.forecast.report user,model_travel_forecast_report,group_travel_user,1,0,0,0
+access_travel_profitability_report_user,travel.profitability.report user,model_travel_profitability_report,group_travel_user,1,0,0,0
+access_travel_booking_cancel_user,travel.booking.cancel user,model_travel_booking_cancel,group_travel_user,1,1,1,1
+access_travel_document_scan_user,travel.document.scan user,model_travel_document_scan,group_travel_user,1,1,1,1

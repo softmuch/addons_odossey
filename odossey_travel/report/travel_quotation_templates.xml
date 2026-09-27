@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Body shared by the trip quotation and the booking (sale order) quotation.
+         Structure inspired by the agency quotations: cover, trip detail, price, conditions. -->
+    <template id="travel_quotation_body">
+        <t t-set="company" t-value="trip.company_id"/>
+        <t t-set="flights" t-value="trip.activity_line_ids.filtered(lambda a: a.activity_type == 'flight')"/>
+        <t t-set="lodgings" t-value="trip.activity_line_ids.filtered(lambda a: a.activity_type == 'lodging')"/>
+        <t t-set="transfers" t-value="trip.activity_line_ids.filtered(lambda a: a.activity_type == 'transfer')"/>
+        <t t-set="excursions" t-value="trip.activity_line_ids.filtered(lambda a: a.activity_type == 'excursion')"/>
+        <div class="page o_travel_quotation">
+            <!-- Cover -->
+            <div class="row align-items-center" style="min-height: 150px;">
+                <div class="col-7">
+                    <div class="text-uppercase text-muted" style="letter-spacing: 3px;">
+                        <span t-if="order">Quotation <span t-field="order.name"/></span>
+                        <span t-else="">Trip Quotation</span>
+                    </div>
+                    <h1 class="fw-bold mb-1" style="font-size: 44px;" t-field="trip.destination"/>
+                    <h4 class="text-muted mb-3" t-field="trip.name"/>
+                    <div class="mb-3">
+                        <span t-if="trip.includes_flight" style="display: inline-block; background-color: #1a6fb0; color: #ffffff; border-radius: 14px; padding: 4px 14px; margin: 0 6px 6px 0;">Flights</span>
+                        <span t-if="trip.includes_lodging" style="display: inline-block; background-color: #1a6fb0; color: #ffffff; border-radius: 14px; padding: 4px 14px; margin: 0 6px 6px 0;">Lodging</span>
+                        <span t-if="trip.includes_transfer" style="display: inline-block; background-color: #1a6fb0; color: #ffffff; border-radius: 14px; padding: 4px 14px; margin: 0 6px 6px 0;">Transfers</span>
+                        <span t-if="trip.includes_excursions" style="display: inline-block; background-color: #1a6fb0; color: #ffffff; border-radius: 14px; padding: 4px 14px; margin: 0 6px 6px 0;">Excursions</span>
+                        <span t-if="trip.includes_assistance" style="display: inline-block; background-color: #1a6fb0; color: #ffffff; border-radius: 14px; padding: 4px 14px; margin: 0 6px 6px 0;">Travel Assistance</span>
+                    </div>
+                    <table class="table table-borderless table-sm w-auto mb-0">
+                        <tr>
+                            <td class="text-muted pe-4">Departure</td>
+                            <td class="fw-bold"><span t-field="trip.date_start"/></td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted pe-4">Return</td>
+                            <td class="fw-bold"><span t-field="trip.date_end"/></td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted pe-4">Nights</td>
+                            <td class="fw-bold" t-out="trip.nights"/>
+                        </tr>
+                        <tr t-if="order">
+                            <td class="text-muted pe-4">Passengers</td>
+                            <td class="fw-bold">
+                                <span t-field="order.partner_id.name"/> x<t t-out="order.travel_pax_count or 1"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-5 text-end">
+                    <img t-if="trip.image_1920" t-att-src="image_data_uri(trip.image_1920)"
+                         style="max-height: 260px; max-width: 100%; border-radius: 16px;" alt="Trip"/>
+                </div>
+            </div>
+
+            <!-- Detail -->
+            <h3 class="mt-4 mb-2 fw-bold">Trip Detail</h3>
+            <div t-if="flights" class="mb-3">
+                <h5 class="text-primary"><i title="Flights" class="fa fa-plane me-1"/>Flights</h5>
+                <table class="table table-sm align-middle">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Flight</th>
+                            <th>Route</th>
+                            <th>Departure</th>
+                            <th>Arrival</th>
+                            <th>Stops</th>
+                            <th>Baggage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="flights" t-as="flight">
+                            <td><span t-out="flight.start" t-options="{'widget': 'date'}"/></td>
+                            <td><t t-out="flight.carrier or ''"/> <t t-out="flight.flight_number or ''"/></td>
+                            <td t-out="flight.route or flight.name"/>
+                            <td><span t-out="flight.start" t-options="{'widget': 'datetime', 'time_only': True}"/></td>
+                            <td><span t-out="flight.stop" t-options="{'widget': 'datetime', 'time_only': True}"/></td>
+                            <td t-out="flight.stops or '-'"/>
+                            <td t-out="flight.baggage or '-'"/>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div t-if="lodgings" class="col-7">
+                    <h5 class="text-primary"><i title="Lodging" class="fa fa-bed me-1"/>Lodging</h5>
+                    <t t-foreach="lodgings" t-as="lodging">
+                        <div class="border rounded-3 p-2 mb-2">
+                            <div class="fw-bold">
+                                <t t-out="lodging.name"/>
+                                <span t-if="lodging.hotel_stars" class="text-warning ms-1" t-field="lodging.hotel_stars"/>
+                            </div>
+                            <div class="text-muted">
+                                <span t-if="lodging.board_basis" t-field="lodging.board_basis"/>
+                                <span t-if="lodging.location"> · <t t-out="lodging.location"/></span>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+                <div t-if="transfers" class="col-5">
+                    <h5 class="text-primary"><i title="Transfers" class="fa fa-bus me-1"/>Transfers</h5>
+                    <ul class="mb-2">
+                        <li t-foreach="transfers" t-as="transfer" t-out="transfer.name"/>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Price -->
+            <div class="row mt-3" style="page-break-inside: avoid;">
+                <div class="col-6">
+                    <div style="background-color: #1a6fb0; color: #ffffff; border-radius: 12px; padding: 16px;">
+                        <div class="text-uppercase" style="letter-spacing: 2px;">Final price per person</div>
+                        <div class="fw-bold" style="font-size: 34px;"
+                             t-out="trip.price_per_person"
+                             t-options="{'widget': 'monetary', 'display_currency': trip.currency_id}"/>
+                        <div t-if="order" class="mt-1">
+                            Total: <span class="fw-bold" t-field="order.amount_total"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <table class="table table-sm mb-0">
+                        <tr>
+                            <td class="text-muted">Deposit to freeze the price</td>
+                            <td class="text-end fw-bold">
+                                <t t-if="order" t-out="order.travel_deposit_required"
+                                   t-options="{'widget': 'monetary', 'display_currency': order.currency_id}"/>
+                                <t t-elif="trip.deposit_type == 'fixed'">
+                                    <t t-out="trip.deposit_amount" t-options="{'widget': 'monetary', 'display_currency': trip.currency_id}"/> per person
+                                </t>
+                                <t t-else=""><t t-out="trip.deposit_percent"/>%</t>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted">Balance due</td>
+                            <td class="text-end"><span t-field="trip.balance_due_date"/></td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted">Quotation valid for</td>
+                            <td class="text-end"><t t-out="trip.quotation_validity_hours"/> hours</td>
+                        </tr>
+                        <tr t-if="trip.not_included">
+                            <td class="text-muted">Not included</td>
+                            <td class="text-end"><span t-field="trip.not_included"/></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Conditions -->
+            <div style="page-break-before: always;">
+                <h3 class="mb-2 fw-bold">Important</h3>
+                <div class="row">
+                    <div class="col-8">
+                        <div t-field="trip.conditions"/>
+                        <t t-if="trip.cancellation_policy_id">
+                            <h5 class="mt-3">Cancellation policy</h5>
+                            <div t-field="trip.cancellation_policy_id.note"/>
+                        </t>
+                    </div>
+                    <div class="col-4">
+                        <div class="border rounded-3 p-3">
+                            <div class="fw-bold" t-field="company.name"/>
+                            <div t-if="company.travel_file_number">File number <t t-out="company.travel_file_number"/></div>
+                            <div t-field="company.partner_id"
+                                 t-options="{'widget': 'contact', 'fields': ['address', 'phone', 'email', 'website'], 'no_marker': False}"/>
+                        </div>
+                        <div class="alert alert-warning mt-3 mb-0 fw-bold text-center"
+                             t-if="not order or order.state in ('draft', 'sent')">
+                            THIS IS A QUOTATION - NO BOOKING IS MADE UNTIL THE DEPOSIT IS PAID
+                        </div>
+                    </div>
+                </div>
+                <t t-if="excursions or trip.description">
+                    <h3 class="mt-4 mb-2 fw-bold">Recommended Excursions</h3>
+                    <div class="row">
+                        <div t-foreach="excursions" t-as="excursion" class="col-4 mb-2">
+                            <div class="border rounded-3 p-2 h-100">
+                                <div class="fw-bold" t-out="excursion.name"/>
+                                <div class="text-muted small" t-out="excursion.start" t-options="{'widget': 'date'}"/>
+                                <div t-field="excursion.note"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div t-field="trip.description"/>
+                </t>
+            </div>
+        </div>
+    </template>
+
+    <template id="report_travel_quotation">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="order">
+                <t t-set="trip" t-value="order.trip_id"/>
+                <t t-call="web.external_layout">
+                    <t t-set="o" t-value="order"/>
+                    <t t-if="trip" t-call="odossey_travel.travel_quotation_body"
+                       t-lang="order.partner_id.lang"/>
+                    <div t-else="" class="page">
+                        <p>This order is not linked to a trip.</p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_travel_trip_quotation">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="trip">
+                <t t-set="order" t-value="False"/>
+                <t t-call="web.external_layout">
+                    <t t-set="o" t-value="trip"/>
+                    <t t-call="odossey_travel.travel_quotation_body"/>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

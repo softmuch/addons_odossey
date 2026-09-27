@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="travel_trip_view_form" model="ir.ui.view">
+        <field name="name">travel.trip.form</field>
+        <field name="model">travel.trip</field>
+        <field name="arch" type="xml">
+            <form string="Trip">
+                <header>
+                    <button name="action_open" type="object" string="Open Sales" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_new_booking" type="object" string="New Booking"
+                            class="btn-primary" invisible="state not in ('open', 'confirmed')"/>
+                    <button name="action_confirm" type="object" string="Confirm Departure"
+                            invisible="state != 'open'"/>
+                    <button name="action_update_quotation_prices" type="object"
+                            string="Update Quotation Prices" invisible="state not in ('open', 'confirmed')"
+                            help="Apply the current prices of the services to the open quotations. Confirmed bookings keep their frozen price."/>
+                    <button name="action_done" type="object" string="Complete"
+                            invisible="state != 'confirmed'"/>
+                    <button name="%(odossey_travel.action_report_travel_trip_quotation)d" type="action"
+                            string="Print Quotation"/>
+                    <button name="action_cancel" type="object" string="Cancel Trip"
+                            invisible="state in ('done', 'cancel')"
+                            confirm="Cancel this trip? Its bookings are not cancelled automatically."/>
+                    <button name="action_draft" type="object" string="Reset to Planning"
+                            invisible="state != 'cancel'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,confirmed,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_calendar" type="object" class="oe_stat_button"
+                                icon="fa-calendar" string="Calendar"/>
+                        <button name="action_view_orders" type="object" class="oe_stat_button"
+                                icon="fa-shopping-cart">
+                            <field name="order_count" widget="statinfo" string="Bookings"/>
+                        </button>
+                        <button name="action_view_passengers" type="object" class="oe_stat_button"
+                                icon="fa-users">
+                            <field name="passenger_count" widget="statinfo" string="Passengers"/>
+                        </button>
+                        <button name="action_view_groups" type="object" class="oe_stat_button"
+                                icon="fa-object-group">
+                            <field name="group_count" widget="statinfo" string="Groups"/>
+                        </button>
+                        <button name="action_view_leads" type="object" class="oe_stat_button"
+                                icon="fa-star">
+                            <field name="lead_count" widget="statinfo" string="Opportunities"/>
+                        </button>
+                        <button name="action_view_invoices" type="object" class="oe_stat_button"
+                                icon="fa-pencil-square-o" invisible="not invoice_count">
+                            <field name="invoice_count" widget="statinfo" string="Invoices"/>
+                        </button>
+                        <button name="action_view_profitability" type="object" class="oe_stat_button"
+                                icon="fa-line-chart" groups="odossey_travel.group_travel_manager">
+                            <div class="o_stat_info">
+                                <span class="o_stat_value"><field name="profit_margin" widget="float" digits="[16,1]"/> %</span>
+                                <span class="o_stat_text">Net Margin</span>
+                            </div>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Cancelled" bg_color="text-bg-danger"
+                            invisible="state != 'cancel'"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-secondary"
+                            invisible="active"/>
+                    <div class="alert alert-warning d-flex align-items-center flex-wrap gap-2" role="alert"
+                         invisible="not document_warning_count">
+                        <i title="Warning" class="fa fa-exclamation-triangle"/>
+                        <span><field name="document_warning_count" class="fw-bold"/> passenger(s) with missing or expiring documents for this trip.</span>
+                        <button name="action_view_document_warnings" type="object" class="btn btn-link p-0"
+                                string="See passengers"/>
+                    </div>
+                    <div class="alert alert-info d-flex align-items-center flex-wrap gap-2" role="alert"
+                         invisible="state not in ('open', 'confirmed') or min_pax_reached or not min_pax">
+                        <i title="Info" class="fa fa-info-circle"/>
+                        <span>The minimum number of passengers of the trip is not reached yet.</span>
+                    </div>
+                    <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'image_128'}"/>
+                    <div class="oe_title">
+                        <field name="code" class="text-muted" invisible="code == '/'"/>
+                        <h1><field name="name" placeholder="e.g. Puerto Plata - March 2027"/></h1>
+                    </div>
+                    <group>
+                        <group name="destination">
+                            <field name="active" invisible="1"/>
+                            <field name="destination" placeholder="e.g. Puerto Plata, Dominican Republic"/>
+                            <field name="country_id" options="{'no_create': True}"/>
+                            <field name="trip_type" widget="radio" options="{'horizontal': true}"/>
+                            <label for="date_start" string="Dates"/>
+                            <div class="o_row">
+                                <field name="date_start" widget="daterange" options="{'end_date_field': 'date_end'}"/>
+                                <field name="date_end" invisible="1"/>
+                                <span class="text-muted text-nowrap">(<field name="nights" class="oe_inline"/> nights)</span>
+                            </div>
+                            <field name="user_id" widget="many2one_avatar_user"/>
+                            <field name="coordinator_id"/>
+                        </group>
+                        <group name="capacity">
+                            <field name="currency_id" options="{'no_create': True}" groups="base.group_multi_currency"/>
+                            <field name="pricelist_id" groups="product.group_product_pricelist"/>
+                            <field name="price_per_person"/>
+                            <field name="capacity"/>
+                            <field name="seats_reserved"/>
+                            <field name="seats_quoted"/>
+                            <field name="seats_available" invisible="not capacity"/>
+                            <field name="occupancy_rate" widget="progressbar" invisible="not capacity"/>
+                            <field name="min_pax_reached" invisible="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Services &amp; Prices" name="services">
+                            <field name="component_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id" context="{'default_type': 'service', 'default_sale_ok': True}"/>
+                                    <field name="name"/>
+                                    <field name="service_type" optional="show"/>
+                                    <field name="supplier_id" optional="show"/>
+                                    <field name="tax_ids" widget="many2many_tags" optional="show"/>
+                                    <field name="per_passenger" optional="hide"/>
+                                    <field name="currency_id" column_invisible="True"/>
+                                    <field name="cost_unit" sum="Total" groups="odossey_travel.group_travel_manager"/>
+                                    <field name="price_unit" sum="Total"/>
+                                </list>
+                            </field>
+                            <group>
+                                <group string="Per Passenger">
+                                    <field name="price_per_person"/>
+                                    <field name="cost_per_person" groups="odossey_travel.group_travel_manager"/>
+                                    <field name="margin_per_person" groups="odossey_travel.group_travel_manager"/>
+                                </group>
+                                <group string="Trip" groups="odossey_travel.group_travel_manager">
+                                    <field name="fixed_cost"/>
+                                    <field name="analytic_account_id" groups="analytic.group_analytic_accounting"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Payments &amp; Cancellation" name="payments">
+                            <group>
+                                <group string="Deposit (price freeze)">
+                                    <field name="deposit_type"/>
+                                    <field name="deposit_amount" invisible="deposit_type != 'fixed'"/>
+                                    <field name="deposit_percent" invisible="deposit_type != 'percent'"/>
+                                    <field name="balance_due_days"/>
+                                    <field name="balance_due_date"/>
+                                    <field name="quotation_validity_hours"/>
+                                </group>
+                                <group string="Cancellation">
+                                    <field name="cancellation_policy_id"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Itinerary" name="itinerary">
+                            <field name="activity_line_ids" context="{'default_trip_id': id}">
+                                <list>
+                                    <field name="start"/>
+                                    <field name="stop" optional="show"/>
+                                    <field name="activity_type" widget="badge"/>
+                                    <field name="name"/>
+                                    <field name="location" optional="show"/>
+                                    <field name="carrier" optional="hide"/>
+                                    <field name="participant_count"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Passengers" name="passengers">
+                            <field name="passenger_ids" readonly="1">
+                                <list decoration-muted="state == 'cancelled'"
+                                      decoration-danger="document_state != 'ok' and state != 'cancelled'">
+                                    <field name="partner_id"/>
+                                    <field name="sale_order_id"/>
+                                    <field name="group_id" optional="show"/>
+                                    <field name="payer_id" optional="show"/>
+                                    <field name="passenger_type" optional="show"/>
+                                    <field name="room_type" optional="show"/>
+                                    <field name="age_at_departure" optional="hide"/>
+                                    <field name="document_state" widget="badge"
+                                           decoration-success="document_state == 'ok'"
+                                           decoration-danger="document_state != 'ok'"/>
+                                    <field name="state" widget="badge"
+                                           decoration-info="state == 'quotation'"
+                                           decoration-warning="state == 'pending'"
+                                           decoration-primary="state == 'deposit'"
+                                           decoration-success="state == 'paid'"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Financial Summary" name="summary">
+                            <group>
+                                <group string="Bookings">
+                                    <field name="company_currency_id" invisible="1"/>
+                                    <field name="amount_booked"/>
+                                    <field name="amount_paid"/>
+                                    <field name="amount_due"/>
+                                </group>
+                                <group string="Forecast" groups="odossey_travel.group_travel_manager">
+                                    <field name="expected_revenue"/>
+                                    <field name="expected_margin"/>
+                                </group>
+                            </group>
+                            <group string="Net Profitability (posted entries)" groups="odossey_travel.group_travel_manager">
+                                <group>
+                                    <field name="profit_gross"/>
+                                    <field name="profit_vat"/>
+                                    <field name="profit_perception"/>
+                                    <field name="profit_other_tax"/>
+                                    <field name="profit_revenue" class="fw-bold"/>
+                                </group>
+                                <group>
+                                    <field name="profit_cost"/>
+                                    <field name="profit_fee"/>
+                                    <field name="profit_iibb"/>
+                                    <field name="profit_net" class="fw-bold"/>
+                                    <field name="profit_margin" widget="float" digits="[16,1]"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Quotation" name="quotation">
+                            <group>
+                                <group string="Included">
+                                    <field name="includes_flight"/>
+                                    <field name="includes_lodging"/>
+                                    <field name="includes_transfer"/>
+                                    <field name="includes_excursions"/>
+                                    <field name="includes_assistance"/>
+                                </group>
+                                <group string="Not Included">
+                                    <field name="not_included" nolabel="1" colspan="2"
+                                           placeholder="e.g. Travel assistance, tips, visas"/>
+                                </group>
+                            </group>
+                            <label for="description"/>
+                            <field name="description" placeholder="Highlights of the trip, recommended excursions..."/>
+                            <label for="conditions"/>
+                            <field name="conditions"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="travel_trip_view_list" model="ir.ui.view">
+        <field name="name">travel.trip.list</field>
+        <field name="model">travel.trip</field>
+        <field name="arch" type="xml">
+            <list string="Trips" decoration-muted="state in ('done', 'cancel')">
+                <field name="code" optional="show"/>
+                <field name="name"/>
+                <field name="destination"/>
+                <field name="trip_type" optional="hide"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="capacity" optional="show"/>
+                <field name="seats_reserved" sum="Total"/>
+                <field name="occupancy_rate" widget="progressbar" optional="show"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="price_per_person" optional="show"/>
+                <field name="user_id" widget="many2one_avatar_user" optional="show"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'open'"
+                       decoration-success="state == 'confirmed'"
+                       decoration-danger="state == 'cancel'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="travel_trip_view_kanban" model="ir.ui.view">
+        <field name="name">travel.trip.kanban</field>
+        <field name="model">travel.trip</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" quick_create="false" sample="1">
+                <field name="color"/>
+                <field name="currency_id"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <aside class="o_kanban_aside_full" t-if="record.image_128.raw_value">
+                            <field name="image_128" widget="image" class="o_image_64_cover" alt="Trip"/>
+                        </aside>
+                        <main class="ms-2">
+                            <field name="name" class="fw-bold fs-5"/>
+                            <div class="text-muted"><i class="fa fa-map-marker me-1" title="Destination"/><field name="destination"/></div>
+                            <div><i class="fa fa-calendar me-1" title="Dates"/><field name="date_start"/> - <field name="date_end"/></div>
+                            <div class="d-flex align-items-center gap-2 mt-1">
+                                <span class="badge rounded-pill text-bg-light"><field name="seats_reserved"/> / <field name="capacity"/> pax</span>
+                                <field name="price_per_person" widget="monetary"/>
+                            </div>
+                            <field name="occupancy_rate" widget="progressbar" class="mt-1" invisible="not capacity"/>
+                            <footer class="pt-1">
+                                <field name="activity_ids" widget="kanban_activity"/>
+                                <field name="user_id" widget="many2one_avatar_user" class="ms-auto"/>
+                            </footer>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="travel_trip_view_pivot" model="ir.ui.view">
+        <field name="name">travel.trip.pivot</field>
+        <field name="model">travel.trip</field>
+        <field name="arch" type="xml">
+            <pivot string="Trips Occupancy">
+                <field name="date_start" interval="month" type="row"/>
+                <field name="capacity" type="measure"/>
+                <field name="seats_reserved" type="measure"/>
+                <field name="seats_quoted" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="travel_trip_view_graph" model="ir.ui.view">
+        <field name="name">travel.trip.graph</field>
+        <field name="model">travel.trip</field>
+        <field name="arch" type="xml">
+            <graph string="Trips Occupancy" type="bar">
+                <field name="name"/>
+                <field name="seats_reserved" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="travel_trip_view_search" model="ir.ui.view">
+        <field name="name">travel.trip.search</field>
+        <field name="model">travel.trip</field>
+        <field name="arch" type="xml">
+            <search string="Trips">
+                <field name="name" filter_domain="['|', '|', ('name', 'ilike', self), ('code', 'ilike', self), ('destination', 'ilike', self)]"/>
+                <field name="destination"/>
+                <field name="country_id"/>
+                <field name="user_id"/>
+                <filter name="my_trips" string="My Trips" domain="[('user_id', '=', uid)]"/>
+                <separator/>
+                <filter name="upcoming" string="Upcoming" domain="[('date_start', '>=', 'today')]"/>
+                <filter name="on_sale" string="On Sale" domain="[('state', 'in', ('open', 'confirmed'))]"/>
+                <filter name="min_not_reached" string="Minimum Not Reached"
+                        domain="[('min_pax_reached', '=', False), ('state', 'in', ('open', 'confirmed'))]"/>
+                <separator/>
+                <filter name="national" string="National" domain="[('trip_type', '=', 'national')]"/>
+                <filter name="international" string="International" domain="[('trip_type', '=', 'international')]"/>
+                <separator/>
+                <filter name="date_start" string="Departure" date="date_start"/>
+                <separator/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_destination" string="Destination" context="{'group_by': 'destination'}"/>
+                    <filter name="group_month" string="Departure Month" context="{'group_by': 'date_start:month'}"/>
+                    <filter name="group_user" string="Responsible" context="{'group_by': 'user_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="travel_trip_action" model="ir.actions.act_window">
+        <field name="name">Trips</field>
+        <field name="res_model">travel.trip</field>
+        <field name="view_mode">kanban,list,form,pivot,graph</field>
+        <field name="search_view_id" ref="travel_trip_view_search"/>
+        <field name="context">{'search_default_upcoming': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first trip</p>
+            <p>Define the destination, dates, capacity and the services of the trip, then link the
+                bookings of your customers to it.</p>
+        </field>
+    </record>
+
+    <record id="travel_trip_occupancy_action" model="ir.actions.act_window">
+        <field name="name">Occupancy</field>
+        <field name="res_model">travel.trip</field>
+        <field name="view_mode">graph,pivot,list,form</field>
+        <field name="search_view_id" ref="travel_trip_view_search"/>
+        <field name="context">{'search_default_on_sale': 1}</field>
+    </record>
+</odoo>

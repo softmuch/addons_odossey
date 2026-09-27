@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_partner_view_form_travel" model="ir.ui.view">
+        <field name="name">res.partner.form.travel</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button name="action_view_travel_passengers" type="object" class="oe_stat_button"
+                        icon="fa-plane" groups="odossey_travel.group_travel_user"
+                        invisible="is_company">
+                    <field name="travel_trip_count" widget="statinfo" string="Trips"/>
+                </button>
+            </div>
+            <xpath expr="//notebook/page[@name='contact_addresses']" position="before">
+                <page string="Traveller" name="travel" invisible="is_company"
+                      groups="odossey_travel.group_travel_user">
+                    <div class="d-flex mb-2">
+                        <button name="action_travel_scan_document" type="object" class="btn btn-secondary"
+                                icon="fa-barcode" string="Scan DNI / Passport"/>
+                    </div>
+                    <div class="alert alert-danger d-flex align-items-center gap-2" role="alert"
+                         invisible="not passport_expired">
+                        <i title="Warning" class="fa fa-exclamation-triangle"/>
+                        <span>The passport is expired.</span>
+                    </div>
+                    <group>
+                        <group string="Personal Data">
+                            <field name="birthdate"/>
+                            <field name="age" invisible="not birthdate"/>
+                            <field name="gender"/>
+                            <field name="nationality_id" options="{'no_create': True}"/>
+                            <field name="dni_tramite"/>
+                            <field name="dni_ejemplar"/>
+                        </group>
+                        <group string="Passport">
+                            <field name="passport_expired" invisible="1"/>
+                            <field name="passport_number"/>
+                            <field name="passport_country_id" options="{'no_create': True}"/>
+                            <field name="passport_issue_date"/>
+                            <field name="passport_expiry_date"
+                                   decoration-danger="passport_expired"/>
+                        </group>
+                        <group string="Emergency &amp; Health">
+                            <field name="emergency_contact_name"/>
+                            <field name="emergency_contact_phone" widget="phone"/>
+                            <field name="travel_dietary_notes"/>
+                            <field name="travel_medical_notes"/>
+                        </group>
+                        <group string="Birthday Email">
+                            <field name="travel_birthday_optout"/>
+                            <field name="travel_birthday_last_sent"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="res_partner_view_search_travel" model="ir.ui.view">
+        <field name="name">res.partner.search.travel</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='type_company']" position="after">
+                <separator/>
+                <filter name="birthday_this_month" string="Birthday This Month"
+                        domain="[('birthday_month', '=', context_today().month)]"/>
+                <filter name="passport_expired" string="Passport Expired"
+                        domain="[('passport_expired', '=', True)]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="travel_partner_birthday_view_list" model="ir.ui.view">
+        <field name="name">res.partner.list.travel.birthday</field>
+        <field name="model">res.partner</field>
+        <field name="priority">50</field>
+        <field name="arch" type="xml">
+            <list string="Birthdays" default_order="birthday_month, birthday_day">
+                <field name="name"/>
+                <field name="birthdate"/>
+                <field name="age"/>
+                <field name="birthday_day" optional="hide"/>
+                <field name="email"/>
+                <field name="phone" optional="show"/>
+                <field name="travel_birthday_optout" optional="show"/>
+                <field name="travel_birthday_last_sent" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="travel_partner_action" model="ir.actions.act_window">
+        <field name="name">Travellers</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('is_company', '=', False)]</field>
+        <field name="context">{'default_is_company': False}</field>
+        <field name="search_view_id" ref="base.view_res_partner_filter"/>
+    </record>
+
+    <record id="travel_partner_birthday_action" model="ir.actions.act_window">
+        <field name="name">Birthdays</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="travel_partner_birthday_view_list"/>
+        <field name="domain">[('birthdate', '!=', False)]</field>
+        <field name="context">{'search_default_birthday_this_month': 1}</field>
+        <field name="search_view_id" ref="base.view_res_partner_filter"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No birthdays this month</p>
+            <p>Contacts with a birthdate receive an automatic greeting email on their birthday.</p>
+        </field>
+    </record>
+</odoo>

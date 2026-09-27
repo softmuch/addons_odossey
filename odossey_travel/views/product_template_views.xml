@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_template_form_view_travel" model="ir.ui.view">
+        <field name="name">product.template.form.travel</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <field name="categ_id" position="after">
+                <field name="travel_service_type" invisible="type != 'service'"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="travel_product_action" model="ir.actions.act_window">
+        <field name="name">Travel Services</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="domain">[('type', '=', 'service')]</field>
+        <field name="context">{'default_type': 'service', 'default_invoice_policy': 'order', 'search_default_filter_to_sell': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create a travel service</p>
+            <p>Flights, lodging, ground services, agency commission... Set the right VAT on each
+                service (exempt, untaxed or 21%) so that invoices are built as ARCA expects.</p>
+        </field>
+    </record>
+</odoo>

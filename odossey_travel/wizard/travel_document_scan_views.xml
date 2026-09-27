@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="travel_document_scan_view_form" model="ir.ui.view">
+        <field name="name">travel.document.scan.form</field>
+        <field name="model">travel.document.scan</field>
+        <field name="arch" type="xml">
+            <form string="Scan Identity Document">
+                <div class="text-muted mb-2">
+                    Scan the barcode (PDF417) on the front of the DNI with a 2D scanner or the camera,
+                    or paste the lines at the bottom of the passport (MRZ).
+                </div>
+                <group>
+                    <field name="input_type" widget="radio" options="{'horizontal': true}"/>
+                    <field name="raw_data" widget="travel_scan_input" nolabel="1" colspan="2"/>
+                </group>
+                <div class="alert alert-danger d-flex align-items-center gap-2" role="alert"
+                     invisible="not parse_error">
+                    <i title="Warning" class="fa fa-exclamation-triangle"/>
+                    <field name="parse_error" readonly="1" force_save="1"/>
+                </div>
+                <div class="alert alert-warning" role="alert" invisible="not parse_warnings">
+                    <field name="parse_warnings" readonly="1" force_save="1"/>
+                </div>
+                <div class="alert alert-success d-flex align-items-center gap-2" role="alert"
+                     invisible="not doc_type">
+                    <i title="OK" class="fa fa-check"/>
+                    <field name="doc_type" readonly="1" force_save="1"/>
+                </div>
+                <group invisible="not doc_type">
+                    <group string="Person">
+                        <field name="first_names"/>
+                        <field name="last_name"/>
+                        <field name="gender"/>
+                        <field name="birthdate"/>
+                        <field name="nationality_id" options="{'no_create': True}"/>
+                    </group>
+                    <group string="Document">
+                        <field name="dni_number" invisible="not dni_number and doc_type == 'mrz_td3'"/>
+                        <field name="cuil" invisible="not cuil"/>
+                        <field name="dni_tramite" invisible="not dni_tramite"/>
+                        <field name="dni_ejemplar" invisible="not dni_ejemplar"/>
+                        <field name="passport_number" invisible="doc_type != 'mrz_td3'"/>
+                        <field name="passport_country_id" invisible="doc_type != 'mrz_td3'" options="{'no_create': True}"/>
+                        <field name="issue_date" invisible="not issue_date"/>
+                        <field name="expiry_date" invisible="not expiry_date"/>
+                    </group>
+                </group>
+                <group>
+                    <field name="partner_id" placeholder="New contact"/>
+                    <field name="sale_order_id" invisible="not sale_order_id" readonly="1"/>
+                    <field name="consent" string="The passenger consents to the processing of his personal data (Law 25.326)"/>
+                </group>
+                <footer>
+                    <button name="action_apply" type="object" class="btn-primary"
+                            string="Create Contact" invisible="partner_id"/>
+                    <button name="action_apply" type="object" class="btn-primary"
+                            string="Update Contact" invisible="not partner_id"/>
+                    <button string="Discard" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="travel_document_scan_action" model="ir.actions.act_window">
+        <field name="name">Scan DNI / Passport</field>
+        <field name="res_model">travel.document.scan</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

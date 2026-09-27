@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="mail_template_birthday" model="mail.template">
+            <field name="name">Travel: Birthday Greetings</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="subject">Happy birthday, {{ object.name }}!</field>
+            <field name="email_from">{{ ((object.company_id or object.env.company).email_formatted or user.email_formatted) }}</field>
+            <field name="email_to">{{ object.email_formatted }}</field>
+            <field name="lang">{{ object.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="description">Sent automatically to contacts on their birthday</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px; font-size: 14px;">
+    <p style="font-size: 22px; font-weight: bold; margin: 0px 0px 16px 0px;">
+        Happy birthday, <t t-out="object.name or ''">Juan</t>!
+    </p>
+    <p style="margin: 0px 0px 16px 0px;">
+        The whole team of <t t-out="(object.company_id or object.env.company).name or ''">YourCompany</t> wishes you a wonderful day full of joy.
+        May this new year bring you many unforgettable trips!
+    </p>
+    <p style="margin: 0px 0px 16px 0px;">
+        We look forward to planning your next adventure together.
+    </p>
+    <p style="margin: 0px;">
+        Warm regards,<br/>
+        <t t-out="(object.company_id or object.env.company).name or ''">YourCompany</t>
+    </p>
+</div>
+            </field>
+        </record>
+    </data>
+
+    <record id="travel_birthday_template_action" model="ir.actions.act_window">
+        <field name="name">Birthday Email</field>
+        <field name="res_model">mail.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('model', '=', 'res.partner')]</field>
+        <field name="context">{'default_model': 'res.partner'}</field>
+    </record>
+</odoo>

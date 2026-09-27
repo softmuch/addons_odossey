@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_travel_root" name="Travel" sequence="25"
+              web_icon="odossey_travel,static/description/icon.png"
+              action="travel_activity_action"
+              groups="odossey_travel.group_travel_user"/>
+
+    <menuitem id="menu_travel_calendar" name="Calendar" parent="menu_travel_root"
+              action="travel_activity_action" sequence="1"/>
+
+    <menuitem id="menu_travel_trips" name="Trips" parent="menu_travel_root" sequence="10"/>
+    <menuitem id="menu_travel_trip" name="Trips" parent="menu_travel_trips"
+              action="travel_trip_action" sequence="1"/>
+    <menuitem id="menu_travel_itinerary" name="Itinerary Activities" parent="menu_travel_trips"
+              action="travel_activity_action" sequence="5"/>
+
+    <menuitem id="menu_travel_sales" name="Sales" parent="menu_travel_root" sequence="20"/>
+    <menuitem id="menu_travel_opportunities" name="Opportunities" parent="menu_travel_sales"
+              action="travel_crm_lead_action" sequence="1"/>
+    <menuitem id="menu_travel_bookings" name="Bookings by Trip" parent="menu_travel_sales"
+              action="travel_booking_action" sequence="5"/>
+    <menuitem id="menu_travel_groups" name="Travel Groups" parent="menu_travel_sales"
+              action="travel_group_action" sequence="10"/>
+
+    <menuitem id="menu_travel_travellers" name="Travellers" parent="menu_travel_root" sequence="30"/>
+    <menuitem id="menu_travel_partners" name="Travellers" parent="menu_travel_travellers"
+              action="travel_partner_action" sequence="1"/>
+    <menuitem id="menu_travel_passengers" name="Passengers by Trip" parent="menu_travel_travellers"
+              action="travel_passenger_action" sequence="5"/>
+    <menuitem id="menu_travel_scan" name="Scan DNI / Passport" parent="menu_travel_travellers"
+              action="travel_document_scan_action" sequence="10"/>
+    <menuitem id="menu_travel_birthdays" name="Birthdays" parent="menu_travel_travellers"
+              action="travel_partner_birthday_action" sequence="15"/>
+
+    <menuitem id="menu_travel_accounting" name="Invoicing" parent="menu_travel_root" sequence="40"/>
+    <menuitem id="menu_travel_invoices" name="Customer Invoices" parent="menu_travel_accounting"
+              action="travel_invoice_action" sequence="1"/>
+    <menuitem id="menu_travel_bills" name="Supplier Costs" parent="menu_travel_accounting"
+              action="travel_bill_action" sequence="5"/>
+
+    <menuitem id="menu_travel_reporting" name="Reporting" parent="menu_travel_root" sequence="50"/>
+    <menuitem id="menu_travel_report_forecast" name="Revenue Forecast" parent="menu_travel_reporting"
+              action="travel_forecast_report_action" sequence="1"
+              groups="odossey_travel.group_travel_manager"/>
+    <menuitem id="menu_travel_report_profitability" name="Net Profitability" parent="menu_travel_reporting"
+              action="travel_profitability_report_action" sequence="5"
+              groups="odossey_travel.group_travel_manager"/>
+    <menuitem id="menu_travel_report_occupancy" name="Occupancy" parent="menu_travel_reporting"
+              action="travel_trip_occupancy_action" sequence="10"/>
+    <menuitem id="menu_travel_report_crm" name="Won / Lost Opportunities" parent="menu_travel_reporting"
+              action="travel_crm_won_lost_action" sequence="15"/>
+
+    <menuitem id="menu_travel_config" name="Configuration" parent="menu_travel_root" sequence="90"
+              groups="odossey_travel.group_travel_manager"/>
+    <menuitem id="menu_travel_settings" name="Settings" parent="menu_travel_config"
+              action="travel_config_settings_action" sequence="1" groups="base.group_system"/>
+    <menuitem id="menu_travel_services" name="Travel Services" parent="menu_travel_config"
+              action="travel_product_action" sequence="5"/>
+    <menuitem id="menu_travel_policies" name="Cancellation Policies" parent="menu_travel_config"
+              action="travel_cancellation_policy_action" sequence="10"/>
+    <menuitem id="menu_travel_birthday_template" name="Birthday Email" parent="menu_travel_config"
+              action="travel_birthday_template_action" sequence="15"/>
+    <menuitem id="menu_travel_lost_reasons" name="Lost Reasons" parent="menu_travel_config"
+              action="crm.crm_lost_reason_action" sequence="20"/>
+</odoo>

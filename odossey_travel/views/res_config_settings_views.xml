@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_travel" model="ir.ui.view">
+        <field name="name">res.config.settings.form.travel</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="40"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Travel" string="Travel" name="odossey_travel"
+                     groups="odossey_travel.group_travel_manager">
+                    <block title="Revenue Forecast" name="travel_forecast">
+                        <setting string="Cancellation Rates"
+                                 help="Estimated probability of cancellation of a booking according to its status.">
+                            <div class="content-group">
+                                <div class="row mt-2">
+                                    <label for="travel_cancel_rate_pending" class="col-lg-6 o_light_label"/>
+                                    <div class="col-lg-6"><field name="travel_cancel_rate_pending" class="oe_inline"/></div>
+                                </div>
+                                <div class="row">
+                                    <label for="travel_cancel_rate_deposit" class="col-lg-6 o_light_label"/>
+                                    <div class="col-lg-6"><field name="travel_cancel_rate_deposit" class="oe_inline"/></div>
+                                </div>
+                                <div class="row">
+                                    <label for="travel_cancel_rate_paid" class="col-lg-6 o_light_label"/>
+                                    <div class="col-lg-6"><field name="travel_cancel_rate_paid" class="oe_inline"/></div>
+                                </div>
+                                <div class="row mt-2">
+                                    <label for="travel_historical_cancel_rate" class="col-lg-6 o_light_label"/>
+                                    <div class="col-lg-6"><field name="travel_historical_cancel_rate" class="oe_inline"/></div>
+                                </div>
+                                <button name="action_travel_apply_historical_rate" type="object"
+                                        string="Use historical rate" icon="oi-arrow-right" class="btn-link"/>
+                            </div>
+                        </setting>
+                        <setting help="Weight open quotations with the probability of winning them.">
+                            <field name="travel_forecast_include_quotations"/>
+                            <div class="content-group" invisible="not travel_forecast_include_quotations">
+                                <div class="row mt-2">
+                                    <label for="travel_quotation_win_rate" class="col-lg-6 o_light_label"/>
+                                    <div class="col-lg-6"><field name="travel_quotation_win_rate" class="oe_inline"/></div>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+                    <block title="Net Profitability" name="travel_profitability">
+                        <setting string="Gross Income Tax (IIBB)"
+                                 help="Provincial tax paid by the agency. It is not on invoices: it is estimated in the net profitability report.">
+                            <div class="content-group">
+                                <div class="row mt-2">
+                                    <label for="travel_iibb_rate" class="col-lg-4 o_light_label"/>
+                                    <div class="col-lg-8"><field name="travel_iibb_rate" class="oe_inline"/></div>
+                                </div>
+                                <div class="row">
+                                    <label for="travel_iibb_base" class="col-lg-4 o_light_label"/>
+                                    <field name="travel_iibb_base" class="col-lg-8"/>
+                                </div>
+                            </div>
+                        </setting>
+                        <setting string="Payment Fees"
+                                 help="Estimated card / bank / payment gateway fees on the gross invoiced amount.">
+                            <div class="content-group">
+                                <div class="row mt-2">
+                                    <label for="travel_payment_fee_rate" class="col-lg-4 o_light_label"/>
+                                    <div class="col-lg-8"><field name="travel_payment_fee_rate" class="oe_inline"/></div>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+                    <block title="Operations" name="travel_operations">
+                        <setting help="Passports must be valid this number of months after the return of international trips.">
+                            <field name="travel_passport_validity_months"/>
+                        </setting>
+                        <setting help="Service period informed to ARCA on invoices created from bookings.">
+                            <field name="travel_invoice_service_dates"/>
+                        </setting>
+                        <setting help="Registration number of the agency (Law 18.829), printed on quotations.">
+                            <field name="travel_file_number"/>
+                        </setting>
+                        <setting string="Cancellation Policies" help="Penalties applied when a passenger cancels.">
+                            <button name="%(odossey_travel.travel_cancellation_policy_action)d" type="action"
+                                    string="Manage Policies" icon="oi-arrow-right" class="btn-link"/>
+                        </setting>
+                    </block>
+                    <block title="Birthday Emails" name="travel_birthday">
+                        <setting help="Send a greeting email to the contacts on their birthday (daily scheduled action).">
+                            <field name="travel_birthday_enabled"/>
+                            <div class="content-group" invisible="not travel_birthday_enabled">
+                                <div class="row mt-2">
+                                    <label for="travel_birthday_template_id" class="col-lg-4 o_light_label"/>
+                                    <field name="travel_birthday_template_id" class="col-lg-8"
+                                           placeholder="Default birthday template"/>
+                                </div>
+                                <button name="action_travel_open_birthday_template" type="object"
+                                        string="Edit Email Template" icon="oi-arrow-right" class="btn-link"/>
+                                <button name="%(odossey_travel.ir_cron_travel_birthday_action)d" type="action"
+                                        string="Scheduled Action" icon="oi-arrow-right" class="btn-link"
+                                        groups="base.group_system"/>
+                            </div>
+                        </setting>
+                    </block>
+                    <block title="Demo" name="travel_demo">
+                        <setting help="Create sample trips, a family group and a group of friends to try the application.">
+                            <button name="action_travel_load_demo" type="object" string="Load Demo Data"
+                                    icon="oi-arrow-right" class="btn-link"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="travel_config_settings_action" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'module': 'odossey_travel', 'bin_size': False}</field>
+    </record>
+</odoo>

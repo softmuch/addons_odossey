@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="travel_group_view_form" model="ir.ui.view">
+        <field name="name">travel.group.form</field>
+        <field name="model">travel.group</field>
+        <field name="arch" type="xml">
+            <form string="Travel Group">
+                <header>
+                    <button name="action_create_bookings" type="object" string="Create Bookings"
+                            class="btn-primary"
+                            help="Family: one booking for the leader with all the members. Friends: one booking per member."/>
+                    <button name="action_create_invoices" type="object" string="Create Invoices"
+                            invisible="not order_count"
+                            help="Family: one invoice for the leader. Friends: one invoice per member, all linked to the group."/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_orders" type="object" class="oe_stat_button"
+                                icon="fa-shopping-cart">
+                            <field name="order_count" widget="statinfo" string="Bookings"/>
+                        </button>
+                        <button name="action_view_invoices" type="object" class="oe_stat_button"
+                                icon="fa-pencil-square-o">
+                            <field name="invoice_count" widget="statinfo" string="Invoices"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. Pérez Family"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="trip_id"/>
+                            <field name="group_type" widget="radio"/>
+                            <field name="leader_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="amount_total"/>
+                            <field name="amount_paid"/>
+                            <field name="amount_due"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Members" name="members">
+                            <field name="member_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="vat"/>
+                                    <field name="birthdate"/>
+                                    <field name="passport_number" optional="show"/>
+                                    <field name="passport_expiry_date" optional="show"/>
+                                    <field name="email" optional="show"/>
+                                    <field name="phone" optional="show"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Bookings" name="bookings">
+                            <field name="sale_order_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="partner_id"/>
+                                    <field name="travel_pax_count"/>
+                                    <field name="currency_id" column_invisible="True"/>
+                                    <field name="amount_total" sum="Total"/>
+                                    <field name="travel_amount_paid" sum="Total"/>
+                                    <field name="travel_amount_due" sum="Total"/>
+                                    <field name="travel_booking_state" widget="badge"
+                                           decoration-info="travel_booking_state == 'quotation'"
+                                           decoration-warning="travel_booking_state == 'pending'"
+                                           decoration-primary="travel_booking_state == 'deposit'"
+                                           decoration-success="travel_booking_state == 'paid'"/>
+                                    <field name="invoice_status" optional="show"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="note"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="travel_group_view_list" model="ir.ui.view">
+        <field name="name">travel.group.list</field>
+        <field name="model">travel.group</field>
+        <field name="arch" type="xml">
+            <list string="Travel Groups">
+                <field name="name"/>
+                <field name="trip_id"/>
+                <field name="group_type" widget="badge"
+                       decoration-info="group_type == 'family'" decoration-success="group_type == 'friends'"/>
+                <field name="leader_id"/>
+                <field name="member_count"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="amount_total"/>
+                <field name="amount_due"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="travel_group_view_search" model="ir.ui.view">
+        <field name="name">travel.group.search</field>
+        <field name="model">travel.group</field>
+        <field name="arch" type="xml">
+            <search string="Travel Groups">
+                <field name="name"/>
+                <field name="trip_id"/>
+                <field name="member_ids" string="Member"/>
+                <filter name="family" string="Families" domain="[('group_type', '=', 'family')]"/>
+                <filter name="friends" string="Friends" domain="[('group_type', '=', 'friends')]"/>
+                <group>
+                    <filter name="group_trip" string="Trip" context="{'group_by': 'trip_id'}"/>
+                    <filter name="group_type" string="Type" context="{'group_by': 'group_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="travel_group_action" model="ir.actions.act_window">
+        <field name="name">Travel Groups</field>
+        <field name="res_model">travel.group</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="travel_group_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create a travel group</p>
+            <p>A family is invoiced to a single payer. In a group of friends every member gets
+                his own booking and invoice, all linked to the group.</p>
+        </field>
+    </record>
+</odoo>

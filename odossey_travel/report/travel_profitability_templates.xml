@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_travel_profitability">
+        <t t-call="web.html_container">
+            <t t-set="company" t-value="docs[:1].company_id or res_company"/>
+            <t t-set="currency" t-value="company.currency_id"/>
+            <t t-set="mon" t-value="{'widget': 'monetary', 'display_currency': currency}"/>
+            <t t-call="web.external_layout">
+                <t t-set="o" t-value="docs[:1]"/>
+                <div class="page">
+                    <h2>Net Profitability of the Trips</h2>
+                    <p class="text-muted">
+                        Posted accounting entries linked to the trips, in <t t-out="currency.name"/>.
+                        Gross income tax (IIBB <t t-out="company.travel_iibb_rate"/>%) and payment fees
+                        (<t t-out="company.travel_payment_fee_rate"/>%) are estimated from the settings.
+                    </p>
+                    <table class="table table-sm o_main_table">
+                        <thead>
+                            <tr>
+                                <th>Trip</th>
+                                <th class="text-end">Gross Invoiced</th>
+                                <th class="text-end">VAT</th>
+                                <th class="text-end">Perceptions</th>
+                                <th class="text-end">Other Taxes</th>
+                                <th class="text-end">Net Revenue</th>
+                                <th class="text-end">Supplier Costs</th>
+                                <th class="text-end">Fees</th>
+                                <th class="text-end">IIBB</th>
+                                <th class="text-end">Net Profit</th>
+                                <th class="text-end">Margin</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="docs" t-as="trip">
+                                <tr>
+                                    <td>
+                                        <div class="fw-bold" t-out="trip.display_name"/>
+                                        <div class="small text-muted"><t t-out="trip.destination"/> · <span t-field="trip.date_start"/></div>
+                                    </td>
+                                    <td class="text-end"><span t-out="trip.profit_gross" t-options="mon"/></td>
+                                    <td class="text-end"><span t-out="trip.profit_vat" t-options="mon"/></td>
+                                    <td class="text-end"><span t-out="trip.profit_perception" t-options="mon"/></td>
+                                    <td class="text-end"><span t-out="trip.profit_other_tax" t-options="mon"/></td>
+                                    <td class="text-end fw-bold"><span t-out="trip.profit_revenue" t-options="mon"/></td>
+                                    <td class="text-end"><span t-out="trip.profit_cost" t-options="mon"/></td>
+                                    <td class="text-end"><span t-out="trip.profit_fee" t-options="mon"/></td>
+                                    <td class="text-end"><span t-out="trip.profit_iibb" t-options="mon"/></td>
+                                    <td class="text-end fw-bold"><span t-out="trip.profit_net" t-options="mon"/></td>
+                                    <td class="text-end"><t t-out="'%.1f' % trip.profit_margin"/>%</td>
+                                </tr>
+                            </t>
+                        </tbody>
+                        <tfoot t-if="len(docs) &gt; 1">
+                            <t t-set="tot_revenue" t-value="sum(docs.mapped('profit_revenue'))"/>
+                            <t t-set="tot_net" t-value="sum(docs.mapped('profit_net'))"/>
+                            <tr class="fw-bold border-top">
+                                <td>Total</td>
+                                <td class="text-end"><span t-out="sum(docs.mapped('profit_gross'))" t-options="mon"/></td>
+                                <td class="text-end"><span t-out="sum(docs.mapped('profit_vat'))" t-options="mon"/></td>
+                                <td class="text-end"><span t-out="sum(docs.mapped('profit_perception'))" t-options="mon"/></td>
+                                <td class="text-end"><span t-out="sum(docs.mapped('profit_other_tax'))" t-options="mon"/></td>
+                                <td class="text-end"><span t-out="tot_revenue" t-options="mon"/></td>
+                                <td class="text-end"><span t-out="sum(docs.mapped('profit_cost'))" t-options="mon"/></td>
+                                <td class="text-end"><span t-out="sum(docs.mapped('profit_fee'))" t-options="mon"/></td>
+                                <td class="text-end"><span t-out="sum(docs.mapped('profit_iibb'))" t-options="mon"/></td>
+                                <td class="text-end"><span t-out="tot_net" t-options="mon"/></td>
+                                <td class="text-end"><t t-out="'%.1f' % (100.0 * tot_net / tot_revenue if tot_revenue else 0.0)"/>%</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <p class="small text-muted mt-3">
+                        Net revenue = gross invoiced − VAT − perceptions − other taxes (collected on behalf of
+                        the tax authorities). Net profit = net revenue − supplier costs − fees − IIBB.
+                    </p>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="travel_forecast_report_view_pivot" model="ir.ui.view">
+        <field name="name">travel.forecast.report.pivot</field>
+        <field name="model">travel.forecast.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Revenue Forecast" sample="1">
+                <field name="date_departure" interval="month" type="row"/>
+                <field name="booking_state" type="col"/>
+                <field name="expected_revenue" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="travel_forecast_report_view_graph" model="ir.ui.view">
+        <field name="name">travel.forecast.report.graph</field>
+        <field name="model">travel.forecast.report</field>
+        <field name="arch" type="xml">
+            <graph string="Revenue Forecast" type="bar" sample="1">
+                <field name="date_departure" interval="month"/>
+                <field name="expected_revenue" type="measure"/>
+                <field name="expected_margin" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="travel_forecast_report_view_list" model="ir.ui.view">
+        <field name="name">travel.forecast.report.list</field>
+        <field name="model">travel.forecast.report</field>
+        <field name="arch" type="xml">
+            <list string="Revenue Forecast">
+                <field name="date_departure"/>
+                <field name="trip_id"/>
+                <field name="order_id"/>
+                <field name="partner_id"/>
+                <field name="travel_group_id" optional="hide"/>
+                <field name="booking_state" widget="badge"
+                       decoration-info="booking_state == 'quotation'"
+                       decoration-warning="booking_state == 'pending'"
+                       decoration-primary="booking_state == 'deposit'"
+                       decoration-success="booking_state == 'paid'"
+                       decoration-danger="booking_state == 'cancelled'"/>
+                <field name="pax_count" sum="Total"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="amount_total" sum="Total"/>
+                <field name="amount_paid" sum="Total"/>
+                <field name="amount_due" sum="Total"/>
+                <field name="cancel_probability" avg="Average"/>
+                <field name="expected_revenue" sum="Total"/>
+                <field name="expected_cost" sum="Total" optional="show"/>
+                <field name="expected_margin" sum="Total"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="travel_forecast_report_view_search" model="ir.ui.view">
+        <field name="name">travel.forecast.report.search</field>
+        <field name="model">travel.forecast.report</field>
+        <field name="arch" type="xml">
+            <search string="Revenue Forecast">
+                <field name="trip_id"/>
+                <field name="partner_id"/>
+                <field name="travel_group_id"/>
+                <filter name="future" string="Upcoming Departures" domain="[('date_departure', '>=', 'today')]"/>
+                <filter name="past" string="Past Departures" domain="[('date_departure', '&lt;', 'today')]"/>
+                <separator/>
+                <filter name="bookings" string="Bookings" domain="[('booking_state', 'in', ('pending', 'deposit', 'paid'))]"/>
+                <filter name="quotations" string="Quotations" domain="[('booking_state', '=', 'quotation')]"/>
+                <filter name="cancelled" string="Cancelled" domain="[('booking_state', '=', 'cancelled')]"/>
+                <separator/>
+                <filter name="date_departure" string="Departure" date="date_departure"/>
+                <group>
+                    <filter name="group_trip" string="Trip" context="{'group_by': 'trip_id'}"/>
+                    <filter name="group_state" string="Booking Status" context="{'group_by': 'booking_state'}"/>
+                    <filter name="group_month" string="Departure Month" context="{'group_by': 'date_departure:month'}"/>
+                    <filter name="group_user" string="Salesperson" context="{'group_by': 'user_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="travel_forecast_report_action" model="ir.actions.act_window">
+        <field name="name">Revenue Forecast</field>
+        <field name="res_model">travel.forecast.report</field>
+        <field name="view_mode">graph,pivot,list</field>
+        <field name="search_view_id" ref="travel_forecast_report_view_search"/>
+        <field name="context">{'search_default_future': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No bookings to forecast yet</p>
+            <p>Expected revenue = total × (1 − cancellation probability) + deposit paid × cancellation
+                probability. The probabilities per booking status are configured in the settings.</p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="odossey_travel.TravelScanInputField">
+        <div class="o_travel_scan_input d-flex flex-column gap-2 w-100">
+            <textarea t-ref="textarea" class="o_input font-monospace w-100" rows="3"
+                      t-att-value="value" t-att-readonly="props.readonly"
+                      placeholder="Scan the DNI barcode or paste the passport MRZ..."
+                      t-on-input="onInput" t-on-keydown="onKeydown" t-on-blur="commit"/>
+            <div class="d-flex gap-2" t-if="!props.readonly">
+                <button t-if="cameraSupported" type="button" class="btn btn-secondary"
+                        t-on-click="onCamera">
+                    <i title="Camera" class="fa fa-camera me-1"/>Use camera
+                </button>
+                <button type="button" class="btn btn-link" t-on-click="onClear">
+                    <i title="Clear" class="fa fa-eraser me-1"/>Clear
+                </button>
+            </div>
+        </div>
+    </t>
+</templates>

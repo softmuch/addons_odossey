@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="travel_booking_cancel_view_form" model="ir.ui.view">
+        <field name="name">travel.booking.cancel.form</field>
+        <field name="model">travel.booking.cancel</field>
+        <field name="arch" type="xml">
+            <form string="Cancel Booking">
+                <group>
+                    <group>
+                        <field name="sale_order_id"/>
+                        <field name="trip_id"/>
+                        <field name="cancel_date"/>
+                        <field name="days_before"/>
+                        <field name="reason" placeholder="e.g. Health problem"/>
+                    </group>
+                    <group>
+                        <field name="currency_id" invisible="1"/>
+                        <field name="policy_id"/>
+                        <field name="penalty_percent"/>
+                        <field name="amount_total"/>
+                        <field name="amount_paid"/>
+                        <field name="deposit_paid"/>
+                        <field name="penalty_amount" class="fw-bold"/>
+                        <field name="refund_amount" class="fw-bold"/>
+                        <field name="amount_owed" invisible="not amount_owed"/>
+                    </group>
+                </group>
+                <div class="alert alert-info" role="alert">
+                    The booking will be cancelled and its seats released. The retained penalty remains
+                    in the revenue forecast. A to-do is created to issue the refund, if any.
+                </div>
+                <footer>
+                    <button name="action_confirm" type="object" string="Cancel Booking" class="btn-primary"/>
+                    <button string="Discard" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

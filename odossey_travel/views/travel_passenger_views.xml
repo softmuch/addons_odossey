@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="travel_passenger_view_list" model="ir.ui.view">
+        <field name="name">travel.passenger.list</field>
+        <field name="model">travel.passenger</field>
+        <field name="arch" type="xml">
+            <list string="Passengers" decoration-muted="state == 'cancelled'" create="0">
+                <field name="partner_id"/>
+                <field name="trip_id"/>
+                <field name="date_start" optional="show"/>
+                <field name="sale_order_id"/>
+                <field name="group_id" optional="show"/>
+                <field name="payer_id" optional="show"/>
+                <field name="passenger_type" optional="hide"/>
+                <field name="room_type" optional="show"/>
+                <field name="vat" optional="show"/>
+                <field name="passport_number" optional="hide"/>
+                <field name="passport_expiry_date" optional="show"/>
+                <field name="age_at_departure" optional="hide"/>
+                <field name="phone" optional="hide"/>
+                <field name="notes" optional="hide"/>
+                <field name="document_state" widget="badge"
+                       decoration-success="document_state == 'ok'"
+                       decoration-danger="document_state != 'ok'"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'quotation'"
+                       decoration-warning="state == 'pending'"
+                       decoration-primary="state == 'deposit'"
+                       decoration-success="state == 'paid'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="travel_passenger_view_form" model="ir.ui.view">
+        <field name="name">travel.passenger.form</field>
+        <field name="model">travel.passenger</field>
+        <field name="arch" type="xml">
+            <form string="Passenger">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_partner" type="object" class="oe_stat_button"
+                                icon="fa-id-card-o" string="Contact"/>
+                    </div>
+                    <div class="alert alert-warning d-flex align-items-center gap-2" role="alert"
+                         invisible="document_state == 'ok'">
+                        <i title="Warning" class="fa fa-exclamation-triangle"/>
+                        <field name="document_state" readonly="1"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="sale_order_id"/>
+                            <field name="trip_id"/>
+                            <field name="group_id"/>
+                            <field name="payer_id"/>
+                            <field name="state"/>
+                        </group>
+                        <group>
+                            <field name="passenger_type"/>
+                            <field name="room_type"/>
+                            <field name="room_number"/>
+                            <field name="notes"/>
+                        </group>
+                        <group string="Documents">
+                            <field name="vat"/>
+                            <field name="passport_number"/>
+                            <field name="passport_expiry_date"/>
+                            <field name="nationality_id"/>
+                        </group>
+                        <group string="Contact">
+                            <field name="birthdate"/>
+                            <field name="age_at_departure"/>
+                            <field name="phone" widget="phone"/>
+                            <field name="email" widget="email"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="travel_passenger_view_search" model="ir.ui.view">
+        <field name="name">travel.passenger.search</field>
+        <field name="model">travel.passenger</field>
+        <field name="arch" type="xml">
+            <search string="Passengers">
+                <field name="partner_id"/>
+                <field name="trip_id"/>
+                <field name="group_id"/>
+                <field name="payer_id"/>
+                <filter name="not_cancelled" string="Active Bookings" domain="[('state', '!=', 'cancelled')]"/>
+                <filter name="upcoming" string="Upcoming Trips" domain="[('trip_id.date_start', '>=', 'today')]"/>
+                <separator/>
+                <filter name="document_issues" string="Document Issues" domain="[('document_state', '!=', 'ok')]"/>
+                <separator/>
+                <filter name="deposit_pending" string="Deposit Pending" domain="[('state', '=', 'pending')]"/>
+                <filter name="frozen" string="Price Frozen" domain="[('state', 'in', ('deposit', 'paid'))]"/>
+                <group>
+                    <filter name="group_trip" string="Trip" context="{'group_by': 'trip_id'}"/>
+                    <filter name="group_group" string="Group" context="{'group_by': 'group_id'}"/>
+                    <filter name="group_room" string="Room" context="{'group_by': 'room_type'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="travel_passenger_action" model="ir.actions.act_window">
+        <field name="name">Passengers</field>
+        <field name="res_model">travel.passenger</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="travel_passenger_view_search"/>
+        <field name="context">{'search_default_not_cancelled': 1, 'search_default_upcoming': 1, 'search_default_group_trip': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No passengers yet</p>
+            <p>Passengers are added on the bookings (sale orders) of the trips.</p>
+        </field>
+    </record>
+</odoo>

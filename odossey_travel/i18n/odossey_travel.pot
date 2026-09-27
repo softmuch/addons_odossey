@@ -1,0 +1,3919 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* odossey_travel
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e-20260622\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-27 10:15+0000\n"
+"PO-Revision-Date: 2026-09-27 10:15+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.report_travel_profitability
+msgid ""
+"%) and payment fees\n"
+"                        ("
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.report_travel_profitability
+msgid "%) are estimated from the settings."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/models/travel_trip.py:0
+msgid "%s quotation(s) updated with the current prices."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.actions.report,print_report_name:odossey_travel.action_report_travel_profitability
+msgid "'Net Profitability'"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.actions.report,print_report_name:odossey_travel.action_report_travel_quotation
+msgid "'Quotation - %s' % (object.trip_id.destination or object.name)"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.actions.report,print_report_name:odossey_travel.action_report_travel_trip_quotation
+msgid "'Quotation - %s' % object.destination"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.sale_order_view_form_travel
+msgid "). Penalty retained:"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.sale_order_view_form_travel
+msgid ", to refund:"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.report_travel_profitability
+msgid ""
+".\n"
+"                        Gross income tax (IIBB"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.sale_order_view_form_travel
+msgid ": the deposit has been paid."
+msgstr ""
+
+#. module: odossey_travel
+#: model:mail.template,body_html:odossey_travel.mail_template_birthday
+msgid ""
+"<div style=\"margin: 0px; padding: 0px; font-size: 14px;\">\n"
+"    <p style=\"font-size: 22px; font-weight: bold; margin: 0px 0px 16px 0px;\">\n"
+"        Happy birthday, <t t-out=\"object.name or ''\">Juan</t>!\n"
+"    </p>\n"
+"    <p style=\"margin: 0px 0px 16px 0px;\">\n"
+"        The whole team of <t t-out=\"(object.company_id or object.env.company).name or ''\">YourCompany</t> wishes you a wonderful day full of joy.\n"
+"        May this new year bring you many unforgettable trips!\n"
+"    </p>\n"
+"    <p style=\"margin: 0px 0px 16px 0px;\">\n"
+"        We look forward to planning your next adventure together.\n"
+"    </p>\n"
+"    <p style=\"margin: 0px;\">\n"
+"        Warm regards,<br/>\n"
+"        <t t-out=\"(object.company_id or object.env.company).name or ''\">YourCompany</t>\n"
+"    </p>\n"
+"</div>\n"
+"            "
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_kanban
+msgid "<i class=\"fa fa-calendar me-1\" title=\"Dates\"/>"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_kanban
+msgid "<i class=\"fa fa-map-marker me-1\" title=\"Destination\"/>"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.sale_order_view_form_travel
+msgid "<i title=\"Cancelled\" class=\"fa fa-ban\"/>"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "<i title=\"Flights\" class=\"fa fa-plane me-1\"/>Flights"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.sale_order_view_form_travel
+msgid "<i title=\"Frozen\" class=\"fa fa-lock\"/>"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_activity_view_form
+msgid ""
+"<i title=\"Info\" class=\"fa fa-info-circle me-1\"/>\n"
+"                        This entry is the trip itself and is updated automatically from the trip."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid ""
+"<i title=\"Info\" class=\"fa fa-info-circle\"/>\n"
+"                        <span>The minimum number of passengers of the trip is not reached yet.</span>"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "<i title=\"Lodging\" class=\"fa fa-bed me-1\"/>Lodging"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_document_scan_view_form
+msgid "<i title=\"OK\" class=\"fa fa-check\"/>"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.sale_order_view_form_travel
+msgid "<i title=\"Pending\" class=\"fa fa-unlock\"/>"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "<i title=\"Transfers\" class=\"fa fa-bus me-1\"/>Transfers"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.sale_order_view_form_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_document_scan_view_form
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_passenger_view_form
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "<i title=\"Warning\" class=\"fa fa-exclamation-triangle\"/>"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_partner_view_form_travel
+msgid ""
+"<i title=\"Warning\" class=\"fa fa-exclamation-triangle\"/>\n"
+"                        <span>The passport is expired.</span>"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "<span class=\"o_stat_text\">Net Margin</span>"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/models/res_company.py:0
+msgid ""
+"<ul><li>Rates subject to availability and confirmation at the time of "
+"booking.</li><li>This is a quotation: no booking is made until the deposit "
+"is paid.</li><li>The deposit freezes the price of the trip.</li><li>Flight "
+"tickets are non-refundable; changes are subject to airline "
+"penalties.</li><li>Passengers need a valid ID or passport (valid 6 months "
+"after return) and the visas required by the destination.</li></ul>"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.actions.act_window,help:odossey_travel.travel_booking_action
+msgid ""
+"A booking is a quotation / sale order linked to a trip. The bookings of different\n"
+"                customers are grouped by trip."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.actions.act_window,help:odossey_travel.travel_group_action
+msgid ""
+"A family is invoiced to a single payer. In a group of friends every member gets\n"
+"                his own booking and invoice, all linked to the group."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.constraint,message:odossey_travel.constraint_travel_passenger_partner_unique
+msgid "A passenger can only appear once in a booking."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_company__travel_invoice_service_dates
+#: model:ir.model.fields,field_description:odossey_travel.field_res_config_settings__travel_invoice_service_dates
+msgid "ARCA Service Dates"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__message_needaction
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__active
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_cancellation_policy__active
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__active
+msgid "Active"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_passenger_view_search
+msgid "Active Bookings"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__name
+msgid "Activity"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/models/travel_group.py:0
+msgid "Add the members of the group first."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/models/sale_order.py:0
+msgid "Add the passengers of the booking %s before confirming it."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.sale_order_view_form_travel
+msgid ""
+"Add the services of the trip for the passengers of the booking, at the "
+"current prices."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_document_scan__sale_order_id
+msgid "Add to Booking"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_passenger__passenger_type__adult
+msgid "Adult"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_partner__age
+#: model:ir.model.fields,field_description:odossey_travel.field_res_users__age
+msgid "Age"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__age_at_departure
+msgid "Age at Departure"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__product_template__travel_service_type__commission
+msgid "Agency Services / Commission"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__carrier
+msgid "Airline / Carrier"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__allday
+msgid "All Day"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_activity__board_basis__all_inclusive
+msgid "All Inclusive"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__all_passengers
+msgid "All Passengers"
+msgstr ""
+
+#. module: odossey_travel
+#: model:res.groups,comment:odossey_travel.group_travel_manager
+msgid ""
+"Also accesses the forecast, the net profitability and the configuration."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_res_company__travel_forecast_include_quotations
+#: model:ir.model.fields,help:odossey_travel.field_res_config_settings__travel_forecast_include_quotations
+msgid ""
+"Also weight open quotations in the revenue forecast using the quotation win "
+"rate."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_booking_cancel__amount_owed
+msgid "Amount Owed by Customer"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_sale_order__travel_amount_paid
+#: model:ir.model.fields,help:odossey_travel.field_travel_booking_cancel__amount_paid
+msgid ""
+"Amount paid on the posted customer invoices (deposits included) of the "
+"booking."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order__travel_refund_amount
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_booking_cancel__refund_amount
+msgid "Amount to Refund"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/wizard/travel_booking_cancel.py:0
+msgid "Amount to refund"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid "An MRZ line was shorter than expected and was padded with fillers."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__analytic_account_id
+msgid "Analytic Account"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid ""
+"Apply the current prices of the services to the open quotations. Confirmed "
+"bookings keep their frozen price."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_activity_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_search
+msgid "Archived"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "Arrival"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__message_attachment_count
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_document_scan__input_type__auto
+msgid "Automatic"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__seats_available
+msgid "Available Seats"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_forecast_report_view_list
+msgid "Average"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__baggage
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "Baggage"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order__travel_amount_due
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__amount_due
+msgid "Balance"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__balance_due_days
+msgid "Balance Due (days before)"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order__travel_balance_due_date
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__balance_due_date
+msgid "Balance Due Date"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "Balance due"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_activity__board_basis__breakfast
+msgid "Bed & Breakfast"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_partner__birthdate
+#: model:ir.model.fields,field_description:odossey_travel.field_res_users__birthdate
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_document_scan__birthdate
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__birthdate
+msgid "Birthdate"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_partner__birthday_day
+#: model:ir.model.fields,field_description:odossey_travel.field_res_users__birthday_day
+msgid "Birthday Day"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.actions.act_window,name:odossey_travel.travel_birthday_template_action
+#: model:ir.ui.menu,name:odossey_travel.menu_travel_birthday_template
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_partner_view_form_travel
+msgid "Birthday Email"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_company__travel_birthday_template_id
+#: model:ir.model.fields,field_description:odossey_travel.field_res_config_settings__travel_birthday_template_id
+msgid "Birthday Email Template"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.actions.act_window,name:odossey_travel.ir_cron_travel_birthday_action
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
+msgid "Birthday Emails"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_partner__birthday_month
+#: model:ir.model.fields,field_description:odossey_travel.field_res_users__birthday_month
+msgid "Birthday Month"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_partner_view_search_travel
+msgid "Birthday This Month"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.actions.act_window,name:odossey_travel.travel_partner_birthday_action
+#: model:ir.ui.menu,name:odossey_travel.menu_travel_birthdays
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_partner_birthday_view_list
+msgid "Birthdays"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__board_basis
+msgid "Board Basis"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__amount_booked
+msgid "Booked"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__seats_reserved
+msgid "Booked Seats"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_booking_cancel__sale_order_id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_forecast_report__order_id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__sale_order_id
+msgid "Booking"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order__travel_booking_state
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_forecast_report__booking_state
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__state
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_booking_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_forecast_report_view_search
+msgid "Booking Status"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_booking_cancel__amount_total
+msgid "Booking Total"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/wizard/travel_booking_cancel.py:0
+msgid "Booking cancelled"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.sale_order_view_form_travel
+msgid "Booking cancelled on"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__sale_order_ids
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__sale_order_ids
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_booking_view_list
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_booking_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_forecast_report_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_group_view_form
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Bookings"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__order_count
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__order_count
+msgid "Bookings Count"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.actions.act_window,name:odossey_travel.travel_booking_action
+#: model:ir.ui.menu,name:odossey_travel.menu_travel_bookings
+msgid "Bookings by Trip"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_document_scan__cuil
+msgid "CUIL"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid "CUIL check digit is invalid; CUIL ignored."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid "CUIL data in the barcode is malformed; CUIL ignored."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.ui.menu,name:odossey_travel.menu_travel_calendar
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Calendar"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-javascript
+#: code:addons/odossey_travel/static/src/scan/scan_input_field.xml:0
+msgid "Camera"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/models/sale_order.py:0
+#: model_terms:ir.ui.view,arch_db:odossey_travel.sale_order_view_form_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_booking_cancel_view_form
+msgid "Cancel Booking"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model,name:odossey_travel.model_travel_booking_cancel
+msgid "Cancel Travel Booking"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Cancel Trip"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.sale_order_view_form_travel
+msgid "Cancel the booking applying the cancellation policy of the trip."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Cancel this trip? Its bookings are not cancelled automatically."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Cancellation"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_booking_cancel__cancel_date
+msgid "Cancellation Date"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.actions.act_window,name:odossey_travel.travel_cancellation_policy_action
+#: model:ir.ui.menu,name:odossey_travel.menu_travel_policies
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_cancellation_policy_view_list
+msgid "Cancellation Policies"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__cancellation_policy_id
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_cancellation_policy_view_form
+msgid "Cancellation Policy"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_forecast_report__cancel_probability
+msgid "Cancellation Probability (%)"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_company__travel_cancel_rate_deposit
+#: model:ir.model.fields,field_description:odossey_travel.field_res_config_settings__travel_cancel_rate_deposit
+msgid "Cancellation Rate - Deposit Paid (%)"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_company__travel_cancel_rate_pending
+#: model:ir.model.fields,field_description:odossey_travel.field_res_config_settings__travel_cancel_rate_pending
+msgid "Cancellation Rate - Deposit Pending (%)"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_company__travel_cancel_rate_paid
+#: model:ir.model.fields,field_description:odossey_travel.field_res_config_settings__travel_cancel_rate_paid
+msgid "Cancellation Rate - Fully Paid (%)"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
+msgid "Cancellation Rates"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order__travel_cancel_reason
+msgid "Cancellation Reason"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "Cancellation policy"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__sale_order__travel_booking_state__cancelled
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_forecast_report__booking_state__cancelled
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_trip__state__cancel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_booking_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_forecast_report_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Cancelled"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order__travel_cancel_date
+msgid "Cancelled On"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_res_config_settings__travel_historical_cancel_rate
+msgid ""
+"Cancelled bookings / confirmed bookings of the trips already completed."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__capacity
+msgid "Capacity"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/models/travel_trip.py:0
+msgid "Capacity values cannot be negative."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__hotel_stars
+msgid "Category"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid ""
+"Check that the scanner keyboard layout matches the operating system keyboard"
+" layout (e.g. both set to Spanish or both to US English)."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_passenger__passenger_type__child
+msgid "Child"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_product_product__travel_service_type
+#: model:ir.model.fields,help:odossey_travel.field_product_template__travel_service_type
+#: model:ir.model.fields,help:odossey_travel.field_travel_trip_component__service_type
+msgid ""
+"Classifies the product in the travel reports. On vendor bills, products of "
+"type 'Payment / Bank Fees' are reported as fees instead of supplier costs."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-javascript
+#: code:addons/odossey_travel/static/src/scan/scan_input_field.xml:0
+msgid "Clear"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_forecast_report__amount_paid
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__amount_paid
+msgid "Collected"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__color
+msgid "Color"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model,name:odossey_travel.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__company_id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_cancellation_policy__company_id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_forecast_report__company_id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__company_id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__company_id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_profitability_report__company_id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__company_id
+msgid "Company"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__company_currency_id
+msgid "Company Currency"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Complete"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_trip__state__done
+msgid "Completed"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_cancellation_policy__note
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__conditions
+msgid "Conditions"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_cancellation_policy_view_form
+msgid "Conditions printed on quotations..."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model,name:odossey_travel.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.ui.menu,name:odossey_travel.menu_travel_config
+msgid "Configuration"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Confirm Departure"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/wizard/travel_document_scan.py:0
+msgid ""
+"Confirm that the passenger consents to the processing of his personal data."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/models/sale_order.py:0
+msgid "Confirm the booking before invoicing the deposit."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_trip__state__confirmed
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_booking_view_search
+msgid "Confirmed"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_document_scan__consent
+msgid "Consent"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model,name:odossey_travel.model_res_partner
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_document_scan__partner_id
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_passenger_view_form
+msgid "Contact"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.actions.act_window,help:odossey_travel.travel_partner_birthday_action
+msgid ""
+"Contacts with a birthdate receive an automatic greeting email on their "
+"birthday."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__coordinator_id
+msgid "Coordinator"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_document_scan__dni_ejemplar
+msgid "Copy"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip_component__cost_unit
+msgid "Cost"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__cost_per_person
+msgid "Cost per Person"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_profitability_report_view_search
+msgid "Costs"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_trip__fixed_cost
+msgid ""
+"Costs of the trip that do not depend on the number of passengers "
+"(coordinator, bus, marketing...). Used in the forecast."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__country_id
+msgid "Country"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_group_view_form
+msgid "Create Bookings"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_document_scan_view_form
+msgid "Create Contact"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_group_view_form
+msgid "Create Invoices"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.actions.act_window,help:odossey_travel.travel_booking_action
+msgid "Create a booking"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.actions.act_window,help:odossey_travel.travel_group_action
+msgid "Create a travel group"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.actions.act_window,help:odossey_travel.travel_crm_lead_action
+msgid "Create a travel opportunity"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.actions.act_window,help:odossey_travel.travel_product_action
+msgid "Create a travel service"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
+msgid ""
+"Create sample trips, a family group and a group of friends to try the "
+"application."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.actions.act_window,help:odossey_travel.travel_trip_action
+msgid "Create your first trip"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__create_uid
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_booking_cancel__create_uid
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_cancellation_policy__create_uid
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_cancellation_rule__create_uid
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_document_scan__create_uid
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__create_uid
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__create_uid
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__create_uid
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip_component__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__create_date
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_booking_cancel__create_date
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_cancellation_policy__create_date
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_cancellation_rule__create_date
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_document_scan__create_date
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__create_date
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__create_date
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__create_date
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip_component__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_booking_cancel__currency_id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_forecast_report__currency_id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__currency_id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_profitability_report__currency_id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__currency_id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip_component__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_group__currency_id
+#: model:ir.model.fields,help:odossey_travel.field_travel_trip__currency_id
+#: model:ir.model.fields,help:odossey_travel.field_travel_trip_component__currency_id
+msgid ""
+"Currency in which the trip is quoted and sold (e.g. USD for international "
+"trips)."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_forecast_report__partner_id
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_booking_view_search
+msgid "Customer"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.actions.act_window,name:odossey_travel.travel_invoice_action
+#: model:ir.ui.menu,name:odossey_travel.menu_travel_invoices
+msgid "Customer Invoices"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_document_scan__dni_number
+msgid "DNI"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_partner__dni_ejemplar
+#: model:ir.model.fields,field_description:odossey_travel.field_res_users__dni_ejemplar
+msgid "DNI Copy"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_partner__dni_tramite
+#: model:ir.model.fields,field_description:odossey_travel.field_res_users__dni_tramite
+msgid "DNI Procedure Number"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_document_scan__input_type__dni
+msgid "DNI barcode"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_document_scan__doc_type__dni_new
+msgid "DNI card (PDF417)"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_document_scan__doc_type__dni_old
+msgid "DNI card, 2009-2012 model (PDF417)"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_profitability_report__date
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_profitability_report_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "Date"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Dates"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_booking_cancel__days_before
+msgid "Days Before Departure"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_activity_view_search
+msgid "Deadlines"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
+msgid "Default birthday template"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_trip_component__tax_ids
+msgid "Default taxes used when selling the product"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.actions.act_window,help:odossey_travel.travel_trip_action
+msgid ""
+"Define the destination, dates, capacity and the services of the trip, then link the\n"
+"                bookings of your customers to it."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
+msgid "Demo"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order__travel_date_start
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_forecast_report__date_departure
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__date_start
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__date_start
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_forecast_report_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_search
+msgid "Departure"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_forecast_report_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_search
+msgid "Departure Month"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_forecast_report__deposit_required
+msgid "Deposit"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__deposit_percent
+msgid "Deposit (%)"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Deposit (price freeze)"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_booking_cancel__deposit_paid
+msgid "Deposit Paid"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__sale_order__travel_booking_state__pending
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_forecast_report__booking_state__pending
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_booking_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_passenger_view_search
+msgid "Deposit Pending"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order__travel_deposit_required
+msgid "Deposit Required"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__deposit_type
+msgid "Deposit Type"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.sale_order_view_form_travel
+msgid "Deposit pending: the price is frozen once"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__deposit_amount
+msgid "Deposit per Passenger"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_sale_order__travel_deposit_required
+msgid "Deposit the customer must pay to freeze the price of the trip."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "Deposit to freeze the price"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__description
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip_component__name
+msgid "Description"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_crm_lead__travel_destination
+msgid "Desired Destination"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__destination
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_search
+msgid "Destination"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_crm_lead__travel_destination
+msgid "Destination requested by the customer when no trip is defined yet."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_activity_view_form
+msgid "Details, meeting point, what to bring..."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_document_scan__doc_type
+msgid "Detected Document"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_partner__travel_dietary_notes
+#: model:ir.model.fields,field_description:odossey_travel.field_res_users__travel_dietary_notes
+msgid "Dietary Restrictions"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_booking_cancel_view_form
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_document_scan_view_form
+msgid "Discard"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_account_move__display_name
+#: model:ir.model.fields,field_description:odossey_travel.field_crm_lead__display_name
+#: model:ir.model.fields,field_description:odossey_travel.field_product_template__display_name
+#: model:ir.model.fields,field_description:odossey_travel.field_res_company__display_name
+#: model:ir.model.fields,field_description:odossey_travel.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:odossey_travel.field_res_partner__display_name
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order__display_name
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order_line__display_name
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__display_name
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_booking_cancel__display_name
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_cancellation_policy__display_name
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_cancellation_rule__display_name
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_document_scan__display_name
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_forecast_report__display_name
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__display_name
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__display_name
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_profitability_report__display_name
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__display_name
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip_component__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_res_partner__travel_birthday_optout
+#: model:ir.model.fields,help:odossey_travel.field_res_users__travel_birthday_optout
+msgid "Do not send the automatic birthday greeting to this contact."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_document_scan__input_type
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_document_scan_view_form
+msgid "Document"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order__travel_document_warning
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__document_warning_count
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_passenger_view_search
+msgid "Document Issues"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__document_state
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_activity__activity_type__document
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_passenger_view_form
+msgid "Documents"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_passenger__room_type__double
+msgid "Double"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__duration
+msgid "Duration (hours)"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
+msgid "Edit Email Template"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_res_partner__dni_ejemplar
+#: model:ir.model.fields,help:odossey_travel.field_res_users__dni_ejemplar
+msgid "Ejemplar (A, B, C...) of the DNI card."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_document_scan__doc_type__dni_electronic
+msgid "Electronic DNI (QR)"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid ""
+"Electronic DNI (unofficial format): gender is not encoded; digital signature"
+" discarded."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__email
+msgid "Email"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_partner_view_form_travel
+msgid "Emergency & Health"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_partner__emergency_contact_name
+#: model:ir.model.fields,field_description:odossey_travel.field_res_users__emergency_contact_name
+msgid "Emergency Contact"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_partner__emergency_contact_phone
+#: model:ir.model.fields,field_description:odossey_travel.field_res_users__emergency_contact_phone
+msgid "Emergency Phone"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__stop
+msgid "End"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
+msgid ""
+"Estimated card / bank / payment gateway fees on the gross invoiced amount."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_res_company__travel_cancel_rate_deposit
+#: model:ir.model.fields,help:odossey_travel.field_res_config_settings__travel_cancel_rate_deposit
+msgid ""
+"Estimated probability (%) that a booking with the deposit paid (price "
+"frozen) gets cancelled."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_res_company__travel_cancel_rate_pending
+#: model:ir.model.fields,help:odossey_travel.field_res_config_settings__travel_cancel_rate_pending
+msgid ""
+"Estimated probability (%) that a confirmed booking whose deposit is not paid"
+" yet gets cancelled."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_res_company__travel_cancel_rate_paid
+#: model:ir.model.fields,help:odossey_travel.field_res_config_settings__travel_cancel_rate_paid
+msgid "Estimated probability (%) that a fully paid booking gets cancelled."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_res_company__travel_quotation_win_rate
+#: model:ir.model.fields,help:odossey_travel.field_res_config_settings__travel_quotation_win_rate
+msgid ""
+"Estimated probability (%) that an open travel quotation becomes a booking."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
+msgid ""
+"Estimated probability of cancellation of a booking according to its status."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_res_company__travel_payment_fee_rate
+#: model:ir.model.fields,help:odossey_travel.field_res_config_settings__travel_payment_fee_rate
+msgid ""
+"Estimated rate (%) of card/bank/payment gateway fees applied to the gross "
+"amount invoiced. Leave 0 if fees are recorded as vendor bills."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.actions.act_window,help:odossey_travel.travel_activity_action
+msgid ""
+"Every trip and every activity of its passengers (flights, lodging, excursions,\n"
+"                deadlines...) appears in this calendar."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__product_template__travel_service_type__excursion
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_activity__activity_type__excursion
+msgid "Excursion"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__includes_excursions
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_activity_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "Excursions"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_document_scan__partner_id
+msgid ""
+"Existing contact that will be completed. Leave empty to create a new "
+"contact."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_forecast_report__expected_margin
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__expected_margin
+msgid "Expected Margin"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_forecast_report__expected_net_revenue
+msgid "Expected Net Revenue"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_crm_lead__travel_pax_count
+msgid "Expected Passengers"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_forecast_report__expected_revenue
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__expected_revenue
+msgid "Expected Revenue"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_forecast_report__expected_cost
+msgid "Expected Supplier Cost"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.actions.act_window,help:odossey_travel.travel_forecast_report_action
+msgid ""
+"Expected revenue = total × (1 − cancellation probability) + deposit paid × cancellation\n"
+"                probability. The probabilities per booking status are configured in the settings."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_forecast_report__expected_net_revenue
+msgid "Expected revenue without taxes."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_document_scan__expiry_date
+msgid "Expiry Date"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid "Expiry date in the barcode could not be read."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_group_view_search
+msgid "Families"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_group__group_type__family
+msgid "Family (single payer)"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_group_view_form
+msgid ""
+"Family: one booking for the leader with all the members. Friends: one "
+"booking per member."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_group_view_form
+msgid ""
+"Family: one invoice for the leader. Friends: one invoice per member, all "
+"linked to the group."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_profitability_report__fee_amount
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__profit_fee
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_profitability_report__line_kind__fee
+#: model_terms:ir.ui.view,arch_db:odossey_travel.report_travel_profitability
+msgid "Fees"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__res_partner__gender__female
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_document_scan__gender__female
+msgid "Female"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "File number"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "Final price per person"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Financial Summary"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_document_scan__first_names
+msgid "First Names"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__fixed_cost
+msgid "Fixed Costs"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_trip__deposit_type__fixed
+msgid "Fixed amount per passenger"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__product_template__travel_service_type__flight
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_activity__activity_type__flight
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_activity_view_form
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "Flight"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__flight_number
+msgid "Flight Number"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__includes_flight
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_activity_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "Flights"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.actions.act_window,help:odossey_travel.travel_product_action
+msgid ""
+"Flights, lodging, ground services, agency commission... Set the right VAT on each\n"
+"                service (exempt, untaxed or 21%) so that invoices are built as ARCA expects."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__message_follower_ids
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__message_partner_ids
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_trip__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_group__leader_id
+msgid ""
+"For family groups, the person who pays and receives the invoice. For friends"
+" groups, the contact person of the group."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Forecast"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_group_view_search
+msgid "Friends"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_group__group_type__friends
+msgid "Friends (each one pays)"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order__travel_frozen_date
+msgid "Frozen On"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_activity__board_basis__full_board
+msgid "Full Board"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__sale_order__travel_booking_state__paid
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_forecast_report__booking_state__paid
+msgid "Fully Paid"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_partner__gender
+#: model:ir.model.fields,field_description:odossey_travel.field_res_users__gender
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_document_scan__gender
+msgid "Gender"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_profitability_report__iibb_amount
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__profit_iibb
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
+msgid "Gross Income Tax (IIBB)"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_profitability_report__gross_amount
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__profit_gross
+#: model_terms:ir.ui.view,arch_db:odossey_travel.report_travel_profitability
+msgid "Gross Invoiced"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.actions.act_window,help:odossey_travel.travel_profitability_report_action
+msgid ""
+"Gross invoiced − VAT − perceptions = net revenue; net revenue − supplier costs − fees −\n"
+"                gross income tax (IIBB) = net profit. Print the PDF from the trips list."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__product_template__travel_service_type__ground
+msgid "Ground Services"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_forecast_report__travel_group_id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__name
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__group_id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_profitability_report__travel_group_id
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_passenger_view_search
+msgid "Group"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__group_ids
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Groups"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__group_count
+msgid "Groups Count"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_activity__board_basis__half_board
+msgid "Half Board"
+msgstr ""
+
+#. module: odossey_travel
+#: model:mail.template,subject:odossey_travel.mail_template_birthday
+msgid "Happy birthday, {{ object.name }}!"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__has_message
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Highlights of the trip, recommended excursions..."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_config_settings__travel_historical_cancel_rate
+msgid "Historical Cancellation Rate (%)"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_account_move__id
+#: model:ir.model.fields,field_description:odossey_travel.field_crm_lead__id
+#: model:ir.model.fields,field_description:odossey_travel.field_product_template__id
+#: model:ir.model.fields,field_description:odossey_travel.field_res_company__id
+#: model:ir.model.fields,field_description:odossey_travel.field_res_config_settings__id
+#: model:ir.model.fields,field_description:odossey_travel.field_res_partner__id
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order__id
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order_line__id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_booking_cancel__id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_cancellation_policy__id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_cancellation_rule__id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_document_scan__id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_forecast_report__id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_profitability_report__id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip_component__id
+msgid "ID"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_passenger__document_state__missing_id
+msgid "ID Missing"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__vat
+msgid "ID Number"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_document_scan__doc_type__mrz_td1
+msgid "ID card back side (MRZ)"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.report_travel_profitability
+msgid "IIBB"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_company__travel_iibb_rate
+#: model:ir.model.fields,field_description:odossey_travel.field_res_config_settings__travel_iibb_rate
+msgid "IIBB Rate (%)"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_company__travel_iibb_base
+#: model:ir.model.fields,field_description:odossey_travel.field_res_config_settings__travel_iibb_base
+msgid "IIBB Taxable Base"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_trip__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_passenger__vat
+msgid "Identification Number for selected type"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_group__message_needaction
+#: model:ir.model.fields,help:odossey_travel.field_travel_trip__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_group__message_has_error
+#: model:ir.model.fields,help:odossey_travel.field_travel_group__message_has_sms_error
+#: model:ir.model.fields,help:odossey_travel.field_travel_trip__message_has_error
+#: model:ir.model.fields,help:odossey_travel.field_travel_trip__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_cancellation_policy__deposit_refundable
+msgid ""
+"If unchecked, the deposit is always retained when the passenger cancels."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_trip_component__per_passenger
+msgid "If unchecked, the service is invoiced once per booking."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__image_1920
+msgid "Image"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__image_1024
+msgid "Image 1024"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__image_128
+msgid "Image 128"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__image_256
+msgid "Image 256"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__image_512
+msgid "Image 512"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "Important"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_company__travel_forecast_include_quotations
+#: model:ir.model.fields,field_description:odossey_travel.field_res_config_settings__travel_forecast_include_quotations
+msgid "Include Quotations in Forecast"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Included"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_passenger__passenger_type__infant
+msgid "Infant"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_trip__trip_type__international
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_search
+msgid "International"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_passenger__document_state
+msgid ""
+"International trips require a passport valid the configured number of months"
+" after the return date. National trips require an ID number."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid "Invalid %(label)s date %(value)r in the document (expected dd/mm/yy)."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid ""
+"Invalid %(label)s date %(value)r in the document (expected dd/mm/yyyy)."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid "Invalid %(label)s date in the MRZ."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid "Invalid %(label)s date in the document."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid ""
+"Invalid MRZ line length: %(length)s characters found, %(width)s expected."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.sale_order_view_form_travel
+msgid "Invoice Deposit"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__res_company__travel_invoice_service_dates__invoice
+msgid "Invoice month (standard)"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.sale_order_view_form_travel
+msgid "Invoice the deposit that freezes the price of the trip."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_group_view_form
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Invoices"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__invoice_count
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__invoice_count
+msgid "Invoices Count"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.actions.act_window,help:odossey_travel.travel_invoice_action
+msgid ""
+"Invoices created from bookings are linked to their trip and travel group."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.ui.menu,name:odossey_travel.menu_travel_accounting
+msgid "Invoicing"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__message_is_follower
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__is_trip
+msgid "Is Trip"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_document_scan__issue_date
+msgid "Issue Date"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/wizard/travel_booking_cancel.py:0
+msgid "Issue the credit note and the refund of the cancelled booking."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_document_scan__passport_country_id
+msgid "Issuing Country"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__activity_line_ids
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_activity_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Itinerary"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.ui.menu,name:odossey_travel.menu_travel_itinerary
+msgid "Itinerary Activities"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model,name:odossey_travel.model_account_move
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_profitability_report__move_id
+msgid "Journal Entry"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_profitability_report__line_kind
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_profitability_report_view_search
+msgid "Kind"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_partner__travel_birthday_last_sent
+#: model:ir.model.fields,field_description:odossey_travel.field_res_users__travel_birthday_last_sent
+msgid "Last Birthday Email"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_document_scan__last_name
+msgid "Last Name"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__write_uid
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_booking_cancel__write_uid
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_cancellation_policy__write_uid
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_cancellation_rule__write_uid
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_document_scan__write_uid
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__write_uid
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__write_uid
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__write_uid
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip_component__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__write_date
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_booking_cancel__write_date
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_cancellation_policy__write_date
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_cancellation_rule__write_date
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_document_scan__write_date
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__write_date
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__write_date
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__write_date
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip_component__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model,name:odossey_travel.model_crm_lead
+msgid "Lead"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__leader_id
+msgid "Leader / Payer"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.actions.act_window,help:odossey_travel.travel_bill_action
+msgid ""
+"Link the bills of hotels, airlines and operators to the trip to compute its "
+"net profitability."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
+msgid "Load Demo Data"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.sale_order_view_form_travel
+msgid "Load Trip Services"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__location
+msgid "Location"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__includes_lodging
+#: model:ir.model.fields.selection,name:odossey_travel.selection__product_template__travel_service_type__lodging
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_activity__activity_type__lodging
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_activity_view_form
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_activity_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "Lodging"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.ui.menu,name:odossey_travel.menu_travel_lost_reasons
+msgid "Lost Reasons"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid ""
+"MRZ check digit failed for the %(label)s. Please scan the document again."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid "MRZ check digit failed for the optional data field."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__res_partner__gender__male
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_document_scan__gender__male
+msgid "Male"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
+msgid "Manage Policies"
+msgstr ""
+
+#. module: odossey_travel
+#: model:res.groups,name:odossey_travel.group_travel_manager
+msgid "Manager"
+msgstr ""
+
+#. module: odossey_travel
+#: model:res.groups,comment:odossey_travel.group_travel_user
+msgid "Manages trips, bookings, groups and passengers."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.report_travel_profitability
+msgid "Margin"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__res_company__travel_iibb_base__margin
+msgid "Margin (revenue - supplier costs)"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__margin_per_person
+msgid "Margin per Person"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_trip__capacity
+msgid "Maximum number of passengers (0 = unlimited)."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_partner__travel_medical_notes
+#: model:ir.model.fields,field_description:odossey_travel.field_res_users__travel_medical_notes
+msgid "Medical Notes"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_activity__activity_type__meeting
+msgid "Meeting"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_group_view_search
+msgid "Member"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__member_ids
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_group_view_form
+msgid "Members"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__member_count
+msgid "Members Count"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__message_has_error
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__message_ids
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_search
+msgid "Minimum Not Reached"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__min_pax
+msgid "Minimum Passengers"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__min_pax_reached
+msgid "Minimum Reached"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_trip__min_pax
+msgid "Minimum number of passengers for the trip to take place."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_profitability_report_view_search
+msgid "Month"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_booking_view_search
+msgid "My Bookings"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_activity_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_search
+msgid "My Trips"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_cancellation_policy__name
+msgid "Name"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_trip__trip_type__national
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_search
+msgid "National"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_partner__nationality_id
+#: model:ir.model.fields,field_description:odossey_travel.field_res_users__nationality_id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_document_scan__nationality_id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__nationality_id
+msgid "Nationality"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__profit_margin
+msgid "Net Margin (%)"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_profitability_report__net_amount
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__profit_net
+#: model_terms:ir.ui.view,arch_db:odossey_travel.report_travel_profitability
+msgid "Net Profit"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.actions.act_window,name:odossey_travel.travel_profitability_report_action
+#: model:ir.actions.report,name:odossey_travel.action_report_travel_profitability
+#: model:ir.ui.menu,name:odossey_travel.menu_travel_report_profitability
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_profitability_report_view_graph
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_profitability_report_view_list
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_profitability_report_view_pivot
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_profitability_report_view_search
+msgid "Net Profitability"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Net Profitability (posted entries)"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.report_travel_profitability
+msgid "Net Profitability of the Trips"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_profitability_report__revenue_amount
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__profit_revenue
+#: model_terms:ir.ui.view,arch_db:odossey_travel.report_travel_profitability
+msgid "Net Revenue"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__res_company__travel_iibb_base__revenue
+msgid "Net revenue"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.report_travel_profitability
+msgid ""
+"Net revenue = gross invoiced − VAT − perceptions − other taxes (collected on behalf of\n"
+"                        the tax authorities). Net profit = net revenue − supplier costs − fees − IIBB."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "New Booking"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_document_scan_view_form
+msgid "New contact"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__nights
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "Nights"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_partner__travel_birthday_optout
+#: model:ir.model.fields,field_description:odossey_travel.field_res_users__travel_birthday_optout
+msgid "No Birthday Email"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.actions.act_window,help:odossey_travel.travel_partner_birthday_action
+msgid "No birthdays this month"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.actions.act_window,help:odossey_travel.travel_forecast_report_action
+msgid "No bookings to forecast yet"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.actions.act_window,help:odossey_travel.travel_crm_won_lost_action
+msgid "No closed opportunities yet"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid "No document data was received from the scanner."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.actions.act_window,help:odossey_travel.travel_passenger_action
+msgid "No passengers yet"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.actions.act_window,help:odossey_travel.travel_profitability_report_action
+msgid "No posted entries linked to trips yet"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.actions.act_window,help:odossey_travel.travel_invoice_action
+msgid "No travel invoices yet"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__not_included
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Not Included"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/models/sale_order.py:0
+msgid ""
+"Not enough seats left on %(trip)s: %(free)s available, %(pax)s requested."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "Not included"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__note
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__note
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__notes
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_group_view_form
+msgid "Notes"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__message_needaction_counter
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__message_has_error_counter
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_group__message_needaction_counter
+#: model:ir.model.fields,help:odossey_travel.field_travel_trip__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_group__message_has_error_counter
+#: model:ir.model.fields,help:odossey_travel.field_travel_trip__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_res_partner__dni_tramite
+#: model:ir.model.fields,help:odossey_travel.field_res_users__dni_tramite
+msgid "Número de trámite printed on the Argentine DNI card."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_passenger__document_state__ok
+msgid "OK"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.actions.act_window,name:odossey_travel.travel_trip_occupancy_action
+#: model:ir.ui.menu,name:odossey_travel.menu_travel_report_occupancy
+msgid "Occupancy"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__occupancy_rate
+msgid "Occupancy (%)"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_trip__state__open
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_search
+msgid "On Sale"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Open Sales"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
+msgid "Operations"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.actions.act_window,name:odossey_travel.travel_crm_lead_action
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__lead_ids
+#: model:ir.ui.menu,name:odossey_travel.menu_travel_opportunities
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Opportunities"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__lead_count
+msgid "Opportunities Count"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__product_template__travel_service_type__other
+#: model:ir.model.fields.selection,name:odossey_travel.selection__res_partner__gender__other
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_activity__activity_type__other
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_document_scan__gender__other
+msgid "Other"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_profitability_report__other_tax_amount
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__profit_other_tax
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_profitability_report__line_kind__other_tax
+#: model_terms:ir.ui.view,arch_db:odossey_travel.report_travel_profitability
+msgid "Other Taxes"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/wizard/travel_booking_cancel.py:0
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order__travel_amount_paid
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_booking_cancel__amount_paid
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__amount_paid
+msgid "Paid"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_document_scan__parse_error
+msgid "Parse Error"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_document_scan__parse_warnings
+msgid "Parse Warnings"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_booking_cancel__amount_owed
+msgid "Part of the penalty not covered by the payments already received."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__passenger_partner_ids
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_activity_view_form
+msgid "Participants"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__participant_count
+msgid "Participants Count"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_profitability_report__partner_id
+msgid "Partner"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__partner_id
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_activity_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_booking_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_passenger_view_form
+msgid "Passenger"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.actions.act_window,name:odossey_travel.travel_passenger_action
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order__travel_passenger_ids
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__partner_ids
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_forecast_report__pax_count
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__passenger_ids
+#: model_terms:ir.ui.view,arch_db:odossey_travel.sale_order_view_form_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_activity_view_form
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_passenger_view_list
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_passenger_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Passengers"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order__travel_pax_count
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__passenger_count
+msgid "Passengers Count"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.actions.act_window,help:odossey_travel.travel_passenger_action
+msgid "Passengers are added on the bookings (sale orders) of the trips."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.ui.menu,name:odossey_travel.menu_travel_passengers
+msgid "Passengers by Trip"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_activity__partner_ids
+msgid "Passengers concerned when not all passengers take part."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_passenger__room_number
+msgid "Passengers sharing a room get the same rooming group."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_trip__document_warning_count
+msgid "Passengers with missing or expiring passport for this trip."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_partner_view_form_travel
+msgid "Passport"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_document_scan__doc_type__mrz_td3
+msgid "Passport (MRZ)"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_document_scan__input_type__mrz
+msgid "Passport / MRZ"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_partner__passport_expired
+#: model:ir.model.fields,field_description:odossey_travel.field_res_users__passport_expired
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_partner_view_search_travel
+msgid "Passport Expired"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_passenger__document_state__expiring
+msgid "Passport Expiring"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_partner__passport_expiry_date
+#: model:ir.model.fields,field_description:odossey_travel.field_res_users__passport_expiry_date
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__passport_expiry_date
+msgid "Passport Expiry Date"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_partner__passport_issue_date
+#: model:ir.model.fields,field_description:odossey_travel.field_res_users__passport_issue_date
+msgid "Passport Issue Date"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_partner__passport_country_id
+#: model:ir.model.fields,field_description:odossey_travel.field_res_users__passport_country_id
+msgid "Passport Issuing Country"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_passenger__document_state__missing
+msgid "Passport Missing"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_partner__passport_number
+#: model:ir.model.fields,field_description:odossey_travel.field_res_users__passport_number
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_document_scan__passport_number
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__passport_number
+msgid "Passport Number"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_company__travel_passport_validity_months
+#: model:ir.model.fields,field_description:odossey_travel.field_res_config_settings__travel_passport_validity_months
+msgid "Passport Validity After Return (months)"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_res_company__travel_passport_validity_months
+#: model:ir.model.fields,help:odossey_travel.field_res_config_settings__travel_passport_validity_months
+msgid ""
+"Passports must be valid at least this number of months after the return date"
+" of international trips."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
+msgid ""
+"Passports must be valid this number of months after the return of "
+"international trips."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_forecast_report_view_search
+msgid "Past Departures"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__payer_id
+msgid "Payer"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__product_template__travel_service_type__fee
+msgid "Payment / Bank Fees"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_activity__activity_type__payment
+msgid "Payment Deadline"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
+msgid "Payment Fees"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_company__travel_payment_fee_rate
+#: model:ir.model.fields,field_description:odossey_travel.field_res_config_settings__travel_payment_fee_rate
+msgid "Payment Fees Rate (%)"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.sale_order_view_form_travel
+msgid "Payments"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Payments & Cancellation"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
+msgid "Penalties applied when a passenger cancels."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_booking_cancel__penalty_percent
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_cancellation_rule__penalty_percent
+msgid "Penalty (%)"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_booking_cancel__penalty_amount
+msgid "Penalty Retained"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/wizard/travel_booking_cancel.py:0
+msgid "Penalty retained"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_forecast_report__amount_due
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__amount_due
+msgid "Pending Balance"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip_component__per_passenger
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Per Passenger"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_trip__deposit_type__percent
+msgid "Percentage"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_profitability_report__line_kind__perception
+msgid "Perception"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_profitability_report__perception_amount
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__profit_perception
+#: model_terms:ir.ui.view,arch_db:odossey_travel.report_travel_profitability
+msgid "Perceptions"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_document_scan_view_form
+msgid "Person"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_partner_view_form_travel
+msgid "Personal Data"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/wizard/travel_document_scan.py:0
+msgid ""
+"Personal data loaded from the %s (consent of the passenger recorded by %s)."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__phone
+msgid "Phone"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.actions.act_window,help:odossey_travel.travel_activity_action
+msgid "Plan your first trip"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_trip__state__draft
+msgid "Planning"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_booking_cancel__policy_id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_cancellation_rule__policy_id
+msgid "Policy"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.report_travel_profitability
+msgid "Posted accounting entries linked to the trips, in"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order__travel_price_frozen
+#: model:ir.model.fields.selection,name:odossey_travel.selection__sale_order__travel_booking_state__deposit
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_forecast_report__booking_state__deposit
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_booking_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_passenger_view_search
+msgid "Price Frozen"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.sale_order_view_form_travel
+msgid "Price frozen on"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__price_per_person
+msgid "Price per Person"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__pricelist_id
+msgid "Pricelist"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_trip__pricelist_id
+msgid "Pricelist used on the bookings. It must use the trip currency."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Print Quotation"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_document_scan__dni_tramite
+msgid "Procedure Number"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model,name:odossey_travel.model_product_template
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_profitability_report__product_id
+msgid "Product"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
+msgid ""
+"Provincial tax paid by the agency. It is not on invoices: it is estimated in"
+" the net profitability report."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_passenger__room_type__quadruple
+msgid "Quadruple"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__sale_order__travel_booking_state__quotation
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_forecast_report__booking_state__quotation
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Quotation"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_company__travel_quotation_conditions
+msgid "Quotation Conditions"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__quotation_validity_hours
+msgid "Quotation Validity (hours)"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_company__travel_quotation_win_rate
+#: model:ir.model.fields,field_description:odossey_travel.field_res_config_settings__travel_quotation_win_rate
+msgid "Quotation Win Rate (%)"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "Quotation valid for"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_booking_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_forecast_report_view_search
+msgid "Quotations"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__seats_quoted
+msgid "Quoted Seats"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_res_company__travel_iibb_rate
+#: model:ir.model.fields,help:odossey_travel.field_res_config_settings__travel_iibb_rate
+msgid ""
+"Rate (%) of the provincial gross income tax (Ingresos Brutos) used to "
+"estimate the tax in the net profitability report. It is not shown on "
+"invoices."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/wizard/travel_booking_cancel.py:0
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_booking_cancel__reason
+msgid "Reason"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "Recommended Excursions"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.actions.act_window,help:odossey_travel.travel_bill_action
+msgid "Record a supplier bill"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__code
+msgid "Reference"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/wizard/travel_booking_cancel.py:0
+msgid "Refund %s to the customer"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_cancellation_policy__deposit_refundable
+msgid "Refundable Deposit"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_res_company__travel_file_number
+#: model:ir.model.fields,help:odossey_travel.field_res_config_settings__travel_file_number
+msgid ""
+"Registration number (legajo) of the travel agency in the national registry "
+"(Law 18.829). Printed on quotations."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
+msgid "Registration number of the agency (Law 18.829), printed on quotations."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.ui.menu,name:odossey_travel.menu_travel_reporting
+msgid "Reporting"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Reset to Planning"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__user_id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__user_id
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_search
+msgid "Responsible"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order__travel_penalty_amount
+msgid "Retained Penalty"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order__travel_date_end
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__date_end
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__date_end
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "Return"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_profitability_report__line_kind__revenue
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_profitability_report_view_search
+msgid "Revenue"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.actions.act_window,name:odossey_travel.travel_forecast_report_action
+#: model:ir.ui.menu,name:odossey_travel.menu_travel_report_forecast
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_forecast_report_view_graph
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_forecast_report_view_list
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_forecast_report_view_pivot
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_forecast_report_view_search
+msgid "Revenue Forecast"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__room_type
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_passenger_view_search
+msgid "Room"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_activity__board_basis__room_only
+msgid "Room Only"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__room_number
+msgid "Rooming Group"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__route
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "Route"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_cancellation_policy__rule_ids
+msgid "Rules"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__message_has_sms_error
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip_component__price_unit
+msgid "Sale Price"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_trip__price_per_person
+msgid ""
+"Sale price per passenger (sum of the services, taxes included as defined on "
+"each service product)."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_trip_component__price_unit
+msgid "Sale price per passenger."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.ui.menu,name:odossey_travel.menu_travel_sales
+msgid "Sales"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model,name:odossey_travel.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model,name:odossey_travel.model_sale_order_line
+msgid "Sales Order Line"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_forecast_report__user_id
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_forecast_report_view_search
+msgid "Salesperson"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.actions.act_window,name:odossey_travel.travel_document_scan_action
+#: model:ir.ui.menu,name:odossey_travel.menu_travel_scan
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_partner_view_form_travel
+msgid "Scan DNI / Passport"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.sale_order_view_form_travel
+msgid "Scan Document"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/wizard/travel_document_scan.py:0
+#: model:ir.model,name:odossey_travel.model_travel_document_scan
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_document_scan_view_form
+msgid "Scan Identity Document"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/wizard/travel_document_scan.py:0
+msgid "Scan a document first."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-javascript
+#: code:addons/odossey_travel/static/src/scan/scan_input_field.xml:0
+msgid "Scan the DNI barcode or paste the passport MRZ..."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_document_scan_view_form
+msgid ""
+"Scan the barcode (PDF417) on the front of the DNI with a 2D scanner or the camera,\n"
+"                    or paste the lines at the bottom of the passport (MRZ)."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_document_scan__raw_data
+msgid ""
+"Scan the barcode of the DNI with a 2D scanner (keyboard mode), use the "
+"camera or paste the 2 or 3 lines of the MRZ of the passport."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_document_scan__raw_data
+msgid "Scanned Data"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
+msgid "Scheduled Action"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "See passengers"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_company__travel_birthday_enabled
+#: model:ir.model.fields,field_description:odossey_travel.field_res_config_settings__travel_birthday_enabled
+msgid "Send Birthday Emails"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
+msgid ""
+"Send a greeting email to the contacts on their birthday (daily scheduled "
+"action)."
+msgstr ""
+
+#. module: odossey_travel
+#: model:mail.template,description:odossey_travel.mail_template_birthday
+msgid "Sent automatically to contacts on their birthday"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_cancellation_policy__sequence
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__sequence
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip_component__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip_component__product_id
+msgid "Service"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_res_company__travel_invoice_service_dates
+#: model:ir.model.fields,help:odossey_travel.field_res_config_settings__travel_invoice_service_dates
+msgid ""
+"Service period informed to ARCA (concept Services) on invoices created from "
+"bookings."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
+msgid "Service period informed to ARCA on invoices created from bookings."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__component_ids
+msgid "Services"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Services & Prices"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.actions.act_window,name:odossey_travel.travel_config_settings_action
+#: model:ir.ui.menu,name:odossey_travel.menu_travel_settings
+msgid "Settings"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_passenger__room_type__shared
+msgid "Shared (assigned)"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_passenger__room_type__single
+msgid "Single"
+msgstr ""
+
+#. module: odossey_travel
+#: model:travel.cancellation.policy,name:odossey_travel.cancellation_policy_standard
+msgid "Standard group trip"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__start
+msgid "Start"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__state
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_passenger_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_search
+msgid "Status"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_trip__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__stops
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "Stops"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__supplier_id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip_component__supplier_id
+msgid "Supplier"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_profitability_report__line_kind__cost
+msgid "Supplier Cost"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.actions.act_window,name:odossey_travel.travel_bill_action
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_profitability_report__cost_amount
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__profit_cost
+#: model:ir.ui.menu,name:odossey_travel.menu_travel_bills
+#: model_terms:ir.ui.view,arch_db:odossey_travel.report_travel_profitability
+msgid "Supplier Costs"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_trip_component__cost_unit
+msgid "Supplier cost per passenger."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "THIS IS A QUOTATION - NO BOOKING IS MADE UNTIL THE DEPOSIT IS PAID"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip_component__tax_ids
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_profitability_report_view_search
+msgid "Taxes"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid "The DNI number could not be read from the barcode."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid "The MRZ contains invalid characters (only A-Z, 0-9 and '<' allowed)."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid "The MRZ document code is not a passport code."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid ""
+"The MRZ must have 2 lines of 44 characters (passport) or 3 lines of 30 "
+"characters (ID card)."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_activity__all_passengers
+msgid "The activity concerns every passenger of the trip."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_trip__balance_due_days
+msgid "The balance must be fully paid this number of days before departure."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid ""
+"The barcode used '\"' instead of '@' as separator: the scanner keyboard "
+"layout probably does not match the system layout."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/wizard/travel_booking_cancel.py:0
+msgid "The booking is already cancelled."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_booking_cancel_view_form
+msgid ""
+"The booking will be cancelled and its seats released. The retained penalty remains\n"
+"                    in the revenue forecast. A to-do is created to issue the refund, if any."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-javascript
+#: code:addons/odossey_travel/static/src/scan/scan_input_field.js:0
+msgid "The camera could not be used."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/models/travel_demo.py:0
+msgid "The demo data is already loaded for %s."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/models/travel_demo.py:0
+msgid "The demo data needs a company with the Argentinian chart of accounts."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_sale_order__travel_price_frozen
+msgid "The deposit has been paid: the price of the booking is frozen."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:travel.cancellation.policy,note:odossey_travel.cancellation_policy_standard
+msgid ""
+"The deposit is not refundable. Cancellations: more than 60 days before "
+"departure, the deposit is retained; between 60 and 31 days, 60% of the "
+"total; between 30 and 8 days, 80%; 7 days or less and no-show, 100%. Law: "
+"Res. 256/2000 (Argentina)."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/models/travel_activity.py:0
+msgid "The end must be after the start."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/models/travel_trip.py:0
+msgid "The minimum number of passengers cannot exceed the capacity."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_document_scan_view_form
+msgid ""
+"The passenger consents to the processing of his personal data (Law 25.326)"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_document_scan__consent
+msgid ""
+"The passenger was informed and consents to the processing of his personal "
+"data for the management of the trip (Law 25.326)."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.constraint,message:odossey_travel.constraint_travel_cancellation_rule_penalty_range
+msgid "The penalty must be between 0 and 100%."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.constraint,message:odossey_travel.constraint_travel_trip_dates_check
+msgid "The return date must be after the departure date."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_cancellation_rule__days_before
+msgid ""
+"The rule applies when the cancellation happens this number of days before "
+"the departure or less."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid "The scanned barcode is not a recognised Argentine DNI format. %(hint)s"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid ""
+"The scanned data is neither an Argentine DNI barcode nor a passport/ID card "
+"MRZ. %(hint)s"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/models/sale_order.py:0
+msgid ""
+"The services of %s cannot be reloaded: the booking is confirmed and its "
+"price is frozen."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/models/sale_order.py:0
+msgid "The trip %s is %s: it cannot be booked."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/models/travel_trip.py:0
+msgid "There are no open quotations to update."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/models/travel_group.py:0
+msgid "There is nothing to invoice. Confirm the bookings of the group first."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.report_travel_quotation
+msgid "This order is not linked to a trip."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_forecast_report__amount_total
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__amount_total
+#: model_terms:ir.ui.view,arch_db:odossey_travel.report_travel_profitability
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_booking_view_list
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_forecast_report_view_list
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_group_view_form
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_profitability_report_view_list
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_list
+msgid "Total"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "Total:"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.actions.act_window,help:odossey_travel.travel_crm_lead_action
+msgid ""
+"Track the trips your prospects are interested in and turn them into "
+"bookings."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__product_template__travel_service_type__transfer
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_activity__activity_type__transfer
+msgid "Transfer"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__includes_transfer
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "Transfers"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.module.category,name:odossey_travel.module_category_travel
+#: model:ir.ui.menu,name:odossey_travel.menu_travel_root
+#: model:res.groups.privilege,name:odossey_travel.privilege_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.sale_order_view_form_travel
+msgid "Travel"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/models/travel_trip.py:0
+msgid "Travel %s"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_company__travel_file_number
+#: model:ir.model.fields,field_description:odossey_travel.field_res_config_settings__travel_file_number
+msgid "Travel Agency File Number"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__includes_assistance
+#: model:ir.model.fields.selection,name:odossey_travel.selection__product_template__travel_service_type__assistance
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "Travel Assistance"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.actions.act_window,name:odossey_travel.travel_activity_action
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_activity_view_calendar
+msgid "Travel Calendar"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model,name:odossey_travel.model_travel_cancellation_policy
+msgid "Travel Cancellation Policy"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model,name:odossey_travel.model_travel_cancellation_rule
+msgid "Travel Cancellation Rule"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model,name:odossey_travel.model_travel_group
+#: model:ir.model.fields,field_description:odossey_travel.field_account_bank_statement_line__travel_group_id
+#: model:ir.model.fields,field_description:odossey_travel.field_account_move__travel_group_id
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order__travel_group_id
+#: model_terms:ir.ui.view,arch_db:odossey_travel.account_move_view_search_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_booking_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_group_view_form
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_profitability_report_view_search
+msgid "Travel Group"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.actions.act_window,name:odossey_travel.travel_group_action
+#: model:ir.ui.menu,name:odossey_travel.menu_travel_groups
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_group_view_list
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_group_view_search
+msgid "Travel Groups"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model,name:odossey_travel.model_travel_profitability_report
+msgid "Travel Net Profitability"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.actions.report,name:odossey_travel.action_report_travel_quotation
+msgid "Travel Quotation"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model,name:odossey_travel.model_travel_forecast_report
+msgid "Travel Revenue Forecast"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_product_product__travel_service_type
+#: model:ir.model.fields,field_description:odossey_travel.field_product_template__travel_service_type
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip_component__service_type
+msgid "Travel Service Type"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.actions.act_window,name:odossey_travel.travel_product_action
+#: model:ir.ui.menu,name:odossey_travel.menu_travel_services
+msgid "Travel Services"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_res_company__travel_iibb_base
+#: model:ir.model.fields,help:odossey_travel.field_res_config_settings__travel_iibb_base
+msgid ""
+"Travel agencies acting as intermediaries usually pay IIBB on their margin or"
+" commission. Confirm the base with your accountant."
+msgstr ""
+
+#. module: odossey_travel
+#: model:mail.template,name:odossey_travel.mail_template_birthday
+msgid "Travel: Birthday Greetings"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.actions.server,name:odossey_travel.ir_cron_travel_birthday_ir_actions_server
+msgid "Travel: Send Birthday Emails"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_partner_view_form_travel
+msgid "Traveller"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.actions.act_window,name:odossey_travel.travel_partner_action
+#: model:ir.ui.menu,name:odossey_travel.menu_travel_partners
+#: model:ir.ui.menu,name:odossey_travel.menu_travel_travellers
+msgid "Travellers"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_group__member_ids
+msgid "Travellers of the group (include the leader if he travels too)."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model,name:odossey_travel.model_travel_trip
+#: model:ir.model.fields,field_description:odossey_travel.field_account_bank_statement_line__trip_id
+#: model:ir.model.fields,field_description:odossey_travel.field_account_move__trip_id
+#: model:ir.model.fields,field_description:odossey_travel.field_crm_lead__trip_id
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order__trip_id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__trip_id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_booking_cancel__trip_id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_forecast_report__trip_id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__trip_id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__trip_id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_profitability_report__trip_id
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__name
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip_component__trip_id
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_activity__activity_type__trip
+#: model_terms:ir.ui.view,arch_db:odossey_travel.account_move_view_search_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.crm_lead_view_search_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.report_travel_profitability
+#: model_terms:ir.ui.view,arch_db:odossey_travel.sale_order_view_form_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_activity_view_form
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_activity_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_booking_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_forecast_report_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_group_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_passenger_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_profitability_report_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_kanban
+msgid "Trip"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_activity_view_list
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_activity_view_search
+msgid "Trip Activities"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model,name:odossey_travel.model_travel_activity
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_activity_view_form
+msgid "Trip Activity"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_res_partner__travel_trip_count
+#: model:ir.model.fields,field_description:odossey_travel.field_res_users__travel_trip_count
+msgid "Trip Count"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "Trip Detail"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model,name:odossey_travel.model_travel_passenger
+msgid "Trip Passenger"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.actions.report,name:odossey_travel.action_report_travel_trip_quotation
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "Trip Quotation"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model,name:odossey_travel.model_travel_trip_component
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order_line__travel_component_id
+msgid "Trip Service"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_forecast_report__trip_state
+msgid "Trip Status"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__res_company__travel_invoice_service_dates__trip
+msgid "Trip dates"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_account_bank_statement_line__trip_id
+#: model:ir.model.fields,help:odossey_travel.field_account_move__trip_id
+msgid ""
+"Trip of the invoice. On vendor bills, it links the supplier costs to the "
+"trip for the net profitability report."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_passenger__room_type__triple
+msgid "Triple"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/models/travel_demo.py:0
+#: model:ir.actions.act_window,name:odossey_travel.travel_trip_action
+#: model:ir.model.fields,field_description:odossey_travel.field_res_partner__travel_passenger_ids
+#: model:ir.model.fields,field_description:odossey_travel.field_res_users__travel_passenger_ids
+#: model:ir.ui.menu,name:odossey_travel.menu_travel_trip
+#: model:ir.ui.menu,name:odossey_travel.menu_travel_trips
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_partner_view_form_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_activity_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_list
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_search
+msgid "Trips"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_graph
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_pivot
+msgid "Trips Occupancy"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_passenger__room_type__twin
+msgid "Twin"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order__travel_group_type
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__activity_type
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__group_type
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_passenger__passenger_type
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_profitability_report__move_type
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__trip_type
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_activity_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_group_view_search
+msgid "Type"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_trip__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid "Unknown document type %(doc_type)r."
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_forecast_report__amount_untaxed
+msgid "Untaxed Total"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_cancellation_rule__days_before
+msgid "Up to Days Before Departure"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_search
+msgid "Upcoming"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_forecast_report_view_search
+msgid "Upcoming Departures"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_booking_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_passenger_view_search
+msgid "Upcoming Trips"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_document_scan_view_form
+msgid "Update Contact"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "Update Quotation Prices"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-javascript
+#: code:addons/odossey_travel/static/src/scan/scan_input_field.xml:0
+msgid "Use camera"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
+msgid "Use historical rate"
+msgstr ""
+
+#. module: odossey_travel
+#: model:res.groups,name:odossey_travel.group_travel_user
+msgid "User"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_profitability_report__vat_amount
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__profit_vat
+#: model:ir.model.fields.selection,name:odossey_travel.selection__travel_profitability_report__line_kind__vat
+#: model_terms:ir.ui.view,arch_db:odossey_travel.report_travel_profitability
+msgid "VAT"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_group__website_message_ids
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_group__website_message_ids
+#: model:ir.model.fields,help:odossey_travel.field_travel_trip__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
+msgid "Weight open quotations with the probability of winning them."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_booking_view_search
+msgid "With Balance"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.crm_lead_view_search_travel
+msgid "Won / Lost"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.actions.act_window,name:odossey_travel.travel_crm_won_lost_action
+#: model:ir.ui.menu,name:odossey_travel.menu_travel_report_crm
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_crm_lead_view_graph
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_crm_lead_view_pivot
+msgid "Won / Lost Opportunities"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.actions.act_window,help:odossey_travel.travel_crm_won_lost_action
+msgid "Won and lost opportunities (with their lost reasons) appear here."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid "birth"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid "birth date"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/wizard/travel_document_scan.py:0
+msgid "document"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid "document number"
+msgstr ""
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_activity__route
+msgid "e.g. COR - PTY - POP"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_activity_view_form
+msgid "e.g. Flight to Puerto Plata"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_booking_cancel_view_form
+msgid "e.g. Health problem"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "e.g. Puerto Plata - March 2027"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "e.g. Puerto Plata, Dominican Republic"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_group_view_form
+msgid "e.g. Pérez Family"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_cancellation_policy_view_form
+msgid "e.g. Standard group trip"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "e.g. Travel assistance, tips, visas"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid "expiry"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid "expiry date"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/models/sale_order.py:0
+msgid "from %(start)s to %(end)s"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "hours"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.sale_order_view_form_travel
+msgid "is paid."
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid "issue"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "nights)"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_form
+msgid "passenger(s) with missing or expiring documents for this trip."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.sale_order_view_form_travel
+msgid "passenger(s) with missing or expiring documents."
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_booking_view_kanban
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_trip_view_kanban
+msgid "pax"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "per person"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/tools/id_parsers.py:0
+msgid "whole MRZ (composite)"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.travel_quotation_body
+msgid "x"
+msgstr ""
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/models/travel_cancellation_policy.py:0
+msgid "≤ %(days)s days: %(percent)s%%"
+msgstr ""
