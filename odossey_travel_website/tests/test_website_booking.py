@@ -197,3 +197,25 @@ class TestWebsiteBooking(AccountTestInvoicingCommon, HttpCase):
         order = self._last_order()
         self.assertEqual(order.partner_id.name, "Tour Customer")
         self.assertEqual(order.travel_pax_count, 2)
+
+    def test_demo_website_data(self):
+        Trip = self.env['travel.trip'].with_company(self.company)
+        Trip._travel_load_demo_data()
+        trips = Trip.search([('company_id', '=', self.company.id), ('id', '!=', self.trip.id)])
+        published = trips.filtered('is_published')
+        self.assertTrue(published.filtered('web_bookable'))
+        self.assertTrue(published.filtered(lambda t: not t.web_seats_available),
+                        "A sold out trip is published")
+        self.assertIn('trip', published.mapped('web_currency'))
+        self.assertIn(False, published.mapped('web_allow_deposit'))
+        orders = self.env['sale.order'].search([('trip_id', 'in', trips.ids),
+                                                ('travel_web_booking', '=', True)])
+        self.assertEqual(set(orders.mapped('state')), {'draft', 'sale'})
+        self.assertTrue(orders.filtered('travel_withdrawal_date'))
+        self.assertTrue(orders.filtered(lambda o: o.state == 'draft'
+                                        and o.validity_date < self.today),
+                        "An expired online quotation is included")
+        caribe = orders.filtered(lambda o: o.trip_id.currency_id != o.currency_id)
+        self.assertEqual(caribe.currency_id, self.company.currency_id,
+                         "A USD trip is sold online in pesos")
+

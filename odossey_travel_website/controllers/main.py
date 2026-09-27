@@ -1,11 +1,9 @@
-import math
 from datetime import timedelta
 
 from werkzeug.exceptions import NotFound
 
 from odoo import fields, http
 from odoo.exceptions import UserError, ValidationError
-from odoo.fields import Command
 from odoo.http import request
 from odoo.tools import email_normalize
 
@@ -214,36 +212,8 @@ class TravelWebsite(http.Controller):
         passengers = [self._get_passenger_partner(i, post, holder) for i in range(pax)]
         if len({p.id for p in passengers}) != len(passengers):
             raise UserError(env._("The same person cannot be booked twice."))
-        pricelist = trip._web_get_pricelist()
-        deposit_allowed = trip._web_deposit_allowed()
-        validity_days = max(1, math.ceil((trip.quotation_validity_hours or 48) / 24.0))
-        order = env['sale.order'].sudo().with_company(trip.company_id).create({
-            'partner_id': holder.id,
-            'company_id': trip.company_id.id,
-            'trip_id': trip.id,
-            'pricelist_id': pricelist.id,
-            'travel_keep_pricelist': True,
-            'travel_web_booking': True,
-            'origin': env._("Website"),
-            'require_payment': True,
-            'require_signature': False,
-            'validity_date': fields.Date.context_today(env.user) + timedelta(days=validity_days),
-            'note': post.get('notes') or False,
-            'travel_passenger_ids': [
-                Command.create({'partner_id': p.id, 'room_type': room_type, 'sequence': i})
-                for i, p in enumerate(passengers)
-            ],
-        })
-        order._travel_load_services()
-        if deposit_allowed and order.amount_total:
-            percent = min(order.travel_deposit_required / order.amount_total, 1.0)
-            order.prepayment_percent = percent if percent > 0 else 1.0
-        else:
-            order.prepayment_percent = 1.0
-        order._portal_ensure_token()
-        order.message_subscribe(partner_ids=holder.ids)
-        order.message_post(body=env._("Booking created online by %s.", holder.name))
-        return order
+        return trip.sudo()._web_create_booking(holder, passengers, room_type=room_type,
+                                               notes=post.get('notes'))
 
     # ------------------------------------------------------------------
     # Withdrawal button (botón de arrepentimiento)

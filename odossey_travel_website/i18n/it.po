@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e-20260622\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-27 12:25+0000\n"
+"POT-Creation-Date: 2026-09-27 14:11+0000\n"
 "PO-Revision-Date: 2026-09-27 12:19+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -34,6 +34,11 @@ msgstr "<b>Non incluso:</b>"
 #: model_terms:ir.ui.view,arch_db:odossey_travel_website.sale_order_portal_content_travel
 msgid "<b>Passengers</b>"
 msgstr "<b>Passeggeri</b>"
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_page
+msgid "<b>Sold out.</b> Contact us to join the waiting list."
+msgstr "<b>Esaurito.</b> Contattaci per entrare nella lista d'attesa."
 
 #. module: odossey_travel_website
 #: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_page
@@ -115,7 +120,9 @@ msgstr "<i class=\"fa fa-map-marker me-1\" title=\"Destinazione\"/>"
 #. module: odossey_travel_website
 #: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_page
 msgid "<i class=\"fa fa-medkit me-1\" title=\"Travel assistance\"/>Travel assistance"
-msgstr "<i class=\"fa fa-medkit me-1\" title=\"Assistenza in viaggio\"/>Assistenza in viaggio"
+msgstr ""
+"<i class=\"fa fa-medkit me-1\" title=\"Assistenza in viaggio\"/>Assistenza "
+"in viaggio"
 
 #. module: odossey_travel_website
 #: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_card
@@ -219,7 +226,7 @@ msgstr "Prenotazione"
 
 #. module: odossey_travel_website
 #. odoo-python
-#: code:addons/odossey_travel_website/controllers/main.py:0
+#: code:addons/odossey_travel_website/models/travel_trip.py:0
 msgid "Booking created online by %s."
 msgstr "Prenotazione creata online da %s."
 
@@ -255,23 +262,38 @@ msgstr "Condizioni"
 
 #. module: odossey_travel_website
 #: model_terms:ir.ui.view,arch_db:odossey_travel_website.travel_trip_view_form_website
-msgid "Content of the trip page on the website (the description is used if empty)."
-msgstr "Contenuto della pagina del viaggio sul sito web (se vuoto si usa la descrizione)."
+msgid ""
+"Content of the trip page on the website (the description is used if empty)."
+msgstr ""
+"Contenuto della pagina del viaggio sul sito web (se vuoto si usa la "
+"descrizione)."
 
 #. module: odossey_travel_website
 #: model:ir.model.fields,help:odossey_travel_website.field_travel_trip__website_description
-msgid "Content of the trip page on the website. The trip description is used if empty."
-msgstr "Contenuto della pagina del viaggio sul sito web. Se vuoto si usa la descrizione del viaggio."
+msgid ""
+"Content of the trip page on the website. The trip description is used if "
+"empty."
+msgstr ""
+"Contenuto della pagina del viaggio sul sito web. Se vuoto si usa la "
+"descrizione del viaggio."
 
 #. module: odossey_travel_website
 #: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
 msgid "Continue to payment <i class=\"fa fa-arrow-right ms-1\" title=\"Continue\"/>"
-msgstr "Continua al pagamento <i class=\"fa fa-arrow-right ms-1\" title=\"Continua\"/>"
+msgstr ""
+"Continua al pagamento <i class=\"fa fa-arrow-right ms-1\" "
+"title=\"Continua\"/>"
 
 #. module: odossey_travel_website
 #: model:ir.model.fields,help:odossey_travel_website.field_travel_trip__web_currency
-msgid "Currency of the website bookings. Most Argentinian payment providers (e.g. Mercado Pago) only accept pesos: the price is converted at the rate of the booking day and frozen with the deposit."
-msgstr "Valuta delle prenotazioni web. La maggior parte dei fornitori di pagamento argentini (es. Mercado Pago) accetta solo pesos: il prezzo viene convertito al cambio del giorno della prenotazione e bloccato con l'acconto."
+msgid ""
+"Currency of the website bookings. Most Argentinian payment providers (e.g. "
+"Mercado Pago) only accept pesos: the price is converted at the rate of the "
+"booking day and frozen with the deposit."
+msgstr ""
+"Valuta delle prenotazioni web. La maggior parte dei fornitori di pagamento "
+"argentini (es. Mercado Pago) accetta solo pesos: il prezzo viene convertito "
+"al cambio del giorno della prenotazione e bloccato con l'acconto."
 
 #. module: odossey_travel_website
 #: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
@@ -280,8 +302,12 @@ msgstr "DNI / Passaporto"
 
 #. module: odossey_travel_website
 #: model:ir.model.fields,help:odossey_travel_website.field_sale_order__travel_withdrawal_date
-msgid "Date on which the customer used the withdrawal button (botón de arrepentimiento)."
-msgstr "Data in cui il cliente ha usato il pulsante di recesso (botón de arrepentimiento)."
+msgid ""
+"Date on which the customer used the withdrawal button (botón de "
+"arrepentimiento)."
+msgstr ""
+"Data in cui il cliente ha usato il pulsante di recesso (botón de "
+"arrepentimiento)."
 
 #. module: odossey_travel_website
 #: model_terms:ir.ui.view,arch_db:odossey_travel_website.portal_my_trips
@@ -478,7 +504,9 @@ msgstr "Passeggeri"
 #. module: odossey_travel_website
 #: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
 msgid "Passport data can be completed later from your customer account."
-msgstr "I dati del passaporto possono essere completati in seguito dal tuo account cliente."
+msgstr ""
+"I dati del passaporto possono essere completati in seguito dal tuo account "
+"cliente."
 
 #. module: odossey_travel_website
 #: model_terms:ir.ui.view,arch_db:odossey_travel_website.portal_my_trips
@@ -600,6 +628,11 @@ msgid "Seo name"
 msgstr "Nome SEO"
 
 #. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_card
+msgid "Sold out"
+msgstr "Esaurito"
+
+#. module: odossey_travel_website
 #. odoo-python
 #: code:addons/odossey_travel_website/controllers/portal.py:0
 msgid "Sorry, the trip is full: there are only %s seats left."
@@ -624,7 +657,8 @@ msgstr "Riepilogo"
 #. module: odossey_travel_website
 #: model:ir.model.fields,help:odossey_travel_website.field_travel_trip__website_absolute_url
 msgid "The full absolute URL to access the document through the website."
-msgstr "L'URL assoluto completo per accedere al documento tramite il sito web."
+msgstr ""
+"L'URL assoluto completo per accedere al documento tramite il sito web."
 
 #. module: odossey_travel_website
 #: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_page
@@ -634,7 +668,8 @@ msgstr "L'importo totale viene pagato online al momento della prenotazione."
 #. module: odossey_travel_website
 #: model:ir.model.fields,help:odossey_travel_website.field_travel_trip__website_url
 msgid "The full relative URL to access the document through the website."
-msgstr "L'URL relativo completo per accedere al documento tramite il sito web."
+msgstr ""
+"L'URL relativo completo per accedere al documento tramite il sito web."
 
 #. module: odossey_travel_website
 #: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
@@ -644,8 +679,11 @@ msgstr "L'intestatario è il passeggero 1"
 #. module: odossey_travel_website
 #. odoo-python
 #: code:addons/odossey_travel_website/models/payment_transaction.py:0
-msgid "The online payment was received but the booking could not be confirmed: %s"
-msgstr "Il pagamento online è stato ricevuto ma la prenotazione non è stata confermata: %s"
+msgid ""
+"The online payment was received but the booking could not be confirmed: %s"
+msgstr ""
+"Il pagamento online è stato ricevuto ma la prenotazione non è stata "
+"confermata: %s"
 
 #. module: odossey_travel_website
 #. odoo-python
@@ -716,7 +754,7 @@ msgstr "Non abbiamo trovato una prenotazione con questo codice ed e-mail."
 
 #. module: odossey_travel_website
 #. odoo-python
-#: code:addons/odossey_travel_website/controllers/main.py:0
+#: code:addons/odossey_travel_website/models/travel_trip.py:0
 #: model_terms:ir.ui.view,arch_db:odossey_travel_website.travel_trip_view_form_website
 msgid "Website"
 msgstr "Sito web"
@@ -738,8 +776,12 @@ msgstr "URL sito web"
 
 #. module: odossey_travel_website
 #: model:ir.model.fields,help:odossey_travel_website.field_travel_trip__web_allow_deposit
-msgid "Website customers can pay only the deposit (it freezes the price) and the balance later. If unchecked, the full amount must be paid online."
-msgstr "I clienti web possono pagare solo l'acconto (blocca il prezzo) e il saldo in seguito. Se non selezionato, l'importo totale deve essere pagato online."
+msgid ""
+"Website customers can pay only the deposit (it freezes the price) and the "
+"balance later. If unchecked, the full amount must be paid online."
+msgstr ""
+"I clienti web possono pagare solo l'acconto (blocca il prezzo) e il saldo in"
+" seguito. Se non selezionato, l'importo totale deve essere pagato online."
 
 #. module: odossey_travel_website
 #: model:ir.model.fields,field_description:odossey_travel_website.field_travel_trip__website_meta_description
@@ -784,14 +826,20 @@ msgstr "Pulsante di recesso"
 #. module: odossey_travel_website
 #. odoo-python
 #: code:addons/odossey_travel_website/controllers/main.py:0
+#: code:addons/odossey_travel_website/models/travel_demo.py:0
 msgid "Withdrawal request (arrepentimiento)"
 msgstr "Richiesta di recesso (arrepentimiento)"
 
 #. module: odossey_travel_website
 #. odoo-python
 #: code:addons/odossey_travel_website/controllers/main.py:0
-msgid "Withdrawal requested by the customer from the website (botón de arrepentimiento). Reason: %s"
-msgstr "Recesso richiesto dal cliente dal sito web (botón de arrepentimiento). Motivo: %s"
+#: code:addons/odossey_travel_website/models/travel_demo.py:0
+msgid ""
+"Withdrawal requested by the customer from the website (botón de "
+"arrepentimiento). Reason: %s"
+msgstr ""
+"Recesso richiesto dal cliente dal sito web (botón de arrepentimiento). "
+"Motivo: %s"
 
 #. module: odossey_travel_website
 #: model_terms:ir.ui.view,arch_db:odossey_travel_website.portal_my_trips
@@ -802,7 +850,8 @@ msgstr "Non hai ancora viaggi."
 #. odoo-python
 #: code:addons/odossey_travel_website/controllers/main.py:0
 msgid "You must accept the booking conditions and the cancellation policy."
-msgstr "Devi accettare le condizioni di prenotazione e la politica di cancellazione."
+msgstr ""
+"Devi accettare le condizioni di prenotazione e la politica di cancellazione."
 
 #. module: odossey_travel_website
 #: model_terms:ir.ui.view,arch_db:odossey_travel_website.portal_my_home_travel

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e-20260622\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-27 12:25+0000\n"
-"PO-Revision-Date: 2026-09-27 12:25+0000\n"
+"POT-Creation-Date: 2026-09-27 14:11+0000\n"
+"PO-Revision-Date: 2026-09-27 14:11+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -30,6 +30,11 @@ msgstr ""
 #. module: odossey_travel_website
 #: model_terms:ir.ui.view,arch_db:odossey_travel_website.sale_order_portal_content_travel
 msgid "<b>Passengers</b>"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_page
+msgid "<b>Sold out.</b> Contact us to join the waiting list."
 msgstr ""
 
 #. module: odossey_travel_website
@@ -204,7 +209,7 @@ msgstr ""
 
 #. module: odossey_travel_website
 #. odoo-python
-#: code:addons/odossey_travel_website/controllers/main.py:0
+#: code:addons/odossey_travel_website/models/travel_trip.py:0
 msgid "Booking created online by %s."
 msgstr ""
 
@@ -589,6 +594,11 @@ msgid "Seo name"
 msgstr ""
 
 #. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_card
+msgid "Sold out"
+msgstr ""
+
+#. module: odossey_travel_website
 #. odoo-python
 #: code:addons/odossey_travel_website/controllers/portal.py:0
 msgid "Sorry, the trip is full: there are only %s seats left."
@@ -706,7 +716,7 @@ msgstr ""
 
 #. module: odossey_travel_website
 #. odoo-python
-#: code:addons/odossey_travel_website/controllers/main.py:0
+#: code:addons/odossey_travel_website/models/travel_trip.py:0
 #: model_terms:ir.ui.view,arch_db:odossey_travel_website.travel_trip_view_form_website
 msgid "Website"
 msgstr ""
@@ -776,12 +786,14 @@ msgstr ""
 #. module: odossey_travel_website
 #. odoo-python
 #: code:addons/odossey_travel_website/controllers/main.py:0
+#: code:addons/odossey_travel_website/models/travel_demo.py:0
 msgid "Withdrawal request (arrepentimiento)"
 msgstr ""
 
 #. module: odossey_travel_website
 #. odoo-python
 #: code:addons/odossey_travel_website/controllers/main.py:0
+#: code:addons/odossey_travel_website/models/travel_demo.py:0
 msgid ""
 "Withdrawal requested by the customer from the website (botón de "
 "arrepentimiento). Reason: %s"
