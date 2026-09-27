@@ -63,7 +63,7 @@
                             <field name="activity_type" readonly="is_trip"/>
                             <field name="location" readonly="is_trip"/>
                             <field name="supplier_id" invisible="is_trip"/>
-                            <field name="user_id" widget="many2one_avatar_user"/>
+                            <field name="user_id" widget="many2one_avatar_user" readonly="is_trip"/>
                         </group>
                         <group>
                             <field name="start" readonly="is_trip"/>
@@ -99,7 +99,8 @@
                         <field name="passenger_partner_ids" widget="many2many_tags_avatar"
                                nolabel="1" colspan="2"/>
                     </group>
-                    <field name="note" placeholder="Details, meeting point, what to bring..."/>
+                    <field name="note" placeholder="Details, meeting point, what to bring..."
+                           readonly="is_trip"/>
                 </sheet>
             </form>
         </field>

@@ -1,7 +1,7 @@
 from datetime import timedelta
 
 from odoo import api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 
 
 class TravelActivity(models.Model):
@@ -106,9 +106,28 @@ class TravelActivity(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
+            if vals.get('activity_type') == 'trip':
+                self._travel_check_trip_entry_sync()
             if vals.get('stop') is None and vals.get('start'):
                 vals['stop'] = fields.Datetime.to_datetime(vals['start']) + timedelta(hours=2)
         return super().create(vals_list)
+
+    def write(self, vals):
+        if vals.get('activity_type') == 'trip' or self.filtered('is_trip'):
+            self._travel_check_trip_entry_sync()
+        return super().write(vals)
+
+    def unlink(self):
+        if self.filtered('is_trip'):
+            self._travel_check_trip_entry_sync()
+        return super().unlink()
+
+    def _travel_check_trip_entry_sync(self):
+        """The calendar entry of a trip is managed from the trip only."""
+        if not self.env.context.get('travel_sync'):
+            raise UserError(self.env._(
+                "The calendar entry of a trip is updated automatically from the trip: "
+                "modify the trip instead."))
 
     def action_open_trip(self):
         self.ensure_one()

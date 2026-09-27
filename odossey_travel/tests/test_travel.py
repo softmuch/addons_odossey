@@ -2,11 +2,14 @@ from datetime import date, timedelta
 from unittest.mock import patch
 
 from odoo import fields
-from odoo.exceptions import UserError
+from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.fields import Command
-from odoo.tests import tagged
+from odoo.tests import new_test_user, tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+from odoo.addons.odossey_travel.tools.id_parsers import cuil_check_digit
+
+DNI_NEW = '00123456789@PEREZ@JUAN CARLOS@M@30123456@A@15/03/1985@10/01/2015@203'
 
 
 @tagged('post_install', '-at_install')
@@ -182,6 +185,10 @@ class TestTravel(AccountTestInvoicingCommon):
         self.assertEqual(order.state, 'cancel')
         self.assertEqual(order.travel_booking_state, 'cancelled')
         self.assertAlmostEqual(order.travel_penalty_amount, 510.5)
+        # the customer still owes the part of the penalty not covered by his payments
+        self.assertAlmostEqual(order.travel_amount_due, 210.5)
+        # the frozen date is kept as history
+        self.assertEqual(order.travel_frozen_date, self.today)
         # far from the departure: the non refundable deposit is retained anyway
         order2 = self._booking(self.mother)
         self._pay(self._invoice_deposit(order2))
@@ -340,3 +347,226 @@ class TestTravel(AccountTestInvoicingCommon):
         order = self._booking(self.father | self.mother)
         self.assertEqual(entry.passenger_partner_ids, self.father | self.mother)
         self.assertTrue(order)
+
+    def _order(self, payer, passengers, confirm=True):
+        order = self.env['sale.order'].create({
+            'partner_id': payer.id,
+            'trip_id': self.trip.id,
+            'travel_passenger_ids': [Command.create({'partner_id': p.id}) for p in passengers],
+        })
+        order._travel_load_services()
+        if confirm:
+            order.action_confirm()
+        return order
+
+    def test_13_one_invoice_several_bookings(self):
+        single = self._order(self.father, self.father)
+        family = self._order(self.father, self.mother | self.child)
+        invoice = (single | family)._create_invoices(final=True)
+        self.assertEqual(len(invoice), 1, "Same customer and trip: one invoice")
+        self._pay(invoice, amount=invoice.amount_total / 2)
+        self.assertAlmostEqual(single.travel_amount_paid, 1021.0 / 2)
+        self.assertAlmostEqual(family.travel_amount_paid, 2042.0 / 2)
+        self._pay(invoice)
+        self.assertAlmostEqual(single.travel_amount_paid, 1021.0)
+        self.assertAlmostEqual(family.travel_amount_paid, 2042.0)
+        self.assertEqual((single | family).mapped('travel_booking_state'), ['paid', 'paid'])
+        self.assertEqual((single | family).mapped('travel_amount_due'), [0.0, 0.0])
+
+    def test_14_deposit_invoiced(self):
+        order = self._booking(self.father | self.mother)
+        self.assertFalse(order.travel_deposit_invoiced)
+        self._invoice_deposit(order, 200.0)
+        action = order.action_travel_register_deposit()
+        self.assertAlmostEqual(action['context']['default_fixed_amount'], 400.0)
+        self.assertFalse(order.travel_deposit_invoiced)
+        self._invoice_deposit(order, 400.0)
+        self.assertTrue(order.travel_deposit_invoiced, "Draft deposit invoices cover it")
+        with self.assertRaises(UserError):
+            order.action_travel_register_deposit()
+
+    def test_15_frozen_price_is_sticky(self):
+        order = self._booking(self.father)
+        self._pay(self._invoice_deposit(order))
+        self.assertTrue(order.travel_price_frozen)
+        self.assertEqual(order.travel_deposit_required, 300.0)
+        # a higher deposit on the trip only applies to new bookings
+        self.trip.deposit_amount = 1000.0
+        self.assertEqual(order.travel_deposit_required, 300.0)
+        self.assertTrue(order.travel_price_frozen)
+        self.assertEqual(order.travel_frozen_date, self.today)
+        self.assertEqual(order.travel_booking_state, 'deposit')
+        quotation = self._booking(self.mother, confirm=False)
+        self.assertEqual(quotation.travel_deposit_required, 1000.0)
+        quotation.action_confirm()
+        self.trip.deposit_amount = 10.0
+        self.assertEqual(quotation.travel_deposit_required, 1000.0,
+                         "Deposit snapshot taken at confirmation")
+
+    def test_16_capacity_batch_and_duplicates(self):
+        extra = self.env['res.partner'].create({'name': "Extra"})
+        family = self._booking(self.father | self.mother | self.child, confirm=False)
+        friends = self._booking(self.friend_a | self.friend_b | extra, confirm=False)
+        with self.assertRaises(UserError, msg="6 passengers confirmed together, 5 seats"):
+            (family | friends).action_confirm()
+        family.action_confirm()
+        single = self._booking(self.friend_a)
+        self.assertEqual(self.trip.seats_reserved, 4)
+        with self.assertRaises(UserError, msg="Passengers added to a confirmed booking"):
+            single.write({'travel_passenger_ids': [
+                Command.create({'partner_id': self.friend_b.id}),
+                Command.create({'partner_id': extra.id})]})
+        # the same person can be quoted twice, but not booked twice
+        duplicate = self._booking(self.father, confirm=False)
+        with self.assertRaises(ValidationError):
+            duplicate.action_confirm()
+        with self.assertRaises(ValidationError):
+            single.write({'travel_passenger_ids': [
+                Command.create({'partner_id': self.mother.id})]})
+
+    def test_17_travel_user_access(self):
+        order = self._booking(self.father)
+        self._pay(self._invoice_deposit(order))
+        user = new_test_user(
+            self.env, login='travel_user_17', groups='base.group_user,odossey_travel.group_travel_user',
+            company_id=self.company.id, company_ids=[Command.set(self.company.ids)])
+        self.assertFalse(user.has_group('odossey_travel.group_travel_manager'))
+        trip = self.trip.with_user(user)
+        views = trip.get_views([(False, 'form'), (False, 'list'), (False, 'kanban')])
+        form = views['views']['form']['arch']
+        self.assertIn('amount_booked', form)
+        for fname in ('profit_net', 'cost_unit', 'expected_revenue', 'fixed_cost'):
+            self.assertNotIn(f'name="{fname}"', form)
+        self.env.invalidate_all()
+        self.assertAlmostEqual(trip.amount_booked, 1021.0)
+        self.assertAlmostEqual(trip.amount_paid, 300.0)
+        self.assertEqual(trip.component_ids.with_user(user).mapped('price_unit'), [900.0, 100.0])
+        with self.assertRaises(AccessError):
+            trip.read(['profit_net'])
+        with self.assertRaises(AccessError):
+            trip.component_ids.write({'price_unit': 1.0})
+        with self.assertRaises(AccessError):
+            self.env['travel.forecast.report'].with_user(user).search([])
+        # travel users still create bookings
+        booking = self.env['sale.order'].with_user(user).create({
+            'partner_id': self.mother.id, 'trip_id': self.trip.id,
+            'travel_passenger_ids': [Command.create({'partner_id': self.mother.id})],
+        })
+        booking._travel_load_services()
+        self.assertEqual(booking.amount_untaxed, 1000.0)
+        # personal data is hidden to the other internal users
+        other = new_test_user(self.env, login='basic_user_17', groups='base.group_user',
+                              company_id=self.company.id)
+        with self.assertRaises(AccessError):
+            self.father.with_user(other).read(['passport_number'])
+        self.father.with_user(user).read(['passport_number', 'travel_medical_notes'])
+
+    def test_18_cancel_wizard_checks(self):
+        order = self._booking(self.father)
+        wizard = self.env['travel.booking.cancel'].create({
+            'sale_order_id': order.id, 'reason': "Test"})
+        with self.assertRaises(ValidationError):
+            wizard.penalty_amount = -1.0
+        with self.assertRaises(ValidationError):
+            wizard.penalty_amount = order.amount_total + 1
+        order.action_lock()
+        with self.assertRaises(UserError):
+            wizard.action_confirm()
+        order.action_unlock()
+        wizard.action_confirm()
+        self.assertEqual(order.state, 'cancel')
+
+    def test_19_scan_partner_matching(self):
+        Partner = self.env['res.partner']
+        dni = '30123456'
+        prefix = next(p for p in ('30', '33', '34') if cuil_check_digit(p + dni) is not None)
+        company = Partner.create({
+            'name': "Collision S.A.", 'is_company': True,
+            'vat': f"{prefix}{dni}{cuil_check_digit(prefix + dni)}",
+            'l10n_latam_identification_type_id': self.env.ref('l10n_ar.it_cuit').id,
+            'l10n_ar_afip_responsibility_type_id': self.env.ref('l10n_ar.res_IVARI').id,
+        })
+        Scan = self.env['travel.document.scan']
+        self.assertFalse(Scan.create({'raw_data': DNI_NEW}).partner_id,
+                         "A company CUIT built on the same digits is not the passenger")
+        person = Partner.create({
+            'name': "Juan Carlos Perez", 'vat': '20301234563',
+            'l10n_latam_identification_type_id': self.env.ref('l10n_ar.it_cuit').id,
+            'l10n_ar_afip_responsibility_type_id': self.env.ref('l10n_ar.res_CF').id,
+        })
+        wizard = Scan.create({'raw_data': DNI_NEW, 'consent': True})
+        self.assertEqual(wizard.partner_id, person)
+        wizard.action_apply()
+        self.assertEqual(person.vat, '20301234563', "The CUIL is kept")
+        self.assertEqual(person.dni_tramite, '00123456789')
+        self.assertFalse(company.dni_tramite)
+        forced = Scan.create({'raw_data': DNI_NEW, 'consent': True, 'partner_id': company.id})
+        self.assertEqual(forced.partner_id, company)
+        with self.assertRaises(UserError):
+            forced.action_apply()
+
+    def test_20_birthday_email_blacklist(self):
+        template = self.env.ref('odossey_travel.mail_template_birthday')
+        today = date(2026, 9, 27)
+        self.father.write({'email': 'father@example.com', 'birthdate': date(1980, 9, 27)})
+        self.mother.write({'email': 'mother@example.com', 'birthdate': date(1981, 9, 27)})
+        self.env['mail.blacklist']._add('father@example.com')
+        self.company.travel_birthday_template_id = template
+        with patch('odoo.fields.Date.context_today', return_value=today), \
+                patch.object(type(template), 'send_mail', autospec=True) as send_mail:
+            self.env['res.partner']._cron_travel_send_birthday_emails()
+            sent_to = {call.args[1] for call in send_mail.call_args_list}
+        self.assertNotIn(self.father.id, sent_to)
+        self.assertIn(self.mother.id, sent_to)
+
+    def test_21_calendar_entry_protected(self):
+        entry = self.env['travel.activity'].search([('trip_id', '=', self.trip.id),
+                                                    ('activity_type', '=', 'trip')])
+        with self.assertRaises(UserError):
+            entry.write({'name': "Changed"})
+        with self.assertRaises(UserError):
+            entry.unlink()
+        self.trip.action_cancel()
+        self.assertFalse(entry.active, "A cancelled trip leaves the calendar")
+        self.trip.action_draft()
+        self.assertTrue(entry.active)
+
+    def test_22_reload_services_single_section(self):
+        order = self._booking(self.father, confirm=False)
+        order._travel_load_services()
+        sections = order.order_line.filtered(lambda l: l.display_type == 'line_section')
+        self.assertEqual(len(sections), 1)
+        self.trip.name = "Renamed trip"
+        order._travel_load_services()
+        sections = order.order_line.filtered(lambda l: l.display_type == 'line_section')
+        self.assertEqual(len(sections), 1)
+        self.assertTrue(sections.name.startswith(self.trip.display_name))
+
+    def test_23_forecast_cost_per_booking(self):
+        self.env['travel.trip.component'].create({
+            'trip_id': self.trip.id, 'product_id': self.agency.id, 'per_passenger': False,
+            'price_unit': 0.0, 'cost_unit': 50.0})
+        self.assertEqual(self.trip.cost_per_booking, 50.0)
+        order = self._booking(self.father | self.mother)
+        self.assertAlmostEqual(order.travel_expected_cost, 800 * 2 + 50)
+        self.env.flush_all()
+        row = self.env['travel.forecast.report'].search([('order_id', '=', order.id)])
+        # deposit pending: 20% cancellation probability
+        self.assertAlmostEqual(row.expected_cost, (800 * 2 + 50) * 0.8)
+
+    def test_24_demo_loader(self):
+        usd = self.env.ref('base.USD')
+        symbol = usd.symbol
+        Partner = self.env['res.partner']
+        if not Partner.search_count([('vat', '=', '25123456')]):
+            Partner.create({
+                'name': "Juan Pérez", 'vat': '25123456',
+                'l10n_latam_identification_type_id': self.env.ref('l10n_ar.it_dni').id})
+        before = Partner.search_count([('vat', '=', '25123456')])
+        Trip = self.env['travel.trip'].with_company(self.company)
+        Trip._travel_load_demo_data()
+        self.assertEqual(usd.symbol, symbol, "The global USD symbol is not changed")
+        self.assertEqual(Partner.search_count([('vat', '=', '25123456')]), before,
+                         "Existing contacts are reused")
+        with self.assertRaises(UserError):
+            Trip._travel_load_demo_data()

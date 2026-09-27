@@ -109,7 +109,20 @@
                     </group>
                     <notebook>
                         <page string="Services &amp; Prices" name="services">
-                            <field name="component_ids">
+                            <field name="component_ids" groups="!odossey_travel.group_travel_manager"
+                                   readonly="1">
+                                <list>
+                                    <field name="product_id"/>
+                                    <field name="name"/>
+                                    <field name="service_type" optional="show"/>
+                                    <field name="supplier_id" optional="show"/>
+                                    <field name="tax_ids" widget="many2many_tags" optional="show"/>
+                                    <field name="per_passenger" optional="hide"/>
+                                    <field name="currency_id" column_invisible="True"/>
+                                    <field name="price_unit" sum="Total"/>
+                                </list>
+                            </field>
+                            <field name="component_ids" groups="odossey_travel.group_travel_manager">
                                 <list editable="bottom">
                                     <field name="sequence" widget="handle"/>
                                     <field name="product_id" context="{'default_type': 'service', 'default_sale_ok': True}"/>
@@ -119,7 +132,7 @@
                                     <field name="tax_ids" widget="many2many_tags" optional="show"/>
                                     <field name="per_passenger" optional="hide"/>
                                     <field name="currency_id" column_invisible="True"/>
-                                    <field name="cost_unit" sum="Total" groups="odossey_travel.group_travel_manager"/>
+                                    <field name="cost_unit" sum="Total"/>
                                     <field name="price_unit" sum="Total"/>
                                 </list>
                             </field>
@@ -130,6 +143,7 @@
                                     <field name="margin_per_person" groups="odossey_travel.group_travel_manager"/>
                                 </group>
                                 <group string="Trip" groups="odossey_travel.group_travel_manager">
+                                    <field name="cost_per_booking"/>
                                     <field name="fixed_cost"/>
                                     <field name="analytic_account_id" groups="analytic.group_analytic_accounting"/>
                                 </group>

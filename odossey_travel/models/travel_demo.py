@@ -60,7 +60,23 @@ class TravelTrip(models.Model):
             'lang': 'es_AR' if self.env['res.lang']._lang_get('es_AR') else self.env.lang,
         }
         values.update(vals)
+        partner = self.env['res.partner'].search(
+            [('vat', '=', dni), ('is_company', '=', False)], limit=1)
+        if partner:
+            # reuse the existing contact, only completing the missing data
+            partner.write({key: value for key, value in values.items()
+                           if value and not partner[key] and key != 'lang'})
+            return partner
         return self.env['res.partner'].create(values)
+
+    def _travel_demo_company_partner(self, name, cuit):
+        Partner = self.env['res.partner']
+        return Partner.search([('vat', '=', cuit), ('is_company', '=', True)], limit=1) \
+            or Partner.create({
+                'name': name, 'is_company': True, 'vat': cuit,
+                'l10n_latam_identification_type_id': self.env.ref('l10n_ar.it_cuit').id,
+                'l10n_ar_afip_responsibility_type_id': self.env.ref('l10n_ar.res_IVARI').id,
+            })
 
     def _travel_demo_activity(self, trip, name, activity_type, day, hour, hours, **vals):
         tz = pytz.timezone(self.env.user.tz or 'America/Argentina/Buenos_Aires')
@@ -114,8 +130,6 @@ class TravelTrip(models.Model):
         usd = self.env.ref('base.USD')
         if not usd.active:
             usd.active = True
-        if company.currency_id != usd and usd.symbol == '$':
-            usd.symbol = 'US$'  # usual in Argentina, ARS keeps '$'
         if company.currency_id != usd and not self.env['res.currency.rate'].search_count(
                 [('currency_id', '=', usd.id), ('company_id', '=', company.id)]):
             self.env['res.currency.rate'].create({
@@ -136,18 +150,8 @@ class TravelTrip(models.Model):
 
         policy = self.env.ref('odossey_travel.cancellation_policy_standard',
                               raise_if_not_found=False) or self.env['travel.cancellation.policy']
-        operator = self.env['res.partner'].create({
-            'name': "Caribe Operator S.A.", 'is_company': True,
-            'vat': '30714295698',
-            'l10n_latam_identification_type_id': self.env.ref('l10n_ar.it_cuit').id,
-            'l10n_ar_afip_responsibility_type_id': self.env.ref('l10n_ar.res_IVARI').id,
-        })
-        bank = self.env['res.partner'].create({
-            'name': "Card Payments Gateway", 'is_company': True,
-            'vat': '30712345674',
-            'l10n_latam_identification_type_id': self.env.ref('l10n_ar.it_cuit').id,
-            'l10n_ar_afip_responsibility_type_id': self.env.ref('l10n_ar.res_IVARI').id,
-        })
+        operator = self._travel_demo_company_partner("Caribe Operator S.A.", '30714295698')
+        bank = self._travel_demo_company_partner("Card Payments Gateway", '30712345674')
         ar = self.env.ref('base.ar')
         do = self.env.ref('base.do')
 

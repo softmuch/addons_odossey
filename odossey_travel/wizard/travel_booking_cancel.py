@@ -1,7 +1,7 @@
 from markupsafe import Markup
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.tools import format_amount
 
 
@@ -66,11 +66,29 @@ class TravelBookingCancel(models.TransientModel):
             wizard.refund_amount = max(paid - wizard.penalty_amount, 0.0)
             wizard.amount_owed = max(wizard.penalty_amount - paid, 0.0)
 
+    @api.constrains('penalty_amount', 'penalty_percent')
+    def _check_penalty(self):
+        for wizard in self:
+            if not 0.0 <= wizard.penalty_percent <= 100.0:
+                raise ValidationError(self.env._("The penalty must be between 0 and 100%."))
+            if wizard.currency_id.compare_amounts(wizard.penalty_amount, 0.0) < 0 \
+                    or wizard.currency_id.compare_amounts(
+                        wizard.penalty_amount, wizard.amount_total) > 0:
+                raise ValidationError(self.env._(
+                    "The penalty retained must be between 0 and the booking total."))
+
     def action_confirm(self):
+        """Cancel the booking and record the penalty. The posted invoices are kept as they
+        are: when an amount must be refunded, an activity asks the responsible to issue the
+        credit note and the refund."""
         self.ensure_one()
         order = self.sale_order_id
         if order.state == 'cancel':
             raise UserError(self.env._("The booking is already cancelled."))
+        if order.locked:
+            raise UserError(self.env._(
+                "You cannot cancel a locked order. Please unlock it first."))
+        self._check_penalty()
         paid = order.travel_amount_paid
         refund = max(paid - self.penalty_amount, 0.0)
         order.write({

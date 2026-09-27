@@ -48,14 +48,26 @@ class TravelGroup(models.Model):
     @api.depends('sale_order_ids.amount_total', 'sale_order_ids.travel_amount_paid',
                  'sale_order_ids.state')
     def _compute_totals(self):
+        orders = {}
+        for group, state, count, total, paid in self.env['sale.order']._read_group(
+                [('travel_group_id', 'in', self.ids)], ['travel_group_id', 'state'],
+                ['__count', 'amount_total:sum', 'travel_amount_paid:sum']):
+            values = orders.setdefault(group.id, [0, 0.0, 0.0])
+            values[0] += count
+            if state != 'cancel':
+                values[1] += total
+                values[2] += paid
+        invoices = {
+            group.id: count for group, count in self.env['account.move']._read_group(
+                [('travel_group_id', 'in', self.ids)], ['travel_group_id'], ['__count'])
+        }
         for group in self:
-            orders = group.sale_order_ids.filtered(lambda o: o.state != 'cancel')
-            group.order_count = len(group.sale_order_ids)
-            group.invoice_count = self.env['account.move'].search_count(
-                [('travel_group_id', '=', group.id)]) if group.id else 0
-            group.amount_total = sum(orders.mapped('amount_total'))
-            group.amount_paid = sum(orders.mapped('travel_amount_paid'))
-            group.amount_due = group.amount_total - group.amount_paid
+            count, total, paid = orders.get(group.id, (0, 0.0, 0.0))
+            group.order_count = count
+            group.invoice_count = invoices.get(group.id, 0)
+            group.amount_total = total
+            group.amount_paid = paid
+            group.amount_due = total - paid
 
     @api.onchange('leader_id')
     def _onchange_leader_id(self):

@@ -1,6 +1,7 @@
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 BOOKING_STATES = [
     ('quotation', "Quotation"),
@@ -69,6 +70,48 @@ class TravelPassenger(models.Model):
     _partner_unique = models.Constraint(
         'UNIQUE(sale_order_id, partner_id)',
         "A passenger can only appear once in a booking.")
+
+    @api.constrains('partner_id', 'sale_order_id', 'trip_id')
+    def _check_trip_partner_unique(self):
+        """A person cannot travel twice on the same trip: once a booking is confirmed, its
+        passengers cannot appear on another confirmed booking of the trip. Quotations may
+        overlap (alternative quotations, abandoned online bookings)."""
+        confirmed = self.filtered(lambda p: p.trip_id and p.sale_order_id.state == 'sale')
+        if not confirmed:
+            return
+        self.flush_model(['partner_id', 'sale_order_id', 'trip_id'])
+        duplicates = self.sudo().search([
+            ('trip_id', 'in', confirmed.trip_id.ids),
+            ('partner_id', 'in', confirmed.partner_id.ids),
+            ('sale_order_id.state', '=', 'sale'),
+        ])
+        for passenger in confirmed:
+            other = duplicates.filtered(
+                lambda d: d.trip_id == passenger.trip_id and d.partner_id == passenger.partner_id
+                and d.sale_order_id != passenger.sale_order_id)[:1]
+            if other:
+                raise ValidationError(self.env._(
+                    "%(passenger)s is already booked on %(trip)s (booking %(booking)s).",
+                    passenger=passenger.partner_id.display_name,
+                    trip=passenger.trip_id.display_name, booking=other.sale_order_id.name))
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        passengers = super().create(vals_list)
+        passengers._check_confirmed_capacity()
+        return passengers
+
+    def write(self, vals):
+        res = super().write(vals)
+        if 'sale_order_id' in vals:
+            self._check_confirmed_capacity()
+        return res
+
+    def _check_confirmed_capacity(self):
+        """Passengers added to confirmed bookings take a seat of the trip."""
+        orders = self.sale_order_id.filtered(lambda o: o.state == 'sale' and o.trip_id)
+        if orders:
+            orders.trip_id._travel_check_seats(orders)
 
     @api.depends('birthdate', 'trip_id.date_start')
     def _compute_age_at_departure(self):

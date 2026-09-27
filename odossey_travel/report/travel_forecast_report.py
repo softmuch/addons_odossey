@@ -10,7 +10,9 @@ class TravelForecastReport(models.Model):
     where p depends on the booking status (configurable in the settings) and the retained
     deposit is the part of the deposit already paid (non refundable). Cancelled bookings
     contribute with the penalty actually retained. Quotations are weighted by the quotation
-    win rate. Amounts are in the company currency.
+    win rate. The expected supplier cost includes the services invoiced per passenger and
+    per booking of the trip (converted from the trip currency). Amounts are in the company
+    currency.
     """
     _name = 'travel.forecast.report'
     _description = "Travel Revenue Forecast"
@@ -72,8 +74,7 @@ class TravelForecastReport(models.Model):
                             THEN so.amount_untaxed / so.amount_total ELSE 1 END
                             AS expected_net_revenue,
                         CASE WHEN so.travel_booking_state = 'cancelled' THEN 0
-                            ELSE COALESCE(t.cost_per_person, 0) * so.travel_pax_count
-                                 / cr.rate * (1 - pr.p / 100.0)
+                            ELSE COALESCE(so.travel_expected_cost, 0) * (1 - pr.p / 100.0)
                         END AS expected_cost
                     FROM sale_order so
                     JOIN travel_trip t ON t.id = so.trip_id

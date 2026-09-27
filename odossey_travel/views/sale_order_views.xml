@@ -11,7 +11,7 @@
                         help="Add the services of the trip for the passengers of the booking, at the current prices."/>
                 <button name="action_travel_register_deposit" type="object" string="Invoice Deposit"
                         class="btn-primary"
-                        invisible="not trip_id or state != 'sale' or travel_price_frozen or invoice_status == 'invoiced'"
+                        invisible="not trip_id or state != 'sale' or travel_price_frozen or travel_deposit_invoiced or invoice_status == 'invoiced'"
                         help="Invoice the deposit that freezes the price of the trip."/>
                 <button name="action_travel_cancel_booking" type="object" string="Cancel Booking"
                         invisible="not trip_id or state != 'sale'"

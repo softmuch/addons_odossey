@@ -67,7 +67,8 @@
                 <filter name="birthday_this_month" string="Birthday This Month"
                         domain="[('birthday_month', '=', context_today().month)]"/>
                 <filter name="passport_expired" string="Passport Expired"
-                        domain="[('passport_expired', '=', True)]"/>
+                        domain="[('passport_expired', '=', True)]"
+                        groups="odossey_travel.group_travel_user"/>
             </xpath>
         </field>
     </record>

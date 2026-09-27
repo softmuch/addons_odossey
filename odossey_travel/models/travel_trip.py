@@ -80,11 +80,15 @@ class TravelTrip(models.Model):
         help="Sale price per passenger (sum of the services, taxes included as defined on each "
              "service product).")
     cost_per_person = fields.Monetary(string="Cost per Person", compute='_compute_prices',
-                                      store=True)
+                                      store=True, groups='odossey_travel.group_travel_manager')
+    cost_per_booking = fields.Monetary(
+        string="Cost per Booking", compute='_compute_prices', store=True,
+        groups='odossey_travel.group_travel_manager',
+        help="Supplier cost of the services invoiced once per booking.")
     margin_per_person = fields.Monetary(string="Margin per Person", compute='_compute_prices',
-                                        store=True)
+                                        store=True, groups='odossey_travel.group_travel_manager')
     fixed_cost = fields.Monetary(
-        string="Fixed Costs",
+        string="Fixed Costs", groups='odossey_travel.group_travel_manager',
         help="Costs of the trip that do not depend on the number of passengers (coordinator, "
              "bus, marketing...). Used in the forecast.")
     deposit_type = fields.Selection(
@@ -99,8 +103,9 @@ class TravelTrip(models.Model):
                                    store=True)
     quotation_validity_hours = fields.Integer(string="Quotation Validity (hours)", default=48)
     cancellation_policy_id = fields.Many2one(
-        'travel.cancellation.policy', string="Cancellation Policy",
-        default=lambda self: self.env['travel.cancellation.policy'].search([], limit=1))
+        'travel.cancellation.policy', string="Cancellation Policy", check_company=True,
+        default=lambda self: self.env['travel.cancellation.policy'].search(
+            [('company_id', 'in', [False, self.env.company.id])], limit=1))
     analytic_account_id = fields.Many2one(
         'account.analytic.account', string="Analytic Account", copy=False, check_company=True)
     # Relations
@@ -129,31 +134,42 @@ class TravelTrip(models.Model):
         currency_field='company_currency_id')
     expected_revenue = fields.Monetary(
         string="Expected Revenue", compute='_compute_financials',
-        currency_field='company_currency_id')
+        currency_field='company_currency_id',
+        groups='odossey_travel.group_travel_manager')
     expected_margin = fields.Monetary(
         string="Expected Margin", compute='_compute_financials',
-        currency_field='company_currency_id')
-    # Net profitability (company currency, posted accounting entries)
-    profit_gross = fields.Monetary(string="Gross Invoiced", compute='_compute_profitability',
-                                   currency_field='company_currency_id')
-    profit_vat = fields.Monetary(string="VAT", compute='_compute_profitability',
-                                 currency_field='company_currency_id')
-    profit_perception = fields.Monetary(string="Perceptions", compute='_compute_profitability',
-                                        currency_field='company_currency_id')
-    profit_other_tax = fields.Monetary(string="Other Taxes", compute='_compute_profitability',
-                                       currency_field='company_currency_id')
-    profit_revenue = fields.Monetary(string="Net Revenue", compute='_compute_profitability',
-                                     currency_field='company_currency_id')
-    profit_cost = fields.Monetary(string="Supplier Costs", compute='_compute_profitability',
-                                  currency_field='company_currency_id')
-    profit_fee = fields.Monetary(string="Fees", compute='_compute_profitability',
-                                 currency_field='company_currency_id')
-    profit_iibb = fields.Monetary(string="Gross Income Tax (IIBB)",
-                                  compute='_compute_profitability',
-                                  currency_field='company_currency_id')
-    profit_net = fields.Monetary(string="Net Profit", compute='_compute_profitability',
-                                 currency_field='company_currency_id')
-    profit_margin = fields.Float(string="Net Margin (%)", compute='_compute_profitability')
+        currency_field='company_currency_id',
+        groups='odossey_travel.group_travel_manager')
+    # Net profitability (company currency, posted accounting entries, managers only)
+    profit_gross = fields.Monetary(
+        string="Gross Invoiced", compute='_compute_profitability',
+        currency_field='company_currency_id', groups='odossey_travel.group_travel_manager')
+    profit_vat = fields.Monetary(
+        string="VAT", compute='_compute_profitability',
+        currency_field='company_currency_id', groups='odossey_travel.group_travel_manager')
+    profit_perception = fields.Monetary(
+        string="Perceptions", compute='_compute_profitability',
+        currency_field='company_currency_id', groups='odossey_travel.group_travel_manager')
+    profit_other_tax = fields.Monetary(
+        string="Other Taxes", compute='_compute_profitability',
+        currency_field='company_currency_id', groups='odossey_travel.group_travel_manager')
+    profit_revenue = fields.Monetary(
+        string="Net Revenue", compute='_compute_profitability',
+        currency_field='company_currency_id', groups='odossey_travel.group_travel_manager')
+    profit_cost = fields.Monetary(
+        string="Supplier Costs", compute='_compute_profitability',
+        currency_field='company_currency_id', groups='odossey_travel.group_travel_manager')
+    profit_fee = fields.Monetary(
+        string="Fees", compute='_compute_profitability',
+        currency_field='company_currency_id', groups='odossey_travel.group_travel_manager')
+    profit_iibb = fields.Monetary(
+        string="Gross Income Tax (IIBB)", compute='_compute_profitability',
+        currency_field='company_currency_id', groups='odossey_travel.group_travel_manager')
+    profit_net = fields.Monetary(
+        string="Net Profit", compute='_compute_profitability',
+        currency_field='company_currency_id', groups='odossey_travel.group_travel_manager')
+    profit_margin = fields.Float(string="Net Margin (%)", compute='_compute_profitability',
+                                 groups='odossey_travel.group_travel_manager')
 
     _dates_check = models.Constraint(
         'CHECK(date_end >= date_start)', "The return date must be after the departure date.")
@@ -187,6 +203,7 @@ class TravelTrip(models.Model):
             components = trip.component_ids.filtered('per_passenger')
             trip.price_per_person = sum(components.mapped('price_unit'))
             trip.cost_per_person = sum(components.mapped('cost_unit'))
+            trip.cost_per_booking = sum((trip.component_ids - components).mapped('cost_unit'))
             trip.margin_per_person = trip.price_per_person - trip.cost_per_person
 
     @api.depends('capacity', 'min_pax', 'passenger_ids.state')
@@ -202,20 +219,35 @@ class TravelTrip(models.Model):
             trip.min_pax_reached = trip.seats_reserved >= trip.min_pax
 
     def _compute_counts(self):
+        domain = [('trip_id', 'in', self.ids)]
+
+        def count(model):
+            return {trip.id: cnt for trip, cnt in model._read_group(
+                domain, ['trip_id'], ['__count'])}
+
+        orders = count(self.env['sale.order'])
+        leads = count(self.env['crm.lead'].with_context(active_test=False))
+        invoices = count(self.env['account.move'])
+        groups = count(self.env['travel.group'])
+        passengers, warnings = {}, {}
+        for trip, document_state, cnt in self.env['travel.passenger']._read_group(
+                domain + [('state', '!=', 'cancelled')], ['trip_id', 'document_state'],
+                ['__count']):
+            passengers[trip.id] = passengers.get(trip.id, 0) + cnt
+            if document_state != 'ok':
+                warnings[trip.id] = warnings.get(trip.id, 0) + cnt
         for trip in self:
-            trip.order_count = len(trip.sale_order_ids)
-            trip.lead_count = self.env['crm.lead'].with_context(active_test=False).search_count(
-                [('trip_id', '=', trip.id)])
-            trip.invoice_count = self.env['account.move'].search_count(
-                [('trip_id', '=', trip.id)])
-            trip.group_count = len(trip.group_ids)
-            passengers = trip.passenger_ids.filtered(lambda p: p.state != 'cancelled')
-            trip.passenger_count = len(passengers)
-            trip.document_warning_count = len(
-                passengers.filtered(lambda p: p.document_state != 'ok'))
+            trip.order_count = orders.get(trip.id, 0)
+            trip.lead_count = leads.get(trip.id, 0)
+            trip.invoice_count = invoices.get(trip.id, 0)
+            trip.group_count = groups.get(trip.id, 0)
+            trip.passenger_count = passengers.get(trip.id, 0)
+            trip.document_warning_count = warnings.get(trip.id, 0)
 
     def _compute_financials(self):
-        Forecast = self.env['travel.forecast.report']
+        # the forecast is restricted to the managers, but the amounts booked / collected of
+        # the trip are shown to every travel user
+        Forecast = self.env['travel.forecast.report'].sudo()
         data = {
             trip.id: (booked, paid, due, revenue, margin)
             for trip, booked, paid, due, revenue, margin in Forecast._read_group(
@@ -237,9 +269,10 @@ class TravelTrip(models.Model):
             trip.amount_paid = paid
             trip.amount_due = due
             trip.expected_revenue = revenue
+            fixed_cost = trip.sudo().fixed_cost
             trip.expected_margin = margin - trip.currency_id._convert(
-                trip.fixed_cost, trip.company_currency_id, trip.company_id,
-                trip.date_start or fields.Date.today()) if trip.fixed_cost else margin
+                fixed_cost, trip.company_currency_id, trip.company_id,
+                trip.date_start or fields.Date.today()) if fixed_cost else margin
 
     def _compute_profitability(self):
         values = self._travel_profitability_values()
@@ -255,7 +288,7 @@ class TravelTrip(models.Model):
         """Return {trip_id: {measure: amount}} from the profitability report."""
         measures = ['gross', 'vat', 'perception', 'other_tax', 'revenue', 'cost', 'fee', 'iibb',
                     'net']
-        rows = self.env['travel.profitability.report']._read_group(
+        rows = self.env['travel.profitability.report'].sudo()._read_group(
             [('trip_id', 'in', self.ids)], ['trip_id'],
             [f'{m}_amount:sum' for m in measures])
         return {row[0].id: dict(zip(measures, row[1:])) for row in rows}
@@ -275,7 +308,7 @@ class TravelTrip(models.Model):
     def write(self, vals):
         res = super().write(vals)
         if {'name', 'destination', 'date_start', 'date_end', 'user_id', 'active',
-                'company_id'} & set(vals):
+                'company_id', 'state'} & set(vals):
             self._sync_calendar_activity()
         return res
 
@@ -297,7 +330,8 @@ class TravelTrip(models.Model):
     def _sync_calendar_activity(self):
         """Every trip has one calendar entry spanning the whole trip, shown in the main
         calendar together with the itinerary activities of the passengers."""
-        Activity = self.env['travel.activity'].sudo().with_context(active_test=False)
+        Activity = self.env['travel.activity'].sudo().with_context(active_test=False,
+                                                                   travel_sync=True)
         existing = {a.trip_id.id: a for a in Activity.search(
             [('trip_id', 'in', self.ids), ('activity_type', '=', 'trip')])}
         to_create = []
@@ -309,7 +343,8 @@ class TravelTrip(models.Model):
                 'stop': datetime.combine(trip.date_end, time(23, 59)),
                 'allday': True,
                 'user_id': trip.user_id.id,
-                'active': trip.active,
+                # a cancelled trip leaves the calendar (archived), it is restored with it
+                'active': trip.active and trip.state != 'cancel',
                 'company_id': trip.company_id.id,
             }
             if trip.id in existing:
@@ -323,6 +358,33 @@ class TravelTrip(models.Model):
     # ------------------------------------------------------------------
     # Actions
     # ------------------------------------------------------------------
+    def _travel_check_seats(self, orders=None):
+        """Raise if the confirmed passengers of the trips plus the passengers of ``orders``
+        (bookings being confirmed or modified) exceed the capacity. The trips are locked
+        until the end of the transaction so that concurrent confirmations cannot overbook
+        them."""
+        orders = orders or self.env['sale.order']
+        trips = self.filtered('capacity')
+        if not trips:
+            return
+        self.env.cr.execute("SELECT id FROM travel_trip WHERE id IN %s FOR UPDATE",
+                            [tuple(trips.ids)])
+        self.env['travel.passenger'].flush_model()
+        Passenger = self.env['travel.passenger'].sudo()
+        for trip in trips:
+            trip_orders = orders.filtered(lambda o: o.trip_id == trip)
+            booked = Passenger.search_count([
+                ('trip_id', '=', trip.id),
+                ('state', 'in', ('pending', 'deposit', 'paid')),
+                ('sale_order_id', 'not in', trip_orders.ids),
+            ])
+            requested = sum(trip_orders.mapped('travel_pax_count'))
+            if booked + requested > trip.capacity:
+                raise UserError(self.env._(
+                    "Not enough seats left on %(trip)s: %(free)s available, %(pax)s "
+                    "requested.", trip=trip.display_name,
+                    free=max(trip.capacity - booked, 0), pax=requested))
+
     def action_open(self):
         self._ensure_analytic_account()
         self.write({'state': 'open'})
@@ -482,7 +544,8 @@ class TravelTripComponent(models.Model):
     supplier_id = fields.Many2one('res.partner', string="Supplier")
     currency_id = fields.Many2one(related='trip_id.currency_id')
     price_unit = fields.Monetary(string="Sale Price", help="Sale price per passenger.")
-    cost_unit = fields.Monetary(string="Cost", help="Supplier cost per passenger.")
+    cost_unit = fields.Monetary(string="Cost", help="Supplier cost per passenger.",
+                                groups='odossey_travel.group_travel_manager')
     tax_ids = fields.Many2many(related='product_id.taxes_id', string="Taxes")
     per_passenger = fields.Boolean(
         string="Per Passenger", default=True,
@@ -498,4 +561,5 @@ class TravelTripComponent(models.Model):
     def _onchange_product_id(self):
         if self.product_id:
             self.price_unit = self.product_id.lst_price
-            self.cost_unit = self.product_id.standard_price
+            if self.env.user.has_group('odossey_travel.group_travel_manager'):
+                self.cost_unit = self.product_id.standard_price

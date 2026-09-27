@@ -2,7 +2,9 @@ from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.fields import Command
 
-from ..tools.id_parsers import DocumentParseError, parse_document
+from ..tools.id_parsers import DocumentParseError, cuil_check_digit, parse_document
+
+CUIL_PERSON_PREFIXES = ('20', '23', '24', '27')
 
 DOC_TYPES = [
     ('dni_new', "DNI card (PDF417)"),
@@ -57,7 +59,7 @@ class TravelDocumentScan(models.TransientModel):
                                      compute='_compute_parsed', store=True, readonly=False)
     partner_id = fields.Many2one(
         'res.partner', string="Contact", compute='_compute_partner_id', store=True,
-        readonly=False,
+        readonly=False, domain="[('is_company', '=', False)]",
         help="Existing contact that will be completed. Leave empty to create a new contact.")
     sale_order_id = fields.Many2one('sale.order', string="Add to Booking")
     consent = fields.Boolean(
@@ -90,6 +92,23 @@ class TravelDocumentScan(models.TransientModel):
             wizard.passport_country_id = (issuing and result.get('doc_type') == 'mrz_td3'
                                           and Country.search([('code', '=', issuing)], limit=1))
 
+    @api.model
+    def _dni_vat_domain(self, dni):
+        """Domain of the people identified by the DNI ``dni``: the DNI itself or a CUIL/CUIT
+        of a person (prefix 20, 23, 24 or 27) built on it."""
+        dni8 = dni.zfill(8)
+        exact = {dni, dni8, f"{int(dni):,}".replace(',', '.')}
+        cuils = []
+        for prefix in CUIL_PERSON_PREFIXES:
+            check = cuil_check_digit(prefix + dni8)
+            if check is not None:
+                cuils += [f"{prefix}{dni8}{check}", f"{prefix}-{dni8}-{check}"]
+        return [('is_company', '=', False), ('vat', 'in', sorted(exact) + cuils)]
+
+    @staticmethod
+    def _vat_digits(vat):
+        return ''.join(c for c in (vat or '') if c.isdigit())
+
     @api.depends('dni_number', 'passport_number')
     def _compute_partner_id(self):
         Partner = self.env['res.partner']
@@ -98,16 +117,12 @@ class TravelDocumentScan(models.TransientModel):
                 wizard.partner_id = self.env.context['travel_scan_partner_id']
                 continue
             partner = Partner
-            if wizard.dni_number:
-                dni = wizard.dni_number.lstrip('0')
-                # same DNI, or CUIT/CUIL built on the DNI (XX-DNI-X)
-                partner = Partner.search([('vat', 'ilike', dni)], limit=20).filtered(
-                    lambda p: p.vat.replace('-', '').lstrip('0') == dni
-                    or (len(p.vat.replace('-', '')) == 11
-                        and p.vat.replace('-', '')[2:10].lstrip('0') == dni))[:1]
+            dni = self._vat_digits(wizard.dni_number).lstrip('0')
+            if dni and len(dni) <= 8:
+                partner = Partner.search(self._dni_vat_domain(dni), limit=1)
             if not partner and wizard.passport_number:
-                partner = Partner.search([('passport_number', '=', wizard.passport_number)],
-                                         limit=1)
+                partner = Partner.search([('passport_number', '=', wizard.passport_number),
+                                          ('is_company', '=', False)], limit=1)
             wizard.partner_id = partner
 
     @api.model
@@ -141,8 +156,10 @@ class TravelDocumentScan(models.TransientModel):
                 'passport_country_id': self.passport_country_id.id,
                 'passport_expiry_date': self.expiry_date,
             })
-        if self.dni_number and not (partner.vat and partner.l10n_latam_identification_type_id
-                                    == self.env.ref('l10n_ar.it_cuit')):
+        partner_vat = self._vat_digits(partner.vat).lstrip('0')
+        dni = self._vat_digits(self.dni_number).lstrip('0')
+        if dni and (not partner.vat or partner_vat == dni):
+            # never replace a CUIL/CUIT (or another document) already set on the contact
             vals.update({
                 'vat': self.dni_number,
                 'l10n_latam_identification_type_id': self.env.ref('l10n_ar.it_dni').id,
@@ -170,6 +187,10 @@ class TravelDocumentScan(models.TransientModel):
         if not self.consent:
             raise UserError(self.env._(
                 "Confirm that the passenger consents to the processing of his personal data."))
+        if self.partner_id.is_company:
+            raise UserError(self.env._(
+                "%s is a company: personal data can only be loaded on an individual.",
+                self.partner_id.display_name))
         vals = self._prepare_partner_values()
         if self.partner_id:
             partner = self.partner_id

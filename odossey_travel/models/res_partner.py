@@ -10,31 +10,34 @@ _logger = logging.getLogger(__name__)
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    birthdate = fields.Date(string="Birthdate", tracking=True)
+    # personal data of the travellers: travel users only
+    birthdate = fields.Date(string="Birthdate", tracking=True, groups='odossey_travel.group_travel_user')
     birthday_month = fields.Integer(
         string="Birthday Month", compute='_compute_birthday_parts', store=True)
     birthday_day = fields.Integer(
         string="Birthday Day", compute='_compute_birthday_parts', store=True)
-    age = fields.Integer(string="Age", compute='_compute_age')
+    age = fields.Integer(string="Age", compute='_compute_age', groups='odossey_travel.group_travel_user')
     gender = fields.Selection(
         selection=[('male', "Male"), ('female', "Female"), ('other', "Other")],
         string="Gender")
     nationality_id = fields.Many2one('res.country', string="Nationality")
-    passport_number = fields.Char(string="Passport Number", tracking=True)
-    passport_country_id = fields.Many2one('res.country', string="Passport Issuing Country")
-    passport_issue_date = fields.Date(string="Passport Issue Date")
-    passport_expiry_date = fields.Date(string="Passport Expiry Date", tracking=True)
+    passport_number = fields.Char(string="Passport Number", groups='odossey_travel.group_travel_user')
+    passport_country_id = fields.Many2one('res.country', string="Passport Issuing Country",
+                                          groups='odossey_travel.group_travel_user')
+    passport_issue_date = fields.Date(string="Passport Issue Date", groups='odossey_travel.group_travel_user')
+    passport_expiry_date = fields.Date(string="Passport Expiry Date", groups='odossey_travel.group_travel_user')
     passport_expired = fields.Boolean(
         string="Passport Expired", compute='_compute_passport_expired',
-        search='_search_passport_expired')
+        search='_search_passport_expired', groups='odossey_travel.group_travel_user')
     dni_tramite = fields.Char(
-        string="DNI Procedure Number",
+        string="DNI Procedure Number", groups='odossey_travel.group_travel_user',
         help="Número de trámite printed on the Argentine DNI card.")
-    dni_ejemplar = fields.Char(string="DNI Copy", help="Ejemplar (A, B, C...) of the DNI card.")
-    emergency_contact_name = fields.Char(string="Emergency Contact")
-    emergency_contact_phone = fields.Char(string="Emergency Phone")
-    travel_dietary_notes = fields.Char(string="Dietary Restrictions")
-    travel_medical_notes = fields.Text(string="Medical Notes")
+    dni_ejemplar = fields.Char(string="DNI Copy", groups='odossey_travel.group_travel_user',
+                               help="Ejemplar (A, B, C...) of the DNI card.")
+    emergency_contact_name = fields.Char(string="Emergency Contact", groups='odossey_travel.group_travel_user')
+    emergency_contact_phone = fields.Char(string="Emergency Phone", groups='odossey_travel.group_travel_user')
+    travel_dietary_notes = fields.Char(string="Dietary Restrictions", groups='odossey_travel.group_travel_user')
+    travel_medical_notes = fields.Text(string="Medical Notes", groups='odossey_travel.group_travel_user')
     travel_birthday_optout = fields.Boolean(
         string="No Birthday Email",
         help="Do not send the automatic birthday greeting to this contact.")
@@ -125,10 +128,18 @@ class ResPartner(models.Model):
             partners = self.sudo().with_company(company).search(
                 self._travel_birthday_domain(today)
                 + [('company_id', 'in', [False, company.id])])
+            # never write to blacklisted addresses
+            partners = partners.filtered(lambda p: not p.is_blacklisted)
+            sent = 0
             for partner in partners:
-                template.with_company(company).send_mail(
-                    partner.id, email_layout_xmlid='mail.mail_notification_light')
-                partner.travel_birthday_last_sent = today
+                try:
+                    with self.env.cr.savepoint():
+                        template.with_company(company).send_mail(
+                            partner.id, email_layout_xmlid='mail.mail_notification_light')
+                        partner.travel_birthday_last_sent = today
+                    sent += 1
+                except Exception:
+                    _logger.exception("Travel: birthday email to partner %s failed", partner.id)
             _logger.info("Travel: %s birthday emails sent for company %s",
-                         len(partners), company.name)
+                         sent, company.name)
         return True

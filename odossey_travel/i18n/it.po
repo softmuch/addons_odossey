@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e-20260622\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-27 10:15+0000\n"
+"POT-Creation-Date: 2026-09-27 11:29+0000\n"
 "PO-Revision-Date: 2026-09-27 10:06+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -15,6 +15,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/models/travel_passenger.py:0
+msgid "%(passenger)s is already booked on %(trip)s (booking %(booking)s)."
+msgstr ""
+"%(passenger)s ha già una prenotazione per %(trip)s (prenotazione "
+"%(booking)s)."
 
 #. module: odossey_travel
 #: model_terms:ir.ui.view,arch_db:odossey_travel.report_travel_profitability
@@ -29,6 +37,14 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:odossey_travel.report_travel_profitability
 msgid "%) are estimated from the settings."
 msgstr "%) sono stimate in base alle impostazioni."
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/wizard/travel_document_scan.py:0
+msgid "%s is a company: personal data can only be loaded on an individual."
+msgstr ""
+"%s è un'azienda: i dati personali possono essere caricati solo su una "
+"persona fisica."
 
 #. module: odossey_travel
 #. odoo-python
@@ -831,6 +847,7 @@ msgid "Company"
 msgstr "Azienda"
 
 #. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order__travel_company_currency_id
 #: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__company_currency_id
 msgid "Company Currency"
 msgstr "Valuta aziendale"
@@ -927,6 +944,11 @@ msgstr "Esemplare"
 #: model:ir.model.fields,field_description:odossey_travel.field_travel_trip_component__cost_unit
 msgid "Cost"
 msgstr "Costo"
+
+#. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__cost_per_booking
+msgid "Cost per Booking"
+msgstr "Costo per prenotazione"
 
 #. module: odossey_travel
 #: model:ir.model.fields,field_description:odossey_travel.field_travel_trip__cost_per_person
@@ -1171,6 +1193,11 @@ msgid "Deposit (price freeze)"
 msgstr "Acconto (blocco del prezzo)"
 
 #. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order__travel_deposit_invoiced
+msgid "Deposit Invoiced"
+msgstr "Acconto fatturato"
+
+#. module: odossey_travel
 #: model:ir.model.fields,field_description:odossey_travel.field_travel_booking_cancel__deposit_paid
 msgid "Deposit Paid"
 msgstr "Acconto pagato"
@@ -1312,6 +1339,14 @@ msgstr "Documenti"
 #: model:ir.model.fields.selection,name:odossey_travel.selection__travel_passenger__room_type__double
 msgid "Double"
 msgstr "Doppia"
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_sale_order__travel_deposit_invoiced
+msgid ""
+"Draft or posted deposit invoices already cover the deposit of the booking."
+msgstr ""
+"Le fatture d'acconto in bozza o registrate coprono già l'acconto della "
+"prenotazione."
 
 #. module: odossey_travel
 #: model:ir.model.fields,field_description:odossey_travel.field_travel_activity__duration
@@ -1489,6 +1524,7 @@ msgid "Expected Revenue"
 msgstr "Ricavo previsto"
 
 #. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order__travel_expected_cost
 #: model:ir.model.fields,field_description:odossey_travel.field_travel_forecast_report__expected_cost
 msgid "Expected Supplier Cost"
 msgstr "Costo fornitori previsto"
@@ -2042,6 +2078,11 @@ msgid "Journal Entry"
 msgstr "Registrazione contabile"
 
 #. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order__travel_keep_pricelist
+msgid "Keep Pricelist"
+msgstr "Mantieni listino prezzi"
+
+#. module: odossey_travel
 #: model:ir.model.fields,field_description:odossey_travel.field_travel_profitability_report__line_kind
 #: model_terms:ir.ui.view,arch_db:odossey_travel.travel_profitability_report_view_search
 msgid "Kind"
@@ -2429,7 +2470,7 @@ msgstr "Non incluso"
 
 #. module: odossey_travel
 #. odoo-python
-#: code:addons/odossey_travel/models/sale_order.py:0
+#: code:addons/odossey_travel/models/travel_trip.py:0
 msgid ""
 "Not enough seats left on %(trip)s: %(free)s available, %(pax)s requested."
 msgstr ""
@@ -3343,6 +3384,21 @@ msgid "Supplier Costs"
 msgstr "Costi fornitori"
 
 #. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_travel_trip__cost_per_booking
+msgid "Supplier cost of the services invoiced once per booking."
+msgstr ""
+"Costo fornitore dei servizi fatturati una sola volta per prenotazione."
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_sale_order__travel_expected_cost
+msgid ""
+"Supplier cost of the services of the trip for the passengers of the booking,"
+" in the company currency."
+msgstr ""
+"Costo fornitore dei servizi del viaggio per i passeggeri della prenotazione,"
+" nella valuta dell'azienda."
+
+#. module: odossey_travel
 #: model:ir.model.fields,help:odossey_travel.field_travel_trip_component__cost_unit
 msgid "Supplier cost per passenger."
 msgstr "Costo fornitore per passeggero."
@@ -3359,6 +3415,25 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:odossey_travel.travel_profitability_report_view_search
 msgid "Taxes"
 msgstr "Imposte"
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_sale_order_line__travel_section
+msgid ""
+"Technical: section line created from the trip, replaced when the services of"
+" the trip are reloaded."
+msgstr ""
+"Tecnico: sezione creata dal viaggio, sostituita quando si ricaricano i "
+"servizi del viaggio."
+
+#. module: odossey_travel
+#: model:ir.model.fields,help:odossey_travel.field_sale_order__travel_keep_pricelist
+msgid ""
+"Technical: the pricelist was chosen explicitly (e.g. website bookings paid "
+"in the company currency) and must not be replaced by the trip pricelist."
+msgstr ""
+"Tecnico: il listino prezzi è stato scelto esplicitamente (ad es. "
+"prenotazioni web pagate nella valuta dell'azienda) e non deve essere "
+"sostituito dal listino del viaggio."
 
 #. module: odossey_travel
 #. odoo-python
@@ -3427,6 +3502,16 @@ msgstr ""
 "                    nella previsione dei ricavi. Viene creata un'attività da fare per emettere l'eventuale rimborso."
 
 #. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/models/travel_activity.py:0
+msgid ""
+"The calendar entry of a trip is updated automatically from the trip: modify "
+"the trip instead."
+msgstr ""
+"La voce di calendario di un viaggio si aggiorna automaticamente dal viaggio:"
+" modificare il viaggio."
+
+#. module: odossey_travel
 #. odoo-javascript
 #: code:addons/odossey_travel/static/src/scan/scan_input_field.js:0
 msgid "The camera could not be used."
@@ -3465,6 +3550,12 @@ msgstr ""
 
 #. module: odossey_travel
 #. odoo-python
+#: code:addons/odossey_travel/models/sale_order.py:0
+msgid "The deposit of %s is already invoiced."
+msgstr "L'acconto di %s è già fatturato."
+
+#. module: odossey_travel
+#. odoo-python
 #: code:addons/odossey_travel/models/travel_activity.py:0
 msgid "The end must be after the start."
 msgstr "La fine deve essere successiva all'inizio."
@@ -3493,9 +3584,19 @@ msgstr ""
 "personali per la gestione del viaggio (Legge argentina 25.326)."
 
 #. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/wizard/travel_booking_cancel.py:0
 #: model:ir.model.constraint,message:odossey_travel.constraint_travel_cancellation_rule_penalty_range
 msgid "The penalty must be between 0 and 100%."
 msgstr "La penale deve essere compresa tra 0 e 100%."
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/wizard/travel_booking_cancel.py:0
+msgid "The penalty retained must be between 0 and the booking total."
+msgstr ""
+"La penale trattenuta deve essere compresa tra 0 e il totale della "
+"prenotazione."
 
 #. module: odossey_travel
 #: model:ir.model.constraint,message:odossey_travel.constraint_travel_trip_dates_check
@@ -3799,6 +3900,11 @@ msgid "Trip Quotation"
 msgstr "Preventivo del viaggio"
 
 #. module: odossey_travel
+#: model:ir.model.fields,field_description:odossey_travel.field_sale_order_line__travel_section
+msgid "Trip Section"
+msgstr "Sezione del viaggio"
+
+#. module: odossey_travel
 #: model:ir.model,name:odossey_travel.model_travel_trip_component
 #: model:ir.model.fields,field_description:odossey_travel.field_sale_order_line__travel_component_id
 msgid "Trip Service"
@@ -3979,6 +4085,12 @@ msgid "Won and lost opportunities (with their lost reasons) appear here."
 msgstr ""
 "Qui compaiono le opportunità vinte e perse (con i relativi motivi di "
 "perdita)."
+
+#. module: odossey_travel
+#. odoo-python
+#: code:addons/odossey_travel/wizard/travel_booking_cancel.py:0
+msgid "You cannot cancel a locked order. Please unlock it first."
+msgstr "Non è possibile annullare un ordine bloccato. Sbloccarlo prima."
 
 #. module: odossey_travel
 #. odoo-python
