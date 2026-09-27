@@ -64,7 +64,7 @@ class TravelDocumentScan(models.TransientModel):
     sale_order_id = fields.Many2one('sale.order', string="Add to Booking")
     consent = fields.Boolean(
         string="Consent",
-        help="The passenger was informed and consents to the processing of his personal data "
+        help="The passenger was informed and consents to the processing of their personal data "
              "for the management of the trip (Law 25.326).")
 
     @api.depends('raw_data', 'input_type')
@@ -186,7 +186,7 @@ class TravelDocumentScan(models.TransientModel):
             raise UserError(self.env._("Scan a document first."))
         if not self.consent:
             raise UserError(self.env._(
-                "Confirm that the passenger consents to the processing of his personal data."))
+                "Confirm that the passenger consents to the processing of their personal data."))
         if self.partner_id.is_company:
             raise UserError(self.env._(
                 "%s is a company: personal data can only be loaded on an individual.",

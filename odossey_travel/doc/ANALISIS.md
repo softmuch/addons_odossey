@@ -41,3 +41,22 @@ Recomendado: (a), con (c) como respaldo.
 ## Cumpleaños
 Odoo Community no trae fecha de nacimiento en contactos ni emails de cumpleaños. El módulo OCA `partner_contact_birthdate`
 no está en el addons path. Se agregó `birthdate` y un cron diario con plantilla (ES/IT/EN según el idioma del contacto).
+
+## Reserva y pago online (`odossey_travel_website`)
+Módulo aparte (depende de `website` + `odossey_travel`, todo Community/LGPL). Reutiliza el portal de pago estándar de `sale`
+(modal "Anticipo / Importe completo") y los proveedores de pago estándar (Mercado Pago, Stripe, transferencia...).
+
+- Catálogo público `/viajes` (filtros destino, mes, tipo), página del viaje con itinerario, qué incluye, cupo y seña.
+- Formulario `/viajes/<viaje>/reservar`: titular + pasajeros (el titular puede ser el pasajero 1); crea la reserva (cotización web).
+- Pago online de la **seña** (congela el precio) o del total; el saldo se paga luego desde el portal ("Pagar el saldo").
+  Cada pago online se factura automáticamente (Factura B a consumidor final) y cuenta en `travel_amount_paid`
+  aunque el pago todavía no esté conciliado.
+- Por viaje (pestaña Website): publicar, permitir solo seña, moneda del pago online (ARS convertido al día de la reserva:
+  Mercado Pago solo acepta pesos), máx. pasajeros por reserva, cupo online (lugares libres menos cotizaciones web vigentes).
+- Protección de sobrecupo: si el pago llega y el viaje ya está completo, el pago no se pierde, la reserva queda sin confirmar
+  y se genera una actividad para el vendedor.
+- Portal "Mis viajes" y **botón de arrepentimiento** (`/viajes/arrepentimiento`, enlace en el pie de página, obligatorio
+  en Argentina por Res. SCI 424/2020): 10 días corridos, registra la solicitud en la reserva para que la gestione la agencia.
+
+Pendiente de decidir con el cliente: proveedor de pago real (credenciales de Mercado Pago), textos legales de condiciones
+y política de cancelación que se muestran en el sitio, e imágenes de los viajes.

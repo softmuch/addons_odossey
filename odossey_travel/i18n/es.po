@@ -890,7 +890,7 @@ msgstr "Confirmar salida"
 #. odoo-python
 #: code:addons/odossey_travel/wizard/travel_document_scan.py:0
 msgid ""
-"Confirm that the passenger consents to the processing of his personal data."
+"Confirm that the passenger consents to the processing of their personal data."
 msgstr ""
 "Confirme que el pasajero consiente el tratamiento de sus datos personales."
 
@@ -3558,14 +3558,14 @@ msgstr "El mínimo de pasajeros no puede superar el cupo."
 #. module: odossey_travel
 #: model_terms:ir.ui.view,arch_db:odossey_travel.travel_document_scan_view_form
 msgid ""
-"The passenger consents to the processing of his personal data (Law 25.326)"
+"The passenger consents to the processing of their personal data (Law 25.326)"
 msgstr ""
 "El pasajero consiente el tratamiento de sus datos personales (Ley 25.326)"
 
 #. module: odossey_travel
 #: model:ir.model.fields,help:odossey_travel.field_travel_document_scan__consent
 msgid ""
-"The passenger was informed and consents to the processing of his personal "
+"The passenger was informed and consents to the processing of their personal "
 "data for the management of the trip (Law 25.326)."
 msgstr ""
 "El pasajero fue informado y consiente el tratamiento de sus datos personales"

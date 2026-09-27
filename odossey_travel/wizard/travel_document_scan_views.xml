@@ -48,7 +48,7 @@
                 <group>
                     <field name="partner_id" placeholder="New contact"/>
                     <field name="sale_order_id" invisible="not sale_order_id" readonly="1"/>
-                    <field name="consent" string="The passenger consents to the processing of his personal data (Law 25.326)"/>
+                    <field name="consent" string="The passenger consents to the processing of their personal data (Law 25.326)"/>
                 </group>
                 <footer>
                     <button name="action_apply" type="object" class="btn-primary"
