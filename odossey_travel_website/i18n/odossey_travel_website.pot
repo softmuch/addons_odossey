@@ -1,0 +1,853 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* odossey_travel_website
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e-20260622\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-27 12:25+0000\n"
+"PO-Revision-Date: 2026-09-27 12:25+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.withdrawal_page
+msgid ""
+".\n"
+"                            We will contact you shortly."
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_page
+msgid "<b>Not included:</b>"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.sale_order_portal_content_travel
+msgid "<b>Passengers</b>"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_page
+msgid "<i class=\"fa fa-bed me-1\" title=\"Lodging\"/>Lodging"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_page
+msgid "<i class=\"fa fa-bus me-1\" title=\"Transfers\"/>Transfers"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_card
+msgid "<i class=\"fa fa-calendar me-1\" title=\"Dates\"/>"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.withdrawal_page
+msgid ""
+"<i class=\"fa fa-check me-1\" title=\"Done\"/>\n"
+"                            Your request has been registered. Request code:"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trips_page
+msgid "<i class=\"fa fa-compass fa-3x mb-3\" title=\"No trips\"/>"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+msgid "<i class=\"fa fa-exclamation-triangle\" title=\"Error\"/>"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.travel_trip_view_kanban_website
+msgid "<i class=\"fa fa-globe me-1\" title=\"Published\"/>Published on the website"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+msgid ""
+"<i class=\"fa fa-lock me-1\" title=\"Price frozen\"/>\n"
+"                                                On the next step you choose to pay the deposit (it freezes the price) or the full amount."
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_page
+msgid ""
+"<i class=\"fa fa-lock me-1\" title=\"Price frozen\"/>\n"
+"                                            Book now with"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.sale_order_portal_content_travel
+msgid ""
+"<i class=\"fa fa-lock me-1\" title=\"Price frozen\"/>\n"
+"                        Your price is frozen since"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_page
+msgid "<i class=\"fa fa-map me-1\" title=\"Excursions\"/>Excursions"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_card
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_page
+msgid "<i class=\"fa fa-map-marker me-1\" title=\"Destination\"/>"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_page
+msgid "<i class=\"fa fa-medkit me-1\" title=\"Travel assistance\"/>Travel assistance"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_card
+msgid "<i class=\"fa fa-plane fa-3x text-primary\" title=\"Trip\"/>"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_page
+msgid "<i class=\"fa fa-plane me-1\" title=\"Flights\"/>Flights"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.sale_order_portal_content_travel
+msgid "<i class=\"fa fa-plane me-2\" title=\"Trip\"/>"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trips_page
+msgid "<i class=\"fa fa-search me-1\" title=\"Search\"/>Search"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.sale_order_portal_content_travel
+msgid ""
+"<i class=\"fa fa-unlock me-1\" title=\"Deposit pending\"/>\n"
+"                        Pay the deposit to confirm the booking and freeze the price."
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_page
+msgid "<i class=\"fa fa-users me-1\" title=\"Seats\"/>"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trips_page
+msgid "<option value=\"\">All</option>"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trips_page
+msgid "<option value=\"\">Any month</option>"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_page
+msgid ""
+"<span class=\"mx-2\">·</span>\n"
+"                            <i class=\"fa fa-calendar me-1\" title=\"Dates\"/>"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.portal_my_trips
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.sale_order_portal_content_travel
+msgid "Balance"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.sale_order_portal_content_travel
+msgid "Balance due before"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+msgid "Birthdate"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+msgid "Book"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_page
+msgid "Book now"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trips_page
+msgid "Book online with a deposit and freeze the price of your trip."
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_card
+msgid "Book with"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields,field_description:odossey_travel_website.field_travel_trip__web_bookable
+msgid "Bookable Online"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.portal_my_trips
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+msgid "Booking"
+msgstr ""
+
+#. module: odossey_travel_website
+#. odoo-python
+#: code:addons/odossey_travel_website/controllers/main.py:0
+msgid "Booking created online by %s."
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.withdrawal_page
+msgid "Booking reference"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.footer_withdrawal_link
+msgid "Botón de arrepentimiento"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields,field_description:odossey_travel_website.field_travel_trip__can_publish
+msgid "Can Publish"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+msgid "Comments (dietary restrictions, special requests...)"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields.selection,name:odossey_travel_website.selection__travel_trip__web_currency__company
+msgid "Company currency"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_page
+msgid "Conditions"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.travel_trip_view_form_website
+msgid ""
+"Content of the trip page on the website (the description is used if empty)."
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields,help:odossey_travel_website.field_travel_trip__website_description
+msgid ""
+"Content of the trip page on the website. The trip description is used if "
+"empty."
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+msgid "Continue to payment <i class=\"fa fa-arrow-right ms-1\" title=\"Continue\"/>"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields,help:odossey_travel_website.field_travel_trip__web_currency
+msgid ""
+"Currency of the website bookings. Most Argentinian payment providers (e.g. "
+"Mercado Pago) only accept pesos: the price is converted at the rate of the "
+"booking day and frozen with the deposit."
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+msgid "DNI / Passport"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields,help:odossey_travel_website.field_sale_order__travel_withdrawal_date
+msgid ""
+"Date on which the customer used the withdrawal button (botón de "
+"arrepentimiento)."
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.portal_my_trips
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trips_page
+msgid "Departure"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.sale_order_portal_content_travel
+msgid "Deposit (freezes the price)"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+msgid "Deposit to pay now"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trips_page
+msgid "Destination"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.portal_my_trips
+msgid "Discover our trips"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields,field_description:odossey_travel_website.field_payment_transaction__display_name
+#: model:ir.model.fields,field_description:odossey_travel_website.field_sale_order__display_name
+#: model:ir.model.fields,field_description:odossey_travel_website.field_travel_trip__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+msgid "Document"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.withdrawal_page
+msgid "Email"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+msgid "Full name"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+msgid "Full name (as in the ID)"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+msgid "Holder of the booking"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+msgid ""
+"I accept the booking conditions and the cancellation policy of the trip\n"
+"                                                    ("
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields,field_description:odossey_travel_website.field_payment_transaction__id
+#: model:ir.model.fields,field_description:odossey_travel_website.field_sale_order__id
+#: model:ir.model.fields,field_description:odossey_travel_website.field_travel_trip__id
+msgid "ID"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.withdrawal_page
+msgid ""
+"If you booked online you can withdraw from the purchase within 10 calendar days\n"
+"                            (Argentinian consumer protection rules). Enter your booking reference and email."
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trips_page
+msgid "International"
+msgstr ""
+
+#. module: odossey_travel_website
+#. odoo-python
+#: code:addons/odossey_travel_website/controllers/main.py:0
+msgid "Invalid number of passengers."
+msgstr ""
+
+#. module: odossey_travel_website
+#. odoo-python
+#: code:addons/odossey_travel_website/models/payment_transaction.py:0
+msgid "Invoice the online payment %s"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields,field_description:odossey_travel_website.field_travel_trip__is_published
+msgid "Is Published"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_page
+msgid "Itinerary"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields,field_description:odossey_travel_website.field_travel_trip__web_max_pax
+msgid "Max Passengers per Online Booking"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.portal_breadcrumbs_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.portal_my_home_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.portal_my_trips
+msgid "My Trips"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trips_page
+msgid "National"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trips_page
+msgid "No trips match your search."
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+msgid "Number"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields,field_description:odossey_travel_website.field_sale_order__travel_web_booking
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.travel_trip_view_form_website
+msgid "Online Booking"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.travel_booking_view_search_website
+msgid "Online Bookings"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields,field_description:odossey_travel_website.field_travel_trip__web_allow_deposit
+msgid "Online Deposit"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.travel_trip_view_form_website
+msgid "Online Payment"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields,field_description:odossey_travel_website.field_travel_trip__web_currency
+msgid "Online Payment Currency"
+msgstr ""
+
+#. module: odossey_travel_website
+#. odoo-python
+#: code:addons/odossey_travel_website/models/payment_transaction.py:0
+msgid "Online payment received: booking not confirmed"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trips_page
+msgid "Our trips"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.sale_order_portal_content_travel
+msgid "Paid"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+msgid "Passenger"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.portal_my_trips
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_page
+msgid "Passengers"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+msgid "Passport data can be completed later from your customer account."
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.portal_my_trips
+msgid "Pay"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.portal_my_trips
+msgid "Pay balance"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.sale_order_portal_content_travel
+msgid "Pay the balance"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model,name:odossey_travel_website.model_payment_transaction
+msgid "Payment Transaction"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_card
+msgid "Per person"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+msgid "Phone"
+msgstr ""
+
+#. module: odossey_travel_website
+#. odoo-python
+#: code:addons/odossey_travel_website/controllers/main.py:0
+msgid "Please enter the full name of passenger %s."
+msgstr ""
+
+#. module: odossey_travel_website
+#. odoo-python
+#: code:addons/odossey_travel_website/controllers/main.py:0
+msgid "Please enter the identification number of the holder."
+msgstr ""
+
+#. module: odossey_travel_website
+#. odoo-python
+#: code:addons/odossey_travel_website/controllers/main.py:0
+msgid "Please enter the name and a valid email of the holder."
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_page
+msgid "Price per person"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.travel_trip_view_form_website
+msgid "Published on the website"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.withdrawal_page
+msgid "Reason (optional)"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+msgid "Room"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields,field_description:odossey_travel_website.field_travel_trip__is_seo_optimized
+msgid "SEO optimized"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model,name:odossey_travel_website.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+msgid "Same as the holder if empty"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields,field_description:odossey_travel_website.field_travel_trip__web_seats_available
+msgid "Seats Available Online"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+msgid "Seats are held for"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields,help:odossey_travel_website.field_travel_trip__web_seats_available
+msgid "Seats left minus the seats held by the website quotations still valid."
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trips_page
+msgid "See all trips"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_card
+msgid "See trip"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.withdrawal_page
+msgid "Send withdrawal request"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields,field_description:odossey_travel_website.field_travel_trip__seo_name
+msgid "Seo name"
+msgstr ""
+
+#. module: odossey_travel_website
+#. odoo-python
+#: code:addons/odossey_travel_website/controllers/portal.py:0
+msgid "Sorry, the trip is full: there are only %s seats left."
+msgstr ""
+
+#. module: odossey_travel_website
+#. odoo-python
+#: code:addons/odossey_travel_website/controllers/main.py:0
+msgid "Sorry, there are only %s seats left on this trip."
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.portal_my_trips
+msgid "Status"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+msgid "Summary"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields,help:odossey_travel_website.field_travel_trip__website_absolute_url
+msgid "The full absolute URL to access the document through the website."
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_page
+msgid "The full amount is paid online when booking."
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields,help:odossey_travel_website.field_travel_trip__website_url
+msgid "The full relative URL to access the document through the website."
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+msgid "The holder is passenger 1"
+msgstr ""
+
+#. module: odossey_travel_website
+#. odoo-python
+#: code:addons/odossey_travel_website/models/payment_transaction.py:0
+msgid ""
+"The online payment was received but the booking could not be confirmed: %s"
+msgstr ""
+
+#. module: odossey_travel_website
+#. odoo-python
+#: code:addons/odossey_travel_website/controllers/main.py:0
+msgid "The same person cannot be booked twice."
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_page
+msgid "This trip cannot be booked online anymore. Contact us!"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.portal_my_trips
+msgid "Total"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+msgid "Total (approx.)"
+msgstr ""
+
+#. module: odossey_travel_website
+#. odoo-python
+#: code:addons/odossey_travel_website/models/travel_trip.py:0
+msgid "Travel %s"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model,name:odossey_travel_website.model_travel_trip
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.portal_my_trips
+msgid "Trip"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields.selection,name:odossey_travel_website.selection__travel_trip__web_currency__trip
+msgid "Trip currency"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:website.menu,name:odossey_travel_website.menu_travel_trips
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_page
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trips_page
+msgid "Trips"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trips_page
+msgid "Type"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+msgid "VAT condition"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields,field_description:odossey_travel_website.field_travel_trip__website_published
+msgid "Visible on current website"
+msgstr ""
+
+#. module: odossey_travel_website
+#. odoo-python
+#: code:addons/odossey_travel_website/controllers/main.py:0
+msgid "We could not find a booking with this reference and email."
+msgstr ""
+
+#. module: odossey_travel_website
+#. odoo-python
+#: code:addons/odossey_travel_website/controllers/main.py:0
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.travel_trip_view_form_website
+msgid "Website"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields,field_description:odossey_travel_website.field_travel_trip__website_absolute_url
+msgid "Website Absolute URL"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields,field_description:odossey_travel_website.field_travel_trip__website_description
+msgid "Website Description"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields,field_description:odossey_travel_website.field_travel_trip__website_url
+msgid "Website URL"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields,help:odossey_travel_website.field_travel_trip__web_allow_deposit
+msgid ""
+"Website customers can pay only the deposit (it freezes the price) and the "
+"balance later. If unchecked, the full amount must be paid online."
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields,field_description:odossey_travel_website.field_travel_trip__website_meta_description
+msgid "Website meta description"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields,field_description:odossey_travel_website.field_travel_trip__website_meta_keywords
+msgid "Website meta keywords"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields,field_description:odossey_travel_website.field_travel_trip__website_meta_title
+msgid "Website meta title"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields,field_description:odossey_travel_website.field_travel_trip__website_meta_og_img
+msgid "Website opengraph image"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trips_page
+msgid "Where do you want to go?"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model:ir.model.fields,field_description:odossey_travel_website.field_sale_order__travel_withdrawal_date
+msgid "Withdrawal Requested"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.travel_booking_view_search_website
+msgid "Withdrawal Requests"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.withdrawal_page
+msgid "Withdrawal button"
+msgstr ""
+
+#. module: odossey_travel_website
+#. odoo-python
+#: code:addons/odossey_travel_website/controllers/main.py:0
+msgid "Withdrawal request (arrepentimiento)"
+msgstr ""
+
+#. module: odossey_travel_website
+#. odoo-python
+#: code:addons/odossey_travel_website/controllers/main.py:0
+msgid ""
+"Withdrawal requested by the customer from the website (botón de "
+"arrepentimiento). Reason: %s"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.portal_my_trips
+msgid "You have no trips yet."
+msgstr ""
+
+#. module: odossey_travel_website
+#. odoo-python
+#: code:addons/odossey_travel_website/controllers/main.py:0
+msgid "You must accept the booking conditions and the cancellation policy."
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.portal_my_home_travel
+msgid "Your bookings, passengers and payments"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_page
+msgid "at today's exchange rate)"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_page
+msgid "breadcrumb"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.withdrawal_page
+msgid "e.g. S00042"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+msgid "hours until the payment."
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_card
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_page
+msgid "nights)"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_page
+msgid ""
+"per person and <b>freeze the price</b>.\n"
+"                                            Balance due before"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_page
+msgid "seats available"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_card
+msgid "seats left"
+msgstr ""
+
+#. module: odossey_travel_website
+#: model_terms:ir.ui.view,arch_db:odossey_travel_website.trip_booking_page
+msgid "see conditions"
+msgstr ""

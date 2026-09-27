@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="travel_trip_view_form_website" model="ir.ui.view">
+        <field name="name">travel.trip.form.website</field>
+        <field name="model">travel.trip</field>
+        <field name="inherit_id" ref="odossey_travel.travel_trip_view_form"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <field name="is_published" widget="website_redirect_button"/>
+            </div>
+            <xpath expr="//notebook" position="inside">
+                <page string="Website" name="website">
+                    <group>
+                        <group string="Online Booking">
+                            <field name="is_published" string="Published on the website"/>
+                            <field name="web_bookable"/>
+                            <field name="web_seats_available"/>
+                            <field name="web_max_pax"/>
+                        </group>
+                        <group string="Online Payment">
+                            <field name="web_allow_deposit"/>
+                            <field name="web_currency"/>
+                        </group>
+                    </group>
+                    <label for="website_description"/>
+                    <field name="website_description" placeholder="Content of the trip page on the website (the description is used if empty)."/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="travel_trip_view_kanban_website" model="ir.ui.view">
+        <field name="name">travel.trip.kanban.website</field>
+        <field name="model">travel.trip</field>
+        <field name="inherit_id" ref="odossey_travel.travel_trip_view_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban" position="inside">
+                <field name="is_published"/>
+            </xpath>
+            <field name="occupancy_rate" position="after">
+                <div t-if="record.is_published.raw_value" class="small text-success">
+                    <i class="fa fa-globe me-1" title="Published"/>Published on the website
+                </div>
+            </field>
+        </field>
+    </record>
+
+    <record id="sale_order_view_form_travel_website" model="ir.ui.view">
+        <field name="name">sale.order.form.travel.website</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="odossey_travel.sale_order_view_form_travel"/>
+        <field name="arch" type="xml">
+            <field name="travel_price_frozen" position="after">
+                <field name="travel_web_booking" invisible="not travel_web_booking"/>
+                <field name="travel_withdrawal_date" invisible="not travel_withdrawal_date"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="travel_booking_view_search_website" model="ir.ui.view">
+        <field name="name">sale.order.search.travel.website</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="odossey_travel.travel_booking_view_search"/>
+        <field name="arch" type="xml">
+            <filter name="cancelled" position="after">
+                <filter name="web_bookings" string="Online Bookings" domain="[('travel_web_booking', '=', True)]"/>
+                <filter name="withdrawals" string="Withdrawal Requests" domain="[('travel_withdrawal_date', '!=', False)]"/>
+            </filter>
+        </field>
+    </record>
+</odoo>

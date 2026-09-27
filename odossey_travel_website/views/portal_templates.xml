@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_my_home_travel" name="My Trips" inherit_id="portal.portal_my_home" priority="30"
+              customize_show="True">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
+            <t t-set="portal_client_category_enable" t-value="True"/>
+        </xpath>
+        <div id="portal_client_category" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/odossey_travel_website/static/src/img/trip.svg'"/>
+                <t t-set="title">My Trips</t>
+                <t t-set="url" t-value="'/my/trips'"/>
+                <t t-set="text">Your bookings, passengers and payments</t>
+                <t t-set="placeholder_count" t-value="'travel_booking_count'"/>
+            </t>
+        </div>
+    </template>
+
+    <template id="portal_breadcrumbs_travel" name="Portal layout: trips breadcrumb" inherit_id="portal.portal_breadcrumbs" priority="30">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'travel_bookings'" class="breadcrumb-item active">My Trips</li>
+        </xpath>
+    </template>
+
+    <template id="portal_my_trips" name="My Trips">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">My Trips</t>
+            </t>
+            <div t-if="not orders" class="alert alert-info">
+                You have no trips yet. <a href="/viajes">Discover our trips</a>.
+            </div>
+            <t t-if="orders" t-call="portal.portal_table">
+                <thead>
+                    <tr>
+                        <th>Booking</th>
+                        <th>Trip</th>
+                        <th>Departure</th>
+                        <th class="text-end">Passengers</th>
+                        <th class="text-end">Total</th>
+                        <th class="text-end">Balance</th>
+                        <th>Status</th>
+                        <th/>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="orders" t-as="order">
+                        <td><a t-att-href="order.get_portal_url()" t-out="order.name"/></td>
+                        <td t-out="order.trip_id.name"/>
+                        <td><span t-field="order.travel_date_start"/></td>
+                        <td class="text-end" t-out="order.travel_pax_count"/>
+                        <td class="text-end"><span t-field="order.amount_total"/></td>
+                        <td class="text-end"><span t-field="order.travel_amount_due"/></td>
+                        <td>
+                            <span t-att-class="'badge rounded-pill text-bg-' + {'quotation': 'info', 'pending': 'warning', 'deposit': 'primary', 'paid': 'success', 'cancelled': 'danger'}.get(order.travel_booking_state, 'light')"
+                                  t-field="order.travel_booking_state"/>
+                        </td>
+                        <td class="text-end">
+                            <a t-if="order._travel_web_balance_url()" t-att-href="order._travel_web_balance_url()"
+                               class="btn btn-sm btn-primary">Pay balance</a>
+                            <a t-elif="order.state in ('draft', 'sent')" t-att-href="order.get_portal_url(query_string='&amp;allow_payment=yes')"
+                               class="btn btn-sm btn-primary">Pay</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </t>
+        </t>
+    </template>
+
+    <!-- Trip information on the order portal page -->
+    <template id="sale_order_portal_content_travel" inherit_id="sale.sale_order_portal_content"
+              name="Travel: booking information">
+        <xpath expr="//div[@id='informations']" position="before">
+            <div t-if="sale_order.trip_id" id="travel_info" class="card border-0 bg-primary-subtle mb-4">
+                <div class="card-body">
+                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                        <div>
+                            <h4 class="mb-1"><i class="fa fa-plane me-2" title="Trip"/><t t-out="sale_order.trip_id.name"/></h4>
+                            <div class="text-muted">
+                                <t t-out="sale_order.trip_id.destination"/> ·
+                                <span t-field="sale_order.trip_id.date_start"/> - <span t-field="sale_order.trip_id.date_end"/>
+                            </div>
+                        </div>
+                        <span t-att-class="'badge rounded-pill fs-6 text-bg-' + {'quotation': 'info', 'pending': 'warning', 'deposit': 'primary', 'paid': 'success', 'cancelled': 'danger'}.get(sale_order.travel_booking_state, 'light')"
+                              t-field="sale_order.travel_booking_state"/>
+                    </div>
+                    <div class="row mt-3 g-3">
+                        <div class="col-12 col-md-6">
+                            <b>Passengers</b>
+                            <ul class="mb-0">
+                                <li t-foreach="sale_order.travel_passenger_ids" t-as="passenger">
+                                    <t t-out="passenger.partner_id.name"/>
+                                    <span class="text-muted small">(<span t-field="passenger.room_type"/>)</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <table class="table table-sm mb-0">
+                                <tr t-if="sale_order.travel_deposit_required and sale_order.state in ('draft', 'sent')">
+                                    <td>Deposit (freezes the price)</td>
+                                    <td class="text-end"><span t-field="sale_order.travel_deposit_required"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Paid</td>
+                                    <td class="text-end"><span t-field="sale_order.travel_amount_paid"/></td>
+                                </tr>
+                                <tr class="fw-bold">
+                                    <td>Balance</td>
+                                    <td class="text-end"><span t-field="sale_order.travel_amount_due"/></td>
+                                </tr>
+                                <tr t-if="sale_order.trip_id.balance_due_date">
+                                    <td>Balance due before</td>
+                                    <td class="text-end"><span t-field="sale_order.trip_id.balance_due_date"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div t-if="sale_order.travel_price_frozen" class="alert alert-success mt-3 mb-0 py-2">
+                        <i class="fa fa-lock me-1" title="Price frozen"/>
+                        Your price is frozen since <span t-field="sale_order.travel_frozen_date"/>.
+                    </div>
+                    <div t-elif="sale_order.state in ('draft', 'sent') and sale_order.travel_deposit_required" class="alert alert-info mt-3 mb-0 py-2">
+                        <i class="fa fa-unlock me-1" title="Deposit pending"/>
+                        Pay the deposit to confirm the booking and freeze the price.
+                    </div>
+                    <a t-if="sale_order._travel_web_balance_url() and report_type == 'html'"
+                       t-att-href="sale_order._travel_web_balance_url()" class="btn btn-primary mt-3">
+                        Pay the balance
+                    </a>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

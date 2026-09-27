@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="menu_travel_trips" model="website.menu">
+        <field name="name">Trips</field>
+        <field name="url">/viajes</field>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence">20</field>
+    </record>
+</odoo>
