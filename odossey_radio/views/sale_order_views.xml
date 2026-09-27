@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="radio_sale_order_form" model="ir.ui.view">
+        <field name="name">sale.order.form.radio</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/list/field[@name='name']" position="after">
+                <field name="radio_line" column_invisible="1"/>
+                <field name="radio_program_id" optional="show" invisible="not radio_line"/>
+                <field name="radio_daypart_id" optional="hide" invisible="not radio_line"/>
+                <field name="radio_weekday_ids" widget="many2many_tags" optional="show" invisible="not radio_line"/>
+                <field name="radio_spots_per_day" optional="show" invisible="not radio_line"/>
+                <field name="radio_duration" optional="show" invisible="not radio_line"/>
+                <field name="radio_position" optional="hide" invisible="not radio_line"/>
+                <field name="radio_format_id" column_invisible="1"/>
+            </xpath>
+            <xpath expr="//page[@name='other_information']" position="before">
+                <field name="radio_order" invisible="1"/>
+                <page string="Radio" name="radio" invisible="not radio_order">
+                    <group>
+                        <group string="Campaign">
+                            <field name="radio_brand"/>
+                            <field name="radio_campaign"/>
+                            <field name="radio_op_number"/>
+                            <field name="radio_date_start"/>
+                            <field name="radio_date_end"/>
+                            <field name="radio_seconds_per_day"/>
+                        </group>
+                        <group string="Agency">
+                            <field name="radio_agency_id" context="{'default_radio_is_agency': True, 'default_is_company': True}"/>
+                            <field name="radio_bill_to" widget="radio" options="{'horizontal': true}" invisible="not radio_agency_id"/>
+                            <field name="radio_commission" invisible="not radio_agency_id"/>
+                            <field name="radio_commission_mode" invisible="not radio_agency_id"/>
+                        </group>
+                        <group string="Barter">
+                            <field name="radio_is_barter"/>
+                            <field name="radio_barter_note" invisible="not radio_is_barter"/>
+                        </group>
+                        <group string="Official Advertising">
+                            <field name="radio_is_official"/>
+                            <field name="radio_official_body" invisible="not radio_is_official"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="radio_order_action" model="ir.actions.act_window">
+        <field name="name">Advertising Orders</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="domain">[('radio_order', '=', True)]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Quote the advertising of a new client</p>
+            <p>Add the rate card products with the days, spots per day and program. Once the
+                client accepts, the order becomes an advertising contract.</p>
+        </field>
+    </record>
+</odoo>

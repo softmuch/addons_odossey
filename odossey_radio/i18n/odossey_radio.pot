@@ -1,0 +1,3305 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* odossey_radio
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e-20260622\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-27 17:32+0000\n"
+"PO-Revision-Date: 2026-09-27 17:32+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/wizard/radio_wizards.py:0
+msgid "%(count)s spots planned."
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/wizard/radio_wizards.py:0
+msgid "%(count)s spots without room in the breaks (see the filter 'No room')."
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/radio_schedule_mixin.py:0
+msgid "%(spots)s per day, %(days)s"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.report,print_report_name:odossey_radio.action_report_radio_certificate
+msgid "'Certificado - %s' % (object.name)"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.report,print_report_name:odossey_radio.action_report_radio_grid
+msgid "'Grilla de programacion'"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.report,print_report_name:odossey_radio.action_report_radio_order
+msgid "'Orden de publicidad - %s' % (object.name)"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.report,print_report_name:odossey_radio.action_report_radio_log
+msgid "'Pauta diaria'"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_weekday__code
+msgid "0 = Monday ... 6 = Sunday (Python weekday)."
+msgstr ""
+
+#. module: odossey_radio
+#: model:mail.template,body_html:odossey_radio.mail_template_certificate
+msgid ""
+"<div>\n"
+"    <p>Hello <t t-out=\"object.partner_id.name or ''\"/>,</p>\n"
+"    <p>Please find attached the broadcast certificate of the advertising of\n"
+"        <strong t-out=\"object.radio_campaign or object.radio_brand or object.name or ''\"/>.</p>\n"
+"    <p>Thank you for advertising with <t t-out=\"object.company_id.name or ''\"/>.</p>\n"
+"</div>\n"
+"            "
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_contract_view_kanban
+msgid "<i class=\"fa fa-building-o me-1\" title=\"Agency\"/>"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_contract_view_kanban
+msgid "<i class=\"fa fa-bullhorn me-1\" title=\"Spots\"/>"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.portal_my_radio_contract
+msgid "<i class=\"fa fa-download me-1\" title=\"Download\"/>"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_subscription_form
+msgid ""
+"<i class=\"fa fa-exclamation-triangle me-1\" title=\"Material\"/>\n"
+"                    The contract has no approved material valid today: the spots will air without an audio or script assigned."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_subscription_form
+msgid ""
+"<i class=\"fa fa-pause-circle me-1\" title=\"Suspended\"/>\n"
+"                    Airing suspended:"
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/res_company.py:0
+msgid ""
+"<p>We certify that the advertising detailed above was broadcast on the dates"
+" and times indicated, according to the daily log of the station.</p>"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_subscription_form
+msgid "<span class=\"o_stat_text\">Aired / Planned</span>"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_program_view_form
+msgid "<span>-</span>"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_certificate_document
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_order_document
+msgid "<strong>Advertiser</strong>"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_certificate_document
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_order_document
+msgid "<strong>Advertising Order</strong>"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_order_document
+msgid "<strong>Advertising per day:</strong>"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_certificate_document
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_order_document
+msgid "<strong>Agency</strong>"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_order_document
+msgid "<strong>Airing</strong>"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_certificate_document
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_order_document
+msgid "<strong>Brand / Campaign</strong>"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_certificate_document
+msgid "<strong>Contract</strong>"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_order_document
+msgid "<strong>Monthly total</strong>"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_certificate_document
+msgid "<strong>Period</strong>"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_certificate_document
+msgid "<strong>Public Body</strong>"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_log
+msgid "<strong>Spots without room (to reschedule):</strong>"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_certificate_document
+msgid "<strong>Supplier Code</strong>"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__res_company__radio_enacom_category__a
+msgid "A - Autonomous City of Buenos Aires"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_ad_format__requires_material
+msgid "A recorded audio (spot) or a script (mention) is needed before airing."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__res_company__radio_band__am
+msgid "AM"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__message_needaction
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_ad_format__active
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_daypart__active
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__active
+msgid "Active"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__activity_ids
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__activity_exception_decoration
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__activity_state
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__activity_type_icon
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.actions.act_window,help:odossey_radio.radio_order_action
+msgid ""
+"Add the rate card products with the days, spots per day and program. Once the\n"
+"                client accepts, the order becomes an advertising contract."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__partner_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__partner_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_revenue_report__advertiser_id
+#: model:ir.model.fields,field_description:odossey_radio.field_res_partner__radio_is_advertiser
+#: model:ir.model.fields,field_description:odossey_radio.field_res_users__radio_is_advertiser
+#: model:ir.model.fields.selection,name:odossey_radio.selection__sale_order__radio_bill_to__advertiser
+#: model:ir.model.fields.selection,name:odossey_radio.selection__sale_subscription__radio_bill_to__advertiser
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_contract_view_form
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_material_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_revenue_report_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_subscription_search
+msgid "Advertiser"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_order_document
+msgid "Advertiser / Agency"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.act_window,name:odossey_radio.radio_advertiser_action
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_advertisers
+msgid "Advertisers"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_res_partner__radio_is_agency
+#: model:ir.model.fields,field_description:odossey_radio.field_res_users__radio_is_agency
+msgid "Advertising Agency"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order__radio_campaign
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription__radio_campaign
+msgid "Advertising Campaign"
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/radio_demo.py:0
+#: model:ir.actions.act_window,name:odossey_radio.radio_contract_action
+#: model:ir.model.fields,field_description:odossey_radio.field_res_partner__radio_contract_ids
+#: model:ir.model.fields,field_description:odossey_radio.field_res_users__radio_contract_ids
+msgid "Advertising Contracts"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model,name:odossey_radio.model_radio_ad_format
+#: model:ir.model.fields,field_description:odossey_radio.field_account_move_line__radio_format_id
+#: model:ir.model.fields,field_description:odossey_radio.field_product_product__radio_format_id
+#: model:ir.model.fields,field_description:odossey_radio.field_product_template__radio_format_id
+msgid "Advertising Format"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.act_window,name:odossey_radio.radio_ad_format_action
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_formats
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_ad_format_view_list
+msgid "Advertising Formats"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.act_window,name:odossey_radio.radio_invoice_action
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_invoices
+msgid "Advertising Invoices"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.res_config_settings_view_form_radio
+msgid "Advertising Limit"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model,name:odossey_radio.model_radio_material
+msgid "Advertising Material"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.report,name:odossey_radio.action_report_radio_order
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_order_document
+msgid "Advertising Order"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order__radio_op_number
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription__radio_op_number
+msgid "Advertising Order No."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.act_window,name:odossey_radio.radio_order_action
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_orders
+msgid "Advertising Orders"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_account_bank_statement_line__radio_period_start
+#: model:ir.model.fields,field_description:odossey_radio.field_account_move__radio_period_start
+msgid "Advertising Period From"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_account_bank_statement_line__radio_period_end
+#: model:ir.model.fields,field_description:odossey_radio.field_account_move__radio_period_end
+msgid "Advertising Period To"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_contract_view_form
+msgid "Advertising Plan"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.act_window,name:odossey_radio.radio_revenue_report_action
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_report_revenue
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_revenue_report_view_graph
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_revenue_report_view_list
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_revenue_report_view_pivot
+msgid "Advertising Revenue"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_sale_subscription__radio_is_barter
+msgid "Advertising exchanged for goods or services."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.portal_my_radio_contract
+msgid "Advertising plan"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_material__restriction
+msgid ""
+"Advertising with legal restrictions (Law 26.522, art. 81) needs an "
+"authorization before being aired."
+msgstr ""
+
+#. module: odossey_radio
+#: model:radio.daypart,name:odossey_radio.daypart_afternoon
+msgid "Afternoon"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.act_window,name:odossey_radio.radio_agency_action
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_agencies
+msgid "Agencies"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__agency_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_revenue_report__agency_id
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order__radio_agency_id
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription__radio_agency_id
+#: model:ir.model.fields.selection,name:odossey_radio.selection__sale_order__radio_bill_to__agency
+#: model:ir.model.fields.selection,name:odossey_radio.selection__sale_subscription__radio_bill_to__agency
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_revenue_report_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_order_form
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_subscription_search
+msgid "Agency"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_revenue_report__is_commission
+#: model_terms:ir.ui.view,arch_db:odossey_radio.res_config_settings_view_form_radio
+msgid "Agency Commission"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_res_partner__radio_agency_commission
+#: model:ir.model.fields,field_description:odossey_radio.field_res_users__radio_agency_commission
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order__radio_commission
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription__radio_commission
+msgid "Agency Commission (%)"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_account_bank_statement_line__radio_commission_bill_id
+#: model:ir.model.fields,field_description:odossey_radio.field_account_move__radio_commission_bill_id
+msgid "Agency Commission Bill"
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/wizard/radio_wizards.py:0
+#: model:ir.actions.act_window,name:odossey_radio.radio_agency_bill_action
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_agency_bills
+msgid "Agency Commission Bills"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_res_company__radio_agency_commission_product_id
+#: model:ir.model.fields,field_description:odossey_radio.field_res_config_settings__radio_agency_commission_product_id
+msgid "Agency Commission Product"
+msgstr ""
+
+#. module: odossey_radio
+#: model:product.template,name:odossey_radio.product_agency_commission_product_template
+msgid "Agency commission"
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/sale_subscription.py:0
+msgid "Agency commission %(rate)s%% - %(agency)s"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__sale_order__radio_commission_mode__bill
+#: model:ir.model.fields.selection,name:odossey_radio.selection__sale_subscription__radio_commission_mode__bill
+msgid "Agency commission bill"
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/wizard/radio_wizards.py:0
+msgid "Agency commissions %(start)s - %(end)s"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_res_partner__radio_default_agency_id
+#: model:ir.model.fields,help:odossey_radio.field_res_users__radio_default_agency_id
+msgid "Agency that usually buys the advertising of this advertiser."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_material__restriction__minors
+msgid "Aimed at minors"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_schedule_mixin__radio_break_id
+#: model:ir.model.fields,help:odossey_radio.field_sale_order_line__radio_break_id
+#: model:ir.model.fields,help:odossey_radio.field_sale_subscription_line__radio_break_id
+msgid "Air always in this break (optional)."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription__radio_aired_count
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_emission__state__aired
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_form
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_list
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_search
+msgid "Aired"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__aired_at
+msgid "Aired At"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_account_bank_statement_line__radio_emission_ids
+#: model:ir.model.fields,field_description:odossey_radio.field_account_move__radio_emission_ids
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_certificate_wizard__aired_count
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_account_move_form
+msgid "Aired Spots"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__sale_subscription_template__radio_billing_basis__aired
+msgid "Aired spots (in arrears)"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order__radio_date_end
+msgid "Airing End"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order__radio_date_start
+msgid "Airing Start"
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/sale_subscription.py:0
+msgid "Airing resumed."
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/sale_subscription.py:0
+msgid "Airing suspended: %(reason)s. %(count)s planned spots cancelled."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.act_window,name:odossey_radio.radio_emission_action
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription__radio_emission_ids
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription_line__radio_emission_ids
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_report_airings
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_graph
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_pivot
+msgid "Airings"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_material__restriction__alcohol
+msgid "Alcoholic beverages"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_log_all
+msgid "All Airings"
+msgstr ""
+
+#. module: odossey_radio
+#: model:res.groups,comment:odossey_radio.group_radio_manager
+msgid ""
+"Also manages the programming, the rate card, the reports and the "
+"configuration."
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/radio_emission.py:0
+msgid "An invoiced spot cannot be changed."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_schedule_mixin__radio_position__any
+#: model:ir.model.fields.selection,name:odossey_radio.selection__sale_order_line__radio_position__any
+#: model:ir.model.fields.selection,name:odossey_radio.selection__sale_subscription_line__radio_position__any
+msgid "Any"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_material_view_form
+msgid "Approve"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_material__state__approved
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_material_view_search
+msgid "Approved"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.actions.act_window,help:odossey_radio.radio_material_action
+msgid ""
+"Approved materials are rotated automatically in the daily log while they are"
+" valid."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_program_view_form
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_program_view_search
+msgid "Archived"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.res_config_settings_view_form_radio
+msgid ""
+"At the end of the day the planned spots are marked as aired; the operator "
+"records only the exceptions."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_res_company__radio_auto_confirm
+#: model:ir.model.fields,help:odossey_radio.field_res_config_settings__radio_auto_confirm
+msgid ""
+"At the end of the day, the spots still planned are marked as aired. The "
+"operator only records the exceptions (spots not aired)."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription_template__radio_attach_certificate
+msgid "Attach Broadcast Certificate"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_sale_subscription_template__radio_attach_certificate
+msgid "Attach the broadcast certificate of the period to each invoice."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__message_attachment_count
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__audience
+msgid "Audience / Rating"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_program__audience
+msgid "Audience measurement or estimated listeners (informative)."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__audio_file
+msgid "Audio"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__audio_filename
+msgid "Audio Filename"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__authorization_ref
+msgid "Authorization"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__res_company__radio_enacom_category__b
+msgid "B - Cities of 600,000 inhabitants or more"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_material_view_form
+msgid "Back to Review"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_res_company__radio_band
+#: model:ir.model.fields,field_description:odossey_radio.field_res_config_settings__radio_band
+msgid "Band"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_revenue_report__is_barter
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order__radio_is_barter
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription__radio_is_barter
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_contract_view_kanban
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_revenue_report_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_order_form
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_subscription_form
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_subscription_search
+msgid "Barter"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_subscription_form
+msgid "Barter & Official"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order__radio_barter_note
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription__radio_barter_note
+msgid "Barter Counterpart"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_sale_subscription__radio_barter_invoice
+msgid ""
+"Barters are usually invoiced and compensated with the invoice of the "
+"counterpart."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.actions.act_window,help:odossey_radio.radio_enacom_report_action
+msgid ""
+"Base of the fee of Law 26.522 (art. 94): gross billing of advertising, net of the\n"
+"                commissions and discounts invoiced, with the rate of the Settings."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_account_bank_statement_line__radio_commission_bill_id
+#: model:ir.model.fields,help:odossey_radio.field_account_move__radio_commission_bill_id
+msgid "Bill of the agency that settled the commission of this invoice."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_res_partner__radio_brand
+#: model:ir.model.fields,field_description:odossey_radio.field_res_users__radio_brand
+msgid "Brand"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.portal_my_radio
+msgid "Brand / Campaign"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order__radio_brand
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription__radio_brand
+msgid "Brand / Product"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_res_partner__radio_brand
+#: model:ir.model.fields,help:odossey_radio.field_res_users__radio_brand
+#: model:ir.model.fields,help:odossey_radio.field_sale_subscription__radio_brand
+msgid "Brand or product advertised."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__break_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_occupancy_report__break_id
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_search
+msgid "Break"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__break_capacity
+msgid "Break Capacity per Show (s)"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_res_company__radio_break_interval
+#: model:ir.model.fields,field_description:odossey_radio.field_res_config_settings__radio_break_interval
+msgid "Break Every (min)"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.act_window,name:odossey_radio.radio_occupancy_report_action
+#: model:ir.model,name:odossey_radio.model_radio_occupancy_report
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_report_occupancy
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_occupancy_report_view_graph
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_occupancy_report_view_list
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_occupancy_report_view_pivot
+msgid "Break Occupancy"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.res_config_settings_view_form_radio
+msgid "Breaks"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__break_count
+msgid "Breaks per Show"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.act_window,name:odossey_radio.radio_certificate_wizard_action
+#: model:ir.actions.report,name:odossey_radio.action_report_radio_certificate
+#: model:ir.model,name:odossey_radio.model_radio_certificate_wizard
+#: model:ir.model,name:odossey_radio.model_report_odossey_radio_report_radio_certificate
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_certificate_wizard_view_form
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_subscription_form
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_certificate_document
+#: model_terms:ir.ui.view,arch_db:odossey_radio.res_config_settings_view_form_radio
+msgid "Broadcast Certificate"
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/sale_subscription.py:0
+msgid "Broadcast certificate %(contract)s %(start)s-%(end)s"
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/sale_subscription.py:0
+msgid "Broadcast certificate of the period."
+msgstr ""
+
+#. module: odossey_radio
+#: model:mail.template,subject:odossey_radio.mail_template_certificate
+msgid "Broadcast certificate {{ object.name }} - {{ object.company_id.name }}"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.portal_my_radio_contract
+msgid "Broadcast certificates"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__res_company__radio_enacom_category__c
+msgid "C - Cities of less than 600,000 inhabitants"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_res_company__radio_signal
+#: model:ir.model.fields,field_description:odossey_radio.field_res_config_settings__radio_signal
+msgid "Call Sign"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_res_company__radio_signal
+#: model:ir.model.fields,help:odossey_radio.field_res_config_settings__radio_signal
+msgid "Call sign of the station (e.g. LRA 300)."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_order_form
+msgid "Campaign"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_emission__state__cancelled
+msgid "Cancelled"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_occupancy_report_view_list
+msgid "Capacity"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_break__capacity
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_occupancy_report__capacity
+msgid "Capacity (s)"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_res_company__radio_enacom_category
+#: model:ir.model.fields,help:odossey_radio.field_res_config_settings__radio_enacom_category
+msgid ""
+"Category of the location of the station for the fee of Law 26.522 (art. 96)."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_res_company__radio_certificate_note
+#: model:ir.model.fields,field_description:odossey_radio.field_res_config_settings__radio_certificate_note
+msgid "Certificate Note"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_contract_view_form
+msgid "Close Contract"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_ad_format__code
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__code
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_weekday__code
+msgid "Code"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_sale_subscription__radio_provider_code
+msgid "Code of the station as supplier of the public body."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_daypart__color
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__color
+msgid "Color"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model,name:odossey_radio.model_radio_break
+msgid "Commercial Break"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.act_window,name:odossey_radio.radio_break_action
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__break_ids
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_breaks
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_break_view_list
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_program_view_form
+msgid "Commercial Breaks"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.res_config_settings_view_form_radio
+msgid "Commercial Breaks & Daily Log"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order__radio_commission_mode
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription__radio_commission_mode
+msgid "Commission"
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/wizard/radio_wizards.py:0
+msgid "Commission %(rate)s%% on %(invoice)s (%(advertiser)s)"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model,name:odossey_radio.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_break__company_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_daypart__company_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__company_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__company_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_occupancy_report__company_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__company_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_revenue_report__company_id
+msgid "Company"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__compensation_of_id
+msgid "Compensates"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__compensation_ids
+msgid "Compensations"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model,name:odossey_radio.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_config
+msgid "Configuration"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_res_company__radio_auto_confirm
+#: model:ir.model.fields,field_description:odossey_radio.field_res_config_settings__radio_auto_confirm
+msgid "Confirm Planned Spots Automatically"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__aired_by
+msgid "Confirmed By"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model,name:odossey_radio.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_certificate_wizard__subscription_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__subscription_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__subscription_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_revenue_report__subscription_id
+#: model_terms:ir.ui.view,arch_db:odossey_radio.portal_my_radio
+msgid "Contract"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__subscription_line_id
+msgid "Contract Line"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_contract_view_form
+msgid "Contract Template"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.act_window,name:odossey_radio.radio_contract_template_action
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_templates
+msgid "Contract Templates"
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/sale_subscription.py:0
+msgid "Contract suspended"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_schedule_generate__subscription_ids
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_contracts
+msgid "Contracts"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.actions.act_window,help:odossey_radio.radio_contract_action
+msgid ""
+"Contracts are created when an advertising order is confirmed, or directly here.\n"
+"                Each contract plans the daily log and is invoiced every month."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_res_partner__radio_agency_contract_ids
+#: model:ir.model.fields,field_description:odossey_radio.field_res_users__radio_agency_contract_ids
+msgid "Contracts as Agency"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_program__sponsor_ids
+msgid "Contracts with a sponsorship of the program in progress."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_ad_format__counts_ad_time
+msgid "Counts as Advertising Time"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_ad_format__counts_ad_time
+msgid "Counts for the legal limit of advertising minutes per hour."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_commission_settle_view_form
+msgid "Create Bills"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.res_config_settings_view_form_radio
+msgid ""
+"Create a sample grid of an Argentinian station (programs, hosts, breaks, "
+"rate card), advertisers and agencies, contracts in every situation, "
+"materials, the daily log, invoices and opportunities. Nothing is created "
+"until you click the button."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.actions.act_window,help:odossey_radio.radio_contract_action
+msgid "Create the first advertising contract"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.actions.act_window,help:odossey_radio.radio_program_action
+msgid "Create the first program of the grid"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.actions.act_window,help:odossey_radio.radio_rate_card_action
+msgid "Create the rate card"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_ad_format__create_uid
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_break__create_uid
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_certificate_wizard__create_uid
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_commission_settle__create_uid
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_daypart__create_uid
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__create_uid
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__create_uid
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__create_uid
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_schedule_generate__create_uid
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_weekday__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_ad_format__create_date
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_break__create_date
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_certificate_wizard__create_date
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_commission_settle__create_date
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_daypart__create_date
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__create_date
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__create_date
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__create_date
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_schedule_generate__create_date
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_weekday__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_program_view_form
+msgid ""
+"Creates a break every N minutes (Settings) keeping the breaks with spots."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_schedule_generate_view_form
+msgid ""
+"Creates the missing spots of the contracts in progress, in the breaks of their\n"
+"                    programs, respecting the capacity of each break and the legal limit of\n"
+"                    advertising minutes per hour. The spots already planned are kept."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_program__genre__culture
+msgid "Culture / Education"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_revenue_report__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__res_company__radio_enacom_category__d
+msgid "D - Towns of less than 100,000 inhabitants"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.report,name:odossey_radio.action_report_radio_log
+#: model:ir.model,name:odossey_radio.model_report_odossey_radio_report_radio_log
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_calendar
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_list
+msgid "Daily Log"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_log
+msgid "Daily Log -"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.res_config_settings_view_form_radio
+msgid "Data printed on the broadcast certificates."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__date
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_occupancy_report__date
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_revenue_report__date
+#: model_terms:ir.ui.view,arch_db:odossey_radio.portal_my_radio_contract
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_certificate_document
+msgid "Date"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model,name:odossey_radio.model_radio_weekday
+msgid "Day of the Week"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model,name:odossey_radio.model_radio_daypart
+#: model:ir.model.fields,field_description:odossey_radio.field_account_move_line__radio_daypart_id
+#: model:ir.model.fields,field_description:odossey_radio.field_product_product__radio_daypart_id
+#: model:ir.model.fields,field_description:odossey_radio.field_product_template__radio_daypart_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_occupancy_report__daypart_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__daypart_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_revenue_report__daypart_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_schedule_mixin__radio_daypart_id
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order_line__radio_daypart_id
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription_line__radio_daypart_id
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_occupancy_report_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_program_view_search
+msgid "Daypart"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.act_window,name:odossey_radio.radio_daypart_action
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_dayparts
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_daypart_view_list
+msgid "Dayparts"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__weekday_ids
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_schedule_mixin__radio_weekday_ids
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order_line__radio_weekday_ids
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription_line__radio_weekday_ids
+#: model_terms:ir.ui.view,arch_db:odossey_radio.portal_my_radio_contract
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_order_document
+msgid "Days"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_schedule_mixin__radio_weekday_ids
+#: model:ir.model.fields,help:odossey_radio.field_sale_order_line__radio_weekday_ids
+#: model:ir.model.fields,help:odossey_radio.field_sale_subscription_line__radio_weekday_ids
+msgid "Days of airing (all the days if empty)."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_res_company__radio_break_capacity
+#: model:ir.model.fields,field_description:odossey_radio.field_res_config_settings__radio_break_capacity
+msgid "Default Break Capacity (s)"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_ad_format__default_duration
+msgid "Default Duration (s)"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_res_partner__radio_agency_commission
+#: model:ir.model.fields,help:odossey_radio.field_res_users__radio_agency_commission
+msgid "Default commission granted to the agency on its advertising contracts."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.res_config_settings_view_form_radio
+msgid "Demo"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_ad_format__description
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__description
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_program_view_form
+msgid "Description"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_certificate_wizard_view_form
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_commission_settle_view_form
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_schedule_generate_view_form
+msgid "Discard"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__sale_order__radio_commission_mode__discount
+#: model:ir.model.fields.selection,name:odossey_radio.selection__sale_subscription__radio_commission_mode__discount
+msgid "Discount on the invoice"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_sale_subscription__radio_commission_mode
+msgid ""
+"Discount on the invoice: the commission is deducted on the invoice (it "
+"reduces the base of the ENACOM fee). Agency bill: the advertiser is invoiced"
+" in full and the agency invoices its commission (monthly settlement)."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_account_move__display_name
+#: model:ir.model.fields,field_description:odossey_radio.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:odossey_radio.field_product_template__display_name
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_ad_format__display_name
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_break__display_name
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_certificate_wizard__display_name
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_commission_settle__display_name
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_daypart__display_name
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__display_name
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__display_name
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_occupancy_report__display_name
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__display_name
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_revenue_report__display_name
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_schedule_generate__display_name
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_schedule_mixin__display_name
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_weekday__display_name
+#: model:ir.model.fields,field_description:odossey_radio.field_report_odossey_radio_report_radio_certificate__display_name
+#: model:ir.model.fields,field_description:odossey_radio.field_report_odossey_radio_report_radio_grid__display_name
+#: model:ir.model.fields,field_description:odossey_radio.field_report_odossey_radio_report_radio_log__display_name
+#: model:ir.model.fields,field_description:odossey_radio.field_res_company__display_name
+#: model:ir.model.fields,field_description:odossey_radio.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:odossey_radio.field_res_partner__display_name
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order__display_name
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order_line__display_name
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription__display_name
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription_line__display_name
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription_template__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__duration
+msgid "Duration (h)"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_product_product__radio_duration
+#: model:ir.model.fields,field_description:odossey_radio.field_product_template__radio_duration
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__duration
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__duration
+msgid "Duration (s)"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_product_product__radio_duration
+#: model:ir.model.fields,help:odossey_radio.field_product_template__radio_duration
+msgid "Duration of the spot or mention, in seconds."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_revenue_report_view_list
+msgid "ENACOM"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_res_company__radio_enacom_category
+#: model:ir.model.fields,field_description:odossey_radio.field_res_config_settings__radio_enacom_category
+msgid "ENACOM Category"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.act_window,name:odossey_radio.radio_enacom_report_action
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_revenue_report__enacom_fee
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_report_enacom
+#: model_terms:ir.ui.view,arch_db:odossey_radio.res_config_settings_view_form_radio
+msgid "ENACOM Fee"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_res_company__radio_enacom_rate
+#: model:ir.model.fields,field_description:odossey_radio.field_res_config_settings__radio_enacom_rate
+msgid "ENACOM Fee (%)"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_res_company__radio_license
+#: model:ir.model.fields,field_description:odossey_radio.field_res_config_settings__radio_license
+msgid "ENACOM License / Permit"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.constraint,message:odossey_radio.constraint_radio_weekday_code_unique
+msgid "Each day of the week exists once."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.actions.act_window,help:odossey_radio.radio_rate_card_action
+msgid ""
+"Each product is a format (spot, mention, PNT, sponsorship...) with its duration and\n"
+"                daypart or program, priced per airing. Use pricelists for agencies and volume\n"
+"                discounts."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__hour_to
+#: model_terms:ir.ui.view,arch_db:odossey_radio.portal_my_radio
+msgid "End"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_schedule_mixin__radio_date_to
+#: model:ir.model.fields,help:odossey_radio.field_sale_order_line__radio_date_to
+#: model:ir.model.fields,help:odossey_radio.field_sale_subscription_line__radio_date_to
+msgid "End of the airing (optional)."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_subscription_search
+msgid "Ending in 30 Days"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_program__genre__entertainment
+msgid "Entertainment"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_revenue_report__enacom_fee
+msgid "Estimated fee of Law 26.522 on the net amount."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_material__state__expired
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_material_view_search
+msgid "Expired"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__res_company__radio_band__fm
+msgid "FM"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_res_company__radio_enacom_rate
+#: model:ir.model.fields,help:odossey_radio.field_res_config_settings__radio_enacom_rate
+msgid ""
+"Fee of Law 26.522 (art. 94-96) on the gross billing of advertising, net of "
+"the discounts and commissions actually invoiced. Computed from the category "
+"and the band; it can be changed."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_res_company__radio_break_offset
+#: model:ir.model.fields,field_description:odossey_radio.field_res_config_settings__radio_break_offset
+msgid "First Break After (min)"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_schedule_mixin__radio_position__first
+#: model:ir.model.fields.selection,name:odossey_radio.selection__sale_order_line__radio_position__first
+#: model:ir.model.fields.selection,name:odossey_radio.selection__sale_subscription_line__radio_position__first
+msgid "First in break"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_schedule_mixin__radio_break_id
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order_line__radio_break_id
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription_line__radio_break_id
+msgid "Fixed Break"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__sale_subscription_template__radio_billing_basis__fixed
+msgid "Fixed fee (in advance)"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_sale_subscription_template__radio_billing_basis
+msgid ""
+"Fixed fee: the quantities of the contract are invoiced at the beginning of "
+"each period. Aired spots: at the end of each period the spots actually aired"
+" are invoiced."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__message_follower_ids
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__message_partner_ids
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_material__activity_type_icon
+#: model:ir.model.fields,help:odossey_radio.field_radio_program__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_commission_settle_view_form
+msgid ""
+"For the contracts whose agency invoices its commission, creates one draft vendor\n"
+"                    bill per agency with the commission of the invoices posted in the period."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__format_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__format_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_revenue_report__format_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_schedule_mixin__radio_format_id
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order_line__radio_format_id
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription_line__radio_format_id
+#: model_terms:ir.ui.view,arch_db:odossey_radio.portal_my_radio_contract
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_revenue_report_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_certificate_document
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_order_document
+msgid "Format"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_occupancy_report_view_list
+msgid "Free"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_occupancy_report__free
+msgid "Free (s)"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_res_company__radio_frequency
+#: model:ir.model.fields,field_description:odossey_radio.field_res_config_settings__radio_frequency
+msgid "Frequency"
+msgstr ""
+
+#. module: odossey_radio
+#: model:radio.weekday,name:odossey_radio.weekday_fri
+msgid "Fri"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_certificate_wizard__date_from
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_commission_settle__date_from
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_daypart__hour_from
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_schedule_generate__date_from
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_schedule_mixin__radio_date_from
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order_line__radio_date_from
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription_line__radio_date_from
+msgid "From"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_occupancy_report_view_search
+msgid "Full (≥ 100%)"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_material__restriction__gambling
+msgid "Gambling"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_program_view_form
+msgid "Generate Breaks"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__genre
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_program_view_search
+msgid "Genre"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__grid_label
+msgid "Grid Label"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__has_message
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_material__restriction__health
+msgid "Health / medicines / aesthetics"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_res_partner__radio_is_host
+#: model:ir.model.fields,field_description:odossey_radio.field_res_users__radio_is_host
+msgid "Host / Announcer"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__host_ids
+msgid "Hosts"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.act_window,name:odossey_radio.radio_host_action
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_hosts
+msgid "Hosts & Announcers"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__time_label
+#: model_terms:ir.ui.view,arch_db:odossey_radio.portal_my_radio_contract
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_account_move_form
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_list
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_certificate_document
+msgid "Hour"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_account_move__id
+#: model:ir.model.fields,field_description:odossey_radio.field_account_move_line__id
+#: model:ir.model.fields,field_description:odossey_radio.field_product_template__id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_ad_format__id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_break__id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_certificate_wizard__id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_commission_settle__id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_daypart__id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_occupancy_report__id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_revenue_report__id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_schedule_generate__id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_schedule_mixin__id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_weekday__id
+#: model:ir.model.fields,field_description:odossey_radio.field_report_odossey_radio_report_radio_certificate__id
+#: model:ir.model.fields,field_description:odossey_radio.field_report_odossey_radio_report_radio_grid__id
+#: model:ir.model.fields,field_description:odossey_radio.field_report_odossey_radio_report_radio_log__id
+#: model:ir.model.fields,field_description:odossey_radio.field_res_company__id
+#: model:ir.model.fields,field_description:odossey_radio.field_res_config_settings__id
+#: model:ir.model.fields,field_description:odossey_radio.field_res_partner__id
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order__id
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order_line__id
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription__id
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription_line__id
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription_template__id
+msgid "ID"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__activity_exception_icon
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_material__activity_exception_icon
+#: model:ir.model.fields,help:odossey_radio.field_radio_program__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_material__message_needaction
+#: model:ir.model.fields,help:odossey_radio.field_radio_program__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_material__message_has_error
+#: model:ir.model.fields,help:odossey_radio.field_radio_material__message_has_sms_error
+#: model:ir.model.fields,help:odossey_radio.field_radio_program__message_has_error
+#: model:ir.model.fields,help:odossey_radio.field_radio_program__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__image_1920
+msgid "Image"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__image_1024
+msgid "Image 1024"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__image_128
+msgid "Image 128"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__image_256
+msgid "Image 256"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__image_512
+msgid "Image 512"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_subscription_search
+msgid "In Progress"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__invoice_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_revenue_report__move_id
+msgid "Invoice"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order__radio_bill_to
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription__radio_bill_to
+msgid "Invoice To"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_emission__invoice_id
+msgid "Invoice of the period that billed this airing."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription__radio_barter_invoice
+msgid "Invoice the Barter"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_revenue_report__partner_id
+msgid "Invoiced Partner"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_invoicing
+msgid "Invoicing"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.res_config_settings_view_form_radio
+msgid "Invoicing & Collection"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__message_is_follower
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_certificate_document
+msgid "Issued on"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_ad_format__kind__jingle
+msgid "Jingle / Station ID"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model,name:odossey_radio.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model,name:odossey_radio.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_ad_format__kind
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__format_kind
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__kind
+msgid "Kind"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_ad_format__write_uid
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_break__write_uid
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_certificate_wizard__write_uid
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_commission_settle__write_uid
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_daypart__write_uid
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__write_uid
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__write_uid
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__write_uid
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_schedule_generate__write_uid
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_weekday__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_ad_format__write_date
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_break__write_date
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_certificate_wizard__write_date
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_commission_settle__write_date
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_daypart__write_date
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__write_date
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__write_date
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__write_date
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_schedule_generate__write_date
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_weekday__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_schedule_mixin__radio_position__last
+#: model:ir.model.fields.selection,name:odossey_radio.selection__sale_order_line__radio_position__last
+#: model:ir.model.fields.selection,name:odossey_radio.selection__sale_subscription_line__radio_position__last
+msgid "Last in break"
+msgstr ""
+
+#. module: odossey_radio
+#: model:radio.daypart,name:odossey_radio.daypart_late_night
+msgid "Late night"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.res_config_settings_view_form_radio
+msgid ""
+"Law 26.522 (art. 82): up to 14 minutes of advertising per hour for radio. "
+"The daily log never exceeds it."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.res_config_settings_view_form_radio
+msgid ""
+"Law 26.522 (art. 94-96): fee on the gross advertising billing, net of the "
+"discounts and commissions invoiced."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_sale_order__radio_date_end
+msgid "Leave empty for an open contract (e.g. sponsorships)."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_schedule_generate__subscription_ids
+msgid "Leave empty to plan all the contracts in progress."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_material__format_id
+msgid "Leave empty to use it for any format of the contract."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_res_company__radio_max_ad_minutes
+#: model:ir.model.fields,help:odossey_radio.field_res_config_settings__radio_max_ad_minutes
+msgid ""
+"Legal limit of advertising per clock hour (Law 26.522, art. 82 a: 14 minutes"
+" per hour for radio). The daily log never exceeds it."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_ad_format__kind__mention
+#: model:radio.ad.format,name:odossey_radio.format_mention
+msgid "Live mention"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.res_config_settings_view_form_radio
+msgid "Load Demo Data"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_log
+msgid "Log"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__res_company__radio_band__low
+msgid "Low power FM"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_program__genre__magazine
+msgid "Magazine"
+msgstr ""
+
+#. module: odossey_radio
+#: model:res.groups,name:odossey_radio.group_radio_manager
+msgid "Manager"
+msgstr ""
+
+#. module: odossey_radio
+#: model:res.groups,comment:odossey_radio.group_radio_user
+msgid ""
+"Manages advertisers, advertising orders, contracts, materials and the daily "
+"log."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__material_id
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_material_view_form
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_certificate_document
+msgid "Material"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription__radio_material_count
+msgid "Material Count"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__material_missing
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_search
+msgid "Material Missing"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.act_window,name:odossey_radio.radio_material_action
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription__radio_material_ids
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_materials
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_material_view_list
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_subscription_form
+msgid "Materials"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_res_company__radio_max_ad_minutes
+#: model:ir.model.fields,field_description:odossey_radio.field_res_config_settings__radio_max_ad_minutes
+msgid "Max. Advertising Minutes per Hour"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__message_has_error
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__message_ids
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_ad_format__kind__micro
+#: model:radio.ad.format,name:odossey_radio.format_micro
+msgid "Micro program"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_res_company__radio_break_offset
+#: model:ir.model.fields,help:odossey_radio.field_res_config_settings__radio_break_offset
+msgid "Minutes after the start of the program for the first break."
+msgstr ""
+
+#. module: odossey_radio
+#: model:radio.weekday,name:odossey_radio.weekday_mon
+msgid "Mon"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_revenue_report_view_search
+msgid "Month"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.portal_my_radio
+msgid "Monthly"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_order_document
+msgid "Monthly airings"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_order_document
+msgid "Monthly total"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_program__genre__music
+msgid "Music"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__my_activity_date_deadline
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.portal_breadcrumbs_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.portal_my_home_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.portal_my_radio
+msgid "My Advertising"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_subscription_search
+msgid "My Contracts"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_ad_format__name
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_break__name
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_daypart__name
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__name
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__name
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_weekday__name
+msgid "Name"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_revenue_report_view_list
+msgid "Net"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_revenue_report__amount
+msgid "Net Amount"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_program__genre__news
+msgid "News"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_occupancy_report_view_search
+msgid "Next 7 Days"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__activity_calendar_event_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__activity_date_deadline
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__activity_summary
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__activity_type_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.portal_my_radio_contract
+msgid "Next spots"
+msgstr ""
+
+#. module: odossey_radio
+#: model:radio.daypart,name:odossey_radio.daypart_night
+msgid "Night"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_search
+msgid "No Room"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_emission__state__conflict
+msgid "No room"
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/radio_emission.py:0
+msgid "No room to compensate in the next 7 days."
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/sale_subscription.py:0
+msgid "No spots aired between %(start)s and %(end)s: nothing to invoice."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.portal_my_radio_contract
+msgid "No spots aired yet."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.actions.act_window,help:odossey_radio.radio_emission_today_action
+msgid "No spots planned today"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_material__restriction__none
+msgid "None"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription__radio_missed_count
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_form
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_list
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_search
+msgid "Not Aired"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_log_conflicts
+msgid "Not Aired / No Room"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_search
+msgid "Not Cancelled"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_emission__state__missed
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_list
+msgid "Not aired"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__note
+msgid "Note"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__note
+msgid "Note / Reason"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_material_view_form
+msgid "Notes for the operator..."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__message_needaction_counter
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__message_has_error_counter
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_material__message_needaction_counter
+#: model:ir.model.fields,help:odossey_radio.field_radio_program__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_material__message_has_error_counter
+#: model:ir.model.fields,help:odossey_radio.field_radio_program__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_sale_subscription__radio_op_number
+msgid ""
+"Number of the advertising order (orden de publicidad) of the advertiser or "
+"the agency. Printed on the invoices and certificates."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_material__authorization_ref
+msgid "Number of the authorization of the competent body."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_res_company__radio_license
+#: model:ir.model.fields,help:odossey_radio.field_res_config_settings__radio_license
+msgid ""
+"Number of the license, permit or authorization of the broadcasting service "
+"granted by ENACOM, printed on the broadcast certificates."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_occupancy_report__occupancy
+msgid "Occupancy (%)"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_revenue_report__is_official
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_contract_view_kanban
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_revenue_report_view_search
+msgid "Official"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order__radio_is_official
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription__radio_is_official
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_order_form
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_subscription_form
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_subscription_search
+msgid "Official Advertising"
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/sale_subscription.py:0
+msgid ""
+"Official advertising - %(body)s - Advertising order %(op)s - Campaign "
+"%(campaign)s - Supplier code %(code)s"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.portal_my_radio
+msgid "On air"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__operator_id
+#: model:res.groups,name:odossey_radio.group_radio_operator
+msgid "On-air Operator"
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/radio_emission.py:0
+msgid "Only planned spots can be marked as aired."
+msgstr ""
+
+#. module: odossey_radio
+#: model:radio.ad.format,description:odossey_radio.format_sponsorship
+msgid "Opening and closing credit of the program (\"Auspicia...\")."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_log
+msgid "Operator: ____________________ Signature: ____________________"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_opportunities
+msgid "Opportunities"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_emission__sequence
+msgid "Order inside the break."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_program__genre__other
+msgid "Other"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.res_config_settings_view_form_radio
+msgid "Overdue Advertisers"
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/sale_subscription.py:0
+msgid "Overdue invoices: %s"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_ad_format__kind__pnt
+#: model:radio.ad.format,name:odossey_radio.format_pnt
+msgid "PNT / Advertorial"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_schedule_mixin__radio_spots_per_day
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order_line__radio_spots_per_day
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription_line__radio_spots_per_day
+msgid "Per Day"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.portal_my_radio_contract
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_order_document
+msgid "Per day"
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/sale_subscription.py:0
+msgid "Period not invoiced: %s."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_schedule_generate_view_form
+msgid "Plan"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_subscription_form
+msgid "Plan Log"
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/wizard/radio_wizards.py:0
+msgid "Plan at most three months at a time."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.act_window,name:odossey_radio.radio_schedule_generate_action
+#: model:ir.model,name:odossey_radio.model_radio_schedule_generate
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_log_plan
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_schedule_generate_view_form
+msgid "Plan the Daily Log"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_res_company__radio_schedule_days
+#: model:ir.model.fields,field_description:odossey_radio.field_res_config_settings__radio_schedule_days
+msgid "Plan the Log Days Ahead"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.actions.act_window,help:odossey_radio.radio_emission_today_action
+msgid ""
+"Plan the daily log from the contracts in progress (Log &gt; Plan the Daily "
+"Log)."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription__radio_planned_count
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_emission__state__planned
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_search
+msgid "Planned"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.res_config_settings_view_form_radio
+msgid "Planning"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_schedule_mixin__radio_position
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order_line__radio_position
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription_line__radio_position
+msgid "Position"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_rate_card_view_list
+msgid "Price per Airing"
+msgstr ""
+
+#. module: odossey_radio
+#: model:radio.daypart,name:odossey_radio.daypart_morning
+msgid "Prime time (morning)"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_certificate_wizard_view_form
+msgid "Print"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__producer_id
+msgid "Producer"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model,name:odossey_radio.model_product_template
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__product_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_revenue_report__product_id
+msgid "Product"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.res_config_settings_view_form_radio
+msgid ""
+"Product of the commission lines (discount on the invoice or bill of the "
+"agency)."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_product_product__radio_ok
+#: model:ir.model.fields,help:odossey_radio.field_product_template__radio_ok
+msgid "Product of the radio rate card."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_res_company__radio_agency_commission_product_id
+#: model:ir.model.fields,help:odossey_radio.field_res_config_settings__radio_agency_commission_product_id
+msgid ""
+"Product used for the agency commission (discount line on the invoice or "
+"commission bill of the agency)."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_account_move_line__radio_program_id
+#: model:ir.model.fields,field_description:odossey_radio.field_product_product__radio_program_id
+#: model:ir.model.fields,field_description:odossey_radio.field_product_template__radio_program_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_break__program_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__program_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_occupancy_report__program_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_revenue_report__program_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_schedule_mixin__radio_program_id
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order_line__radio_program_id
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription_line__radio_program_id
+#: model_terms:ir.ui.view,arch_db:odossey_radio.portal_my_radio_contract
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_break_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_occupancy_report_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_program_view_form
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_revenue_report_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_certificate_document
+msgid "Program"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_order_document
+msgid "Program / Daypart"
+msgstr ""
+
+#. module: odossey_radio
+#: model:radio.ad.format,name:odossey_radio.format_sponsorship
+msgid "Program sponsorship"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_programming
+msgid "Programming"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.report,name:odossey_radio.action_report_radio_grid
+#: model:ir.model,name:odossey_radio.model_report_odossey_radio_report_radio_grid
+msgid "Programming Grid"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.report,name:odossey_radio.action_report_radio_grid_html
+msgid "Programming Grid (screen)"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_grid
+msgid "Programming Grid -"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.act_window,name:odossey_radio.radio_program_action
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_programs
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_program_view_kanban
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_program_view_list
+msgid "Programs"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order__radio_official_body
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription__radio_official_body
+msgid "Public Body"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_revenue_report__quantity
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_revenue_report_view_list
+msgid "Quantity"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.actions.act_window,help:odossey_radio.radio_order_action
+msgid "Quote the advertising of a new client"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.module.category,name:odossey_radio.module_category_radio
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_root
+#: model:res.groups.privilege,name:odossey_radio.privilege_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_product_template_form
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_res_partner_form
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_order_form
+#: model_terms:ir.ui.view,arch_db:odossey_radio.res_config_settings_view_form_radio
+msgid "Radio"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_product_product__radio_ok
+#: model:ir.model.fields,field_description:odossey_radio.field_product_template__radio_ok
+msgid "Radio Advertising"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription_template__radio_template
+msgid "Radio Advertising Contract"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model,name:odossey_radio.model_radio_revenue_report
+msgid "Radio Advertising Revenue"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model,name:odossey_radio.model_radio_schedule_mixin
+msgid "Radio Airing Plan"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription_template__radio_billing_basis
+msgid "Radio Billing"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription__radio_contract
+msgid "Radio Contract"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_res_partner__radio_contract_count
+#: model:ir.model.fields,field_description:odossey_radio.field_res_users__radio_contract_count
+msgid "Radio Contracts"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_schedule_mixin__radio_line
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order_line__radio_line
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription_line__radio_line
+msgid "Radio Line"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription__radio_material_warning
+msgid "Radio Material Warning"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order__radio_order
+msgid "Radio Order"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model,name:odossey_radio.model_radio_program
+msgid "Radio Program"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription__radio_renewal_notified
+msgid "Radio Renewal Notified"
+msgstr ""
+
+#. module: odossey_radio
+#: model:mail.template,name:odossey_radio.mail_template_certificate
+msgid "Radio: broadcast certificate"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.server,name:odossey_radio.ir_cron_radio_confirm_ir_actions_server
+msgid "Radio: confirm the spots of the past days"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.server,name:odossey_radio.ir_cron_radio_renewals_ir_actions_server
+msgid "Radio: contracts to renew"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.server,name:odossey_radio.ir_cron_radio_materials_ir_actions_server
+msgid "Radio: expire materials"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.server,name:odossey_radio.ir_cron_radio_plan_ir_actions_server
+msgid "Radio: plan the daily log"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.server,name:odossey_radio.ir_cron_radio_credit_ir_actions_server
+msgid "Radio: suspend / resume overdue advertisers"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.act_window,name:odossey_radio.radio_rate_card_action
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_rate_card
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_rate_card_view_list
+msgid "Rate Card"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_product_product__radio_program_id
+#: model:ir.model.fields,help:odossey_radio.field_product_template__radio_program_id
+msgid "Rate of a specific program (optional)."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_form
+msgid "Reason, remarks..."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_material__kind__audio
+msgid "Recorded audio"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_ad_format__kind__spot
+#: model:radio.ad.format,name:odossey_radio.format_spot
+msgid "Recorded spot"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_program__genre__religious
+msgid "Religious"
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/sale_subscription.py:0
+msgid "Renew the advertising contract"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_reporting
+msgid "Reporting"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_ad_format__requires_material
+msgid "Requires Material"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_form
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_list
+msgid "Reschedule"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__activity_user_id
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__restriction
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_material_view_search
+msgid "Restricted Content"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_subscription_form
+msgid "Resume Airing"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_material__sequence
+msgid "Rotation order between the valid materials."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__message_has_sms_error
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_sales
+#: model:res.groups,name:odossey_radio.group_radio_user
+msgid "Sales"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model,name:odossey_radio.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model,name:odossey_radio.model_sale_order_line
+msgid "Sales Order Line"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_revenue_report__user_id
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_revenue_report_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_subscription_search
+msgid "Salesperson"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.res_config_settings_view_form_radio
+msgid ""
+"Sample programs, advertisers, contracts, spots and invoices will be created "
+"in the current company. They are meant for a demo or a test database: "
+"continue?"
+msgstr ""
+
+#. module: odossey_radio
+#: model:radio.weekday,name:odossey_radio.weekday_sat
+msgid "Sat"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__planned_datetime
+msgid "Scheduled"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__script
+msgid "Script"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_material__kind__script
+msgid "Script (live mention)"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_schedule_mixin__radio_duration
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order_line__radio_duration
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription_line__radio_duration
+#: model_terms:ir.ui.view,arch_db:odossey_radio.portal_my_radio_contract
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_list
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_certificate_document
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_order_document
+msgid "Seconds"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_break__capacity
+msgid "Seconds of advertising available in the break."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order__radio_seconds_per_day
+msgid "Seconds per Day"
+msgstr ""
+
+#. module: odossey_radio
+#: model:res.groups,comment:odossey_radio.group_radio_operator
+msgid ""
+"Sees the programming grid and the daily log, confirms the broadcast of the "
+"spots."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_ad_format__sequence
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_break__sequence
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_daypart__sequence
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__sequence
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__sequence
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_weekday__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/wizard/radio_wizards.py:0
+msgid "Set the agency commission product in the Radio settings first."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.actions.act_window,help:odossey_radio.radio_program_action
+msgid ""
+"Set the days, the time, the hosts and the commercial breaks of each program."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.act_window,name:odossey_radio.radio_config_settings_action
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_settings
+msgid "Settings"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.act_window,name:odossey_radio.radio_commission_settle_action
+#: model:ir.model,name:odossey_radio.model_radio_commission_settle
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_commission_settle
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_commission_settle_view_form
+msgid "Settle Agency Commissions"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_certificate_document
+msgid "Signature and stamp -"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_occupancy_report_view_list
+msgid "Sold"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_occupancy_report__used
+msgid "Sold (s)"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__sponsor_ids
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_program_view_form
+msgid "Sponsors"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_ad_format__kind__sponsorship
+msgid "Sponsorship"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_program__genre__sports
+msgid "Sports"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_form
+msgid "Spot Airing"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model,name:odossey_radio.model_radio_emission
+msgid "Spot Airing (Daily Log)"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_emission__compensation_of_id
+msgid "Spot not aired that this airing replaces."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_break__emission_ids
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__emission_count
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_occupancy_report__spot_count
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__emission_count
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_occupancy_report_view_list
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_program_view_form
+msgid "Spots"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.act_window,name:odossey_radio.radio_emission_conflict_action
+msgid "Spots Without Room"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_subscription_search
+msgid "Stage"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__hour_from
+#: model_terms:ir.ui.view,arch_db:odossey_radio.portal_my_radio
+msgid "Start"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_schedule_mixin__radio_date_from
+#: model:ir.model.fields,help:odossey_radio.field_sale_order_line__radio_date_from
+#: model:ir.model.fields,help:odossey_radio.field_sale_subscription_line__radio_date_from
+msgid "Start of the airing (optional)."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__state
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__state
+msgid "State"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.res_config_settings_view_form_radio
+msgid "Station"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.portal_my_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_material_view_search
+msgid "Status"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_material__activity_state
+#: model:ir.model.fields,help:odossey_radio.field_radio_program__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_ad_format__kind__digital
+msgid "Streaming / Digital"
+msgstr ""
+
+#. module: odossey_radio
+#: model:radio.ad.format,name:odossey_radio.format_digital
+msgid "Streaming / social media"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model,name:odossey_radio.model_sale_subscription
+msgid "Subscription"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model,name:odossey_radio.model_sale_subscription_line
+msgid "Subscription lines added to a given subscription"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model,name:odossey_radio.model_sale_subscription_template
+msgid "Subscription templates"
+msgstr ""
+
+#. module: odossey_radio
+#: model:radio.weekday,name:odossey_radio.weekday_sun
+msgid "Sun"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription__radio_provider_code
+msgid "Supplier Code"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_res_company__radio_suspend_days
+#: model:ir.model.fields,field_description:odossey_radio.field_res_config_settings__radio_suspend_days
+msgid "Suspend Advertisers Overdue (days)"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_subscription_form
+msgid "Suspend Airing"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.res_config_settings_view_form_radio
+msgid ""
+"Suspend the airing of the advertisers with invoices overdue for more than N "
+"days (0 = never). It resumes when they pay."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_res_company__radio_suspend_days
+#: model:ir.model.fields,help:odossey_radio.field_res_config_settings__radio_suspend_days
+msgid ""
+"Suspend the log of the advertisers with invoices overdue more than N days (0"
+" = never)."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription__radio_suspended
+#: model_terms:ir.ui.view,arch_db:odossey_radio.portal_my_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_contract_view_kanban
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_subscription_form
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_subscription_search
+msgid "Suspended"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_sale_subscription__radio_suspend_debt
+msgid ""
+"Suspended automatically for overdue invoices: it resumes when they are paid."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription__radio_suspend_debt
+msgid "Suspended for Debt"
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/sale_subscription.py:0
+msgid "Suspended manually"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription__radio_suspend_reason
+msgid "Suspension Reason"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_order_document
+msgid "Taxes"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.res_config_settings_view_form_radio
+msgid "Text printed at the end of the certificates."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_material__script
+msgid "Text read by the host (mentions, PNT)."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_material_view_form
+msgid "Text that the host reads on air..."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.portal_my_radio_contract
+msgid "The airing of this contract is suspended. Contact us."
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/radio_program.py:0
+msgid "The break at %(time)s is outside the program %(program)s."
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/radio_program.py:0
+msgid "The daypart %s must start before it ends, between 00:00 and 24:00."
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/radio_demo.py:0
+msgid "The demo data is already loaded for %s."
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/radio_demo.py:0
+msgid "The demo data needs a company with the Argentinian chart of accounts."
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/wizard/radio_wizards.py:0
+msgid "The end date must be after the start date."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_ad_format__uses_break
+msgid ""
+"The format is aired inside a commercial break and uses its capacity "
+"(recorded spots). Live mentions and PNT are aired by the host during the "
+"program."
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/radio_material.py:0
+msgid ""
+"The material %s has restricted content: enter the authorization before "
+"approving it."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_subscription_form
+msgid ""
+"The planned spots will be cancelled until the contract is resumed. Continue?"
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/radio_program.py:0
+msgid "The program %s must start before it ends, between 00:00 and 24:00."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_res_company__radio_schedule_days
+#: model:ir.model.fields,help:odossey_radio.field_res_config_settings__radio_schedule_days
+msgid "The scheduled action plans the daily log of the next N days."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.res_config_settings_view_form_radio
+msgid "The scheduled action plans the daily log of the next days."
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/wizard/radio_wizards.py:0
+msgid "There are no aired spots in the period."
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/wizard/radio_wizards.py:0
+msgid "There are no commissions to settle in the period."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.portal_my_radio_contract
+msgid "There are no spots planned."
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/sale_subscription.py:0
+msgid "There is nothing to invoice for the current period."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_occupancy_report_view_search
+msgid "This Month"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_revenue_report_view_search
+msgid "This Year"
+msgstr ""
+
+#. module: odossey_radio
+#: model:radio.weekday,name:odossey_radio.weekday_thu
+msgid "Thu"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_break__time
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_emission__planned_time
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_occupancy_report__time
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_program_view_form
+msgid "Time"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_certificate_wizard__date_to
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_commission_settle__date_to
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_daypart__hour_to
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_schedule_generate__date_to
+msgid "To"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_material_view_search
+msgid "To Approve"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_subscription_search
+msgid "To Renew"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_material__state__draft
+msgid "To approve"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_contract_view_kanban
+msgid "To renew"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields.selection,name:odossey_radio.selection__radio_material__restriction__tobacco
+msgid "Tobacco"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_search
+msgid "Today"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.act_window,name:odossey_radio.radio_emission_today_action
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_log_today
+msgid "Today's Log"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_search
+msgid "Tomorrow"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_certificate_document
+msgid "Total:"
+msgstr ""
+
+#. module: odossey_radio
+#: model:radio.weekday,name:odossey_radio.weekday_tue
+msgid "Tue"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_material__activity_exception_decoration
+#: model:ir.model.fields,help:odossey_radio.field_radio_program__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_order_document
+msgid "Unit price"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_order_document
+msgid "Untaxed"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_revenue_report__amount
+msgid "Untaxed amount in company currency (credit notes deducted)."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_schedule_mixin__radio_date_to
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_order_line__radio_date_to
+#: model:ir.model.fields,field_description:odossey_radio.field_sale_subscription_line__radio_date_to
+msgid "Until"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_emission_view_search
+msgid "Upcoming"
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/radio_material.py:0
+msgid "Upload the audio of %s before approving it."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.actions.act_window,help:odossey_radio.radio_material_action
+msgid "Upload the spots and the scripts of the advertisers"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.res_config_settings_view_form_radio
+msgid "Used by the button Generate Breaks of the programs."
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_ad_format__uses_break
+msgid "Uses Break Time"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_res_partner__radio_default_agency_id
+#: model:ir.model.fields,field_description:odossey_radio.field_res_users__radio_default_agency_id
+msgid "Usual Agency"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__date_from
+msgid "Valid From"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__date_to
+msgid "Valid Until"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_material__website_message_ids
+#: model:ir.model.fields,field_description:odossey_radio.field_radio_program__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_radio_material__website_message_ids
+#: model:ir.model.fields,help:odossey_radio.field_radio_program__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: odossey_radio
+#: model:radio.weekday,name:odossey_radio.weekday_wed
+msgid "Wed"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.actions.server,name:odossey_radio.radio_grid_server_action
+#: model:ir.ui.menu,name:odossey_radio.menu_radio_grid
+msgid "Weekly Grid"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_sale_subscription_search
+msgid "With Agency"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_revenue_report_view_search
+msgid "Without Agency Commissions"
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/radio_material.py:0
+msgid "Write the script of %s before approving it."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.portal_my_radio
+msgid "You have no advertising contracts yet."
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.portal_my_home_radio
+msgid "Your campaigns on air, spots and broadcast certificates"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_certificate_document
+msgid "airings"
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/sale_subscription.py:0
+msgid "barter not invoiced"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_program_view_kanban
+msgid "breaks"
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/sale_subscription.py:0
+msgid "contract suspended"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.res_config_settings_view_form_radio
+msgid "days"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.res_config_settings_view_form_radio
+msgid "days ahead"
+msgstr ""
+
+#. module: odossey_radio
+#: model:ir.model.fields,help:odossey_radio.field_res_company__radio_frequency
+#: model:ir.model.fields,help:odossey_radio.field_res_config_settings__radio_frequency
+msgid "e.g. FM 98.3 MHz"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_program_view_form
+msgid "e.g. Good morning Córdoba"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.radio_material_view_form
+msgid "e.g. Spot 30\" Winter sale"
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/radio_schedule_mixin.py:0
+msgid "every day"
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/wizard/radio_wizards.py:0
+msgid "id"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.res_config_settings_view_form_radio
+msgid "minutes per hour"
+msgstr ""
+
+#. module: odossey_radio
+#. odoo-python
+#: code:addons/odossey_radio/models/radio_demo.py:0
+msgid "radio_contract"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_log
+msgid "s"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_order_document
+msgid "seconds"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.portal_my_radio_contract
+msgid "spots aired"
+msgstr ""
+
+#. module: odossey_radio
+#: model_terms:ir.ui.view,arch_db:odossey_radio.report_radio_certificate_document
+msgid "· ENACOM"
+msgstr ""

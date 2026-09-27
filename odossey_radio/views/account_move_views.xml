@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="radio_account_move_form" model="ir.ui.view">
+        <field name="name">account.move.form.radio</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='other_info']" position="before">
+                <page string="Aired Spots" name="radio_spots" invisible="not radio_emission_ids">
+                    <group>
+                        <group>
+                            <field name="radio_period_start" readonly="1"/>
+                            <field name="radio_period_end" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="radio_commission_bill_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <field name="radio_emission_ids" readonly="1">
+                        <list>
+                            <field name="date"/>
+                            <field name="time_label" string="Hour"/>
+                            <field name="program_id"/>
+                            <field name="format_id"/>
+                            <field name="material_id"/>
+                            <field name="duration"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="radio_invoice_action" model="ir.actions.act_window">
+        <field name="name">Advertising Invoices</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('subscription_id.radio_contract', '=', True), ('move_type', 'in', ('out_invoice', 'out_refund'))]</field>
+        <field name="context">{'default_move_type': 'out_invoice'}</field>
+    </record>
+    <record id="radio_agency_bill_action" model="ir.actions.act_window">
+        <field name="name">Agency Commission Bills</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('move_type', '=', 'in_invoice'), ('partner_id.radio_is_agency', '=', True)]</field>
+        <field name="context">{'default_move_type': 'in_invoice'}</field>
+    </record>
+</odoo>

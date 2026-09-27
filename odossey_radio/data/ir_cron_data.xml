@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ir_cron_radio_plan" model="ir.cron">
+        <field name="name">Radio: plan the daily log</field>
+        <field name="model_id" ref="subscription_oca.model_sale_subscription"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_radio_plan()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="nextcall" eval="(DateTime.now().replace(hour=4, minute=0, second=0)).strftime('%Y-%m-%d %H:%M:%S')"/>
+    </record>
+    <record id="ir_cron_radio_confirm" model="ir.cron">
+        <field name="name">Radio: confirm the spots of the past days</field>
+        <field name="model_id" ref="model_radio_emission"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_confirm_past()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="nextcall" eval="(DateTime.now().replace(hour=4, minute=30, second=0)).strftime('%Y-%m-%d %H:%M:%S')"/>
+    </record>
+    <record id="ir_cron_radio_credit" model="ir.cron">
+        <field name="name">Radio: suspend / resume overdue advertisers</field>
+        <field name="model_id" ref="subscription_oca.model_sale_subscription"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_radio_credit_control()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+    </record>
+    <record id="ir_cron_radio_renewals" model="ir.cron">
+        <field name="name">Radio: contracts to renew</field>
+        <field name="model_id" ref="subscription_oca.model_sale_subscription"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_radio_renewals()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+    </record>
+    <record id="ir_cron_radio_materials" model="ir.cron">
+        <field name="name">Radio: expire materials</field>
+        <field name="model_id" ref="model_radio_material"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_expire()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+    </record>
+</odoo>

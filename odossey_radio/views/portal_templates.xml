@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_my_home_radio" name="My Advertising" inherit_id="portal.portal_my_home" priority="40"
+              customize_show="True">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
+            <t t-set="portal_client_category_enable" t-value="True"/>
+        </xpath>
+        <div id="portal_client_category" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/odossey_radio/static/description/icon.png'"/>
+                <t t-set="title">My Advertising</t>
+                <t t-set="url" t-value="'/my/radio'"/>
+                <t t-set="text">Your campaigns on air, spots and broadcast certificates</t>
+                <t t-set="placeholder_count" t-value="'radio_contract_count'"/>
+            </t>
+        </div>
+    </template>
+
+    <template id="portal_breadcrumbs_radio" name="Portal layout: radio breadcrumb" inherit_id="portal.portal_breadcrumbs" priority="40">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'radio_contracts'" class="breadcrumb-item active">My Advertising</li>
+            <t t-if="page_name == 'radio_contract'">
+                <li class="breadcrumb-item"><a href="/my/radio">My Advertising</a></li>
+                <li class="breadcrumb-item active"><span t-out="contract.name"/></li>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_radio" name="My Advertising">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">My Advertising</t>
+            </t>
+            <div t-if="not contracts" class="alert alert-info">You have no advertising contracts yet.</div>
+            <t t-if="contracts" t-call="portal.portal_table">
+                <thead>
+                    <tr>
+                        <th>Contract</th>
+                        <th>Brand / Campaign</th>
+                        <th>Start</th>
+                        <th>End</th>
+                        <th class="text-end">Monthly</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="contracts" t-as="c">
+                        <td><a t-attf-href="/my/radio/#{c.id}" t-out="c.name"/></td>
+                        <td><span t-out="' / '.join(filter(None, [c.radio_brand, c.radio_campaign])) or ''"/></td>
+                        <td><span t-field="c.date_start"/></td>
+                        <td><span t-field="c.date"/></td>
+                        <td class="text-end"><span t-field="c.recurring_total"/></td>
+                        <td>
+                            <span t-if="c.radio_suspended" class="badge rounded-pill text-bg-warning">Suspended</span>
+                            <span t-elif="c.in_progress" class="badge rounded-pill text-bg-success">On air</span>
+                            <span t-else="" class="badge rounded-pill text-bg-light" t-out="c.stage_id.name"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </t>
+        </t>
+    </template>
+
+    <template id="portal_my_radio_contract" name="Advertising Contract">
+        <t t-call="portal.portal_layout">
+            <div class="row mt-3">
+                <div class="col-12 col-lg-8">
+                    <h3 class="mb-1"><span t-out="contract.radio_campaign or contract.radio_brand or contract.name"/></h3>
+                    <p class="text-muted"><span t-out="contract.name"/> · <span t-field="contract.date_start"/>
+                        <t t-if="contract.date"> - <span t-field="contract.date"/></t></p>
+                    <div t-if="contract.radio_suspended" class="alert alert-warning">The airing of this contract is suspended. Contact us.</div>
+                    <h5>Advertising plan</h5>
+                    <table class="table table-sm">
+                        <thead><tr><th>Format</th><th>Program</th><th>Days</th><th class="text-end">Per day</th><th class="text-end">Seconds</th></tr></thead>
+                        <tbody>
+                            <tr t-foreach="contract.sale_subscription_line_ids.filtered('radio_line')" t-as="line">
+                                <td><span t-out="line.product_id.name"/></td>
+                                <td><span t-out="line.radio_program_id.name or line.radio_daypart_id.display_name or ''"/></td>
+                                <td><span t-out="', '.join(line.radio_weekday_ids.sorted('sequence').mapped('name')) or 'All'"/></td>
+                                <td class="text-end"><span t-out="line.radio_spots_per_day"/></td>
+                                <td class="text-end"><span t-out="line.radio_duration"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h5 class="mt-4">Next spots</h5>
+                    <p t-if="not upcoming" class="text-muted">There are no spots planned.</p>
+                    <table t-if="upcoming" class="table table-sm">
+                        <thead><tr><th>Date</th><th>Hour</th><th>Program</th><th>Format</th></tr></thead>
+                        <tbody>
+                            <tr t-foreach="upcoming" t-as="e">
+                                <td><span t-field="e.date"/></td>
+                                <td><span t-out="e.time_label"/></td>
+                                <td><span t-out="e.program_id.name or ''"/></td>
+                                <td><span t-out="e.format_id.name"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Broadcast certificates</h5>
+                            <p class="small text-muted"><span t-out="aired_count"/> spots aired</p>
+                            <p t-if="not months" class="text-muted small">No spots aired yet.</p>
+                            <ul class="list-unstyled mb-0">
+                                <li t-foreach="months" t-as="m" class="mb-1">
+                                    <a t-attf-href="/my/radio/#{contract.id}/certificate/#{m.strftime('%Y-%m-%d')}">
+                                        <i class="fa fa-download me-1" title="Download"/><span t-out="m.strftime('%m/%Y')"/>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

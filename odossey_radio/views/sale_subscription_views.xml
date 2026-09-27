@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="radio_sale_subscription_form" model="ir.ui.view">
+        <field name="name">sale.subscription.form.radio</field>
+        <field name="model">sale.subscription</field>
+        <field name="inherit_id" ref="subscription_oca.sale_subscription_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/field[@name='stage_id']" position="before">
+                <field name="radio_contract" invisible="1"/>
+                <field name="radio_suspended" invisible="1"/>
+                <button name="action_radio_plan" type="object" string="Plan Log"
+                        invisible="not radio_contract or not in_progress or radio_suspended"
+                        groups="odossey_radio.group_radio_user"/>
+                <button name="action_radio_certificate" type="object" string="Broadcast Certificate"
+                        invisible="not radio_contract" groups="odossey_radio.group_radio_user"/>
+                <button name="action_radio_suspend" type="object" string="Suspend Airing"
+                        invisible="not radio_contract or not in_progress or radio_suspended"
+                        groups="odossey_radio.group_radio_user"
+                        confirm="The planned spots will be cancelled until the contract is resumed. Continue?"/>
+                <button name="action_radio_resume" type="object" string="Resume Airing" class="btn-primary"
+                        invisible="not radio_suspended" groups="odossey_radio.group_radio_user"/>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_radio_view_emissions" type="object" class="oe_stat_button"
+                        icon="fa-bullhorn" invisible="not radio_contract">
+                    <div class="o_stat_info">
+                        <span class="o_stat_value"><field name="radio_aired_count"/> / <field name="radio_planned_count"/></span>
+                        <span class="o_stat_text">Aired / Planned</span>
+                    </div>
+                </button>
+                <button name="action_radio_view_materials" type="object" class="oe_stat_button"
+                        icon="fa-file-audio-o" invisible="not radio_contract">
+                    <field name="radio_material_count" widget="statinfo" string="Materials"/>
+                </button>
+            </xpath>
+            <xpath expr="//widget[@name='web_ribbon']" position="after">
+                <widget name="web_ribbon" title="Suspended" bg_color="text-bg-warning" invisible="not radio_suspended"/>
+            </xpath>
+            <xpath expr="//div[hasclass('oe_title')]" position="before">
+                <field name="radio_material_warning" invisible="1"/>
+                <div class="alert alert-warning mb-2" role="alert" invisible="not radio_material_warning">
+                    <i class="fa fa-exclamation-triangle me-1" title="Material"/>
+                    The contract has no approved material valid today: the spots will air without an audio or script assigned.
+                </div>
+                <div class="alert alert-danger mb-2" role="alert" invisible="not radio_suspended">
+                    <i class="fa fa-pause-circle me-1" title="Suspended"/>
+                    Airing suspended: <field name="radio_suspend_reason" class="oe_inline" readonly="1"/>
+                </div>
+            </xpath>
+            <xpath expr="//group[@name='left_group']/field[@name='partner_id']" position="after">
+                <field name="radio_brand" invisible="not radio_contract"/>
+                <field name="radio_campaign" invisible="not radio_contract"/>
+                <field name="radio_op_number" invisible="not radio_contract"/>
+            </xpath>
+            <xpath expr="//group[@name='right_group']/field[@name='template_id']" position="after">
+                <field name="radio_agency_id" invisible="not radio_contract"
+                       context="{'default_radio_is_agency': True, 'default_is_company': True}"/>
+                <field name="radio_bill_to" widget="radio" options="{'horizontal': true}"
+                       invisible="not radio_contract or not radio_agency_id"/>
+                <field name="radio_commission" invisible="not radio_contract or not radio_agency_id"/>
+                <field name="radio_commission_mode" invisible="not radio_contract or not radio_agency_id"/>
+            </xpath>
+            <xpath expr="//field[@name='sale_subscription_line_ids']/list/field[@name='name']" position="after">
+                <field name="radio_line" column_invisible="1"/>
+                <field name="radio_program_id" optional="show" invisible="not radio_line"/>
+                <field name="radio_daypart_id" optional="hide" invisible="not radio_line"/>
+                <field name="radio_break_id" optional="hide" invisible="not radio_line"/>
+                <field name="radio_weekday_ids" widget="many2many_tags" optional="show" invisible="not radio_line"/>
+                <field name="radio_spots_per_day" optional="show" invisible="not radio_line"/>
+                <field name="radio_duration" optional="show" invisible="not radio_line"/>
+                <field name="radio_position" optional="hide" invisible="not radio_line"/>
+                <field name="radio_date_from" optional="hide" invisible="not radio_line"/>
+                <field name="radio_date_to" optional="hide" invisible="not radio_line"/>
+                <field name="radio_format_id" column_invisible="1"/>
+            </xpath>
+            <xpath expr="//page[@name='misc_page']" position="before">
+                <page string="Materials" name="radio_materials" invisible="not radio_contract">
+                    <field name="radio_material_ids" context="{'default_subscription_id': id}">
+                        <list>
+                            <field name="name"/>
+                            <field name="kind"/>
+                            <field name="format_id"/>
+                            <field name="duration"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="state" widget="badge" decoration-success="state == 'approved'"
+                                   decoration-warning="state == 'draft'" decoration-muted="state == 'expired'"/>
+                        </list>
+                    </field>
+                </page>
+                <page string="Barter &amp; Official" name="radio_special" invisible="not radio_contract">
+                    <group>
+                        <group string="Barter">
+                            <field name="radio_is_barter"/>
+                            <field name="radio_barter_invoice" invisible="not radio_is_barter"/>
+                            <field name="radio_barter_note" invisible="not radio_is_barter"/>
+                        </group>
+                        <group string="Official Advertising">
+                            <field name="radio_is_official"/>
+                            <field name="radio_official_body" invisible="not radio_is_official"/>
+                            <field name="radio_provider_code" invisible="not radio_is_official"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="radio_sale_subscription_search" model="ir.ui.view">
+        <field name="name">sale.subscription.search.radio</field>
+        <field name="model">sale.subscription</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="radio_agency_id"/>
+                <field name="radio_campaign"/>
+                <field name="user_id"/>
+                <filter name="in_progress" string="In Progress" domain="[('in_progress', '=', True)]"/>
+                <filter name="suspended" string="Suspended" domain="[('radio_suspended', '=', True)]"/>
+                <filter name="to_renew" string="To Renew" domain="[('to_renew', '=', True)]"/>
+                <filter name="ending" string="Ending in 30 Days"
+                        domain="[('date', '!=', False), ('date', '&lt;=', (context_today() + relativedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                <separator/>
+                <filter name="agency" string="With Agency" domain="[('radio_agency_id', '!=', False)]"/>
+                <filter name="barter" string="Barter" domain="[('radio_is_barter', '=', True)]"/>
+                <filter name="official" string="Official Advertising" domain="[('radio_is_official', '=', True)]"/>
+                <filter name="my" string="My Contracts" domain="[('user_id', '=', uid)]"/>
+                <group>
+                    <filter name="group_stage" string="Stage" context="{'group_by': 'stage_id'}"/>
+                    <filter name="group_partner" string="Advertiser" context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_agency" string="Agency" context="{'group_by': 'radio_agency_id'}"/>
+                    <filter name="group_user" string="Salesperson" context="{'group_by': 'user_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Radio contract form: wording of the radio (the standard subscription form is kept) -->
+    <record id="radio_contract_view_form" model="ir.ui.view">
+        <field name="name">sale.subscription.form.radio.contract</field>
+        <field name="model">sale.subscription</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="subscription_oca.sale_subscription_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_close_subscription']" position="attributes">
+                <attribute name="string">Close Contract</attribute>
+            </xpath>
+            <xpath expr="//group[@name='left_group']/field[@name='partner_id']" position="attributes">
+                <attribute name="string">Advertiser</attribute>
+                <attribute name="context">{'default_radio_is_advertiser': True}</attribute>
+            </xpath>
+            <xpath expr="//group[@name='right_group']/field[@name='template_id']" position="attributes">
+                <attribute name="string">Contract Template</attribute>
+                <attribute name="domain">[('radio_template', '=', True)]</attribute>
+            </xpath>
+            <xpath expr="//page[@name='subscription_lines_page']" position="attributes">
+                <attribute name="string">Advertising Plan</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="radio_contract_view_kanban" model="ir.ui.view">
+        <field name="name">sale.subscription.kanban.radio</field>
+        <field name="model">sale.subscription</field>
+        <field name="priority">90</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="stage_id" class="o_kanban_small_column" sample="1">
+                <field name="currency_id"/>
+                <field name="radio_suspended"/>
+                <field name="radio_is_barter"/>
+                <field name="radio_is_official"/>
+                <field name="to_renew"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex justify-content-between">
+                            <field name="partner_id" class="fw-bold"/>
+                            <field name="recurring_total" widget="monetary" class="fw-bold"/>
+                        </div>
+                        <div class="text-muted small">
+                            <field name="name"/>
+                            <t t-if="record.radio_campaign.raw_value"> · <field name="radio_campaign"/></t>
+                        </div>
+                        <div t-if="record.radio_agency_id.raw_value" class="small">
+                            <i class="fa fa-building-o me-1" title="Agency"/><field name="radio_agency_id"/>
+                        </div>
+                        <div class="d-flex flex-wrap gap-1 mt-1">
+                            <span t-if="record.radio_suspended.raw_value" class="badge rounded-pill text-bg-warning">Suspended</span>
+                            <span t-if="record.radio_is_barter.raw_value" class="badge rounded-pill text-bg-info">Barter</span>
+                            <span t-if="record.radio_is_official.raw_value" class="badge rounded-pill text-bg-secondary">Official</span>
+                            <span t-if="record.to_renew.raw_value" class="badge rounded-pill text-bg-danger">To renew</span>
+                        </div>
+                        <footer class="mt-1">
+                            <span class="small text-muted">
+                                <i class="fa fa-bullhorn me-1" title="Spots"/><field name="radio_aired_count"/> / <field name="radio_planned_count"/>
+                            </span>
+                            <div class="ms-auto d-flex align-items-center gap-1">
+                                <field name="activity_ids" widget="kanban_activity"/>
+                                <field name="user_id" widget="many2one_avatar_user"/>
+                            </div>
+                        </footer>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="radio_contract_action" model="ir.actions.act_window">
+        <field name="name">Advertising Contracts</field>
+        <field name="res_model">sale.subscription</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('radio_contract', '=', True)]</field>
+        <field name="search_view_id" ref="radio_sale_subscription_search"/>
+        <field name="view_ids" eval="[Command.clear(), Command.create({'view_mode': 'kanban', 'view_id': ref('radio_contract_view_kanban')}), Command.create({'view_mode': 'list'}), Command.create({'view_mode': 'form', 'view_id': ref('radio_contract_view_form')})]"/>
+        <field name="context" eval="{'default_radio_contract': True, 'default_template_id': ref('odossey_radio.template_monthly_fixed')}"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create the first advertising contract</p>
+            <p>Contracts are created when an advertising order is confirmed, or directly here.
+                Each contract plans the daily log and is invoiced every month.</p>
+        </field>
+    </record>
+</odoo>

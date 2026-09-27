@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Occupancy -->
+    <record id="radio_occupancy_report_view_pivot" model="ir.ui.view">
+        <field name="name">radio.occupancy.report.pivot</field>
+        <field name="model">radio.occupancy.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Break Occupancy" disable_linking="1">
+                <field name="program_id" type="row"/>
+                <field name="date" interval="week" type="col"/>
+                <field name="occupancy" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+    <record id="radio_occupancy_report_view_graph" model="ir.ui.view">
+        <field name="name">radio.occupancy.report.graph</field>
+        <field name="model">radio.occupancy.report</field>
+        <field name="arch" type="xml">
+            <graph string="Break Occupancy" type="bar" stacked="1">
+                <field name="date" interval="day"/>
+                <field name="used" type="measure"/>
+                <field name="free" type="measure"/>
+            </graph>
+        </field>
+    </record>
+    <record id="radio_occupancy_report_view_list" model="ir.ui.view">
+        <field name="name">radio.occupancy.report.list</field>
+        <field name="model">radio.occupancy.report</field>
+        <field name="arch" type="xml">
+            <list string="Break Occupancy" decoration-danger="occupancy &gt;= 100" decoration-warning="occupancy &gt;= 80">
+                <field name="date"/>
+                <field name="program_id"/>
+                <field name="break_id"/>
+                <field name="capacity" sum="Capacity"/>
+                <field name="used" sum="Sold"/>
+                <field name="free" sum="Free"/>
+                <field name="spot_count" sum="Spots"/>
+                <field name="occupancy" widget="progressbar"/>
+            </list>
+        </field>
+    </record>
+    <record id="radio_occupancy_report_view_search" model="ir.ui.view">
+        <field name="name">radio.occupancy.report.search</field>
+        <field name="model">radio.occupancy.report</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="program_id"/>
+                <field name="daypart_id"/>
+                <filter name="next_week" string="Next 7 Days"
+                        domain="[('date', '&gt;=', context_today().strftime('%Y-%m-%d')), ('date', '&lt;=', (context_today() + relativedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                <filter name="this_month" string="This Month" domain="[('date', '&gt;=', context_today().strftime('%Y-%m-01')), ('date', '&lt;', (context_today() + relativedelta(months=1)).strftime('%Y-%m-01'))]"/>
+                <filter name="full" string="Full (≥ 100%)" domain="[('occupancy', '&gt;=', 100)]"/>
+                <group>
+                    <filter name="group_program" string="Program" context="{'group_by': 'program_id'}"/>
+                    <filter name="group_daypart" string="Daypart" context="{'group_by': 'daypart_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="radio_occupancy_report_action" model="ir.actions.act_window">
+        <field name="name">Break Occupancy</field>
+        <field name="res_model">radio.occupancy.report</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="context">{'search_default_next_week': 1}</field>
+    </record>
+
+    <!-- Revenue -->
+    <record id="radio_revenue_report_view_pivot" model="ir.ui.view">
+        <field name="name">radio.revenue.report.pivot</field>
+        <field name="model">radio.revenue.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Advertising Revenue">
+                <field name="program_id" type="row"/>
+                <field name="date" interval="month" type="col"/>
+                <field name="amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+    <record id="radio_revenue_report_view_graph" model="ir.ui.view">
+        <field name="name">radio.revenue.report.graph</field>
+        <field name="model">radio.revenue.report</field>
+        <field name="arch" type="xml">
+            <graph string="Advertising Revenue" type="bar">
+                <field name="date" interval="month"/>
+                <field name="amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+    <record id="radio_revenue_report_view_list" model="ir.ui.view">
+        <field name="name">radio.revenue.report.list</field>
+        <field name="model">radio.revenue.report</field>
+        <field name="arch" type="xml">
+            <list string="Advertising Revenue">
+                <field name="date"/>
+                <field name="move_id"/>
+                <field name="advertiser_id"/>
+                <field name="agency_id" optional="show"/>
+                <field name="program_id"/>
+                <field name="format_id" optional="show"/>
+                <field name="user_id" optional="show"/>
+                <field name="quantity" sum="Quantity"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="amount" sum="Net"/>
+                <field name="enacom_fee" sum="ENACOM" optional="show"/>
+            </list>
+        </field>
+    </record>
+    <record id="radio_revenue_report_view_search" model="ir.ui.view">
+        <field name="name">radio.revenue.report.search</field>
+        <field name="model">radio.revenue.report</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="advertiser_id"/>
+                <field name="agency_id"/>
+                <field name="program_id"/>
+                <field name="user_id"/>
+                <filter name="this_year" string="This Year" domain="[('date', '&gt;=', context_today().strftime('%Y-01-01'))]"/>
+                <filter name="no_commission" string="Without Agency Commissions" domain="[('is_commission', '=', False)]"/>
+                <filter name="barter" string="Barter" domain="[('is_barter', '=', True)]"/>
+                <filter name="official" string="Official" domain="[('is_official', '=', True)]"/>
+                <group>
+                    <filter name="group_month" string="Month" context="{'group_by': 'date:month'}"/>
+                    <filter name="group_program" string="Program" context="{'group_by': 'program_id'}"/>
+                    <filter name="group_format" string="Format" context="{'group_by': 'format_id'}"/>
+                    <filter name="group_advertiser" string="Advertiser" context="{'group_by': 'advertiser_id'}"/>
+                    <filter name="group_agency" string="Agency" context="{'group_by': 'agency_id'}"/>
+                    <filter name="group_user" string="Salesperson" context="{'group_by': 'user_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="radio_revenue_report_action" model="ir.actions.act_window">
+        <field name="name">Advertising Revenue</field>
+        <field name="res_model">radio.revenue.report</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="context">{'search_default_this_year': 1}</field>
+    </record>
+    <record id="radio_enacom_report_action" model="ir.actions.act_window">
+        <field name="name">ENACOM Fee</field>
+        <field name="res_model">radio.revenue.report</field>
+        <field name="view_mode">pivot,list</field>
+        <field name="context">{'search_default_this_year': 1, 'search_default_group_month': 1, 'pivot_measures': ['amount', 'enacom_fee'], 'pivot_row_groupby': ['date:month'], 'pivot_column_groupby': []}</field>
+        <field name="help" type="html">
+            <p>Base of the fee of Law 26.522 (art. 94): gross billing of advertising, net of the
+                commissions and discounts invoiced, with the rate of the Settings.</p>
+        </field>
+    </record>
+</odoo>

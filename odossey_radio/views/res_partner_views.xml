@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="radio_res_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form.radio</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_radio_contracts" type="object" class="oe_stat_button"
+                        icon="fa-microphone" invisible="not radio_contract_count"
+                        groups="odossey_radio.group_radio_operator">
+                    <field name="radio_contract_count" widget="statinfo" string="Radio"/>
+                </button>
+            </xpath>
+            <xpath expr="//page[@name='sales_purchases']" position="before">
+                <page string="Radio" name="radio" groups="odossey_radio.group_radio_operator">
+                    <group>
+                        <group>
+                            <field name="radio_is_advertiser"/>
+                            <field name="radio_brand" invisible="not radio_is_advertiser"/>
+                            <field name="radio_default_agency_id" invisible="not radio_is_advertiser"/>
+                        </group>
+                        <group>
+                            <field name="radio_is_agency"/>
+                            <field name="radio_agency_commission" invisible="not radio_is_agency"/>
+                            <field name="radio_is_host"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="radio_advertiser_action" model="ir.actions.act_window">
+        <field name="name">Advertisers</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('radio_is_advertiser', '=', True)]</field>
+        <field name="context">{'default_radio_is_advertiser': True, 'default_is_company': True}</field>
+    </record>
+    <record id="radio_agency_action" model="ir.actions.act_window">
+        <field name="name">Agencies</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('radio_is_agency', '=', True)]</field>
+        <field name="context">{'default_radio_is_agency': True, 'default_is_company': True}</field>
+    </record>
+</odoo>

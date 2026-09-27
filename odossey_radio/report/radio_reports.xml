@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="paperformat_radio_landscape" model="report.paperformat">
+        <field name="name">Radio A4 landscape</field>
+        <field name="format">A4</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">30</field>
+        <field name="margin_bottom">18</field>
+        <field name="margin_left">8</field>
+        <field name="margin_right">8</field>
+        <field name="header_spacing">24</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_radio_certificate" model="ir.actions.report">
+        <field name="name">Broadcast Certificate</field>
+        <field name="model">sale.subscription</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odossey_radio.report_radio_certificate</field>
+        <field name="report_file">odossey_radio.report_radio_certificate</field>
+        <field name="print_report_name">'Certificado - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="subscription_oca.model_sale_subscription"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="action_report_radio_log" model="ir.actions.report">
+        <field name="name">Daily Log</field>
+        <field name="model">radio.emission</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odossey_radio.report_radio_log</field>
+        <field name="report_file">odossey_radio.report_radio_log</field>
+        <field name="print_report_name">'Pauta diaria'</field>
+        <field name="binding_model_id" ref="model_radio_emission"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="action_report_radio_order" model="ir.actions.report">
+        <field name="name">Advertising Order</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odossey_radio.report_radio_order</field>
+        <field name="report_file">odossey_radio.report_radio_order</field>
+        <field name="print_report_name">'Orden de publicidad - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="action_report_radio_grid" model="ir.actions.report">
+        <field name="name">Programming Grid</field>
+        <field name="model">radio.program</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odossey_radio.report_radio_grid</field>
+        <field name="report_file">odossey_radio.report_radio_grid</field>
+        <field name="print_report_name">'Grilla de programacion'</field>
+        <field name="paperformat_id" ref="paperformat_radio_landscape"/>
+        <field name="binding_model_id" ref="model_radio_program"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="action_report_radio_grid_html" model="ir.actions.report">
+        <field name="name">Programming Grid (screen)</field>
+        <field name="model">radio.program</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">odossey_radio.report_radio_grid</field>
+        <field name="report_file">odossey_radio.report_radio_grid</field>
+    </record>
+</odoo>

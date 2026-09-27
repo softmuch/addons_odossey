@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="radio_schedule_generate_view_form" model="ir.ui.view">
+        <field name="name">radio.schedule.generate.form</field>
+        <field name="model">radio.schedule.generate</field>
+        <field name="arch" type="xml">
+            <form string="Plan the Daily Log">
+                <p class="text-muted">
+                    Creates the missing spots of the contracts in progress, in the breaks of their
+                    programs, respecting the capacity of each break and the legal limit of
+                    advertising minutes per hour. The spots already planned are kept.
+                </p>
+                <group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group>
+                        <field name="subscription_ids" widget="many2many_tags"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_generate" type="object" string="Plan" class="btn-primary"/>
+                    <button string="Discard" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="radio_schedule_generate_action" model="ir.actions.act_window">
+        <field name="name">Plan the Daily Log</field>
+        <field name="res_model">radio.schedule.generate</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="radio_material_view_form" model="ir.ui.view">
+        <field name="name">radio.material.form</field>
+        <field name="model">radio.material</field>
+        <field name="arch" type="xml">
+            <form string="Material">
+                <header>
+                    <button name="action_approve" type="object" string="Approve" class="btn-primary"
+                            invisible="state == 'approved'"/>
+                    <button name="action_draft" type="object" string="Back to Review"
+                            invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. Spot 30&quot; Winter sale"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="subscription_id"/>
+                            <field name="partner_id"/>
+                            <field name="kind" widget="radio"/>
+                            <field name="format_id"/>
+                            <field name="duration"/>
+                        </group>
+                        <group>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="sequence"/>
+                            <field name="restriction"/>
+                            <field name="authorization_ref" invisible="restriction == 'none'"
+                                   required="restriction != 'none' and state == 'approved'"/>
+                            <field name="emission_count"/>
+                        </group>
+                    </group>
+                    <group invisible="kind != 'audio'">
+                        <field name="audio_file" filename="audio_filename"/>
+                        <field name="audio_filename" invisible="1"/>
+                    </group>
+                    <label for="script" invisible="kind != 'script'"/>
+                    <field name="script" invisible="kind != 'script'"
+                           placeholder="Text that the host reads on air..."/>
+                    <field name="note" placeholder="Notes for the operator..."/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="radio_material_view_list" model="ir.ui.view">
+        <field name="name">radio.material.list</field>
+        <field name="model">radio.material</field>
+        <field name="arch" type="xml">
+            <list string="Materials" decoration-muted="state == 'expired'" decoration-warning="state == 'draft'">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="subscription_id"/>
+                <field name="kind"/>
+                <field name="format_id"/>
+                <field name="duration"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="restriction" optional="hide"/>
+                <field name="emission_count" optional="show"/>
+                <field name="state" widget="badge" decoration-success="state == 'approved'"
+                       decoration-warning="state == 'draft'" decoration-muted="state == 'expired'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="radio_material_view_search" model="ir.ui.view">
+        <field name="name">radio.material.search</field>
+        <field name="model">radio.material</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="subscription_id"/>
+                <filter name="to_approve" string="To Approve" domain="[('state', '=', 'draft')]"/>
+                <filter name="approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <filter name="expired" string="Expired" domain="[('state', '=', 'expired')]"/>
+                <filter name="restricted" string="Restricted Content" domain="[('restriction', '!=', 'none')]"/>
+                <group>
+                    <filter name="group_partner" string="Advertiser" context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="radio_material_action" model="ir.actions.act_window">
+        <field name="name">Materials</field>
+        <field name="res_model">radio.material</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Upload the spots and the scripts of the advertisers</p>
+            <p>Approved materials are rotated automatically in the daily log while they are valid.</p>
+        </field>
+    </record>
+</odoo>

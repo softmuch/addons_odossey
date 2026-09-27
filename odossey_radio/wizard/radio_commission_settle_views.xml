@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="radio_commission_settle_view_form" model="ir.ui.view">
+        <field name="name">radio.commission.settle.form</field>
+        <field name="model">radio.commission.settle</field>
+        <field name="arch" type="xml">
+            <form string="Settle Agency Commissions">
+                <p class="text-muted">
+                    For the contracts whose agency invoices its commission, creates one draft vendor
+                    bill per agency with the commission of the invoices posted in the period.
+                </p>
+                <group>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                </group>
+                <footer>
+                    <button name="action_settle" type="object" string="Create Bills" class="btn-primary"/>
+                    <button string="Discard" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="radio_commission_settle_action" model="ir.actions.act_window">
+        <field name="name">Settle Agency Commissions</field>
+        <field name="res_model">radio.commission.settle</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

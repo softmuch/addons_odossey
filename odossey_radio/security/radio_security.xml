@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="module_category_radio" model="ir.module.category">
+        <field name="name">Radio</field>
+        <field name="sequence">18</field>
+    </record>
+
+    <record id="privilege_radio" model="res.groups.privilege">
+        <field name="name">Radio</field>
+        <field name="description">Access level for the Radio application.</field>
+        <field name="placeholder">No Access</field>
+        <field name="category_id" ref="module_category_radio"/>
+        <field name="sequence">18</field>
+    </record>
+
+    <record id="group_radio_operator" model="res.groups">
+        <field name="name">On-air Operator</field>
+        <field name="privilege_id" ref="privilege_radio"/>
+        <field name="sequence">5</field>
+        <field name="comment">Sees the programming grid and the daily log, confirms the broadcast of the spots.</field>
+    </record>
+
+    <record id="group_radio_user" model="res.groups">
+        <field name="name">Sales</field>
+        <field name="privilege_id" ref="privilege_radio"/>
+        <field name="sequence">10</field>
+        <field name="implied_ids" eval="[Command.link(ref('group_radio_operator')),
+                                         Command.link(ref('sales_team.group_sale_salesman_all_leads')),
+                                         Command.link(ref('account.group_account_invoice'))]"/>
+        <field name="comment">Manages advertisers, advertising orders, contracts, materials and the daily log.</field>
+    </record>
+
+    <record id="group_radio_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="privilege_id" ref="privilege_radio"/>
+        <field name="sequence">20</field>
+        <field name="implied_ids" eval="[Command.link(ref('group_radio_user')),
+                                         Command.link(ref('sales_team.group_sale_manager'))]"/>
+        <field name="comment">Also manages the programming, the rate card, the reports and the configuration.</field>
+        <field name="user_ids" eval="[Command.link(ref('base.user_root')), Command.link(ref('base.user_admin'))]"/>
+    </record>
+
+    <!-- multi-company -->
+    <record id="radio_program_company_rule" model="ir.rule">
+        <field name="name">Radio program: multi-company</field>
+        <field name="model_id" ref="model_radio_program"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="radio_break_company_rule" model="ir.rule">
+        <field name="name">Radio break: multi-company</field>
+        <field name="model_id" ref="model_radio_break"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="radio_material_company_rule" model="ir.rule">
+        <field name="name">Radio material: multi-company</field>
+        <field name="model_id" ref="model_radio_material"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="radio_emission_company_rule" model="ir.rule">
+        <field name="name">Radio emission: multi-company</field>
+        <field name="model_id" ref="model_radio_emission"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="radio_occupancy_report_company_rule" model="ir.rule">
+        <field name="name">Radio occupancy: multi-company</field>
+        <field name="model_id" ref="model_radio_occupancy_report"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="radio_revenue_report_company_rule" model="ir.rule">
+        <field name="name">Radio revenue: multi-company</field>
+        <field name="model_id" ref="model_radio_revenue_report"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- portal: advertisers see their contracts, materials and aired spots -->
+    <record id="radio_emission_portal_rule" model="ir.rule">
+        <field name="name">Radio emission: portal</field>
+        <field name="model_id" ref="model_radio_emission"/>
+        <field name="domain_force">[('partner_id', 'child_of', [user.commercial_partner_id.id])]</field>
+        <field name="groups" eval="[Command.link(ref('base.group_portal'))]"/>
+    </record>
+</odoo>

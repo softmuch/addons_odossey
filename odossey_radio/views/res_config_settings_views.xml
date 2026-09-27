@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_radio" model="ir.ui.view">
+        <field name="name">res.config.settings.form.radio</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="41"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Radio" string="Radio" name="odossey_radio"
+                     groups="odossey_radio.group_radio_manager">
+                    <block title="Station" name="radio_station">
+                        <setting string="Station" help="Data printed on the broadcast certificates.">
+                            <div class="content-group">
+                                <div class="row mt-2">
+                                    <label for="radio_frequency" class="col-lg-5 o_light_label"/>
+                                    <div class="col-lg-7"><field name="radio_frequency"/></div>
+                                </div>
+                                <div class="row">
+                                    <label for="radio_signal" class="col-lg-5 o_light_label"/>
+                                    <div class="col-lg-7"><field name="radio_signal"/></div>
+                                </div>
+                                <div class="row">
+                                    <label for="radio_license" class="col-lg-5 o_light_label"/>
+                                    <div class="col-lg-7"><field name="radio_license"/></div>
+                                </div>
+                            </div>
+                        </setting>
+                        <setting string="ENACOM Fee"
+                                 help="Law 26.522 (art. 94-96): fee on the gross advertising billing, net of the discounts and commissions invoiced.">
+                            <div class="content-group">
+                                <div class="row mt-2">
+                                    <label for="radio_band" class="col-lg-5 o_light_label"/>
+                                    <div class="col-lg-7"><field name="radio_band"/></div>
+                                </div>
+                                <div class="row">
+                                    <label for="radio_enacom_category" class="col-lg-5 o_light_label"/>
+                                    <div class="col-lg-7"><field name="radio_enacom_category"/></div>
+                                </div>
+                                <div class="row">
+                                    <label for="radio_enacom_rate" class="col-lg-5 o_light_label"/>
+                                    <div class="col-lg-7"><field name="radio_enacom_rate" class="oe_inline"/> %</div>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+                    <block title="Commercial Breaks &amp; Daily Log" name="radio_log">
+                        <setting string="Advertising Limit"
+                                 help="Law 26.522 (art. 82): up to 14 minutes of advertising per hour for radio. The daily log never exceeds it.">
+                            <field name="radio_max_ad_minutes" class="oe_inline"/> minutes per hour
+                        </setting>
+                        <setting string="Breaks" help="Used by the button Generate Breaks of the programs.">
+                            <div class="content-group">
+                                <div class="row mt-2">
+                                    <label for="radio_break_capacity" class="col-lg-6 o_light_label"/>
+                                    <div class="col-lg-6"><field name="radio_break_capacity" class="oe_inline"/></div>
+                                </div>
+                                <div class="row">
+                                    <label for="radio_break_interval" class="col-lg-6 o_light_label"/>
+                                    <div class="col-lg-6"><field name="radio_break_interval" class="oe_inline"/></div>
+                                </div>
+                                <div class="row">
+                                    <label for="radio_break_offset" class="col-lg-6 o_light_label"/>
+                                    <div class="col-lg-6"><field name="radio_break_offset" class="oe_inline"/></div>
+                                </div>
+                            </div>
+                        </setting>
+                        <setting string="Planning" help="The scheduled action plans the daily log of the next days.">
+                            <field name="radio_schedule_days" class="oe_inline"/> days ahead
+                        </setting>
+                        <setting help="At the end of the day the planned spots are marked as aired; the operator records only the exceptions.">
+                            <field name="radio_auto_confirm"/>
+                        </setting>
+                    </block>
+                    <block title="Invoicing &amp; Collection" name="radio_invoicing">
+                        <setting string="Agency Commission" help="Product of the commission lines (discount on the invoice or bill of the agency).">
+                            <field name="radio_agency_commission_product_id"/>
+                        </setting>
+                        <setting string="Overdue Advertisers" help="Suspend the airing of the advertisers with invoices overdue for more than N days (0 = never). It resumes when they pay.">
+                            <field name="radio_suspend_days" class="oe_inline"/> days
+                        </setting>
+                        <setting string="Broadcast Certificate" help="Text printed at the end of the certificates.">
+                            <field name="radio_certificate_note"/>
+                        </setting>
+                    </block>
+                    <block title="Demo" name="radio_demo">
+                        <setting help="Create a sample grid of an Argentinian station (programs, hosts, breaks, rate card), advertisers and agencies, contracts in every situation, materials, the daily log, invoices and opportunities. Nothing is created until you click the button.">
+                            <button name="action_radio_load_demo" type="object" string="Load Demo Data"
+                                    icon="oi-arrow-right" class="btn-link"
+                                    confirm="Sample programs, advertisers, contracts, spots and invoices will be created in the current company. They are meant for a demo or a test database: continue?"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="radio_config_settings_action" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'module': 'odossey_radio', 'bin_size': False}</field>
+    </record>
+</odoo>

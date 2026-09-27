@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Dayparts -->
+    <record id="radio_daypart_view_list" model="ir.ui.view">
+        <field name="name">radio.daypart.list</field>
+        <field name="model">radio.daypart</field>
+        <field name="arch" type="xml">
+            <list string="Dayparts" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="hour_from" widget="float_time"/>
+                <field name="hour_to" widget="float_time"/>
+                <field name="color" widget="color_picker" optional="show"/>
+            </list>
+        </field>
+    </record>
+    <record id="radio_daypart_action" model="ir.actions.act_window">
+        <field name="name">Dayparts</field>
+        <field name="res_model">radio.daypart</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Formats -->
+    <record id="radio_ad_format_view_list" model="ir.ui.view">
+        <field name="name">radio.ad.format.list</field>
+        <field name="model">radio.ad.format</field>
+        <field name="arch" type="xml">
+            <list string="Advertising Formats" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="kind"/>
+                <field name="default_duration"/>
+                <field name="uses_break"/>
+                <field name="counts_ad_time"/>
+                <field name="requires_material"/>
+            </list>
+        </field>
+    </record>
+    <record id="radio_ad_format_action" model="ir.actions.act_window">
+        <field name="name">Advertising Formats</field>
+        <field name="res_model">radio.ad.format</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Rate card (products) -->
+    <record id="radio_rate_card_view_list" model="ir.ui.view">
+        <field name="name">product.template.radio.list</field>
+        <field name="model">product.template</field>
+        <field name="priority">90</field>
+        <field name="arch" type="xml">
+            <list string="Rate Card">
+                <field name="name"/>
+                <field name="radio_format_id"/>
+                <field name="radio_duration"/>
+                <field name="radio_daypart_id"/>
+                <field name="radio_program_id" optional="show"/>
+                <field name="list_price" string="Price per Airing"/>
+                <field name="taxes_id" widget="many2many_tags" optional="show"/>
+                <field name="subscription_template_id" optional="hide"/>
+            </list>
+        </field>
+    </record>
+    <record id="radio_rate_card_action" model="ir.actions.act_window">
+        <field name="name">Rate Card</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('radio_ok', '=', True)]</field>
+        <field name="context">{'default_radio_ok': True, 'default_type': 'service', 'default_subscribable': True, 'default_invoice_policy': 'delivery', 'default_sale_ok': True}</field>
+        <field name="view_ids" eval="[Command.clear(), Command.create({'view_mode': 'list', 'view_id': ref('radio_rate_card_view_list')})]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create the rate card</p>
+            <p>Each product is a format (spot, mention, PNT, sponsorship...) with its duration and
+                daypart or program, priced per airing. Use pricelists for agencies and volume
+                discounts.</p>
+        </field>
+    </record>
+
+    <!-- Contract templates -->
+    <record id="radio_contract_template_action" model="ir.actions.act_window">
+        <field name="name">Contract Templates</field>
+        <field name="res_model">sale.subscription.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('radio_template', '=', True)]</field>
+        <field name="context">{'default_radio_template': True}</field>
+    </record>
+
+    <record id="radio_subscription_template_form" model="ir.ui.view">
+        <field name="name">sale.subscription.template.form.radio</field>
+        <field name="model">sale.subscription.template</field>
+        <field name="inherit_id" ref="subscription_oca.sale_subscription_template_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoicing_mode']" position="after">
+                <field name="radio_template"/>
+                <field name="radio_billing_basis" invisible="not radio_template"/>
+                <field name="radio_attach_certificate" invisible="not radio_template"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

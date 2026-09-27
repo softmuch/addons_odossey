@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Days of the week (code = Python weekday) -->
+    <record id="weekday_mon" model="radio.weekday"><field name="name">Mon</field><field name="code">0</field><field name="sequence">1</field></record>
+    <record id="weekday_tue" model="radio.weekday"><field name="name">Tue</field><field name="code">1</field><field name="sequence">2</field></record>
+    <record id="weekday_wed" model="radio.weekday"><field name="name">Wed</field><field name="code">2</field><field name="sequence">3</field></record>
+    <record id="weekday_thu" model="radio.weekday"><field name="name">Thu</field><field name="code">3</field><field name="sequence">4</field></record>
+    <record id="weekday_fri" model="radio.weekday"><field name="name">Fri</field><field name="code">4</field><field name="sequence">5</field></record>
+    <record id="weekday_sat" model="radio.weekday"><field name="name">Sat</field><field name="code">5</field><field name="sequence">6</field></record>
+    <record id="weekday_sun" model="radio.weekday"><field name="name">Sun</field><field name="code">6</field><field name="sequence">7</field></record>
+
+    <data noupdate="1">
+        <!-- Dayparts of the rate card -->
+        <record id="daypart_morning" model="radio.daypart">
+            <field name="name">Prime time (morning)</field><field name="sequence">1</field>
+            <field name="hour_from">6</field><field name="hour_to">13</field><field name="color">1</field>
+        </record>
+        <record id="daypart_afternoon" model="radio.daypart">
+            <field name="name">Afternoon</field><field name="sequence">2</field>
+            <field name="hour_from">13</field><field name="hour_to">20</field><field name="color">3</field>
+        </record>
+        <record id="daypart_night" model="radio.daypart">
+            <field name="name">Night</field><field name="sequence">3</field>
+            <field name="hour_from">20</field><field name="hour_to">24</field><field name="color">4</field>
+        </record>
+        <record id="daypart_late_night" model="radio.daypart">
+            <field name="name">Late night</field><field name="sequence">4</field>
+            <field name="hour_from">0</field><field name="hour_to">6</field><field name="color">8</field>
+        </record>
+
+        <!-- Advertising formats -->
+        <record id="format_spot" model="radio.ad.format">
+            <field name="name">Recorded spot</field><field name="code">SPOT</field><field name="kind">spot</field>
+            <field name="default_duration">30</field><field name="sequence">1</field>
+        </record>
+        <record id="format_mention" model="radio.ad.format">
+            <field name="name">Live mention</field><field name="code">MEN</field><field name="kind">mention</field>
+            <field name="default_duration">20</field><field name="uses_break" eval="False"/><field name="sequence">2</field>
+        </record>
+        <record id="format_pnt" model="radio.ad.format">
+            <field name="name">PNT / Advertorial</field><field name="code">PNT</field><field name="kind">pnt</field>
+            <field name="default_duration">60</field><field name="uses_break" eval="False"/><field name="sequence">3</field>
+        </record>
+        <record id="format_sponsorship" model="radio.ad.format">
+            <field name="name">Program sponsorship</field><field name="code">AUS</field><field name="kind">sponsorship</field>
+            <field name="default_duration">10</field><field name="uses_break" eval="False"/><field name="sequence">4</field>
+            <field name="description">Opening and closing credit of the program ("Auspicia...").</field>
+        </record>
+        <record id="format_micro" model="radio.ad.format">
+            <field name="name">Micro program</field><field name="code">MIC</field><field name="kind">micro</field>
+            <field name="default_duration">120</field><field name="sequence">5</field>
+        </record>
+        <record id="format_digital" model="radio.ad.format">
+            <field name="name">Streaming / social media</field><field name="code">DIG</field><field name="kind">digital</field>
+            <field name="default_duration">0</field><field name="uses_break" eval="False"/>
+            <field name="counts_ad_time" eval="False"/><field name="requires_material" eval="False"/><field name="sequence">6</field>
+        </record>
+
+        <!-- Contract templates (OCA subscriptions) -->
+        <record id="template_monthly_fixed" model="sale.subscription.template">
+            <field name="name">Pauta mensual (abono fijo)</field>
+            <field name="code">PAU</field>
+            <field name="recurring_interval">1</field>
+            <field name="recurring_rule_type">months</field>
+            <field name="recurring_rule_boundary">unlimited</field>
+            <field name="invoicing_mode">invoice</field>
+            <field name="radio_template" eval="True"/>
+            <field name="radio_billing_basis">fixed</field>
+            <field name="radio_attach_certificate" eval="False"/>
+            <field name="description">Contrato de publicidad mensual. El abono se factura al inicio de cada mes.</field>
+        </record>
+        <record id="template_monthly_aired" model="sale.subscription.template">
+            <field name="name">Pauta mensual (por salidas emitidas)</field>
+            <field name="code">EMI</field>
+            <field name="recurring_interval">1</field>
+            <field name="recurring_rule_type">months</field>
+            <field name="recurring_rule_boundary">unlimited</field>
+            <field name="invoicing_mode">invoice</field>
+            <field name="radio_template" eval="True"/>
+            <field name="radio_billing_basis">aired</field>
+            <field name="radio_attach_certificate" eval="True"/>
+            <field name="description">Al final de cada mes se facturan las salidas efectivamente emitidas, con el certificado de emisión.</field>
+        </record>
+
+        <!-- Agency commission -->
+        <record id="product_agency_commission" model="product.product">
+            <field name="name">Comisión de agencia</field>
+            <field name="type">service</field>
+            <field name="sale_ok" eval="False"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="list_price">0</field>
+        </record>
+        <function model="res.company" name="_radio_set_default_commission_product"/>
+    </data>
+</odoo>

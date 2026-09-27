@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_radio_root" name="Radio" sequence="46"
+              web_icon="odossey_radio,static/description/icon.png"
+              groups="odossey_radio.group_radio_operator"/>
+
+    <!-- Daily log -->
+    <menuitem id="menu_radio_log" name="Log" parent="menu_radio_root" sequence="10"/>
+    <menuitem id="menu_radio_log_today" name="Today's Log" parent="menu_radio_log"
+              action="radio_emission_today_action" sequence="1"/>
+    <menuitem id="menu_radio_log_all" name="All Airings" parent="menu_radio_log"
+              action="radio_emission_action" sequence="5"/>
+    <menuitem id="menu_radio_log_conflicts" name="Not Aired / No Room" parent="menu_radio_log"
+              action="radio_emission_conflict_action" sequence="10"/>
+    <menuitem id="menu_radio_log_plan" name="Plan the Daily Log" parent="menu_radio_log"
+              action="radio_schedule_generate_action" sequence="20"
+              groups="odossey_radio.group_radio_user"/>
+
+    <!-- Sales -->
+    <menuitem id="menu_radio_sales" name="Sales" parent="menu_radio_root" sequence="20"
+              groups="odossey_radio.group_radio_user"/>
+    <menuitem id="menu_radio_opportunities" name="Opportunities" parent="menu_radio_sales"
+              action="crm.crm_lead_action_pipeline" sequence="1"/>
+    <menuitem id="menu_radio_orders" name="Advertising Orders" parent="menu_radio_sales"
+              action="radio_order_action" sequence="5"/>
+    <menuitem id="menu_radio_contracts" name="Contracts" parent="menu_radio_sales"
+              action="radio_contract_action" sequence="10"/>
+    <menuitem id="menu_radio_materials" name="Materials" parent="menu_radio_sales"
+              action="radio_material_action" sequence="15"/>
+    <menuitem id="menu_radio_advertisers" name="Advertisers" parent="menu_radio_sales"
+              action="radio_advertiser_action" sequence="20"/>
+    <menuitem id="menu_radio_agencies" name="Agencies" parent="menu_radio_sales"
+              action="radio_agency_action" sequence="25"/>
+
+    <!-- Programming -->
+    <menuitem id="menu_radio_programming" name="Programming" parent="menu_radio_root" sequence="30"/>
+    <menuitem id="menu_radio_programs" name="Programs" parent="menu_radio_programming"
+              action="radio_program_action" sequence="1"/>
+    <menuitem id="menu_radio_breaks" name="Commercial Breaks" parent="menu_radio_programming"
+              action="radio_break_action" sequence="5"/>
+    <menuitem id="menu_radio_grid" name="Weekly Grid" parent="menu_radio_programming"
+              action="radio_grid_server_action" sequence="10"/>
+    <menuitem id="menu_radio_hosts" name="Hosts &amp; Announcers" parent="menu_radio_programming"
+              action="radio_host_action" sequence="15" groups="odossey_radio.group_radio_user"/>
+
+    <!-- Invoicing -->
+    <menuitem id="menu_radio_invoicing" name="Invoicing" parent="menu_radio_root" sequence="40"
+              groups="odossey_radio.group_radio_user"/>
+    <menuitem id="menu_radio_invoices" name="Advertising Invoices" parent="menu_radio_invoicing"
+              action="radio_invoice_action" sequence="1"/>
+    <menuitem id="menu_radio_commission_settle" name="Settle Agency Commissions" parent="menu_radio_invoicing"
+              action="radio_commission_settle_action" sequence="5" groups="odossey_radio.group_radio_manager"/>
+    <menuitem id="menu_radio_agency_bills" name="Agency Commission Bills" parent="menu_radio_invoicing"
+              action="radio_agency_bill_action" sequence="10" groups="odossey_radio.group_radio_manager"/>
+
+    <!-- Reporting -->
+    <menuitem id="menu_radio_reporting" name="Reporting" parent="menu_radio_root" sequence="50"/>
+    <menuitem id="menu_radio_report_occupancy" name="Break Occupancy" parent="menu_radio_reporting"
+              action="radio_occupancy_report_action" sequence="1"/>
+    <menuitem id="menu_radio_report_airings" name="Airings" parent="menu_radio_reporting"
+              action="radio_emission_action" sequence="5"/>
+    <menuitem id="menu_radio_report_revenue" name="Advertising Revenue" parent="menu_radio_reporting"
+              action="radio_revenue_report_action" sequence="10" groups="odossey_radio.group_radio_manager"/>
+    <menuitem id="menu_radio_report_enacom" name="ENACOM Fee" parent="menu_radio_reporting"
+              action="radio_enacom_report_action" sequence="15" groups="odossey_radio.group_radio_manager"/>
+
+    <!-- Configuration -->
+    <menuitem id="menu_radio_config" name="Configuration" parent="menu_radio_root" sequence="90"
+              groups="odossey_radio.group_radio_manager"/>
+    <menuitem id="menu_radio_settings" name="Settings" parent="menu_radio_config"
+              action="radio_config_settings_action" sequence="1" groups="base.group_system"/>
+    <menuitem id="menu_radio_rate_card" name="Rate Card" parent="menu_radio_config"
+              action="radio_rate_card_action" sequence="5"/>
+    <menuitem id="menu_radio_formats" name="Advertising Formats" parent="menu_radio_config"
+              action="radio_ad_format_action" sequence="10"/>
+    <menuitem id="menu_radio_dayparts" name="Dayparts" parent="menu_radio_config"
+              action="radio_daypart_action" sequence="15"/>
+    <menuitem id="menu_radio_templates" name="Contract Templates" parent="menu_radio_config"
+              action="radio_contract_template_action" sequence="20"/>
+</odoo>

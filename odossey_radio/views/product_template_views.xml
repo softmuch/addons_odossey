@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="radio_product_template_form" model="ir.ui.view">
+        <field name="name">product.template.form.radio</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='general_information']" position="after">
+                <page string="Radio" name="radio">
+                    <group>
+                        <group>
+                            <field name="radio_ok"/>
+                            <field name="radio_format_id" invisible="not radio_ok" required="radio_ok"/>
+                            <field name="radio_duration" invisible="not radio_ok"/>
+                        </group>
+                        <group>
+                            <field name="radio_daypart_id" invisible="not radio_ok"/>
+                            <field name="radio_program_id" invisible="not radio_ok"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

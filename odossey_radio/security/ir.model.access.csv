@@ -1,0 +1,25 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_radio_weekday_operator,radio.weekday operator,model_radio_weekday,group_radio_operator,1,0,0,0
+access_radio_weekday_portal,radio.weekday portal,model_radio_weekday,base.group_portal,1,0,0,0
+access_radio_daypart_operator,radio.daypart operator,model_radio_daypart,group_radio_operator,1,0,0,0
+access_radio_daypart_manager,radio.daypart manager,model_radio_daypart,group_radio_manager,1,1,1,1
+access_radio_ad_format_operator,radio.ad.format operator,model_radio_ad_format,group_radio_operator,1,0,0,0
+access_radio_ad_format_manager,radio.ad.format manager,model_radio_ad_format,group_radio_manager,1,1,1,1
+access_radio_ad_format_portal,radio.ad.format portal,model_radio_ad_format,base.group_portal,1,0,0,0
+access_radio_program_operator,radio.program operator,model_radio_program,group_radio_operator,1,0,0,0
+access_radio_program_manager,radio.program manager,model_radio_program,group_radio_manager,1,1,1,1
+access_radio_program_portal,radio.program portal,model_radio_program,base.group_portal,1,0,0,0
+access_radio_break_operator,radio.break operator,model_radio_break,group_radio_operator,1,0,0,0
+access_radio_break_manager,radio.break manager,model_radio_break,group_radio_manager,1,1,1,1
+access_radio_material_operator,radio.material operator,model_radio_material,group_radio_operator,1,0,0,0
+access_radio_material_user,radio.material user,model_radio_material,group_radio_user,1,1,1,1
+access_radio_emission_operator,radio.emission operator,model_radio_emission,group_radio_operator,1,1,0,0
+access_radio_emission_user,radio.emission user,model_radio_emission,group_radio_user,1,1,1,1
+access_radio_emission_portal,radio.emission portal,model_radio_emission,base.group_portal,1,0,0,0
+access_radio_subscription_operator,sale.subscription operator,subscription_oca.model_sale_subscription,group_radio_operator,1,0,0,0
+access_radio_subscription_line_operator,sale.subscription.line operator,subscription_oca.model_sale_subscription_line,group_radio_operator,1,0,0,0
+access_radio_occupancy_report_operator,radio.occupancy.report operator,model_radio_occupancy_report,group_radio_operator,1,0,0,0
+access_radio_revenue_report_manager,radio.revenue.report manager,model_radio_revenue_report,group_radio_manager,1,0,0,0
+access_radio_schedule_generate_user,radio.schedule.generate user,model_radio_schedule_generate,group_radio_user,1,1,1,1
+access_radio_certificate_wizard_user,radio.certificate.wizard user,model_radio_certificate_wizard,group_radio_user,1,1,1,1
+access_radio_commission_settle_manager,radio.commission.settle manager,model_radio_commission_settle,group_radio_manager,1,1,1,1

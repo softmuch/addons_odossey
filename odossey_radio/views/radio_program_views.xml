@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="radio_program_view_form" model="ir.ui.view">
+        <field name="name">radio.program.form</field>
+        <field name="model">radio.program</field>
+        <field name="arch" type="xml">
+            <form string="Program">
+                <header>
+                    <button name="action_generate_breaks" type="object" string="Generate Breaks"
+                            groups="odossey_radio.group_radio_manager"
+                            help="Creates a break every N minutes (Settings) keeping the breaks with spots."/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_emissions" type="object" class="oe_stat_button" icon="fa-bullhorn">
+                            <field name="emission_count" widget="statinfo" string="Spots"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'image_128'}"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. Good morning Córdoba"/></h1>
+                        <field name="grid_label" class="text-muted"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="weekday_ids" widget="many2many_tags"/>
+                            <label for="hour_from" string="Time"/>
+                            <div class="o_row">
+                                <field name="hour_from" widget="float_time" class="oe_inline"/>
+                                <span>-</span>
+                                <field name="hour_to" widget="float_time" class="oe_inline"/>
+                            </div>
+                            <field name="daypart_id"/>
+                            <field name="genre"/>
+                        </group>
+                        <group>
+                            <field name="host_ids" widget="many2many_tags"
+                                   context="{'default_radio_is_host': True}"/>
+                            <field name="producer_id"/>
+                            <field name="operator_id"/>
+                            <field name="audience"/>
+                            <field name="code"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Commercial Breaks" name="breaks">
+                            <group>
+                                <group>
+                                    <field name="break_count"/>
+                                </group>
+                                <group>
+                                    <field name="break_capacity"/>
+                                </group>
+                            </group>
+                            <field name="break_ids">
+                                <list editable="bottom">
+                                    <field name="time" widget="float_time"/>
+                                    <field name="capacity"/>
+                                    <field name="name" optional="hide"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Sponsors" name="sponsors">
+                            <field name="sponsor_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="partner_id"/>
+                                    <field name="date_start"/>
+                                    <field name="date"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Description" name="description">
+                            <field name="description"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="radio_program_view_list" model="ir.ui.view">
+        <field name="name">radio.program.list</field>
+        <field name="model">radio.program</field>
+        <field name="arch" type="xml">
+            <list string="Programs">
+                <field name="name"/>
+                <field name="weekday_ids" widget="many2many_tags"/>
+                <field name="hour_from" widget="float_time"/>
+                <field name="hour_to" widget="float_time"/>
+                <field name="daypart_id"/>
+                <field name="host_ids" widget="many2many_tags"/>
+                <field name="genre" optional="show"/>
+                <field name="break_count" optional="show"/>
+                <field name="break_capacity" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="radio_program_view_kanban" model="ir.ui.view">
+        <field name="name">radio.program.kanban</field>
+        <field name="model">radio.program</field>
+        <field name="arch" type="xml">
+            <kanban string="Programs" default_group_by="daypart_id">
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <aside class="me-2">
+                            <field name="image_128" widget="image" options="{'img_class': 'o_image_64_cover'}"/>
+                        </aside>
+                        <main>
+                            <field name="name" class="fw-bold fs-5"/>
+                            <field name="grid_label" class="text-muted small"/>
+                            <field name="host_ids" widget="many2many_tags"/>
+                            <div class="d-flex justify-content-between mt-1">
+                                <field name="genre" widget="badge"/>
+                                <span class="small text-muted"><field name="break_count"/> breaks</span>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="radio_program_view_search" model="ir.ui.view">
+        <field name="name">radio.program.search</field>
+        <field name="model">radio.program</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="host_ids"/>
+                <field name="daypart_id"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_daypart" string="Daypart" context="{'group_by': 'daypart_id'}"/>
+                    <filter name="group_genre" string="Genre" context="{'group_by': 'genre'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="radio_program_action" model="ir.actions.act_window">
+        <field name="name">Programs</field>
+        <field name="res_model">radio.program</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create the first program of the grid</p>
+            <p>Set the days, the time, the hosts and the commercial breaks of each program.</p>
+        </field>
+    </record>
+
+    <record id="radio_break_view_list" model="ir.ui.view">
+        <field name="name">radio.break.list</field>
+        <field name="model">radio.break</field>
+        <field name="arch" type="xml">
+            <list string="Commercial Breaks" editable="bottom">
+                <field name="program_id"/>
+                <field name="time" widget="float_time"/>
+                <field name="capacity"/>
+            </list>
+        </field>
+    </record>
+    <record id="radio_break_view_search" model="ir.ui.view">
+        <field name="name">radio.break.search</field>
+        <field name="model">radio.break</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="program_id"/>
+                <group>
+                    <filter name="group_program" string="Program" context="{'group_by': 'program_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="radio_break_action" model="ir.actions.act_window">
+        <field name="name">Commercial Breaks</field>
+        <field name="res_model">radio.break</field>
+        <field name="view_mode">list</field>
+        <field name="context">{'search_default_group_program': 1}</field>
+    </record>
+
+    <!-- Hosts -->
+    <record id="radio_host_action" model="ir.actions.act_window">
+        <field name="name">Hosts &amp; Announcers</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('radio_is_host', '=', True)]</field>
+        <field name="context">{'default_radio_is_host': True, 'default_is_company': False}</field>
+    </record>
+
+    <!-- Weekly grid (report) -->
+    <record id="radio_grid_server_action" model="ir.actions.server">
+        <field name="name">Weekly Grid</field>
+        <field name="model_id" ref="model_radio_program"/>
+        <field name="state">code</field>
+        <field name="code">action = env.ref('odossey_radio.action_report_radio_grid_html').report_action(model.search([], limit=1), config=False)</field>
+    </record>
+</odoo>
