@@ -570,3 +570,30 @@ class TestTravel(AccountTestInvoicingCommon):
                          "Existing contacts are reused")
         with self.assertRaises(UserError):
             Trip._travel_load_demo_data()
+        # every situation is covered
+        trips = Trip.search([('company_id', '=', self.company.id)])
+        self.assertTrue({'draft', 'open', 'confirmed', 'done', 'cancel'} <= set(trips.mapped('state')))
+        self.assertEqual(set(trips.mapped('trip_type')), {'national', 'international'})
+        self.assertEqual(set(trips.mapped('deposit_type')), {'fixed', 'percent'})
+        self.assertIn(usd, trips.currency_id)
+        orders = self.env['sale.order'].search([('trip_id', 'in', trips.ids)])
+        self.assertTrue({'quotation', 'pending', 'deposit', 'paid', 'cancelled'}
+                        <= set(orders.mapped('travel_booking_state')))
+        passengers = orders.travel_passenger_ids
+        self.assertTrue({'ok', 'missing', 'expiring', 'missing_id'}
+                        <= set(passengers.mapped('document_state')))
+        self.assertEqual(set(passengers.mapped('passenger_type')), {'adult', 'child', 'infant'})
+        self.assertEqual(set(self.env['travel.group'].search([
+            ('trip_id', 'in', trips.ids)]).mapped('group_type')), {'family', 'friends'})
+        invoices = orders.invoice_ids
+        self.assertIn('out_refund', invoices.mapped('move_type'))
+        self.assertIn('partial', invoices.mapped('payment_state'))
+        self.assertTrue({'A', 'B'} <= set(invoices.l10n_latam_document_type_id.mapped('l10n_ar_letter')))
+        self.env.flush_all()
+        trips.invalidate_recordset()
+        self.assertTrue(any(trips.mapped('profit_perception')), "An invoice with a perception")
+        sold_out = trips.filtered(lambda t: t.capacity and t.seats_reserved >= t.capacity)
+        self.assertTrue(sold_out, "A sold out trip is included")
+        today = fields.Date.context_today(self.env.user)
+        self.assertTrue(trips.filtered(lambda t: t.date_start <= today <= t.date_end),
+                        "A trip in progress is included")

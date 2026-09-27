@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e-20260622\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-27 11:29+0000\n"
-"PO-Revision-Date: 2026-09-27 11:29+0000\n"
+"POT-Creation-Date: 2026-09-27 14:11+0000\n"
+"PO-Revision-Date: 2026-09-27 14:11+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -352,7 +352,7 @@ msgstr ""
 #: model:ir.model.fields,help:odossey_travel.field_travel_booking_cancel__amount_paid
 msgid ""
 "Amount paid on the posted customer invoices (deposits included) of the "
-"booking."
+"booking, plus the online payments not reconciled yet."
 msgstr ""
 
 #. module: odossey_travel
@@ -829,7 +829,8 @@ msgstr ""
 #. odoo-python
 #: code:addons/odossey_travel/wizard/travel_document_scan.py:0
 msgid ""
-"Confirm that the passenger consents to the processing of their personal data."
+"Confirm that the passenger consents to the processing of their personal "
+"data."
 msgstr ""
 
 #. module: odossey_travel
@@ -941,10 +942,17 @@ msgid "Create a travel service"
 msgstr ""
 
 #. module: odossey_travel
+#: model:ir.model,website_form_label:odossey_travel.model_crm_lead
+msgid "Create an Opportunity"
+msgstr ""
+
+#. module: odossey_travel
 #: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
 msgid ""
-"Create sample trips, a family group and a group of friends to try the "
-"application."
+"Create sample trips of an Argentinian agency in every situation (on sale, "
+"sold out, travelling, completed, cancelled), with bookings, groups, "
+"invoices, cancellations, supplier bills and opportunities. Nothing is "
+"created until you click the button."
 msgstr ""
 
 #. module: odossey_travel
@@ -3028,6 +3036,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:odossey_travel.field_travel_forecast_report__user_id
 #: model_terms:ir.ui.view,arch_db:odossey_travel.travel_forecast_report_view_search
 msgid "Salesperson"
+msgstr ""
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
+msgid ""
+"Sample trips, customers, bookings, invoices and payments will be created in "
+"the current company. They are meant for a demo or a test database: continue?"
 msgstr ""
 
 #. module: odossey_travel

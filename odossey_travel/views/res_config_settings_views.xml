@@ -100,9 +100,10 @@
                         </setting>
                     </block>
                     <block title="Demo" name="travel_demo">
-                        <setting help="Create sample trips, a family group and a group of friends to try the application.">
+                        <setting help="Create sample trips of an Argentinian agency in every situation (on sale, sold out, travelling, completed, cancelled), with bookings, groups, invoices, cancellations, supplier bills and opportunities. Nothing is created until you click the button.">
                             <button name="action_travel_load_demo" type="object" string="Load Demo Data"
-                                    icon="oi-arrow-right" class="btn-link"/>
+                                    icon="oi-arrow-right" class="btn-link"
+                                    confirm="Sample trips, customers, bookings, invoices and payments will be created in the current company. They are meant for a demo or a test database: continue?"/>
                         </setting>
                     </block>
                 </app>

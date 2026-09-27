@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e-20260622\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-27 11:29+0000\n"
+"POT-Creation-Date: 2026-09-27 14:11+0000\n"
 "PO-Revision-Date: 2026-09-27 10:06+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -400,10 +400,10 @@ msgstr "Importo dovuto dal cliente"
 #: model:ir.model.fields,help:odossey_travel.field_travel_booking_cancel__amount_paid
 msgid ""
 "Amount paid on the posted customer invoices (deposits included) of the "
-"booking."
+"booking, plus the online payments not reconciled yet."
 msgstr ""
 "Importo pagato sulle fatture cliente confermate (acconti inclusi) della "
-"prenotazione."
+"prenotazione, più i pagamenti online non ancora riconciliati."
 
 #. module: odossey_travel
 #: model:ir.model.fields,field_description:odossey_travel.field_sale_order__travel_refund_amount
@@ -892,7 +892,8 @@ msgstr "Conferma partenza"
 #. odoo-python
 #: code:addons/odossey_travel/wizard/travel_document_scan.py:0
 msgid ""
-"Confirm that the passenger consents to the processing of their personal data."
+"Confirm that the passenger consents to the processing of their personal "
+"data."
 msgstr ""
 "Confermare che il passeggero acconsente al trattamento dei suoi dati "
 "personali."
@@ -1010,13 +1011,22 @@ msgid "Create a travel service"
 msgstr "Crea un servizio di viaggio"
 
 #. module: odossey_travel
+#: model:ir.model,website_form_label:odossey_travel.model_crm_lead
+msgid "Create an Opportunity"
+msgstr "Crea un'opportunità"
+
+#. module: odossey_travel
 #: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
 msgid ""
-"Create sample trips, a family group and a group of friends to try the "
-"application."
+"Create sample trips of an Argentinian agency in every situation (on sale, "
+"sold out, travelling, completed, cancelled), with bookings, groups, "
+"invoices, cancellations, supplier bills and opportunities. Nothing is "
+"created until you click the button."
 msgstr ""
-"Crea viaggi di esempio, un gruppo familiare e un gruppo di amici per provare"
-" l'applicazione."
+"Crea viaggi di esempio di un'agenzia argentina in ogni situazione (in "
+"vendita, esaurito, in corso, completato, annullato), con prenotazioni, "
+"gruppi, fatture, cancellazioni, fatture fornitori e opportunità. Non viene "
+"creato nulla finché non fai clic sul pulsante."
 
 #. module: odossey_travel
 #: model_terms:ir.actions.act_window,help:odossey_travel.travel_trip_action
@@ -3185,6 +3195,16 @@ msgstr "Riga ordine di vendita"
 #: model_terms:ir.ui.view,arch_db:odossey_travel.travel_forecast_report_view_search
 msgid "Salesperson"
 msgstr "Addetto vendite"
+
+#. module: odossey_travel
+#: model_terms:ir.ui.view,arch_db:odossey_travel.res_config_settings_view_form_travel
+msgid ""
+"Sample trips, customers, bookings, invoices and payments will be created in "
+"the current company. They are meant for a demo or a test database: continue?"
+msgstr ""
+"Verranno creati viaggi, clienti, prenotazioni, fatture e pagamenti di "
+"esempio nell'azienda corrente. Sono pensati per un database dimostrativo o "
+"di test: continuare?"
 
 #. module: odossey_travel
 #: model:ir.actions.act_window,name:odossey_travel.travel_document_scan_action
