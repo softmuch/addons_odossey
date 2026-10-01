@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_saleorder_hours" model="ir.actions.report">
+        <field name="name">PDF Quote + Hours</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odossey_timesheet_to_invoice.report_saleorder_hours</field>
+        <field name="report_file">odossey_timesheet_to_invoice.report_saleorder_hours</field>
+        <field name="print_report_name">(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or 'Order - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- same paper format as the standard invoice (localizations customize it) -->
+    <record id="action_report_invoice_hours" model="ir.actions.report">
+        <field name="name">Invoice PDF + Hours</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odossey_timesheet_to_invoice.report_invoice_hours</field>
+        <field name="report_file">odossey_timesheet_to_invoice.report_invoice_hours</field>
+        <field name="is_invoice_report">True</field>
+        <field name="print_report_name">(object._get_report_base_filename())</field>
+        <field name="paperformat_id" model="ir.actions.report" eval="obj(ref('account.account_invoices')).paperformat_id.id"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="domain" eval="[('move_type', '!=', 'entry')]"/>
+        <field name="group_ids" eval="[(4, ref('account.group_account_invoice')), (4, ref('account.group_account_readonly'))]"/>
+    </record>
+
+</odoo>

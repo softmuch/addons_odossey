@@ -1,0 +1,197 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* odossey_timesheet_to_invoice
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e-20260622\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-01 17:55+0000\n"
+"PO-Revision-Date: 2026-10-01 17:55+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: odossey_timesheet_to_invoice
+#: model:ir.actions.report,print_report_name:odossey_timesheet_to_invoice.action_report_invoice_hours
+msgid "(object._get_report_base_filename())"
+msgstr ""
+
+#. module: odossey_timesheet_to_invoice
+#: model:ir.actions.report,print_report_name:odossey_timesheet_to_invoice.action_report_saleorder_hours
+msgid ""
+"(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or "
+"'Order - %s' % (object.name)"
+msgstr ""
+
+#. module: odossey_timesheet_to_invoice
+#: model_terms:ir.ui.view,arch_db:odossey_timesheet_to_invoice.view_task_form2_inherit
+msgid ""
+"<span class=\"badge rounded-pill text-bg-success ms-2\" invisible=\"not to_invoice\">To Invoice</span>\n"
+"                <span class=\"badge rounded-pill text-bg-warning ms-2\" invisible=\"to_invoice\">Not Invoiced</span>"
+msgstr ""
+
+#. module: odossey_timesheet_to_invoice
+#: model_terms:ir.ui.view,arch_db:odossey_timesheet_to_invoice.view_kanban_account_analytic_line_inherit
+msgid ""
+"<span class=\"badge rounded-pill text-bg-success\" invisible=\"not to_invoice\">To Invoice</span>\n"
+"                <span class=\"badge rounded-pill text-bg-warning\" invisible=\"to_invoice\">Not Invoiced</span>"
+msgstr ""
+
+#. module: odossey_timesheet_to_invoice
+#: model:ir.model,name:odossey_timesheet_to_invoice.model_account_analytic_line
+msgid "Analytic Line"
+msgstr ""
+
+#. module: odossey_timesheet_to_invoice
+#: model:ir.model,name:odossey_timesheet_to_invoice.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: odossey_timesheet_to_invoice
+#: model:ir.model,name:odossey_timesheet_to_invoice.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: odossey_timesheet_to_invoice
+#: model:ir.model.fields,field_description:odossey_timesheet_to_invoice.field_account_analytic_line__display_name
+#: model:ir.model.fields,field_description:odossey_timesheet_to_invoice.field_account_move__display_name
+#: model:ir.model.fields,field_description:odossey_timesheet_to_invoice.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:odossey_timesheet_to_invoice.field_res_company__display_name
+#: model:ir.model.fields,field_description:odossey_timesheet_to_invoice.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:odossey_timesheet_to_invoice.field_sale_order__display_name
+#: model:ir.model.fields,field_description:odossey_timesheet_to_invoice.field_sale_order_line__display_name
+#: model:ir.model.fields,field_description:odossey_timesheet_to_invoice.field_timesheets_analysis_report__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: odossey_timesheet_to_invoice
+#: model:ir.model.fields,field_description:odossey_timesheet_to_invoice.field_account_move_line__qty_extra
+#: model:ir.model.fields,field_description:odossey_timesheet_to_invoice.field_sale_order_line__qty_extra
+msgid "Extra Quantity"
+msgstr ""
+
+#. module: odossey_timesheet_to_invoice
+#: model_terms:ir.ui.view,arch_db:odossey_timesheet_to_invoice.report_hours_sections
+msgid "Hours Detail"
+msgstr ""
+
+#. module: odossey_timesheet_to_invoice
+#: model:ir.model.fields,help:odossey_timesheet_to_invoice.field_account_move_line__qty_extra
+msgid ""
+"Hours recorded on the invoiced sales order lines that are not to invoice "
+"(maintenance)."
+msgstr ""
+
+#. module: odossey_timesheet_to_invoice
+#: model:ir.model.fields,help:odossey_timesheet_to_invoice.field_sale_order_line__qty_extra
+msgid "Hours recorded on this line that are not to invoice (maintenance)."
+msgstr ""
+
+#. module: odossey_timesheet_to_invoice
+#: model:ir.model.fields,field_description:odossey_timesheet_to_invoice.field_account_analytic_line__id
+#: model:ir.model.fields,field_description:odossey_timesheet_to_invoice.field_account_move__id
+#: model:ir.model.fields,field_description:odossey_timesheet_to_invoice.field_account_move_line__id
+#: model:ir.model.fields,field_description:odossey_timesheet_to_invoice.field_res_company__id
+#: model:ir.model.fields,field_description:odossey_timesheet_to_invoice.field_res_config_settings__id
+#: model:ir.model.fields,field_description:odossey_timesheet_to_invoice.field_sale_order__id
+#: model:ir.model.fields,field_description:odossey_timesheet_to_invoice.field_sale_order_line__id
+#: model:ir.model.fields,field_description:odossey_timesheet_to_invoice.field_timesheets_analysis_report__id
+msgid "ID"
+msgstr ""
+
+#. module: odossey_timesheet_to_invoice
+#: model:ir.actions.report,name:odossey_timesheet_to_invoice.action_report_invoice_hours
+msgid "Invoice PDF + Hours"
+msgstr ""
+
+#. module: odossey_timesheet_to_invoice
+#: model_terms:ir.ui.view,arch_db:odossey_timesheet_to_invoice.report_hours_sections
+msgid "Invoiced hours"
+msgstr ""
+
+#. module: odossey_timesheet_to_invoice
+#: model:ir.model,name:odossey_timesheet_to_invoice.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: odossey_timesheet_to_invoice
+#: model:ir.model,name:odossey_timesheet_to_invoice.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: odossey_timesheet_to_invoice
+#: model_terms:ir.ui.view,arch_db:odossey_timesheet_to_invoice.res_config_settings_view_form
+msgid ""
+"Keep the Quantity of the sales order lines equal to the hours marked 'To "
+"Invoice'. Example: 8.75 h recorded, 2.50 h not to invoice: Quantity 6.25, "
+"Extra Quantity 2.50. Disable it for prepaid hour packs."
+msgstr ""
+
+#. module: odossey_timesheet_to_invoice
+#: model_terms:ir.ui.view,arch_db:odossey_timesheet_to_invoice.hr_timesheet_line_search_inherit
+msgid "Maintenance (Not Invoiced)"
+msgstr ""
+
+#. module: odossey_timesheet_to_invoice
+#: model_terms:ir.ui.view,arch_db:odossey_timesheet_to_invoice.report_hours_sections
+msgid "Maintenance hours (not invoiced)"
+msgstr ""
+
+#. module: odossey_timesheet_to_invoice
+#: model:ir.actions.report,name:odossey_timesheet_to_invoice.action_report_saleorder_hours
+msgid "PDF Quote + Hours"
+msgstr ""
+
+#. module: odossey_timesheet_to_invoice
+#: model:ir.model.fields,field_description:odossey_timesheet_to_invoice.field_res_company__timesheet_sync_sale_qty
+#: model:ir.model.fields,field_description:odossey_timesheet_to_invoice.field_res_config_settings__timesheet_sync_sale_qty
+msgid "Quantity From Hours To Invoice"
+msgstr ""
+
+#. module: odossey_timesheet_to_invoice
+#: model:ir.model,name:odossey_timesheet_to_invoice.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: odossey_timesheet_to_invoice
+#: model:ir.model,name:odossey_timesheet_to_invoice.model_sale_order_line
+msgid "Sales Order Line"
+msgstr ""
+
+#. module: odossey_timesheet_to_invoice
+#: model:ir.model,name:odossey_timesheet_to_invoice.model_timesheets_analysis_report
+msgid "Timesheets Analysis Report"
+msgstr ""
+
+#. module: odossey_timesheet_to_invoice
+#: model:ir.model.fields,field_description:odossey_timesheet_to_invoice.field_account_analytic_line__to_invoice
+#: model:ir.model.fields,field_description:odossey_timesheet_to_invoice.field_timesheets_analysis_report__to_invoice
+#: model_terms:ir.ui.view,arch_db:odossey_timesheet_to_invoice.hr_timesheet_line_search_inherit
+msgid "To Invoice"
+msgstr ""
+
+#. module: odossey_timesheet_to_invoice
+#: model:ir.model.fields,help:odossey_timesheet_to_invoice.field_account_analytic_line__to_invoice
+msgid ""
+"Untick for maintenance hours that must not be invoiced: they are left out of"
+" the quantity of the sales order line and reported as Extra Quantity."
+msgstr ""
+
+#. module: odossey_timesheet_to_invoice
+#: model:ir.model.fields,help:odossey_timesheet_to_invoice.field_res_company__timesheet_sync_sale_qty
+#: model:ir.model.fields,help:odossey_timesheet_to_invoice.field_res_config_settings__timesheet_sync_sale_qty
+msgid ""
+"When enabled, the Quantity of a sales order line that has timesheets is kept equal to the hours marked 'To Invoice'. The hours that are not to invoice go to the Extra Quantity column.\n"
+"Example: 8.75 h recorded, 2.50 h unticked -> Quantity 6.25, Extra Quantity 2.50.\n"
+"When disabled, the Quantity is never touched (useful for prepaid hour packs); only Delivered and Extra Quantity follow the timesheets."
+msgstr ""
+
+#. module: odossey_timesheet_to_invoice
+#. odoo-python
+#: code:addons/odossey_timesheet_to_invoice/models/account_analytic_line.py:0
+msgid "You cannot modify timesheets that are already invoiced."
+msgstr ""

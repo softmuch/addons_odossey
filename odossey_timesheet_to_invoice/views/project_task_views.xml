@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_task_form2_inherit" model="ir.ui.view">
+        <field name="name">project.task.form.inherit.to.invoice</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='timesheet_ids']/list/field[@name='unit_amount']" position="after">
+                <field name="to_invoice" widget="boolean_toggle" optional="show" readonly="readonly_timesheet"/>
+            </xpath>
+            <xpath expr="//field[@name='timesheet_ids']/kanban//field[@name='unit_amount']" position="after">
+                <field name="to_invoice" invisible="1"/>
+                <span class="badge rounded-pill text-bg-success ms-2" invisible="not to_invoice">To Invoice</span>
+                <span class="badge rounded-pill text-bg-warning ms-2" invisible="to_invoice">Not Invoiced</span>
+            </xpath>
+            <xpath expr="//field[@name='timesheet_ids']/form//field[@name='unit_amount']" position="after">
+                <field name="to_invoice" readonly="readonly_timesheet"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

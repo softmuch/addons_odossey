@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="hr_timesheet_line_tree_inherit" model="ir.ui.view">
+        <field name="name">account.analytic.line.list.inherit.to.invoice</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list/field[@name='unit_amount']" position="after">
+                <field name="to_invoice" widget="boolean_toggle" optional="show" readonly="readonly_timesheet"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_timesheet_line_form_inherit" model="ir.ui.view">
+        <field name="name">account.analytic.line.form.inherit.to.invoice</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='unit_amount']" position="after">
+                <field name="to_invoice" readonly="readonly_timesheet"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_kanban_account_analytic_line_inherit" model="ir.ui.view">
+        <field name="name">account.analytic.line.kanban.inherit.to.invoice</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.view_kanban_account_analytic_line"/>
+        <field name="arch" type="xml">
+            <xpath expr="//footer/div" position="before">
+                <field name="to_invoice" invisible="1"/>
+                <span class="badge rounded-pill text-bg-success" invisible="not to_invoice">To Invoice</span>
+                <span class="badge rounded-pill text-bg-warning" invisible="to_invoice">Not Invoiced</span>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_timesheet_line_search_inherit" model="ir.ui.view">
+        <field name="name">account.analytic.line.search.inherit.to.invoice</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='month']" position="before">
+                <filter name="to_invoice" string="To Invoice" domain="[('to_invoice', '=', True)]"/>
+                <filter name="not_to_invoice" string="Maintenance (Not Invoiced)" domain="[('to_invoice', '=', False)]"/>
+                <separator/>
+            </xpath>
+            <xpath expr="//filter[@name='groupby_task']" position="after">
+                <filter name="groupby_to_invoice" string="To Invoice" context="{'group_by': 'to_invoice'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="timesheets_analysis_report_list_inherit" model="ir.ui.view">
+        <field name="name">timesheets.analysis.report.list.inherit.to.invoice</field>
+        <field name="model">timesheets.analysis.report</field>
+        <field name="inherit_id" ref="hr_timesheet.timesheets_analysis_report_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='unit_amount']" position="after">
+                <field name="to_invoice" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="timesheets_analysis_report_form_inherit" model="ir.ui.view">
+        <field name="name">timesheets.analysis.report.form.inherit.to.invoice</field>
+        <field name="model">timesheets.analysis.report</field>
+        <field name="inherit_id" ref="hr_timesheet.timesheets_analysis_report_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='unit_amount']" position="after">
+                <field name="to_invoice"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

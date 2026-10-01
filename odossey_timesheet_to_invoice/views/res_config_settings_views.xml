@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.to.invoice</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="sale_timesheet.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//setting[@name='invoice_policy']" position="after">
+                <setting id="timesheet_sync_sale_qty_setting" company_dependent="1"
+                         help="Keep the Quantity of the sales order lines equal to the hours marked 'To Invoice'. Example: 8.75 h recorded, 2.50 h not to invoice: Quantity 6.25, Extra Quantity 2.50. Disable it for prepaid hour packs.">
+                    <field name="timesheet_sync_sale_qty"/>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
