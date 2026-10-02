@@ -6,7 +6,16 @@ class AccountMove(models.Model):
 
     def _get_report_timesheets(self):
         res = super()._get_report_timesheets()
-        invoice_lines = self.sudo().invoice_line_ids.filtered('sale_line_ids')
+        # Only a display value is stored: the invoice synchronization (taxes, terms,
+        # balance check) is skipped so that nothing else is written, whatever the
+        # state of the invoice.
+        invoice_lines = self.sudo().invoice_line_ids.filtered('sale_line_ids').with_context(
+            skip_invoice_sync=True,
+            skip_invoice_line_sync=True,
+            check_move_validity=False,
+            skip_account_move_synchronization=True,
+            tracking_disable=True,
+        )
         # same printed hours as the quotation: they come from the sales order lines
         res['noise'] = invoice_lines.sale_line_ids._get_timesheet_noise()
         for line in invoice_lines:

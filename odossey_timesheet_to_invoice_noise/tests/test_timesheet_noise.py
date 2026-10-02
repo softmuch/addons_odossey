@@ -56,6 +56,9 @@ class TestTimesheetNoise(TestCommonSaleTimesheet):
                     self.assertTrue(all(abs(delta) <= max_minutes for delta in deltas))
                     self.assertTrue(all(not delta or amount * 60 + delta >= 1 for amount, delta in zip(amounts, deltas)))
         self.assertTrue(any(generate([0.5, 0.25, 1], 5)))
+        # durations that are not a whole number of minutes are not varied
+        self.assertEqual(generate([0.125, 0.5, 0.5], 5)[0], 0)
+        self.assertFalse(any(generate([0.125, 0.375], 5)))
 
     def test_printed_hours(self):
         before = self._snapshot()
@@ -91,10 +94,14 @@ class TestTimesheetNoise(TestCommonSaleTimesheet):
         self.assertEqual(invoice_line.timesheet_noise, {str(self.line.id): self.line.timesheet_noise})
         amounts = (invoice.amount_untaxed, invoice.amount_total, invoice_line.quantity, invoice_line.price_subtotal)
         invoice.action_post()
+        write_date = invoice.write_date
+        invoice_line.timesheet_noise = False
         self.assertEqual(invoice._get_report_timesheets()['noise'], noise)
+        self.assertEqual(invoice_line.timesheet_noise, {str(self.line.id): self.line.timesheet_noise})
         self.env.flush_all()
         self.env.invalidate_all()
         self.assertEqual(invoice.state, 'posted')
+        self.assertEqual(invoice.write_date, write_date, "the invoice itself is not written")
         self.assertEqual((invoice.amount_untaxed, invoice.amount_total, invoice_line.quantity, invoice_line.price_subtotal), amounts)
 
     def test_invoice_printed_first(self):

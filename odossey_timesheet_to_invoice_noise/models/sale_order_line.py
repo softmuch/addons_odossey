@@ -24,8 +24,14 @@ class SaleOrderLine(models.Model):
         :return: list of variations in minutes, in the same order
         """
         deltas = [0] * len(amounts)
-        # lowest variation of each duration: keep at least one minute
-        lows = [-min(max_minutes, max(int(amount * 60 + 1e-6) - 1, 0)) for amount in amounts]
+        # lowest variation of each duration: keep at least one minute. Durations
+        # that are not a whole number of minutes are left as they are: the report
+        # rounds to the minute and would not show their variation faithfully.
+        lows = [
+            -min(max_minutes, max(round(amount * 60) - 1, 0))
+            if abs(amount * 60 - round(amount * 60)) < 0.01 else 0
+            for amount in amounts
+        ]
         indexes = [i for i, low in enumerate(lows) if low < 0]
         if max_minutes <= 0 or len(indexes) < 2:
             return deltas
