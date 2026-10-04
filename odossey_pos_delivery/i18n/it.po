@@ -197,8 +197,8 @@ msgstr "Eliminare l'ordine di consegna?"
 #. module: odossey_pos_delivery
 #. odoo-javascript
 #: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
-msgid "This will permanently delete this delivery order. This action cannot be undone."
-msgstr "Questa azione eliminerà definitivamente questo ordine di consegna e non potrà essere annullata."
+msgid "This will permanently delete this delivery order and cancel its unpaid POS order. This action cannot be undone."
+msgstr "Questo eliminerà definitivamente l'ordine delivery e annullerà il relativo ordine POS non pagato. L'azione non può essere annullata."
 
 #. module: odossey_pos_delivery
 #. odoo-javascript
@@ -254,3 +254,15 @@ msgstr "Delivery"
 #: code:addons/odossey_pos_delivery/static/src/overrides/navbar.xml:0
 msgid "Tables"
 msgstr "Tavoli"
+
+#. module: odossey_pos_delivery
+#. odoo-javascript
+#: code:addons/odossey_pos_delivery/static/src/overrides/actionpad_widget_delivery.js:0
+msgid "Delivery: the order could not be registered in the Delivery screen. Press Order again."
+msgstr "Delivery: impossibile registrare l'ordine nella schermata Delivery. Premere di nuovo Ordine."
+
+#. module: odossey_pos_delivery
+#. odoo-javascript
+#: code:addons/odossey_pos_delivery/static/src/DeliveryScreen.js:0
+msgid "Error deleting delivery order."
+msgstr "Errore durante l'eliminazione dell'ordine delivery."

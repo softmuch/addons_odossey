@@ -3,7 +3,7 @@
     'version': '18.0.1.0.0',
     'category': 'Point of Sale',
     'summary': 'Gestión de pedidos delivery para restaurantes',
-    'depends': ['point_of_sale', 'pos_restaurant', 'odossey_pos_kds'],
+    'depends': ['point_of_sale', 'pos_restaurant', 'odossey_pos_kds', 'odossey_pos_print_pre_bill'],
     'data': [
         'security/ir.model.access.csv',
     ],

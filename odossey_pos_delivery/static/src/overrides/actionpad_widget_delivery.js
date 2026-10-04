@@ -66,57 +66,56 @@ async function upsertDeliveryRecord(orm, order, posSession) {
 }
 
 patch(ActionpadWidget.prototype, {
+    _deliveryPartnerOk(order) {
+        if (!order?.is_delivery) return true;
+        if (isValidDeliveryPartner(order.get_partner(), this.pos.config)) return true;
+        this.env.services.notification.add(
+            _t("Delivery: please select a customer with complete address (street and city)."),
+            { type: "warning" }
+        );
+        return false;
+    },
+
+    async _deliveryAfterSubmit(order) {
+        if (!order?.is_delivery) return;
+        // "Set Done" is always enabled: don't create a record for an empty order
+        if (!order.lines.length && !order.delivery_record_id) return;
+        try {
+            order.delivery_record_id = await upsertDeliveryRecord(
+                this.env.services.orm, order, this.pos.session
+            );
+        } catch (e) {
+            console.error("Error upserting delivery record:", e);
+            this.env.services.notification.add(
+                _t("Delivery: the order could not be registered in the Delivery screen. Press Order again."),
+                { type: "danger", sticky: true }
+            );
+            // stay on ProductScreen so the order remains reachable
+            return;
+        }
+        this.pos.showScreen("DeliveryScreen");
+    },
+
     async submitOrder() {
         const order = this.currentOrder;
-        if (order?.is_delivery) {
-            if (!isValidDeliveryPartner(order.get_partner(), this.pos.config)) {
-                this.env.services.notification.add(
-                    _t("Delivery: please select a customer with complete address (street and city)."),
-                    { type: "warning" }
-                );
-                return;
-            }
-        }
-
+        if (!this._deliveryPartnerOk(order)) return;
         await super.submitOrder(...arguments);
-
-        if (order?.is_delivery) {
-            try {
-                const id = await upsertDeliveryRecord(
-                    this.env.services.orm, order, this.pos.session
-                );
-                order.delivery_record_id = id;
-            } catch (e) {
-                console.error("Error upserting delivery record:", e);
-            }
-            this.pos.showScreen("DeliveryScreen");
-        }
+        await this._deliveryAfterSubmit(order);
     },
 
     async orderAndPrint() {
         const order = this.currentOrder;
-        if (order?.is_delivery) {
-            if (!isValidDeliveryPartner(order.get_partner(), this.pos.config)) {
-                this.env.services.notification.add(
-                    _t("Delivery: please select a customer with complete address (street and city)."),
-                    { type: "warning" }
-                );
-                return;
-            }
-        }
-
+        if (!this._deliveryPartnerOk(order)) return;
         await super.orderAndPrint(...arguments);
+        await this._deliveryAfterSubmit(order);
+    },
 
-        if (order?.is_delivery) {
-            try {
-                const id = await upsertDeliveryRecord(
-                    this.env.services.orm, order, this.pos.session
-                );
-                order.delivery_record_id = id;
-            } catch (e) {
-                console.error("Error upserting delivery record (print):", e);
-            }
-            this.pos.showScreen("DeliveryScreen");
-        }
+    // "Set Done" (odossey_pos_print_pre_bill) must register the delivery record too,
+    // otherwise the draft order is not listed anywhere and blocks the session closing.
+    async orderSetDone() {
+        const order = this.currentOrder;
+        if (!this._deliveryPartnerOk(order)) return;
+        await super.orderSetDone(...arguments);
+        await this._deliveryAfterSubmit(order);
     },
 });

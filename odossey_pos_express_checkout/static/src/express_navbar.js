@@ -1,6 +1,6 @@
 import { Navbar } from "@point_of_sale/app/navbar/navbar";
 import { patch } from "@web/core/utils/patch";
-import { getOrCreateExpressOrder } from "./express_checkout_utils";
+import { getOrCreateExpressOrder, refreshExpressOrders } from "./express_checkout_utils";
 
 patch(Navbar.prototype, {
     get isExpressCheckout() {
@@ -20,6 +20,7 @@ patch(Navbar.prototype, {
 
     async onExpressCheckout() {
         await this.pos.syncAllOrders();
+        await refreshExpressOrders(this.pos);
         const order = getOrCreateExpressOrder(this.pos);
         this.pos.set_order(order);
         this.pos.showScreen("ProductScreen");

@@ -7,7 +7,7 @@ patch(ReceiptScreen.prototype, {
     // We restore that behavior for express checkout: create a new express checkout order directly.
     _addNewOrder() {
         if (this.currentOrder?.is_express_checkout) {
-            const order = getOrCreateExpressOrder(this.pos);
+            const order = getOrCreateExpressOrder(this.pos, { onlyLocal: true });
             this.pos.set_order(order);
             return;
         }

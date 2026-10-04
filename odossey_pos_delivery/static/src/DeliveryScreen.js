@@ -89,7 +89,7 @@ export class DeliveryScreen extends Component {
             advanceAll: _t("Advance All"),
             hideAllPaid: _t("Hide All"),
             deleteOrderTitle: _t("Delete delivery order?"),
-            deleteOrderBody: _t("This will permanently delete this delivery order. This action cannot be undone."),
+            deleteOrderBody: _t("This will permanently delete this delivery order and cancel its unpaid POS order. This action cannot be undone."),
         };
         return map[key] || key;
     }
@@ -107,7 +107,15 @@ export class DeliveryScreen extends Component {
                 const todayStr = today.toISOString().slice(0, 19).replace("T", " ");
                 this.state.orders = await this.orm.searchRead(
                     "pos.delivery.order",
-                    [["start_time", ">=", todayStr], ["hidden", "=", false]],
+                    // unpaid orders of the current session stay listed past midnight
+                    [
+                        ["hidden", "=", false],
+                        "|",
+                        ["start_time", ">=", todayStr],
+                        "&",
+                        ["payment_state", "=", "unpaid"],
+                        ["pos_session_id", "=", this.pos.session?.id || false],
+                    ],
                     DELIVERY_FIELDS,
                     { order: "start_time desc" }
                 );
@@ -273,12 +281,30 @@ export class DeliveryScreen extends Component {
             confirm: async () => {
                 try {
                     await this.orm.unlink("pos.delivery.order", [order.id]);
-                    this.state.orders = this.state.orders.filter((o) => o.id !== order.id);
                 } catch (e) {
                     console.error("Error deleting delivery order:", e);
+                    this.notification.add(
+                        e?.data?.message || _t("Error deleting delivery order."),
+                        { type: "danger" }
+                    );
+                    return;
                 }
+                this.state.orders = this.state.orders.filter((o) => o.id !== order.id);
+                this._dropLocalPosOrder(order.pos_order_uid);
             },
         });
+    }
+
+    // The server already cancelled the draft pos.order (pos.delivery.order.unlink);
+    // drop it locally so it is not synced again. Paid (finalized) orders are untouched.
+    _dropLocalPosOrder(uuid) {
+        if (!uuid) return;
+        const posOrder = this.pos.models["pos.order"].find((o) => o.uuid === uuid);
+        if (!posOrder || posOrder.finalized) return;
+        const wasSelected = this.pos.selectedOrderUuid === posOrder.uuid;
+        this.pos.removePendingOrder(posOrder);
+        this.pos.data.localDeleteCascade(posOrder);
+        if (wasSelected) this.pos.selectedOrderUuid = null;
     }
 
     openNewDeliveryOrder() {
@@ -296,6 +322,11 @@ export class DeliveryScreen extends Component {
 
     back() {
         const prev = this.pos.previousScreen;
+        if (!this.pos.get_order()) {
+            // selected order was just deleted: ProductScreen needs a current order
+            this.pos.showScreen("FloorScreen");
+            return;
+        }
         this.pos.showScreen(prev && prev !== "DeliveryScreen" ? prev : "ProductScreen");
     }
 }
