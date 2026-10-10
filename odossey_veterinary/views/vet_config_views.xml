@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Species & breeds -->
+    <record id="vet_species_view_list" model="ir.ui.view">
+        <field name="name">vet.species.list</field>
+        <field name="model">vet.species</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="breed_count"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+    <record id="vet_species_action" model="ir.actions.act_window">
+        <field name="name">Species</field>
+        <field name="res_model">vet.species</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <record id="vet_breed_view_list" model="ir.ui.view">
+        <field name="name">vet.breed.list</field>
+        <field name="model">vet.breed</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="species_id"/>
+                <field name="size"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+    <record id="vet_breed_view_search" model="ir.ui.view">
+        <field name="name">vet.breed.search</field>
+        <field name="model">vet.breed</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="species_id"/>
+                <group><filter string="Species" name="group_species" context="{'group_by': 'species_id'}"/></group>
+            </search>
+        </field>
+    </record>
+    <record id="vet_breed_action" model="ir.actions.act_window">
+        <field name="name">Breeds</field>
+        <field name="res_model">vet.breed</field>
+        <field name="view_mode">list</field>
+        <field name="context">{'search_default_group_species': 1}</field>
+    </record>
+
+    <!-- Alerts -->
+    <record id="vet_alert_view_list" model="ir.ui.view">
+        <field name="name">vet.alert.list</field>
+        <field name="model">vet.alert</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="category"/>
+                <field name="severity" widget="badge" decoration-danger="severity == 'danger'" decoration-warning="severity == 'warning'"
+                       decoration-info="severity == 'info'"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+    <record id="vet_alert_action" model="ir.actions.act_window">
+        <field name="name">Alerts &amp; Allergies</field>
+        <field name="res_model">vet.alert</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Diseases -->
+    <record id="vet_disease_view_list" model="ir.ui.view">
+        <field name="name">vet.disease.list</field>
+        <field name="model">vet.disease</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="code" optional="hide"/>
+                <field name="species_ids" widget="many2many_tags"/>
+                <field name="zoonosis"/>
+                <field name="notifiable"/>
+                <field name="vaccine_preventable"/>
+                <field name="active" widget="boolean_toggle" optional="hide"/>
+            </list>
+        </field>
+    </record>
+    <record id="vet_disease_view_search" model="ir.ui.view">
+        <field name="name">vet.disease.search</field>
+        <field name="model">vet.disease</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="species_ids"/>
+                <filter string="Zoonosis" name="zoonosis" domain="[('zoonosis', '=', True)]"/>
+                <filter string="Notifiable" name="notifiable" domain="[('notifiable', '=', True)]"/>
+            </search>
+        </field>
+    </record>
+    <record id="vet_disease_action" model="ir.actions.act_window">
+        <field name="name">Diseases &amp; Diagnoses</field>
+        <field name="res_model">vet.disease</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <record id="vet_medication_category_action" model="ir.actions.act_window">
+        <field name="name">Therapeutic Categories</field>
+        <field name="res_model">vet.medication.category</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="vet_medication_category_view_list" model="ir.ui.view">
+        <field name="name">vet.medication.category.list</field>
+        <field name="model">vet.medication.category</field>
+        <field name="arch" type="xml">
+            <list editable="bottom"><field name="name"/><field name="code"/></list>
+        </field>
+    </record>
+
+    <!-- Appointment types & rooms -->
+    <record id="vet_appointment_type_view_list" model="ir.ui.view">
+        <field name="name">vet.appointment.type.list</field>
+        <field name="model">vet.appointment.type</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="duration"/>
+                <field name="consultation_type"/>
+                <field name="product_id"/>
+                <field name="template_id"/>
+                <field name="color" widget="color_picker"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+    <record id="vet_appointment_type_action" model="ir.actions.act_window">
+        <field name="name">Appointment Types</field>
+        <field name="res_model">vet.appointment.type</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="vet_room_view_list" model="ir.ui.view">
+        <field name="name">vet.room.list</field>
+        <field name="model">vet.room</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="room_type"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+    <record id="vet_room_action" model="ir.actions.act_window">
+        <field name="name">Rooms</field>
+        <field name="res_model">vet.room</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- ===================================================================== PRODUCTS -->
+    <record id="product_template_form_view_vet" model="ir.ui.view">
+        <field name="name">product.template.form.vet</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Veterinary" name="veterinary" groups="odossey_veterinary.group_vet_reception">
+                    <group>
+                        <group>
+                            <field name="vet_kind"/>
+                            <field name="vet_species_ids" widget="many2many_tags"/>
+                            <field name="vet_laboratory" invisible="vet_kind in (False, 'service')"/>
+                            <field name="vet_registration" invisible="vet_kind not in ('medication', 'vaccine', 'antiparasitic')"/>
+                            <field name="vet_duration" invisible="vet_kind != 'service'"/>
+                            <field name="vet_size_surcharge" invisible="vet_kind != 'service'"/>
+                        </group>
+                        <group invisible="vet_kind not in ('medication', 'vaccine', 'antiparasitic')">
+                            <field name="vet_active_ingredient"/>
+                            <field name="vet_presentation"/>
+                            <field name="vet_concentration"/>
+                            <field name="vet_category_id" invisible="vet_kind == 'vaccine'"/>
+                            <field name="vet_route"/>
+                            <field name="vet_dose"/>
+                            <field name="vet_sale_condition"/>
+                            <field name="vet_controlled"/>
+                        </group>
+                    </group>
+                    <group invisible="vet_kind not in ('vaccine', 'antiparasitic')" string="Preventive Plan">
+                        <group>
+                            <field name="vet_preventive_group"/>
+                            <field name="vet_disease_ids" widget="many2many_tags" invisible="vet_kind != 'vaccine'"/>
+                            <field name="vet_mandatory" invisible="vet_kind != 'vaccine'"/>
+                            <field name="vet_min_age_weeks" invisible="vet_kind != 'vaccine'"/>
+                        </group>
+                        <group>
+                            <field name="vet_initial_doses" invisible="vet_kind != 'vaccine'"/>
+                            <field name="vet_dose_interval_weeks" invisible="vet_kind != 'vaccine'"/>
+                            <field name="vet_booster_months" invisible="vet_kind != 'vaccine'"/>
+                            <field name="vet_repeat_days" invisible="vet_kind != 'antiparasitic'"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_template_search_view_vet" model="ir.ui.view">
+        <field name="name">product.template.search.vet</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='services']" position="before">
+                <filter string="Medications" name="vet_medications" domain="[('vet_kind', '=', 'medication')]"/>
+                <filter string="Vaccines" name="vet_vaccines" domain="[('vet_kind', '=', 'vaccine')]"/>
+                <filter string="Antiparasitics" name="vet_antiparasitics" domain="[('vet_kind', '=', 'antiparasitic')]"/>
+                <filter string="Veterinary Services" name="vet_services" domain="[('vet_kind', '=', 'service')]"/>
+                <filter string="Controlled Drugs" name="vet_controlled" domain="[('vet_controlled', '=', True)]"/>
+                <separator/>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="vet_active_ingredient"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="vet_product_action" model="ir.actions.act_window">
+        <field name="name">Products &amp; Medications</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('vet_kind', '!=', False)]</field>
+        <field name="context">{'default_vet_kind': 'medication', 'default_is_storable': True}</field>
+    </record>
+    <record id="vet_medication_action" model="ir.actions.act_window">
+        <field name="name">Medications</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="domain">[('vet_kind', 'in', ('medication', 'vaccine', 'antiparasitic'))]</field>
+        <field name="context">{'default_vet_kind': 'medication', 'default_is_storable': True, 'default_tracking': 'lot'}</field>
+    </record>
+    <record id="vet_service_action" model="ir.actions.act_window">
+        <field name="name">Services &amp; Prices</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('vet_kind', '=', 'service')]</field>
+        <field name="context">{'default_vet_kind': 'service', 'default_type': 'service'}</field>
+    </record>
+
+    <!-- ===================================================================== USERS -->
+    <record id="res_users_view_form_vet" model="ir.ui.view">
+        <field name="name">res.users.form.vet</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Veterinary" name="veterinary">
+                    <group>
+                        <group>
+                            <field name="vet_is_veterinarian"/>
+                            <field name="vet_license" invisible="not vet_is_veterinarian"/>
+                            <field name="vet_college" invisible="not vet_is_veterinarian"/>
+                        </group>
+                        <group invisible="not vet_is_veterinarian">
+                            <field name="vet_signature" widget="image" options="{'size': [300, 150]}"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="res_users_view_form_preferences_vet" model="ir.ui.view">
+        <field name="name">res.users.preferences.vet</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Veterinary" name="veterinary" invisible="not vet_is_veterinarian">
+                    <group>
+                        <field name="vet_is_veterinarian" invisible="1"/>
+                        <field name="vet_license"/>
+                        <field name="vet_college"/>
+                        <field name="vet_signature" widget="image" options="{'size': [300, 150]}"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ===================================================================== SETTINGS -->
+    <record id="res_config_settings_view_form_vet" model="ir.ui.view">
+        <field name="name">res.config.settings.form.vet</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Veterinary" string="Veterinary" name="odossey_veterinary" groups="odossey_veterinary.group_vet_manager">
+                    <block title="Preventive Care" name="vet_preventive">
+                        <setting string="'Due Soon' Window" help="Days before the due date a vaccine or antiparasitic turns orange.">
+                            <field name="vet_due_soon_days"/>
+                            <div class="text-muted small mt-1">Example: 30 → a rabies booster due on 30/11 is shown as 'Due soon' from 31/10.</div>
+                        </setting>
+                        <setting string="Reminders" help="Days before the due date the reminder email is sent to the owner.">
+                            <field name="vet_reminder_days"/>
+                            <div class="text-muted small mt-1">Example: 7 → for a vaccine due on Friday 14, the owner receives the email on Friday 7. Overdue items are included too.</div>
+                        </setting>
+                    </block>
+                    <block title="Billing" name="vet_billing">
+                        <setting string="Quotation from Consultation" help="Closing a consultation turns its charges into a quotation for the owner.">
+                            <field name="vet_auto_sale_order"/>
+                            <div class="text-muted small mt-1">Example: consultation + rabies vaccine → quotation with 2 lines, ready to confirm and invoice at the reception.</div>
+                        </setting>
+                        <setting string="Hospitalization Day" help="Service charged for each started day of hospitalization.">
+                            <field name="vet_hospitalization_product_id" options="{'no_create': True}"/>
+                            <div class="text-muted small mt-1">Example: admitted Monday 18:00, discharged Wednesday 10:00 → 2 days.</div>
+                        </setting>
+                    </block>
+                    <block title="Demo Data" name="vet_demo">
+                        <setting string="Load Demo Data" help="Creates owners, patients, appointments, consultations, vaccinations, prescriptions and a hospitalization to try the application.">
+                            <field name="vet_demo_loaded" invisible="1"/>
+                            <button name="action_vet_load_demo" type="object" string="Load Demo Data" class="btn-secondary" icon="fa-magic"
+                                    invisible="vet_demo_loaded"
+                                    confirm="Load demo data in this database? It creates owners, patients and their medical records."/>
+                            <div invisible="not vet_demo_loaded" class="text-success"><i class="fa fa-check me-1" title="Loaded"/>Demo data loaded.</div>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="vet_settings_action" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'module': 'odossey_veterinary', 'bin_size': False}</field>
+    </record>
+</odoo>

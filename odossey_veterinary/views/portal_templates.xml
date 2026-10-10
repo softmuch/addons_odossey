@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_my_home_vet" name="My Pets" customize_show="True" inherit_id="portal.portal_my_home">
+        <div id="portal_client_category" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/odossey_veterinary/static/description/icon.png'"/>
+                <t t-set="title">My Pets</t>
+                <t t-set="url" t-value="'/my/vet'"/>
+                <t t-set="text">Vaccination card, appointments, prescriptions and consents</t>
+                <t t-set="placeholder_count" t-value="'vet_pet_count'"/>
+            </t>
+        </div>
+    </template>
+
+    <template id="portal_breadcrumbs_vet" inherit_id="portal.portal_breadcrumbs" priority="62">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'vet_pets'" class="breadcrumb-item active">My Pets</li>
+            <li t-if="page_name in ('vet_pet', 'vet_consent')" class="breadcrumb-item"><a href="/my/vet">My Pets</a></li>
+            <li t-if="page_name == 'vet_pet'" class="breadcrumb-item active"><t t-esc="pet.name"/></li>
+            <li t-if="page_name == 'vet_consent'" class="breadcrumb-item active"><t t-esc="consent.name"/></li>
+        </xpath>
+    </template>
+
+    <template id="portal_my_pets" name="My Pets">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">My Pets</t>
+            </t>
+            <p t-if="not pets" class="mt-3">You have no pets registered at the clinic yet.</p>
+            <div class="row g-3 mt-1">
+                <div class="col-md-6 col-lg-4" t-foreach="pets" t-as="pet">
+                    <a t-att-href="'/my/vet/pets/%s' % pet.id" class="card h-100 text-decoration-none text-reset o_vet_portal_pet">
+                        <div class="card-body d-flex gap-3 align-items-center">
+                            <img t-if="pet.image_128" t-att-src="image_data_uri(pet.image_128)" class="rounded-circle" style="width: 64px; height: 64px; object-fit: cover;" alt="Photo"/>
+                            <div>
+                                <h5 class="mb-1" t-esc="pet.name"/>
+                                <div class="text-muted small"><t t-esc="pet.species_id.name"/><t t-if="pet.breed_id"> · <t t-esc="pet.breed_id.name"/></t></div>
+                                <span t-if="pet.vaccination_state == 'overdue'" class="badge rounded-pill text-bg-danger mt-1">Vaccines overdue</span>
+                                <span t-elif="pet.vaccination_state == 'due_soon'" class="badge rounded-pill text-bg-warning mt-1">Vaccines due soon</span>
+                                <span t-elif="pet.vaccination_state == 'up_to_date'" class="badge rounded-pill text-bg-success mt-1">Up to date</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="portal_my_pet" name="My Pet">
+        <t t-call="portal.portal_layout">
+            <div class="d-flex flex-wrap gap-3 align-items-center mt-3 mb-3">
+                <img t-if="pet.image_128" t-att-src="image_data_uri(pet.image_128)" class="rounded-circle" style="width: 72px; height: 72px; object-fit: cover;" alt="Photo"/>
+                <div class="flex-grow-1">
+                    <h3 class="mb-0" t-esc="pet.name"/>
+                    <div class="text-muted"><t t-esc="pet.species_id.name"/><t t-if="pet.breed_id"> · <t t-esc="pet.breed_id.name"/></t>
+                        <t t-if="pet.age"> · <t t-esc="pet.age"/></t><t t-if="pet.weight"> · <t t-esc="pet.weight"/> kg</t></div>
+                </div>
+                <a class="btn btn-secondary" t-att-href="'/my/vet/pets/%s/card?download=true' % pet.id"><i class="fa fa-download me-1"/>Vaccination card</a>
+            </div>
+
+            <h5 class="mt-4">Vaccination &amp; parasite control</h5>
+            <t t-call="portal.portal_table">
+                <thead><tr><th>Date</th><th>Treatment</th><th>Next due</th><th/></tr></thead>
+                <tr t-foreach="vaccinations" t-as="v">
+                    <td><span t-field="v.date"/></td>
+                    <td t-esc="v.product_id.name"/>
+                    <td><span t-field="v.next_date"/></td>
+                    <td>
+                        <span t-if="v.state == 'overdue'" class="badge rounded-pill text-bg-danger">Overdue</span>
+                        <span t-elif="v.state == 'due_soon'" class="badge rounded-pill text-bg-warning">Due soon</span>
+                        <span t-elif="v.state == 'up_to_date'" class="badge rounded-pill text-bg-success">Up to date</span>
+                    </td>
+                </tr>
+                <tr t-if="not vaccinations"><td colspan="4" class="text-muted">No record yet.</td></tr>
+            </t>
+
+            <t t-if="appointments">
+                <h5 class="mt-4">Upcoming appointments</h5>
+                <t t-call="portal.portal_table">
+                    <tr t-foreach="appointments" t-as="a">
+                        <td><span t-field="a.start"/></td>
+                        <td t-esc="a.vet_appointment_type_id.name or a.name"/>
+                    </tr>
+                </t>
+            </t>
+
+            <t t-if="consents">
+                <h5 class="mt-4">Consents</h5>
+                <t t-call="portal.portal_table">
+                    <tr t-foreach="consents" t-as="c">
+                        <td><a t-att-href="c.get_portal_url()" t-esc="c.title"/></td>
+                        <td>
+                            <span t-if="c.state == 'sent'" class="badge rounded-pill text-bg-warning">Waiting for your signature</span>
+                            <span t-else="" class="badge rounded-pill text-bg-success">Signed</span>
+                        </td>
+                    </tr>
+                </t>
+            </t>
+
+            <t t-if="prescriptions or certificates">
+                <h5 class="mt-4">Documents</h5>
+                <t t-call="portal.portal_table">
+                    <tr t-foreach="prescriptions" t-as="r">
+                        <td><span t-field="r.date"/></td>
+                        <td>Prescription <t t-esc="r.name"/></td>
+                        <td><a t-att-href="r.get_portal_url(download=True)"><i class="fa fa-download me-1"/>PDF</a></td>
+                    </tr>
+                    <tr t-foreach="certificates" t-as="c">
+                        <td><span t-field="c.date"/></td>
+                        <td><span t-field="c.certificate_type"/> <t t-esc="c.name"/></td>
+                        <td><a t-att-href="c.get_portal_url(download=True)"><i class="fa fa-download me-1"/>PDF</a></td>
+                    </tr>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="portal_consent_page" name="Consent">
+        <t t-call="portal.portal_layout">
+            <t t-set="o_portal_fullwidth_alert" t-if="message == 'sign_ok'">
+                <div class="alert alert-success o_vet_consent_signed" role="alert">Thank you, the consent has been signed.</div>
+            </t>
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h3 class="mb-0"><t t-esc="consent.title"/></h3>
+                    <small class="text-muted"><t t-esc="consent.name"/> · <t t-esc="consent.pet_id.name"/></small>
+                </div>
+                <div class="card-body">
+                    <div t-field="consent.content"/>
+                    <t t-if="consent.state in ('signed', 'revoked')">
+                        <hr/>
+                        <img t-if="consent.signature" t-att-src="image_data_uri(consent.signature)" style="max-height: 6rem;" alt="Signature"/>
+                        <p class="mb-0">Signed by <strong t-esc="consent.signed_by"/> on <span t-field="consent.signed_on"/></p>
+                        <a class="btn btn-secondary mt-2" t-att-href="consent.get_portal_url(report_type='pdf', download=True)">
+                            <i class="fa fa-download me-1"/>Download PDF
+                        </a>
+                    </t>
+                    <t t-if="can_sign">
+                        <hr/>
+                        <p>I have read and understood this document and I give my consent.</p>
+                        <t t-call="portal.signature_form">
+                            <t t-set="call_url" t-value="consent.get_portal_url(suffix='/sign')"/>
+                            <t t-set="default_name" t-value="consent.owner_id.name or 'Owner'"/>
+                            <t t-set="send_label">Sign the consent</t>
+                        </t>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="vet_owner_action" model="ir.actions.act_window">
+        <field name="name">Owners</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('is_pet_owner', '=', True)]</field>
+        <field name="context">{'res_partner_search_mode': 'customer'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No owner yet</p>
+            <p>Owners are the contacts that have at least one patient. Create a patient to add its owner.</p>
+        </field>
+    </record>
+
+    <record id="vet_sale_order_action" model="ir.actions.act_window">
+        <field name="name">Orders to Charge</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('vet_pet_id', '!=', False)]</field>
+        <field name="context">{'search_default_my_quotation': 0}</field>
+    </record>
+
+    <menuitem id="menu_vet_root" name="Veterinary" sequence="30" web_icon="odossey_veterinary,static/description/icon.png"
+              groups="odossey_veterinary.group_vet_reception"/>
+
+    <!-- Reception -->
+    <menuitem id="menu_vet_reception" name="Reception" parent="menu_vet_root" sequence="10"/>
+    <menuitem id="menu_vet_agenda" name="Agenda" parent="menu_vet_reception" action="vet_appointment_action" sequence="10"/>
+    <menuitem id="menu_vet_waiting_room" name="Today's Appointments" parent="menu_vet_reception" action="vet_waiting_room_action" sequence="20"/>
+    <menuitem id="menu_vet_pets" name="Patients" parent="menu_vet_reception" action="vet_pet_action" sequence="30"/>
+    <menuitem id="menu_vet_owners" name="Owners" parent="menu_vet_reception" action="vet_owner_action" sequence="40"/>
+    <menuitem id="menu_vet_due" name="Vaccines Due" parent="menu_vet_reception" action="vet_vaccination_due_action" sequence="50"/>
+
+    <!-- Clinical -->
+    <menuitem id="menu_vet_clinical" name="Clinical" parent="menu_vet_root" sequence="20" groups="odossey_veterinary.group_vet_veterinarian"/>
+    <menuitem id="menu_vet_consultations" name="Consultations" parent="menu_vet_clinical" action="vet_consultation_action" sequence="10"/>
+    <menuitem id="menu_vet_vaccinations" name="Vaccinations &amp; Parasite Control" parent="menu_vet_clinical" action="vet_vaccination_action" sequence="20"/>
+    <menuitem id="menu_vet_prescriptions" name="Prescriptions" parent="menu_vet_clinical" action="vet_prescription_action" sequence="30"/>
+    <menuitem id="menu_vet_hospitalization" name="Hospitalization" parent="menu_vet_clinical" action="vet_hospitalization_action" sequence="40"/>
+    <menuitem id="menu_vet_treatment_board" name="Treatment Board" parent="menu_vet_clinical" action="vet_hospitalization_task_action" sequence="50"/>
+    <menuitem id="menu_vet_lab" name="Lab Results" parent="menu_vet_clinical" action="vet_lab_result_action" sequence="60"/>
+    <menuitem id="menu_vet_consents" name="Consents" parent="menu_vet_clinical" action="vet_consent_action" sequence="70"/>
+    <menuitem id="menu_vet_certificates" name="Certificates" parent="menu_vet_clinical" action="vet_certificate_action" sequence="80"/>
+
+    <!-- Pharmacy & stock -->
+    <menuitem id="menu_vet_pharmacy" name="Pharmacy" parent="menu_vet_root" sequence="30" groups="odossey_veterinary.group_vet_veterinarian"/>
+    <menuitem id="menu_vet_medications" name="Medications &amp; Vaccines" parent="menu_vet_pharmacy" action="vet_medication_action" sequence="10"/>
+    <menuitem id="menu_vet_products" name="All Products" parent="menu_vet_pharmacy" action="vet_product_action" sequence="20"/>
+    <menuitem id="menu_vet_controlled" name="Controlled Drugs Register" parent="menu_vet_pharmacy" action="vet_controlled_register_action" sequence="30"/>
+    <menuitem id="menu_vet_stock" name="Stock" parent="menu_vet_pharmacy" action="stock.action_view_quants" sequence="40"/>
+    <menuitem id="menu_vet_lots" name="Lots &amp; Expiry Dates" parent="menu_vet_pharmacy" action="stock.action_production_lot_form" sequence="50"/>
+
+    <!-- Billing -->
+    <menuitem id="menu_vet_billing" name="Billing" parent="menu_vet_root" sequence="40"/>
+    <menuitem id="menu_vet_orders" name="Orders to Charge" parent="menu_vet_billing" action="vet_sale_order_action" sequence="10"/>
+    <menuitem id="menu_vet_invoices" name="Invoices" parent="menu_vet_billing" action="account.action_move_out_invoice_type" sequence="20"
+              groups="account.group_account_invoice"/>
+
+    <!-- Reporting -->
+    <menuitem id="menu_vet_reporting" name="Reporting" parent="menu_vet_root" sequence="50" groups="odossey_veterinary.group_vet_manager"/>
+    <menuitem id="menu_vet_report_consultations" name="Consultations" parent="menu_vet_reporting" action="vet_consultation_action" sequence="10"/>
+    <menuitem id="menu_vet_report_sales" name="Sales" parent="menu_vet_reporting" action="sale.action_order_report_all" sequence="20"/>
+
+    <!-- Configuration -->
+    <menuitem id="menu_vet_config" name="Configuration" parent="menu_vet_root" sequence="90" groups="odossey_veterinary.group_vet_manager"/>
+    <menuitem id="menu_vet_settings" name="Settings" parent="menu_vet_config" action="vet_settings_action" sequence="1" groups="base.group_system"/>
+    <menuitem id="menu_vet_services" name="Services &amp; Prices" parent="menu_vet_config" action="vet_service_action" sequence="10"/>
+    <menuitem id="menu_vet_appointment_types" name="Appointment Types" parent="menu_vet_config" action="vet_appointment_type_action" sequence="20"/>
+    <menuitem id="menu_vet_rooms" name="Rooms" parent="menu_vet_config" action="vet_room_action" sequence="30"/>
+    <menuitem id="menu_vet_templates" name="Consultation Templates" parent="menu_vet_config" action="vet_consultation_template_action" sequence="40"/>
+    <menuitem id="menu_vet_consent_templates" name="Consent Templates" parent="menu_vet_config" action="vet_consent_template_action" sequence="50"/>
+    <menuitem id="menu_vet_master" name="Master Data" parent="menu_vet_config" sequence="60"/>
+    <menuitem id="menu_vet_species" name="Species" parent="menu_vet_master" action="vet_species_action" sequence="10"/>
+    <menuitem id="menu_vet_breeds" name="Breeds" parent="menu_vet_master" action="vet_breed_action" sequence="20"/>
+    <menuitem id="menu_vet_alerts" name="Alerts &amp; Allergies" parent="menu_vet_master" action="vet_alert_action" sequence="30"/>
+    <menuitem id="menu_vet_diseases" name="Diseases &amp; Diagnoses" parent="menu_vet_master" action="vet_disease_action" sequence="40"/>
+    <menuitem id="menu_vet_medication_categories" name="Therapeutic Categories" parent="menu_vet_master" action="vet_medication_category_action" sequence="50"/>
+    <menuitem id="menu_vet_lab_panels" name="Lab Panels" parent="menu_vet_master" action="vet_lab_panel_action" sequence="60"/>
+</odoo>

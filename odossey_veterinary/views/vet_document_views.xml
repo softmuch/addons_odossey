@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ===================================================================== CONSENT -->
+    <record id="vet_consent_view_form" model="ir.ui.view">
+        <field name="name">vet.consent.form</field>
+        <field name="model">vet.consent</field>
+        <field name="arch" type="xml">
+            <form string="Informed Consent">
+                <header>
+                    <button name="action_sign" type="object" string="Sign in the Clinic" class="btn-primary"
+                            invisible="state not in ('draft', 'sent') or not signature"/>
+                    <button name="action_send" type="object" string="Send for Signature" invisible="state != 'draft'"/>
+                    <button name="action_refuse" type="object" string="Refused" invisible="state not in ('draft', 'sent')"/>
+                    <button name="action_print" type="object" string="Print" invisible="state == 'draft'"/>
+                    <button name="action_verify_fingerprint" type="object" string="Verify" invisible="state not in ('signed', 'revoked')"/>
+                    <button name="action_revoke" type="object" string="Revoke" invisible="state != 'signed'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,sent,signed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" readonly="1"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="pet_id" readonly="state not in ('draft', 'sent')" options="{'no_create': True}"/>
+                            <field name="owner_id"/>
+                            <field name="template_id" readonly="state not in ('draft', 'sent')" options="{'no_create': True}"/>
+                            <field name="procedure" readonly="state not in ('draft', 'sent')"/>
+                        </group>
+                        <group>
+                            <field name="vet_id" readonly="state not in ('draft', 'sent')"/>
+                            <field name="consultation_id" readonly="1" invisible="not consultation_id"/>
+                            <field name="hospitalization_id" readonly="1" invisible="not hospitalization_id"/>
+                            <field name="signed_by" readonly="state not in ('draft', 'sent')" placeholder="Name of the owner"/>
+                            <field name="signed_on" invisible="not signed_on"/>
+                            <field name="signed_ip" invisible="not signed_ip"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Text" name="text">
+                            <field name="content" readonly="state not in ('draft', 'sent')"/>
+                        </page>
+                        <page string="Signature" name="signature">
+                            <field name="signature" widget="signature" options="{'full_name': 'signed_by'}"
+                                   readonly="state not in ('draft', 'sent')"/>
+                            <group invisible="not signature_hash">
+                                <field name="signature_hash"/>
+                            </group>
+                            <group invisible="state not in ('signed', 'revoked')">
+                                <field name="revoke_reason" readonly="state != 'signed'"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="vet_consent_view_list" model="ir.ui.view">
+        <field name="name">vet.consent.list</field>
+        <field name="model">vet.consent</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="create_date" string="Date"/>
+                <field name="name"/>
+                <field name="pet_id"/>
+                <field name="owner_id"/>
+                <field name="template_id"/>
+                <field name="signed_on" optional="show"/>
+                <field name="state" widget="badge" decoration-success="state == 'signed'" decoration-warning="state == 'sent'"
+                       decoration-danger="state in ('refused', 'revoked')"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="vet_consent_action" model="ir.actions.act_window">
+        <field name="name">Consents</field>
+        <field name="res_model">vet.consent</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="vet_consent_template_view_form" model="ir.ui.view">
+        <field name="name">vet.consent.template.form</field>
+        <field name="model">vet.consent.template</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name"/></h1></div>
+                    <group><group><field name="sequence"/></group><group><field name="active" widget="boolean_toggle"/></group></group>
+                    <div class="text-muted small mb-2">Placeholders: {pet} {species} {owner} {procedure} {date} {vet} {company}</div>
+                    <field name="body"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="vet_consent_template_action" model="ir.actions.act_window">
+        <field name="name">Consent Templates</field>
+        <field name="res_model">vet.consent.template</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ===================================================================== LAB -->
+    <record id="vet_lab_result_view_form" model="ir.ui.view">
+        <field name="name">vet.lab.result.form</field>
+        <field name="model">vet.lab.result</field>
+        <field name="arch" type="xml">
+            <form string="Lab Result">
+                <header>
+                    <button name="action_done" type="object" string="Results Received" class="btn-primary" invisible="state != 'requested'"/>
+                    <button name="action_print" type="object" string="Print"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" readonly="1"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="pet_id" options="{'no_create': True}"/>
+                            <field name="owner_id"/>
+                            <field name="panel_id" options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="laboratory"/>
+                            <field name="consultation_id"/>
+                        </group>
+                    </group>
+                    <field name="line_ids">
+                        <list editable="bottom" create="0" decoration-danger="flag in ('low', 'high')">
+                            <field name="analyte_id" readonly="1"/>
+                            <field name="value"/>
+                            <field name="value_text" optional="show"/>
+                            <field name="unit"/>
+                            <field name="reference"/>
+                            <field name="flag" widget="badge" decoration-danger="flag in ('low', 'high')" decoration-success="flag == 'normal'"/>
+                        </list>
+                    </field>
+                    <group>
+                        <field name="conclusion"/>
+                        <field name="attachment_ids" widget="many2many_binary"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="vet_lab_result_view_list" model="ir.ui.view">
+        <field name="name">vet.lab.result.list</field>
+        <field name="model">vet.lab.result</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="date"/>
+                <field name="name"/>
+                <field name="pet_id"/>
+                <field name="panel_id"/>
+                <field name="laboratory" optional="show"/>
+                <field name="abnormal_count" string="Abnormal"/>
+                <field name="state" widget="badge" decoration-success="state == 'done'" decoration-info="state == 'requested'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="vet_lab_result_action" model="ir.actions.act_window">
+        <field name="name">Lab Results</field>
+        <field name="res_model">vet.lab.result</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="vet_lab_panel_view_form" model="ir.ui.view">
+        <field name="name">vet.lab.panel.form</field>
+        <field name="model">vet.lab.panel</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name"/></h1></div>
+                    <group><group><field name="code"/><field name="product_id"/></group><group><field name="sequence"/><field name="active" widget="boolean_toggle"/></group></group>
+                    <field name="analyte_ids">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="name"/>
+                            <field name="unit"/>
+                            <field name="dog_min"/>
+                            <field name="dog_max"/>
+                            <field name="cat_min"/>
+                            <field name="cat_max"/>
+                            <field name="qualitative"/>
+                        </list>
+                    </field>
+                    <div class="text-muted small">Reference intervals are orientative: adjust them to the analyser or laboratory you use.</div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="vet_lab_panel_action" model="ir.actions.act_window">
+        <field name="name">Lab Panels</field>
+        <field name="res_model">vet.lab.panel</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ===================================================================== CERTIFICATE -->
+    <record id="vet_certificate_view_form" model="ir.ui.view">
+        <field name="name">vet.certificate.form</field>
+        <field name="model">vet.certificate</field>
+        <field name="arch" type="xml">
+            <form string="Certificate">
+                <header>
+                    <button name="action_print" type="object" string="Print" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" readonly="1"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="certificate_type"/>
+                            <field name="pet_id" options="{'no_create': True}"/>
+                            <field name="owner_id"/>
+                            <field name="destination" invisible="certificate_type != 'travel'"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="valid_until"/>
+                            <field name="vet_id" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+                    <field name="body"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="vet_certificate_view_list" model="ir.ui.view">
+        <field name="name">vet.certificate.list</field>
+        <field name="model">vet.certificate</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="date"/>
+                <field name="name"/>
+                <field name="certificate_type"/>
+                <field name="pet_id"/>
+                <field name="owner_id"/>
+                <field name="valid_until"/>
+                <field name="vet_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="vet_certificate_action" model="ir.actions.act_window">
+        <field name="name">Certificates</field>
+        <field name="res_model">vet.certificate</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ===================================================================== AGENDA -->
+    <record id="calendar_event_view_form_vet" model="ir.ui.view">
+        <field name="name">calendar.event.form.vet</field>
+        <field name="model">calendar.event</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <form string="Appointment">
+                <header>
+                    <button name="action_vet_confirm" type="object" string="Confirm" invisible="vet_state != 'booked'"/>
+                    <button name="action_vet_arrived" type="object" string="Arrived" class="btn-primary"
+                            invisible="vet_state not in ('booked', 'confirmed')"/>
+                    <button name="action_vet_start_consultation" type="object" string="Start Consultation" class="btn-primary"
+                            invisible="vet_state not in ('arrived', 'in_consultation') or not vet_pet_id"
+                            groups="odossey_veterinary.group_vet_veterinarian"/>
+                    <button name="action_vet_no_show" type="object" string="No Show" invisible="vet_state not in ('booked', 'confirmed')"/>
+                    <field name="vet_state" widget="statusbar" statusbar_visible="booked,confirmed,arrived,in_consultation,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" placeholder="e.g. Firulais - Vaccination"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="vet_pet_id" options="{'no_quick_create': True}"/>
+                            <field name="vet_owner_id"/>
+                            <field name="vet_appointment_type_id"/>
+                            <field name="vet_room_id"/>
+                        </group>
+                        <group>
+                            <field name="start"/>
+                            <field name="stop"/>
+                            <field name="duration" widget="float_time"/>
+                            <field name="allday" invisible="1"/>
+                            <field name="user_id" string="Veterinarian"/>
+                            <field name="partner_ids" widget="many2manyattendee" invisible="1"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="Reason / notes from the owner..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="calendar_event_view_calendar_vet" model="ir.ui.view">
+        <field name="name">calendar.event.calendar.vet</field>
+        <field name="model">calendar.event</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <calendar string="Agenda" date_start="start" date_stop="stop" date_delay="duration" all_day="allday"
+                      mode="day" color="vet_appointment_type_id" event_open_popup="0" quick_create="0"
+                      form_view_id="%(odossey_veterinary.calendar_event_view_form_vet)d">
+                <field name="vet_pet_id"/>
+                <field name="vet_owner_id"/>
+                <field name="vet_appointment_type_id" filters="1"/>
+                <field name="vet_room_id" filters="1"/>
+                <field name="user_id" filters="1" string="Veterinarian"/>
+                <field name="vet_state"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="calendar_event_view_list_vet" model="ir.ui.view">
+        <field name="name">calendar.event.list.vet</field>
+        <field name="model">calendar.event</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="vet_state in ('done', 'cancelled', 'no_show')" decoration-info="vet_state == 'arrived'">
+                <field name="start"/>
+                <field name="vet_pet_id"/>
+                <field name="vet_owner_id"/>
+                <field name="vet_appointment_type_id"/>
+                <field name="vet_room_id" optional="show"/>
+                <field name="user_id" string="Veterinarian"/>
+                <field name="vet_state" widget="badge" decoration-success="vet_state == 'done'" decoration-info="vet_state in ('arrived', 'in_consultation')"
+                       decoration-warning="vet_state == 'booked'" decoration-danger="vet_state == 'no_show'"/>
+                <button name="action_vet_arrived" type="object" string="Arrived" invisible="vet_state not in ('booked', 'confirmed')"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="calendar_event_view_search_vet" model="ir.ui.view">
+        <field name="name">calendar.event.search.vet</field>
+        <field name="model">calendar.event</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="vet_pet_id"/>
+                <field name="vet_owner_id"/>
+                <field name="user_id" string="Veterinarian"/>
+                <filter string="Today" name="today" domain="[('start', '&gt;=', context_today().strftime('%Y-%m-%d 00:00:00')), ('start', '&lt;=', context_today().strftime('%Y-%m-%d 23:59:59'))]"/>
+                <filter string="Waiting Room" name="waiting" domain="[('vet_state', '=', 'arrived')]"/>
+                <filter string="My Appointments" name="mine" domain="[('user_id', '=', uid)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="vet_appointment_action" model="ir.actions.act_window">
+        <field name="name">Agenda</field>
+        <field name="res_model">calendar.event</field>
+        <field name="view_mode">calendar,list,form</field>
+        <field name="domain">[('is_vet_appointment', '=', True)]</field>
+        <field name="search_view_id" ref="calendar_event_view_search_vet"/>
+        <field name="context" eval="{'default_vet_appointment_type_id': ref('odossey_veterinary.appointment_type_consultation')}"/>
+    </record>
+    <record id="vet_appointment_action_calendar" model="ir.actions.act_window.view">
+        <field name="sequence">1</field>
+        <field name="view_mode">calendar</field>
+        <field name="view_id" ref="calendar_event_view_calendar_vet"/>
+        <field name="act_window_id" ref="vet_appointment_action"/>
+    </record>
+    <record id="vet_appointment_action_list" model="ir.actions.act_window.view">
+        <field name="sequence">2</field>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="calendar_event_view_list_vet"/>
+        <field name="act_window_id" ref="vet_appointment_action"/>
+    </record>
+    <record id="vet_appointment_action_form" model="ir.actions.act_window.view">
+        <field name="sequence">3</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="calendar_event_view_form_vet"/>
+        <field name="act_window_id" ref="vet_appointment_action"/>
+    </record>
+
+    <record id="vet_waiting_room_action" model="ir.actions.act_window">
+        <field name="name">Today's Appointments</field>
+        <field name="res_model">calendar.event</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('is_vet_appointment', '=', True)]</field>
+        <field name="search_view_id" ref="calendar_event_view_search_vet"/>
+        <field name="context">{'search_default_today': 1}</field>
+    </record>
+    <record id="vet_waiting_room_action_list" model="ir.actions.act_window.view">
+        <field name="sequence">1</field>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="calendar_event_view_list_vet"/>
+        <field name="act_window_id" ref="vet_waiting_room_action"/>
+    </record>
+    <record id="vet_waiting_room_action_form" model="ir.actions.act_window.view">
+        <field name="sequence">2</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="calendar_event_view_form_vet"/>
+        <field name="act_window_id" ref="vet_waiting_room_action"/>
+    </record>
+</odoo>

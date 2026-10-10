@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="vet_consultation_view_form" model="ir.ui.view">
+        <field name="name">vet.consultation.form</field>
+        <field name="model">vet.consultation</field>
+        <field name="arch" type="xml">
+            <form string="Consultation">
+                <header>
+                    <button name="action_start" type="object" string="Start" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_done" type="object" string="Close Consultation" class="btn-primary" invisible="state != 'in_progress'"/>
+                    <button name="action_create_sale_order" type="object" string="Create Sale Order"
+                            invisible="state not in ('in_progress', 'done') or sale_order_id or not line_ids"/>
+                    <button name="action_new_prescription" type="object" string="Prescription" invisible="state == 'cancel'"/>
+                    <button name="action_hospitalize" type="object" string="Admit" invisible="state != 'in_progress'"/>
+                    <button name="action_print_record" type="object" string="Print" invisible="state == 'draft'"/>
+                    <button name="action_reset_draft" type="object" string="Reopen" invisible="state not in ('done', 'cancel')"
+                            groups="odossey_veterinary.group_vet_manager"
+                            confirm="Reopen this consultation? Changes to a closed medical record are logged in the chatter."/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state in ('done', 'cancel')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,done"/>
+                </header>
+                <div class="alert alert-danger mb-0 d-flex align-items-center flex-wrap gap-2" role="alert" invisible="not pet_has_danger_alert">
+                    <i class="fa fa-exclamation-triangle" title="Alert"/>
+                    <field name="pet_alert_summary" readonly="1" class="d-inline"/>
+                </div>
+                <div class="alert alert-warning mb-0 d-flex align-items-center flex-wrap gap-2" role="alert" invisible="not pet_allergy_notes">
+                    <i class="fa fa-medkit" title="Allergies"/><strong>Allergies:</strong>
+                    <field name="pet_allergy_notes" readonly="1" class="d-inline"/>
+                </div>
+                <div class="alert alert-warning mb-0 d-flex align-items-center flex-wrap gap-2" role="alert" invisible="not vitals_warning">
+                    <i class="fa fa-heartbeat" title="Vital signs"/><strong>Vital signs out of range:</strong>
+                    <field name="vitals_warning" readonly="1" class="d-inline"/>
+                </div>
+                <div class="alert alert-info mb-0 d-flex align-items-center flex-wrap gap-2" role="alert" invisible="not notifiable_warning">
+                    <i class="fa fa-bullhorn" title="Notification"/>
+                    <field name="notifiable_warning" readonly="1" class="d-inline"/>
+                </div>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_sale_order" type="object" class="oe_stat_button" icon="fa-shopping-cart" invisible="not sale_order_id">
+                            <div class="o_stat_info"><span class="o_stat_text">Sale Order</span></div>
+                        </button>
+                        <button name="action_view_prescriptions" type="object" class="oe_stat_button" icon="fa-file-text-o">
+                            <field name="prescription_count" widget="statinfo" string="Prescriptions"/>
+                        </button>
+                        <button name="action_view_consents" type="object" class="oe_stat_button" icon="fa-pencil-square-o">
+                            <field name="consent_count" widget="statinfo" string="Consents"/>
+                        </button>
+                        <button name="action_view_attachments" type="object" class="oe_stat_button" icon="fa-paperclip">
+                            <field name="attachment_count" widget="statinfo" string="Files"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="pet_id" readonly="state == 'done'" options="{'no_quick_create': True}"/>
+                            <field name="owner_id"/>
+                            <field name="species_id" invisible="not pet_id"/>
+                            <field name="reason" readonly="state == 'done'"/>
+                        </group>
+                        <group>
+                            <field name="date" readonly="state == 'done'"/>
+                            <field name="vet_id" readonly="state == 'done'" options="{'no_create': True}"/>
+                            <field name="consultation_type" readonly="state == 'done'"/>
+                            <field name="template_id" invisible="state == 'done'" options="{'no_create': True}"/>
+                            <field name="appointment_id" invisible="not appointment_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="History &amp; Exam" name="soap">
+                            <group string="Vital Signs">
+                                <group>
+                                    <field name="weight" readonly="state == 'done'"/>
+                                    <field name="body_condition" readonly="state == 'done'"/>
+                                    <field name="temperature" readonly="state == 'done'"/>
+                                    <field name="heart_rate" readonly="state == 'done'"/>
+                                    <field name="respiratory_rate" readonly="state == 'done'"/>
+                                </group>
+                                <group>
+                                    <field name="mucous_membranes" readonly="state == 'done'"/>
+                                    <field name="crt" readonly="state == 'done'"/>
+                                    <field name="hydration" readonly="state == 'done'"/>
+                                    <field name="attitude" readonly="state == 'done'"/>
+                                    <field name="pain_score" readonly="state == 'done'"/>
+                                </group>
+                            </group>
+                            <separator string="Subjective: History"/>
+                            <field name="anamnesis" readonly="state == 'done'" placeholder="What does the owner report?"/>
+                            <separator string="Objective: Physical Examination"/>
+                            <field name="physical_exam" readonly="state == 'done'" placeholder="Findings by system..."/>
+                        </page>
+                        <page string="Diagnosis &amp; Plan" name="plan">
+                            <group>
+                                <group>
+                                    <field name="diagnosis_ids" widget="many2many_tags" readonly="state == 'done'"/>
+                                    <field name="diagnosis_type" readonly="state == 'done'"/>
+                                </group>
+                                <group>
+                                    <field name="follow_up_date"/>
+                                </group>
+                            </group>
+                            <separator string="Assessment"/>
+                            <field name="assessment" readonly="state == 'done'" placeholder="Clinical reasoning, differential diagnoses..."/>
+                            <separator string="Plan / Treatment"/>
+                            <field name="plan" readonly="state == 'done'" placeholder="Treatment, tests requested..."/>
+                            <separator string="Instructions for the Owner"/>
+                            <field name="owner_instructions" placeholder="Printed on the consultation summary for the owner."/>
+                        </page>
+                        <page string="Charges" name="charges">
+                            <field name="line_ids" readonly="sale_order_id">
+                                <list editable="bottom" decoration-danger="controlled">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id" context="{'default_vet_kind': 'service'}"/>
+                                    <field name="name" optional="show"/>
+                                    <field name="vet_kind" optional="hide"/>
+                                    <field name="tracking" column_invisible="1"/>
+                                    <field name="lot_id" invisible="tracking == 'none'" options="{'no_create': True}" optional="show"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id" optional="show"/>
+                                    <field name="price_unit"/>
+                                    <field name="price_subtotal" sum="Total"/>
+                                    <field name="controlled" column_invisible="1"/>
+                                    <field name="note" optional="hide"/>
+                                </list>
+                            </field>
+                            <group class="oe_subtotal_footer">
+                                <field name="amount_total"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="sale_order_id" invisible="not sale_order_id"/>
+                                <field name="invoice_status" invisible="not sale_order_id"/>
+                            </group>
+                            <div class="text-muted small">
+                                Vaccines and antiparasitics charged here are added to the patient's vaccination card when the consultation is closed.
+                            </div>
+                        </page>
+                        <page string="Preventive Care" name="preventive" invisible="not vaccination_ids">
+                            <field name="vaccination_ids" readonly="1">
+                                <list>
+                                    <field name="date"/>
+                                    <field name="product_id"/>
+                                    <field name="dose_number"/>
+                                    <field name="lot_name"/>
+                                    <field name="next_date"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Lab" name="lab">
+                            <field name="lab_result_ids" context="{'default_pet_id': pet_id, 'default_consultation_id': id}">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="panel_id"/>
+                                    <field name="state" widget="badge" decoration-success="state == 'done'" decoration-info="state == 'requested'"/>
+                                    <field name="abnormal_count" string="Abnormal"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Consents" name="consents">
+                            <field name="consent_ids" context="{'default_pet_id': pet_id, 'default_consultation_id': id}">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="template_id"/>
+                                    <field name="state" widget="badge" decoration-success="state == 'signed'"
+                                           decoration-warning="state == 'sent'" decoration-danger="state in ('refused', 'revoked')"/>
+                                    <field name="signed_on"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="vet_consultation_view_list" model="ir.ui.view">
+        <field name="name">vet.consultation.list</field>
+        <field name="model">vet.consultation</field>
+        <field name="arch" type="xml">
+            <list string="Consultations" decoration-muted="state == 'cancel'" decoration-info="state == 'draft'">
+                <field name="date"/>
+                <field name="name"/>
+                <field name="pet_id"/>
+                <field name="owner_id" optional="show"/>
+                <field name="species_id" optional="hide"/>
+                <field name="consultation_type"/>
+                <field name="reason" optional="show"/>
+                <field name="diagnosis_ids" widget="many2many_tags" optional="show"/>
+                <field name="vet_id" optional="show"/>
+                <field name="amount_total" optional="show" sum="Total"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="state" widget="badge" decoration-success="state == 'done'" decoration-warning="state == 'in_progress'"
+                       decoration-info="state == 'draft'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="vet_consultation_view_search" model="ir.ui.view">
+        <field name="name">vet.consultation.search</field>
+        <field name="model">vet.consultation</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="pet_id"/>
+                <field name="owner_id"/>
+                <field name="vet_id"/>
+                <field name="diagnosis_ids"/>
+                <filter string="My Consultations" name="mine" domain="[('vet_id', '=', uid)]"/>
+                <filter string="Today" name="today" domain="[('date', '&gt;=', context_today().strftime('%Y-%m-%d 00:00:00')), ('date', '&lt;=', context_today().strftime('%Y-%m-%d 23:59:59'))]"/>
+                <separator/>
+                <filter string="In Progress" name="in_progress" domain="[('state', '=', 'in_progress')]"/>
+                <filter string="Closed" name="done" domain="[('state', '=', 'done')]"/>
+                <filter string="Not Invoiced" name="not_invoiced" domain="[('state', '=', 'done'), ('sale_order_id.invoice_status', '!=', 'invoiced')]"/>
+                <separator/>
+                <filter string="Emergencies" name="emergency" domain="[('consultation_type', '=', 'emergency')]"/>
+                <filter string="Date" name="filter_date" date="date"/>
+                <group>
+                    <filter string="Veterinarian" name="group_vet" context="{'group_by': 'vet_id'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by': 'consultation_type'}"/>
+                    <filter string="Species" name="group_species" context="{'group_by': 'species_id'}"/>
+                    <filter string="Month" name="group_month" context="{'group_by': 'date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="vet_consultation_view_pivot" model="ir.ui.view">
+        <field name="name">vet.consultation.pivot</field>
+        <field name="model">vet.consultation</field>
+        <field name="arch" type="xml">
+            <pivot string="Consultations" sample="1">
+                <field name="date" interval="month" type="col"/>
+                <field name="consultation_type" type="row"/>
+                <field name="amount_total" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="vet_consultation_view_graph" model="ir.ui.view">
+        <field name="name">vet.consultation.graph</field>
+        <field name="model">vet.consultation</field>
+        <field name="arch" type="xml">
+            <graph string="Consultations" sample="1">
+                <field name="date" interval="month"/>
+                <field name="consultation_type"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="vet_consultation_action" model="ir.actions.act_window">
+        <field name="name">Consultations</field>
+        <field name="res_model">vet.consultation</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No consultation yet</p>
+            <p>Consultations are the medical record of the patients (SOAP): vital signs, exam, diagnosis, plan and the charges of the visit.</p>
+        </field>
+    </record>
+
+    <!-- Controlled drugs register: every use of a controlled drug in a consultation -->
+    <record id="vet_consultation_line_view_list_controlled" model="ir.ui.view">
+        <field name="name">vet.consultation.line.list.controlled</field>
+        <field name="model">vet.consultation.line</field>
+        <field name="arch" type="xml">
+            <list string="Controlled Drugs Register" create="0" edit="0">
+                <field name="date"/>
+                <field name="consultation_id"/>
+                <field name="pet_id"/>
+                <field name="product_id"/>
+                <field name="lot_id"/>
+                <field name="quantity" sum="Total"/>
+                <field name="uom_id"/>
+                <field name="vet_id"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="vet_consultation_line_view_search" model="ir.ui.view">
+        <field name="name">vet.consultation.line.search</field>
+        <field name="model">vet.consultation.line</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="product_id"/>
+                <field name="pet_id"/>
+                <field name="vet_id"/>
+                <field name="lot_id"/>
+                <filter string="Date" name="filter_date" date="date"/>
+                <group>
+                    <filter string="Product" name="group_product" context="{'group_by': 'product_id'}"/>
+                    <filter string="Month" name="group_month" context="{'group_by': 'date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="vet_controlled_register_action" model="ir.actions.act_window">
+        <field name="name">Controlled Drugs Register</field>
+        <field name="res_model">vet.consultation.line</field>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="vet_consultation_line_view_list_controlled"/>
+        <field name="domain">[('controlled', '=', True), ('state', '!=', 'cancel')]</field>
+        <field name="context">{'search_default_group_product': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">No controlled drug used yet</p>
+            <p>Every use of a controlled drug (ketamine, diazepam, opioids...) in a consultation is listed here with the patient, the lot and the veterinarian.</p>
+        </field>
+    </record>
+
+    <!-- Templates -->
+    <record id="vet_consultation_template_view_form" model="ir.ui.view">
+        <field name="name">vet.consultation.template.form</field>
+        <field name="model">vet.consultation.template</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" placeholder="e.g. Vaccination visit"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="consultation_type"/>
+                            <field name="reason"/>
+                        </group>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Texts" name="texts">
+                            <separator string="History"/>
+                            <field name="anamnesis"/>
+                            <separator string="Physical Examination"/>
+                            <field name="physical_exam"/>
+                            <separator string="Plan"/>
+                            <field name="plan"/>
+                        </page>
+                        <page string="Default Charges" name="lines">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="quantity"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="vet_consultation_template_view_list" model="ir.ui.view">
+        <field name="name">vet.consultation.template.list</field>
+        <field name="model">vet.consultation.template</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="consultation_type"/>
+                <field name="reason"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="vet_consultation_template_action" model="ir.actions.act_window">
+        <field name="name">Consultation Templates</field>
+        <field name="res_model">vet.consultation.template</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

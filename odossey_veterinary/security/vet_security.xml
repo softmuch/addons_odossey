@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="module_category_veterinary" model="ir.module.category">
+        <field name="name">Veterinary</field>
+        <field name="sequence">40</field>
+    </record>
+
+    <record id="privilege_veterinary" model="res.groups.privilege">
+        <field name="name">Veterinary</field>
+        <field name="category_id" ref="module_category_veterinary"/>
+    </record>
+
+    <!-- Reception: owners, patients, agenda, vaccination card, billing -->
+    <record id="group_vet_reception" model="res.groups">
+        <field name="name">Reception</field>
+        <field name="privilege_id" ref="privilege_veterinary"/>
+        <field name="sequence">10</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user')), (4, ref('sales_team.group_sale_salesman'))]"/>
+        <field name="comment">Registers owners and patients, books appointments, sees the vaccination card and charges the visits.</field>
+    </record>
+
+    <!-- Veterinarian: medical record, prescriptions, hospitalization -->
+    <record id="group_vet_veterinarian" model="res.groups">
+        <field name="name">Veterinarian</field>
+        <field name="privilege_id" ref="privilege_veterinary"/>
+        <field name="sequence">20</field>
+        <field name="implied_ids" eval="[(4, ref('group_vet_reception')), (4, ref('stock.group_stock_user'))]"/>
+        <field name="comment">Full medical record: consultations, vaccinations, prescriptions, hospitalization, lab results and consents.</field>
+    </record>
+
+    <!-- Manager: configuration, master data, reports -->
+    <record id="group_vet_manager" model="res.groups">
+        <field name="name">Administrator</field>
+        <field name="privilege_id" ref="privilege_veterinary"/>
+        <field name="sequence">30</field>
+        <field name="implied_ids" eval="[(4, ref('group_vet_veterinarian')), (4, ref('sales_team.group_sale_manager')), (4, ref('account.group_account_invoice'))]"/>
+        <field name="comment">Configuration, master data (species, vaccines, medications), reports and clinic settings.</field>
+    </record>
+
+    <record id="base.user_admin" model="res.users">
+        <field name="group_ids" eval="[(4, ref('group_vet_manager'))]"/>
+    </record>
+
+    <!-- Multi-company -->
+    <record id="vet_pet_company_rule" model="ir.rule">
+        <field name="name">Patients: multi-company</field>
+        <field name="model_id" ref="model_vet_pet"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <!-- Portal: an owner only sees the documents of his own pets -->
+    <record id="vet_prescription_portal_rule" model="ir.rule">
+        <field name="name">Prescriptions: portal owner</field>
+        <field name="model_id" ref="model_vet_prescription"/>
+        <field name="domain_force">[('owner_id', 'child_of', [user.commercial_partner_id.id]), ('state', '=', 'issued')]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+    </record>
+    <record id="vet_consent_portal_rule" model="ir.rule">
+        <field name="name">Consents: portal owner</field>
+        <field name="model_id" ref="model_vet_consent"/>
+        <field name="domain_force">[('owner_id', 'child_of', [user.commercial_partner_id.id])]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+    </record>
+    <record id="vet_certificate_portal_rule" model="ir.rule">
+        <field name="name">Certificates: portal owner</field>
+        <field name="model_id" ref="model_vet_certificate"/>
+        <field name="domain_force">[('owner_id', 'child_of', [user.commercial_partner_id.id])]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+    </record>
+</odoo>

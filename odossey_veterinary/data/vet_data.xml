@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- ========================================================= sequences -->
+        <record id="seq_vet_pet" model="ir.sequence">
+            <field name="name">Patient record</field>
+            <field name="code">vet.pet</field>
+            <field name="prefix">HC-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_vet_consultation" model="ir.sequence">
+            <field name="name">Consultation</field>
+            <field name="code">vet.consultation</field>
+            <field name="prefix">CON/%(range_year)s/</field>
+            <field name="padding">5</field>
+            <field name="use_date_range" eval="True"/>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_vet_prescription" model="ir.sequence">
+            <field name="name">Prescription</field>
+            <field name="code">vet.prescription</field>
+            <field name="prefix">REC/%(range_year)s/</field>
+            <field name="padding">5</field>
+            <field name="use_date_range" eval="True"/>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_vet_prescription_archived" model="ir.sequence">
+            <field name="name">Archived prescription (controlled drugs)</field>
+            <field name="code">vet.prescription.archived</field>
+            <field name="prefix">RA/%(range_year)s/</field>
+            <field name="padding">5</field>
+            <field name="use_date_range" eval="True"/>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_vet_hospitalization" model="ir.sequence">
+            <field name="name">Hospitalization</field>
+            <field name="code">vet.hospitalization</field>
+            <field name="prefix">INT/%(range_year)s/</field>
+            <field name="padding">4</field>
+            <field name="use_date_range" eval="True"/>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_vet_consent" model="ir.sequence">
+            <field name="name">Consent</field>
+            <field name="code">vet.consent</field>
+            <field name="prefix">CI/%(range_year)s/</field>
+            <field name="padding">4</field>
+            <field name="use_date_range" eval="True"/>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_vet_lab_result" model="ir.sequence">
+            <field name="name">Lab result</field>
+            <field name="code">vet.lab.result</field>
+            <field name="prefix">LAB/%(range_year)s/</field>
+            <field name="padding">4</field>
+            <field name="use_date_range" eval="True"/>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_vet_certificate" model="ir.sequence">
+            <field name="name">Certificate</field>
+            <field name="code">vet.certificate</field>
+            <field name="prefix">CER/%(range_year)s/</field>
+            <field name="padding">4</field>
+            <field name="use_date_range" eval="True"/>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- ========================================================= rooms -->
+        <record id="vet_room_consulting_1" model="vet.room">
+            <field name="name">Consulting room 1</field>
+            <field name="room_type">consulting</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="vet_room_consulting_2" model="vet.room">
+            <field name="name">Consulting room 2</field>
+            <field name="room_type">consulting</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="vet_room_surgery" model="vet.room">
+            <field name="name">Operating room</field>
+            <field name="room_type">surgery</field>
+            <field name="sequence">30</field>
+        </record>
+        <record id="vet_room_grooming" model="vet.room">
+            <field name="name">Grooming</field>
+            <field name="room_type">grooming</field>
+            <field name="sequence">40</field>
+        </record>
+
+        <!-- ========================================================= consultation templates -->
+        <record id="consultation_template_vaccination" model="vet.consultation.template">
+            <field name="name">Vaccination visit</field>
+            <field name="sequence">10</field>
+            <field name="consultation_type">vaccination</field>
+            <field name="reason">Vaccination</field>
+            <field name="anamnesis"><![CDATA[<ul><li>General condition since the last visit:</li><li>Previous vaccine reactions:</li><li>Deworming (last date / product):</li><li>Diet and appetite:</li></ul>]]></field>
+            <field name="physical_exam"><![CDATA[<ul><li>General condition / attitude:</li><li>Mucous membranes and lymph nodes:</li><li>Heart and lung auscultation:</li><li>Skin and coat (fleas, ticks):</li></ul>]]></field>
+            <field name="plan"><![CDATA[<p>Vaccine applied; next dose according to the plan. Observe the injection site for 24-48 h.</p>]]></field>
+        </record>
+        <record id="consultation_template_line_vaccination" model="vet.consultation.template.line">
+            <field name="template_id" ref="consultation_template_vaccination"/>
+            <field name="product_id" ref="product_service_vaccination"/>
+        </record>
+        <record id="consultation_template_puppy" model="vet.consultation.template">
+            <field name="name">Puppy / kitten check-up</field>
+            <field name="sequence">20</field>
+            <field name="consultation_type">consultation</field>
+            <field name="reason">First check-up</field>
+            <field name="anamnesis"><![CDATA[<ul><li>Origin (breeder, adoption, rescue):</li><li>Age at separation from the mother:</li><li>Previous vaccines and deworming:</li><li>Diet:</li><li>Diarrhoea, vomiting, cough:</li></ul>]]></field>
+            <field name="physical_exam"><![CDATA[<ul><li>Hydration and body condition:</li><li>Dentition and bite:</li><li>Umbilical / inguinal hernias:</li><li>Testicles (males):</li><li>Heart murmurs:</li><li>Ectoparasites:</li></ul>]]></field>
+            <field name="plan"><![CDATA[<p>Vaccination and deworming plan explained to the owner. Neutering recommended from 6 months.</p>]]></field>
+        </record>
+        <record id="consultation_template_presurgical" model="vet.consultation.template">
+            <field name="name">Pre-surgical assessment</field>
+            <field name="sequence">30</field>
+            <field name="consultation_type">surgery</field>
+            <field name="reason">Pre-surgical assessment</field>
+            <field name="anamnesis"><![CDATA[<ul><li>Procedure planned:</li><li>Current medication:</li><li>Previous anaesthesia and reactions:</li><li>Fasting hours:</li></ul>]]></field>
+            <field name="physical_exam"><![CDATA[<ul><li>ASA classification:</li><li>Cardio-respiratory auscultation:</li><li>Mucous membranes / capillary refill:</li><li>Pre-surgical blood work reviewed:</li></ul>]]></field>
+            <field name="plan"><![CDATA[<p>Informed consent signed. Fasting 8-12 h for food and 2 h for water.</p>]]></field>
+        </record>
+        <record id="consultation_template_dermatology" model="vet.consultation.template">
+            <field name="name">Dermatology</field>
+            <field name="sequence">40</field>
+            <field name="consultation_type">consultation</field>
+            <field name="reason">Itching / skin lesions</field>
+            <field name="anamnesis"><![CDATA[<ul><li>Since when and how it started:</li><li>Itching (0-10):</li><li>Seasonality:</li><li>Antiparasitic control:</li><li>Diet changes:</li><li>Other animals or people affected:</li></ul>]]></field>
+            <field name="physical_exam"><![CDATA[<ul><li>Distribution of lesions:</li><li>Primary / secondary lesions:</li><li>Ears:</li><li>Skin scraping / cytology / Wood's lamp:</li></ul>]]></field>
+        </record>
+        <record id="consultation_template_emergency" model="vet.consultation.template">
+            <field name="name">Emergency</field>
+            <field name="sequence">50</field>
+            <field name="consultation_type">emergency</field>
+            <field name="reason">Emergency</field>
+            <field name="anamnesis"><![CDATA[<ul><li>What happened and when:</li><li>Possible toxic ingestion / trauma:</li><li>Vomiting, diarrhoea, bleeding:</li></ul>]]></field>
+            <field name="physical_exam"><![CDATA[<ul><li>A - Airway:</li><li>B - Breathing:</li><li>C - Circulation (pulse, mucous membranes, capillary refill):</li><li>D - Neurological status:</li><li>Pain:</li></ul>]]></field>
+        </record>
+        <record id="consultation_template_line_emergency" model="vet.consultation.template.line">
+            <field name="template_id" ref="consultation_template_emergency"/>
+            <field name="product_id" ref="product_service_consult_emergency"/>
+        </record>
+
+        <!-- ========================================================= appointment types -->
+        <record id="appointment_type_consultation" model="vet.appointment.type">
+            <field name="name">Consultation</field>
+            <field name="sequence">10</field>
+            <field name="duration">30</field>
+            <field name="consultation_type">consultation</field>
+            <field name="product_id" ref="product_service_consult_general"/>
+            <field name="color">4</field>
+        </record>
+        <record id="appointment_type_vaccination" model="vet.appointment.type">
+            <field name="name">Vaccination</field>
+            <field name="sequence">20</field>
+            <field name="duration">15</field>
+            <field name="consultation_type">vaccination</field>
+            <field name="product_id" ref="product_service_vaccination"/>
+            <field name="template_id" ref="consultation_template_vaccination"/>
+            <field name="color">10</field>
+        </record>
+        <record id="appointment_type_followup" model="vet.appointment.type">
+            <field name="name">Follow-up</field>
+            <field name="sequence">30</field>
+            <field name="duration">15</field>
+            <field name="consultation_type">control</field>
+            <field name="product_id" ref="product_service_consult_followup"/>
+            <field name="color">7</field>
+        </record>
+        <record id="appointment_type_surgery" model="vet.appointment.type">
+            <field name="name">Surgery</field>
+            <field name="sequence">40</field>
+            <field name="duration">90</field>
+            <field name="consultation_type">surgery</field>
+            <field name="template_id" ref="consultation_template_presurgical"/>
+            <field name="color">1</field>
+        </record>
+        <record id="appointment_type_emergency" model="vet.appointment.type">
+            <field name="name">Emergency</field>
+            <field name="sequence">50</field>
+            <field name="duration">30</field>
+            <field name="consultation_type">emergency</field>
+            <field name="product_id" ref="product_service_consult_emergency"/>
+            <field name="template_id" ref="consultation_template_emergency"/>
+            <field name="color">9</field>
+        </record>
+        <record id="appointment_type_home" model="vet.appointment.type">
+            <field name="name">Home visit</field>
+            <field name="sequence">60</field>
+            <field name="duration">60</field>
+            <field name="consultation_type">home_visit</field>
+            <field name="product_id" ref="product_service_consult_home"/>
+            <field name="color">2</field>
+        </record>
+        <record id="appointment_type_grooming" model="vet.appointment.type">
+            <field name="name">Grooming</field>
+            <field name="sequence">70</field>
+            <field name="duration">60</field>
+            <field name="consultation_type">grooming</field>
+            <field name="product_id" ref="product_service_grooming_bath_small"/>
+            <field name="color">11</field>
+        </record>
+    </data>
+
+    <!-- ========================================================= cron & mail -->
+    <record id="ir_cron_vet_reminders" model="ir.cron">
+        <field name="name">Veterinary: preventive care reminders</field>
+        <field name="model_id" ref="model_vet_vaccination"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_send_reminders()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="mail_template_preventive_reminder" model="mail.template">
+        <field name="name">Veterinary: preventive care reminder</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="subject">{{ object.company_id.name or user.company_id.name }} - Vaccination and deworming reminder</field>
+        <field name="email_to">{{ object.email_formatted }}</field>
+        <field name="lang">{{ object.lang }}</field>
+        <field name="auto_delete" eval="True"/>
+        <field name="body_html" type="html">
+<div style="margin: 0; padding: 0;">
+    <p>Hello <t t-out="object.name or ''">Ana</t>,</p>
+    <p>This is a reminder of the preventive care of your pets that is due soon:</p>
+    <table style="border-collapse: collapse; margin: 12px 0;">
+        <tr>
+            <th style="text-align: left; padding: 4px 12px 4px 0;">Patient</th>
+            <th style="text-align: left; padding: 4px 12px 4px 0;">Treatment</th>
+            <th style="text-align: left; padding: 4px 0;">Due date</th>
+        </tr>
+        <t t-foreach="object.vet_pet_ids._vet_due_preventive()" t-as="rec">
+            <tr>
+                <td style="padding: 4px 12px 4px 0;" t-out="rec.pet_id.name">Firulais</td>
+                <td style="padding: 4px 12px 4px 0;" t-out="rec.product_id.name">Rabies vaccine</td>
+                <td style="padding: 4px 0;" t-out="format_date(rec.next_date)">01/12/2026</td>
+            </tr>
+        </t>
+    </table>
+    <p>Reply to this email or call us to book an appointment.</p>
+    <p>Best regards,<br/><t t-out="(object.company_id or user.company_id).name or ''">The clinic</t></p>
+</div>
+        </field>
+    </record>
+</odoo>

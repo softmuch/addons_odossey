@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="vet_vaccination_view_form" model="ir.ui.view">
+        <field name="name">vet.vaccination.form</field>
+        <field name="model">vet.vaccination</field>
+        <field name="arch" type="xml">
+            <form string="Vaccination / Parasite Control">
+                <header>
+                    <button name="action_print_rabies_certificate" type="object" string="Rabies Certificate"
+                            invisible="preventive_group != 'rabies'"/>
+                    <button name="action_whatsapp_reminder" type="object" string="WhatsApp Reminder" icon="fa-whatsapp"
+                            invisible="state not in ('due_soon', 'overdue')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="up_to_date,due_soon,overdue"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="pet_id" options="{'no_create': True}"/>
+                            <field name="owner_id"/>
+                            <field name="preventive_type"/>
+                            <field name="product_id" options="{'no_create': True}"/>
+                            <field name="preventive_group"/>
+                            <field name="dose_number"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="next_date"/>
+                            <field name="vet_id" options="{'no_create': True}"/>
+                            <field name="lot_id" options="{'no_create': True}"/>
+                            <field name="lot_name"/>
+                            <field name="expiration_date"/>
+                            <field name="consultation_id" readonly="1" invisible="not consultation_id"/>
+                            <field name="reminder_date" invisible="not reminder_date"/>
+                        </group>
+                    </group>
+                    <field name="note" placeholder="Notes (reaction, site of injection...)"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="vet_vaccination_view_list" model="ir.ui.view">
+        <field name="name">vet.vaccination.list</field>
+        <field name="model">vet.vaccination</field>
+        <field name="arch" type="xml">
+            <list string="Preventive Care" decoration-muted="state == 'done'" decoration-danger="state == 'overdue'"
+                  decoration-warning="state == 'due_soon'">
+                <field name="date"/>
+                <field name="pet_id"/>
+                <field name="owner_id" optional="show"/>
+                <field name="preventive_type"/>
+                <field name="product_id"/>
+                <field name="dose_number" optional="show"/>
+                <field name="lot_name" optional="show"/>
+                <field name="next_date"/>
+                <field name="reminder_date" optional="hide"/>
+                <field name="vet_id" optional="hide"/>
+                <field name="state" widget="badge" decoration-success="state == 'up_to_date'" decoration-warning="state == 'due_soon'"
+                       decoration-danger="state == 'overdue'"/>
+                <button name="action_whatsapp_reminder" type="object" icon="fa-whatsapp" title="WhatsApp reminder"
+                        invisible="state not in ('due_soon', 'overdue')"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="vet_vaccination_view_search" model="ir.ui.view">
+        <field name="name">vet.vaccination.search</field>
+        <field name="model">vet.vaccination</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="pet_id"/>
+                <field name="owner_id"/>
+                <field name="product_id"/>
+                <field name="lot_name"/>
+                <filter string="Overdue" name="overdue" domain="[('state', '=', 'overdue')]"/>
+                <filter string="Due Soon" name="due_soon" domain="[('state', '=', 'due_soon')]"/>
+                <filter string="Active Plan" name="active_plan" domain="[('superseded', '=', False)]"/>
+                <separator/>
+                <filter string="Vaccines" name="vaccines" domain="[('preventive_type', '=', 'vaccine')]"/>
+                <filter string="Rabies" name="rabies" domain="[('preventive_group', '=', 'rabies')]"/>
+                <filter string="Antiparasitics" name="antiparasitics" domain="[('preventive_type', '!=', 'vaccine')]"/>
+                <separator/>
+                <filter string="Reminder Not Sent" name="no_reminder" domain="[('reminder_date', '=', False)]"/>
+                <filter string="Application Date" name="filter_date" date="date"/>
+                <filter string="Due Date" name="filter_next" date="next_date"/>
+                <group>
+                    <filter string="Owner" name="group_owner" context="{'group_by': 'owner_id'}"/>
+                    <filter string="Product" name="group_product" context="{'group_by': 'product_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="vet_vaccination_action" model="ir.actions.act_window">
+        <field name="name">Vaccinations &amp; Parasite Control</field>
+        <field name="res_model">vet.vaccination</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_active_plan': 1}</field>
+    </record>
+
+    <record id="vet_vaccination_due_action" model="ir.actions.act_window">
+        <field name="name">Due &amp; Overdue</field>
+        <field name="res_model">vet.vaccination</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('state', 'in', ('due_soon', 'overdue')), ('pet_id.deceased', '=', False)]</field>
+        <field name="context">{'search_default_group_owner': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Every patient is up to date</p>
+            <p>Vaccines and antiparasitics that are due soon or overdue, grouped by owner, ready to call or send a WhatsApp.</p>
+        </field>
+    </record>
+
+    <!-- ===================================================================== PRESCRIPTION -->
+    <record id="vet_prescription_view_form" model="ir.ui.view">
+        <field name="name">vet.prescription.form</field>
+        <field name="model">vet.prescription</field>
+        <field name="arch" type="xml">
+            <form string="Prescription">
+                <header>
+                    <button name="action_issue" type="object" string="Issue" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_print" type="object" string="Print" invisible="state != 'issued'"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state == 'cancel'"
+                            confirm="Cancel this prescription?"/>
+                    <button name="action_reset_draft" type="object" string="Back to Draft" invisible="state != 'cancel'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,issued"/>
+                </header>
+                <div class="alert alert-warning mb-0" role="alert" invisible="not has_controlled">
+                    <i class="fa fa-lock me-2" title="Controlled"/>Contains a controlled drug: archived prescription, two copies are printed.
+                </div>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="pet_id" readonly="state != 'draft'" options="{'no_create': True}"/>
+                            <field name="owner_id"/>
+                            <field name="pet_weight" readonly="state != 'draft'"/>
+                            <field name="diagnosis" readonly="state != 'draft'"/>
+                            <field name="consultation_id" readonly="1" invisible="not consultation_id"/>
+                        </group>
+                        <group>
+                            <field name="prescription_type" readonly="state != 'draft'"/>
+                            <field name="date" readonly="state != 'draft'"/>
+                            <field name="validity_days" readonly="state != 'draft'"/>
+                            <field name="expiry_date"/>
+                            <field name="vet_id" readonly="state != 'draft'" options="{'no_create': True}"/>
+                            <field name="vet_license"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Medications" name="lines">
+                            <field name="line_ids" readonly="state != 'draft'">
+                                <list editable="bottom" decoration-danger="controlled">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id" options="{'no_create': True}"/>
+                                    <field name="active_ingredient" optional="show"/>
+                                    <field name="presentation" optional="hide"/>
+                                    <field name="concentration" optional="hide"/>
+                                    <field name="reference_dose" optional="hide"/>
+                                    <field name="dose"/>
+                                    <field name="frequency"/>
+                                    <field name="duration_days"/>
+                                    <field name="route" optional="show"/>
+                                    <field name="quantity"/>
+                                    <field name="instructions" optional="show"/>
+                                    <field name="controlled" column_invisible="1"/>
+                                </list>
+                            </field>
+                            <field name="notes" readonly="state != 'draft'" placeholder="General indications for the owner..."/>
+                        </page>
+                        <page string="Electronic Prescription" name="rve">
+                            <group>
+                                <group>
+                                    <field name="rve_state"/>
+                                    <field name="cuve" invisible="rve_state == 'not_required'"/>
+                                </group>
+                                <group>
+                                    <field name="content_hash" invisible="not content_hash"/>
+                                    <field name="issued_on" invisible="not issued_on"/>
+                                </group>
+                            </group>
+                            <div class="text-muted small">
+                                Argentina: products covered by Res. SENASA 654/2026 require an electronic veterinary prescription (RVE)
+                                issued in SIGTRAZAVET with the professional's tax key; write its CUVE code here. Italy: write the REV number.
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="vet_prescription_view_list" model="ir.ui.view">
+        <field name="name">vet.prescription.list</field>
+        <field name="model">vet.prescription</field>
+        <field name="arch" type="xml">
+            <list string="Prescriptions" decoration-muted="state == 'cancel'" decoration-info="state == 'draft'">
+                <field name="date"/>
+                <field name="name"/>
+                <field name="pet_id"/>
+                <field name="owner_id" optional="show"/>
+                <field name="prescription_type"/>
+                <field name="vet_id"/>
+                <field name="expiry_date" optional="show"/>
+                <field name="rve_state" optional="hide"/>
+                <field name="state" widget="badge" decoration-success="state == 'issued'" decoration-info="state == 'draft'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="vet_prescription_view_search" model="ir.ui.view">
+        <field name="name">vet.prescription.search</field>
+        <field name="model">vet.prescription</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="pet_id"/>
+                <field name="owner_id"/>
+                <field name="vet_id"/>
+                <field name="line_ids" string="Medication" filter_domain="[('line_ids.product_id', 'ilike', self)]"/>
+                <filter string="Archived (Controlled)" name="archived" domain="[('prescription_type', '=', 'archived')]"/>
+                <filter string="RVE to Issue" name="rve_pending" domain="[('rve_state', '=', 'pending')]"/>
+                <filter string="Issued" name="issued" domain="[('state', '=', 'issued')]"/>
+                <filter string="Date" name="filter_date" date="date"/>
+                <group>
+                    <filter string="Veterinarian" name="group_vet" context="{'group_by': 'vet_id'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by': 'prescription_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="vet_prescription_action" model="ir.actions.act_window">
+        <field name="name">Prescriptions</field>
+        <field name="res_model">vet.prescription</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No prescription yet</p>
+            <p>Simple or archived prescriptions (controlled drugs) with the professional license, the electronic prescription code and an integrity fingerprint.</p>
+        </field>
+    </record>
+</odoo>

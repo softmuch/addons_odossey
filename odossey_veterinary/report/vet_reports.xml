@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Patient block shared by every document -->
+    <template id="report_pet_block">
+        <div class="row mb-3" style="font-size: 0.95em;">
+            <div class="col-6">
+                <strong>Patient:</strong> <span t-field="pet.name"/> (<span t-field="pet.ref"/>)<br/>
+                <strong>Species / breed:</strong> <span t-field="pet.species_id"/><t t-if="pet.breed_id"> · <span t-field="pet.breed_id"/></t><br/>
+                <strong>Sex:</strong> <span t-field="pet.sex"/><t t-if="pet.neutered"> (neutered)</t>
+                <t t-if="pet.birthdate"> · <strong>Age:</strong> <span t-esc="pet.age"/></t><br/>
+                <t t-if="pet.coat"><strong>Coat:</strong> <span t-field="pet.coat"/><br/></t>
+                <t t-if="pet.microchip"><strong>Microchip:</strong> <span t-field="pet.microchip"/><br/></t>
+            </div>
+            <div class="col-6">
+                <strong>Owner:</strong> <span t-field="pet.owner_id.name"/><br/>
+                <t t-if="pet.owner_id.vat"><strong>ID:</strong> <span t-field="pet.owner_id.vat"/><br/></t>
+                <t t-if="pet.owner_id.street"><strong>Address:</strong> <span t-esc="pet.owner_id.contact_address.replace('\n', ', ')"/><br/></t>
+                <t t-if="pet.owner_id.phone"><strong>Phone:</strong> <span t-field="pet.owner_id.phone"/><br/></t>
+            </div>
+        </div>
+    </template>
+
+    <!-- Veterinarian signature block -->
+    <template id="report_vet_signature">
+        <div class="row mt-5" style="page-break-inside: avoid;">
+            <div class="col-6 offset-6 text-center">
+                <img t-if="vet.vet_signature" t-att-src="image_data_uri(vet.vet_signature)" style="max-height: 90px;"/>
+                <div style="border-top: 1px solid #333; margin-top: 4px; padding-top: 4px;">
+                    <span t-field="vet.name"/><br/>
+                    <t t-if="vet.vet_license">License No. <span t-field="vet.vet_license"/><br/></t>
+                    <t t-if="vet.vet_college"><span t-field="vet.vet_college"/></t>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- ===================================================================== VACCINATION CARD -->
+    <record id="action_report_vaccination_card" model="ir.actions.report">
+        <field name="name">Vaccination Card</field>
+        <field name="model">vet.pet</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odossey_veterinary.report_vaccination_card</field>
+        <field name="report_file">odossey_veterinary.report_vaccination_card</field>
+        <field name="print_report_name">'Vaccination card - %s' % object.name</field>
+        <field name="binding_model_id" ref="model_vet_pet"/>
+        <field name="binding_type">report</field>
+    </record>
+    <template id="report_vaccination_card">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="pet">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h3>Vaccination and Parasite Control Card</h3>
+                        <t t-call="odossey_veterinary.report_pet_block"/>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr><th>Date</th><th>Product</th><th>Dose</th><th>Lot</th><th>Next due</th><th>Veterinarian</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="pet.vaccination_ids.sorted('date')" t-as="v">
+                                    <td><span t-field="v.date"/></td>
+                                    <td><span t-field="v.product_id.name"/><br/><small class="text-muted" t-field="v.preventive_type"/></td>
+                                    <td><span t-esc="v.dose_number or ''"/></td>
+                                    <td><span t-field="v.lot_name"/></td>
+                                    <td><span t-field="v.next_date"/></td>
+                                    <td><span t-field="v.vet_id.name"/></td>
+                                </tr>
+                                <tr t-if="not pet.vaccination_ids"><td colspan="6" class="text-muted">No record yet.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- ===================================================================== RABIES CERTIFICATE -->
+    <record id="action_report_rabies_certificate" model="ir.actions.report">
+        <field name="name">Rabies Vaccination Certificate</field>
+        <field name="model">vet.vaccination</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odossey_veterinary.report_rabies_certificate</field>
+        <field name="report_file">odossey_veterinary.report_rabies_certificate</field>
+        <field name="print_report_name">'Rabies certificate - %s' % object.pet_id.name</field>
+    </record>
+    <template id="report_rabies_certificate">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="vac">
+                <t t-set="pet" t-value="vac.pet_id"/>
+                <t t-set="vet" t-value="vac.vet_id"/>
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h3 class="text-center">Rabies Vaccination Certificate</h3>
+                        <p class="text-center text-muted" t-if="vac.company_id.country_id.code == 'AR'">Law 22.953 (Argentina)</p>
+                        <t t-call="odossey_veterinary.report_pet_block"/>
+                        <table class="table table-sm">
+                            <tr><th style="width: 35%;">Vaccine</th><td><span t-field="vac.product_id.name"/> - <span t-field="vac.product_id.vet_laboratory"/></td></tr>
+                            <tr><th>Lot / serial</th><td><span t-field="vac.lot_name"/></td></tr>
+                            <tr><th>Lot expiry</th><td><span t-field="vac.expiration_date"/></td></tr>
+                            <tr><th>Date of vaccination</th><td><span t-field="vac.date"/></td></tr>
+                            <tr><th>Next vaccination</th><td><span t-field="vac.next_date"/></td></tr>
+                        </table>
+                        <p>I certify that the animal described above has been vaccinated against rabies on the date indicated.</p>
+                        <t t-call="odossey_veterinary.report_vet_signature"/>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- ===================================================================== PRESCRIPTION -->
+    <record id="action_report_prescription" model="ir.actions.report">
+        <field name="name">Prescription</field>
+        <field name="model">vet.prescription</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odossey_veterinary.report_prescription</field>
+        <field name="report_file">odossey_veterinary.report_prescription</field>
+        <field name="print_report_name">'Prescription %s' % object.name</field>
+        <field name="binding_model_id" ref="model_vet_prescription"/>
+        <field name="binding_type">report</field>
+    </record>
+    <template id="report_prescription_copy">
+        <t t-call="web.external_layout">
+            <div class="page">
+                <div class="d-flex justify-content-between">
+                    <h3><t t-if="rx.prescription_type == 'archived'">Archived Prescription</t><t t-else="">Veterinary Prescription</t>
+                        <span t-field="rx.name"/></h3>
+                    <strong t-if="copy_label" t-esc="copy_label" style="border: 1px solid #333; padding: 2px 8px;"/>
+                </div>
+                <p><strong>Date:</strong> <span t-field="rx.date"/> · <strong>Valid until:</strong> <span t-field="rx.expiry_date"/>
+                    <t t-if="rx.cuve"> · <strong>CUVE:</strong> <span t-field="rx.cuve"/></t></p>
+                <t t-set="pet" t-value="rx.pet_id"/>
+                <t t-call="odossey_veterinary.report_pet_block"/>
+                <p t-if="rx.pet_weight"><strong>Weight:</strong> <span t-field="rx.pet_weight"/> kg
+                    <t t-if="rx.diagnosis"> · <strong>Diagnosis:</strong> <span t-field="rx.diagnosis"/></t></p>
+                <table class="table table-sm">
+                    <thead><tr><th>Rp/</th><th>Dose</th><th>Frequency</th><th>Days</th><th>Route</th><th>Qty</th></tr></thead>
+                    <tbody>
+                        <tr t-foreach="rx.line_ids" t-as="line">
+                            <td>
+                                <strong t-field="line.product_id.name"/>
+                                <t t-if="line.active_ingredient"> (<span t-field="line.active_ingredient"/>)</t>
+                                <t t-if="line.presentation"><br/><small><span t-field="line.presentation"/> <span t-field="line.concentration"/></small></t>
+                                <t t-if="line.instructions"><br/><small class="text-muted" t-field="line.instructions"/></t>
+                            </td>
+                            <td><span t-field="line.dose"/></td>
+                            <td><span t-field="line.frequency"/></td>
+                            <td><span t-esc="line.duration_days or ''"/></td>
+                            <td><span t-field="line.route"/></td>
+                            <td><span t-field="line.quantity"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p t-if="rx.notes"><strong>Indications:</strong> <span t-field="rx.notes"/></p>
+                <t t-set="vet" t-value="rx.vet_id"/>
+                <t t-call="odossey_veterinary.report_vet_signature"/>
+                <p class="text-muted mt-3" style="font-size: 0.7em;" t-if="rx.content_hash">Integrity: <span t-field="rx.content_hash"/></p>
+            </div>
+        </t>
+    </template>
+    <template id="report_prescription">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="rx">
+                <t t-if="rx.prescription_type == 'archived'">
+                    <t t-set="copy_label">ORIGINAL - PHARMACY</t>
+                    <t t-call="odossey_veterinary.report_prescription_copy"/>
+                    <t t-set="copy_label">DUPLICATE - OWNER</t>
+                    <t t-call="odossey_veterinary.report_prescription_copy"/>
+                </t>
+                <t t-else="">
+                    <t t-set="copy_label" t-value="False"/>
+                    <t t-call="odossey_veterinary.report_prescription_copy"/>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- ===================================================================== CONSULTATION -->
+    <record id="action_report_consultation" model="ir.actions.report">
+        <field name="name">Consultation Summary</field>
+        <field name="model">vet.consultation</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odossey_veterinary.report_consultation</field>
+        <field name="report_file">odossey_veterinary.report_consultation</field>
+        <field name="print_report_name">'Consultation %s' % object.name</field>
+        <field name="binding_model_id" ref="model_vet_consultation"/>
+        <field name="binding_type">report</field>
+    </record>
+    <template id="report_consultation">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="c">
+                <t t-set="pet" t-value="c.pet_id"/>
+                <t t-set="vet" t-value="c.vet_id"/>
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h3>Consultation <span t-field="c.name"/></h3>
+                        <p><strong>Date:</strong> <span t-field="c.date"/> · <strong>Type:</strong> <span t-field="c.consultation_type"/>
+                            <t t-if="c.reason"> · <strong>Reason:</strong> <span t-field="c.reason"/></t></p>
+                        <t t-call="odossey_veterinary.report_pet_block"/>
+                        <table class="table table-sm" t-if="c.weight or c.temperature or c.heart_rate">
+                            <tr>
+                                <th>Weight</th><td><t t-if="c.weight"><span t-field="c.weight"/> kg</t></td>
+                                <th>Temperature</th><td><t t-if="c.temperature"><span t-field="c.temperature"/> °C</t></td>
+                                <th>HR</th><td><span t-esc="c.heart_rate or ''"/></td>
+                                <th>RR</th><td><span t-esc="c.respiratory_rate or ''"/></td>
+                            </tr>
+                        </table>
+                        <t t-if="c.diagnosis_ids"><h5>Diagnosis</h5><p><span t-esc="', '.join(c.diagnosis_ids.mapped('name'))"/></p></t>
+                        <t t-if="c.plan"><h5>Treatment</h5><div t-field="c.plan"/></t>
+                        <t t-if="c.owner_instructions"><h5>Instructions</h5><div t-field="c.owner_instructions"/></t>
+                        <t t-if="c.follow_up_date"><p><strong>Next check-up:</strong> <span t-field="c.follow_up_date"/></p></t>
+                        <t t-call="odossey_veterinary.report_vet_signature"/>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- ===================================================================== CONSENT -->
+    <record id="action_report_consent" model="ir.actions.report">
+        <field name="name">Informed Consent</field>
+        <field name="model">vet.consent</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odossey_veterinary.report_consent</field>
+        <field name="report_file">odossey_veterinary.report_consent</field>
+        <field name="print_report_name">'Consent %s' % object.name</field>
+        <field name="binding_model_id" ref="model_vet_consent"/>
+        <field name="binding_type">report</field>
+    </record>
+    <template id="report_consent">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="consent">
+                <t t-set="pet" t-value="consent.pet_id"/>
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h3><span t-field="consent.title"/></h3>
+                        <p class="text-muted"><span t-field="consent.name"/></p>
+                        <t t-call="odossey_veterinary.report_pet_block"/>
+                        <div t-field="consent.content"/>
+                        <div class="row mt-4" style="page-break-inside: avoid;">
+                            <div class="col-6">
+                                <t t-if="consent.signature">
+                                    <img t-att-src="image_data_uri(consent.signature)" style="max-height: 90px;"/>
+                                    <div style="border-top: 1px solid #333;">
+                                        <span t-field="consent.signed_by"/><br/>
+                                        <small><span t-field="consent.signed_on"/></small>
+                                    </div>
+                                </t>
+                                <div t-else="" style="border-top: 1px solid #333; margin-top: 80px;">Owner's signature</div>
+                            </div>
+                        </div>
+                        <p class="text-muted mt-3" style="font-size: 0.7em;" t-if="consent.signature_hash">Fingerprint: <span t-field="consent.signature_hash"/></p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- ===================================================================== LAB RESULT -->
+    <record id="action_report_lab_result" model="ir.actions.report">
+        <field name="name">Lab Result</field>
+        <field name="model">vet.lab.result</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odossey_veterinary.report_lab_result</field>
+        <field name="report_file">odossey_veterinary.report_lab_result</field>
+        <field name="print_report_name">'Lab %s' % object.name</field>
+    </record>
+    <template id="report_lab_result">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="r">
+                <t t-set="pet" t-value="r.pet_id"/>
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h3><span t-field="r.panel_id"/> <small class="text-muted" t-field="r.name"/></h3>
+                        <p><strong>Date:</strong> <span t-field="r.date"/><t t-if="r.laboratory"> · <span t-field="r.laboratory"/></t></p>
+                        <t t-call="odossey_veterinary.report_pet_block"/>
+                        <table class="table table-sm">
+                            <thead><tr><th>Analyte</th><th>Result</th><th>Unit</th><th>Reference</th><th/></tr></thead>
+                            <tbody>
+                                <tr t-foreach="r.line_ids" t-as="l" t-att-class="'text-danger' if l.flag in ('low', 'high') else ''">
+                                    <td><span t-field="l.analyte_id.name"/></td>
+                                    <td><t t-if="l.value_text"><span t-field="l.value_text"/></t><t t-elif="l.value or l.flag"><span t-field="l.value"/></t></td>
+                                    <td><span t-field="l.unit"/></td>
+                                    <td><span t-field="l.reference"/></td>
+                                    <td><span t-if="l.flag in ('low', 'high')" t-field="l.flag"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p t-if="r.conclusion"><strong>Conclusion:</strong> <span t-field="r.conclusion"/></p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- ===================================================================== CERTIFICATE -->
+    <record id="action_report_certificate" model="ir.actions.report">
+        <field name="name">Certificate</field>
+        <field name="model">vet.certificate</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odossey_veterinary.report_certificate</field>
+        <field name="report_file">odossey_veterinary.report_certificate</field>
+        <field name="print_report_name">'Certificate %s' % object.name</field>
+        <field name="binding_model_id" ref="model_vet_certificate"/>
+        <field name="binding_type">report</field>
+    </record>
+    <template id="report_certificate">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="cert">
+                <t t-set="pet" t-value="cert.pet_id"/>
+                <t t-set="vet" t-value="cert.vet_id"/>
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h3 class="text-center"><span t-field="cert.certificate_type"/></h3>
+                        <p class="text-center text-muted"><span t-field="cert.name"/> · <span t-field="cert.date"/>
+                            <t t-if="cert.valid_until"> · Valid until <span t-field="cert.valid_until"/></t></p>
+                        <t t-call="odossey_veterinary.report_pet_block"/>
+                        <t t-set="rabies" t-value="pet.vaccination_ids.filtered(lambda v: v.preventive_group == 'rabies' and not v.superseded)[:1]"/>
+                        <p t-if="rabies and cert.certificate_type in ('health', 'travel')">
+                            <strong>Rabies vaccination:</strong> <span t-field="rabies.product_id.name"/>, lot <span t-field="rabies.lot_name"/>,
+                            <span t-field="rabies.date"/> (valid until <span t-field="rabies.next_date"/>)
+                        </p>
+                        <div t-field="cert.body"/>
+                        <t t-call="odossey_veterinary.report_vet_signature"/>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- ===================================================================== DISCHARGE -->
+    <record id="action_report_discharge" model="ir.actions.report">
+        <field name="name">Discharge Summary</field>
+        <field name="model">vet.hospitalization</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odossey_veterinary.report_discharge</field>
+        <field name="report_file">odossey_veterinary.report_discharge</field>
+        <field name="print_report_name">'Discharge %s' % object.name</field>
+    </record>
+    <template id="report_discharge">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="h">
+                <t t-set="pet" t-value="h.pet_id"/>
+                <t t-set="vet" t-value="h.vet_id"/>
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h3>Discharge Summary <small class="text-muted" t-field="h.name"/></h3>
+                        <p><strong>Admission:</strong> <span t-field="h.admission_date"/> · <strong>Discharge:</strong> <span t-field="h.discharge_date"/>
+                            · <strong>Days:</strong> <span t-esc="h.days"/></p>
+                        <p><strong>Reason:</strong> <span t-field="h.reason"/></p>
+                        <t t-call="odossey_veterinary.report_pet_block"/>
+                        <div t-field="h.discharge_summary"/>
+                        <h5 class="mt-3">Treatments administered</h5>
+                        <table class="table table-sm">
+                            <thead><tr><th>Date</th><th>Treatment</th><th>Dose</th><th>By</th></tr></thead>
+                            <tbody>
+                                <tr t-foreach="h.task_ids.filtered(lambda t: t.state == 'done' and t.task_type in ('medication', 'fluids', 'procedure'))" t-as="t">
+                                    <td><span t-field="t.done_at"/></td><td><span t-field="t.name"/></td>
+                                    <td><span t-field="t.dose"/></td><td><span t-field="t.done_by_id.name"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <t t-call="odossey_veterinary.report_vet_signature"/>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
