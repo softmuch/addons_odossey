@@ -14,7 +14,7 @@
             <div class="col-6">
                 <strong>Owner:</strong> <span t-field="pet.owner_id.name"/><br/>
                 <t t-if="pet.owner_id.vat"><strong>ID:</strong> <span t-field="pet.owner_id.vat"/><br/></t>
-                <t t-if="pet.owner_id.street"><strong>Address:</strong> <span t-esc="pet.owner_id.contact_address.replace('\n', ', ')"/><br/></t>
+                <t t-if="pet.owner_id.street"><strong>Address:</strong> <span t-esc="', '.join(l.strip() for l in pet.owner_id.contact_address.split('\n') if l.strip())"/><br/></t>
                 <t t-if="pet.owner_id.phone"><strong>Phone:</strong> <span t-field="pet.owner_id.phone"/><br/></t>
             </div>
         </div>
@@ -194,7 +194,7 @@
                 <t t-call="web.external_layout">
                     <div class="page">
                         <h3>Consultation <span t-field="c.name"/></h3>
-                        <p><strong>Date:</strong> <span t-field="c.date"/> · <strong>Type:</strong> <span t-field="c.consultation_type"/>
+                        <p><strong>Date:</strong> <span t-field="c.date" t-options="{'widget': 'datetime', 'hide_seconds': True}"/> · <strong>Type:</strong> <span t-field="c.consultation_type"/>
                             <t t-if="c.reason"> · <strong>Reason:</strong> <span t-field="c.reason"/></t></p>
                         <t t-call="odossey_veterinary.report_pet_block"/>
                         <table class="table table-sm" t-if="c.weight or c.temperature or c.heart_rate">
@@ -243,7 +243,7 @@
                                     <img t-att-src="image_data_uri(consent.signature)" style="max-height: 90px;"/>
                                     <div style="border-top: 1px solid #333;">
                                         <span t-field="consent.signed_by"/><br/>
-                                        <small><span t-field="consent.signed_on"/></small>
+                                        <small><span t-field="consent.signed_on" t-options="{'widget': 'datetime', 'hide_seconds': True}"/></small>
                                     </div>
                                 </t>
                                 <div t-else="" style="border-top: 1px solid #333; margin-top: 80px;">Owner's signature</div>
@@ -279,7 +279,7 @@
                             <tbody>
                                 <tr t-foreach="r.line_ids" t-as="l" t-att-class="'text-danger' if l.flag in ('low', 'high') else ''">
                                     <td><span t-field="l.analyte_id.name"/></td>
-                                    <td><t t-if="l.value_text"><span t-field="l.value_text"/></t><t t-elif="l.value or l.flag"><span t-field="l.value"/></t></td>
+                                    <td><t t-if="l.value_text"><span t-field="l.value_text"/></t><t t-elif="l.value or l.flag"><span t-esc="l._vet_value_display()"/></t></td>
                                     <td><span t-field="l.unit"/></td>
                                     <td><span t-field="l.reference"/></td>
                                     <td><span t-if="l.flag in ('low', 'high')" t-field="l.flag"/></td>
@@ -345,7 +345,7 @@
                 <t t-call="web.external_layout">
                     <div class="page">
                         <h3>Discharge Summary <small class="text-muted" t-field="h.name"/></h3>
-                        <p><strong>Admission:</strong> <span t-field="h.admission_date"/> · <strong>Discharge:</strong> <span t-field="h.discharge_date"/>
+                        <p><strong>Admission:</strong> <span t-field="h.admission_date" t-options="{'widget': 'datetime', 'hide_seconds': True}"/> · <strong>Discharge:</strong> <span t-field="h.discharge_date" t-options="{'widget': 'datetime', 'hide_seconds': True}"/>
                             · <strong>Days:</strong> <span t-esc="h.days"/></p>
                         <p><strong>Reason:</strong> <span t-field="h.reason"/></p>
                         <t t-call="odossey_veterinary.report_pet_block"/>
@@ -355,7 +355,7 @@
                             <thead><tr><th>Date</th><th>Treatment</th><th>Dose</th><th>By</th></tr></thead>
                             <tbody>
                                 <tr t-foreach="h.task_ids.filtered(lambda t: t.state == 'done' and t.task_type in ('medication', 'fluids', 'procedure'))" t-as="t">
-                                    <td><span t-field="t.done_at"/></td><td><span t-field="t.name"/></td>
+                                    <td><span t-field="t.done_at" t-options="{'widget': 'datetime', 'hide_seconds': True}"/></td><td><span t-field="t.name"/></td>
                                     <td><span t-field="t.dose"/></td><td><span t-field="t.done_by_id.name"/></td>
                                 </tr>
                             </tbody>

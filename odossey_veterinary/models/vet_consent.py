@@ -5,6 +5,7 @@ from markupsafe import Markup, escape
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import format_date
 
 SIGNED_LOCKED_FIELDS = {'pet_id', 'template_id', 'content', 'procedure', 'signature', 'signed_by', 'signed_on',
                         'signature_hash', 'signed_ip'}
@@ -31,7 +32,7 @@ class VetConsentTemplate(models.Model):
             '{species}': escape(pet.species_id.with_context(lang=owner.lang or self.env.lang).name or ''),
             '{owner}': escape(owner.name or ''),
             '{procedure}': escape(procedure or self.with_context(lang=owner.lang or self.env.lang).name),
-            '{date}': escape(fields.Date.to_string(fields.Date.context_today(self))),
+            '{date}': escape(format_date(self.env, fields.Date.context_today(self), lang_code=owner.lang or self.env.lang)),
             '{vet}': escape((vet or self.env.user).name or ''),
             '{company}': escape(self.env.company.name),
         }

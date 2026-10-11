@@ -59,9 +59,9 @@
                                     <field name="dose" optional="show"/>
                                     <field name="route" optional="hide"/>
                                     <field name="quantity" optional="hide"/>
-                                    <field name="temperature" optional="show"/>
-                                    <field name="heart_rate" optional="hide"/>
-                                    <field name="respiratory_rate" optional="hide"/>
+                                    <field name="temperature" optional="show" invisible="task_type != 'vitals' or (state != 'pending' and not temperature)" decoration-muted="not temperature"/>
+                                    <field name="heart_rate" optional="hide" invisible="task_type != 'vitals' or (state != 'pending' and not heart_rate)" decoration-muted="not heart_rate"/>
+                                    <field name="respiratory_rate" optional="hide" invisible="task_type != 'vitals' or (state != 'pending' and not respiratory_rate)" decoration-muted="not respiratory_rate"/>
                                     <field name="note" optional="show"/>
                                     <field name="state" widget="badge" decoration-success="state == 'done'" decoration-warning="state == 'pending'"/>
                                     <field name="done_by_id" optional="show"/>
@@ -192,7 +192,7 @@
                 <field name="pet_id"/>
                 <field name="name"/>
                 <filter string="Pending" name="pending" domain="[('state', '=', 'pending')]"/>
-                <filter string="Until Tomorrow" name="until_tomorrow" domain="[('scheduled_at', '&lt;=', (context_today() + relativedelta(days=1)).strftime('%Y-%m-%d 23:59:59'))]"/>
+                <filter string="Until Tomorrow" name="until_tomorrow" domain="[('scheduled_at', '&lt;', datetime.datetime.combine(context_today() + relativedelta(days=2), datetime.time(0, 0, 0)).to_utc().strftime('%Y-%m-%d %H:%M:%S'))]"/>
                 <group>
                     <filter string="Patient" name="group_pet" context="{'group_by': 'pet_id'}"/>
                 </group>

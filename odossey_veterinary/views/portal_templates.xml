@@ -3,7 +3,7 @@
     <template id="portal_my_home_vet" name="My Pets" customize_show="True" inherit_id="portal.portal_my_home">
         <div id="portal_client_category" position="inside">
             <t t-call="portal.portal_docs_entry">
-                <t t-set="icon" t-value="'/odossey_veterinary/static/description/icon.png'"/>
+                <t t-set="icon" t-value="'/odossey_veterinary/static/src/img/portal-pets.svg'"/>
                 <t t-set="title">My Pets</t>
                 <t t-set="url" t-value="'/my/vet'"/>
                 <t t-set="text">Vaccination card, appointments, prescriptions and consents</t>
@@ -79,7 +79,7 @@
                 <h5 class="mt-4">Upcoming appointments</h5>
                 <t t-call="portal.portal_table">
                     <tr t-foreach="appointments" t-as="a">
-                        <td><span t-field="a.start"/></td>
+                        <td><span t-field="a.start" t-options="{'widget': 'datetime', 'hide_seconds': True}"/></td>
                         <td t-esc="a.vet_appointment_type_id.name or a.name"/>
                     </tr>
                 </t>
@@ -131,7 +131,7 @@
                     <t t-if="consent.state in ('signed', 'revoked')">
                         <hr/>
                         <img t-if="consent.signature" t-att-src="image_data_uri(consent.signature)" style="max-height: 6rem;" alt="Signature"/>
-                        <p class="mb-0">Signed by <strong t-esc="consent.signed_by"/> on <span t-field="consent.signed_on"/></p>
+                        <p class="mb-0">Signed by <strong t-esc="consent.signed_by"/> on <span t-field="consent.signed_on" t-options="{'widget': 'datetime', 'hide_seconds': True}"/></p>
                         <a class="btn btn-secondary mt-2" t-att-href="consent.get_portal_url(report_type='pdf', download=True)">
                             <i class="fa fa-download me-1"/>Download PDF
                         </a>

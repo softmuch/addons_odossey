@@ -2,7 +2,6 @@ from datetime import timedelta
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
-from odoo.tools import html2plaintext
 
 
 class VetAppointmentType(models.Model):
@@ -45,6 +44,9 @@ class CalendarEvent(models.Model):
     vet_owner_id = fields.Many2one(related='vet_pet_id.owner_id', string="Owner")
     vet_appointment_type_id = fields.Many2one('vet.appointment.type', string="Appointment Type")
     vet_room_id = fields.Many2one('vet.room', string="Room")
+    vet_reason = fields.Char(string="Reason for Visit",
+                             help="What the owner reports when booking. It becomes the reason of the consultation. "
+                                  "Example: vomiting since yesterday.")
     vet_state = fields.Selection([
         ('booked', "Booked"), ('confirmed', "Confirmed"), ('arrived', "Arrived"),
         ('in_consultation', "In Consultation"), ('done', "Done"), ('no_show', "No Show"), ('cancelled', "Cancelled"),
@@ -105,7 +107,7 @@ class CalendarEvent(models.Model):
                 'pet_id': self.vet_pet_id.id,
                 'appointment_id': self.id,
                 'date': self.start,
-                'reason': (html2plaintext(self.description or '').strip() or False) and html2plaintext(self.description).strip()[:200],
+                'reason': self.vet_reason or False,
                 'consultation_type': atype.consultation_type if atype and atype.consultation_type != 'grooming' else 'consultation',
                 'weight': self.vet_pet_id.weight,
             }

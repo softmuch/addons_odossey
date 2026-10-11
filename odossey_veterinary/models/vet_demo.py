@@ -237,16 +237,17 @@ class VetDemo(models.AbstractModel):
         # ------------------------------------------------------------ today's agenda
         Event = self.env['calendar.event']
         day_start = datetime.combine(today, time(12, 0))  # 9:00 Argentina (UTC-3)
-        for hours, p, atype, vet, state in ((0, luna, 'appointment_type_consultation', laura, 'arrived'),
-                                            (0.5, firulais, 'appointment_type_vaccination', laura, 'confirmed'),
-                                            (1, simba, 'appointment_type_vaccination', martin, 'booked'),
-                                            (2, toby, 'appointment_type_followup', laura, 'booked'),
-                                            (3, nala, 'appointment_type_surgery', martin, 'booked')):
+        for hours, p, atype, vet, state, reason in (
+                (0, luna, 'appointment_type_consultation', laura, 'arrived', "Vómitos y decaimiento desde ayer"),
+                (0.5, firulais, 'appointment_type_vaccination', laura, 'confirmed', "Refuerzo anual de vacunas"),
+                (1, simba, 'appointment_type_vaccination', martin, 'booked', False),
+                (2, toby, 'appointment_type_followup', laura, 'booked', "Control de la otitis"),
+                (3, nala, 'appointment_type_surgery', martin, 'booked', "Castración programada")):
             start = day_start + timedelta(hours=hours)
             atype_rec = self._ref(atype)
             Event.create({
                 'vet_pet_id': p.id, 'vet_appointment_type_id': atype_rec.id, 'start': start,
-                'stop': start + timedelta(minutes=atype_rec.duration), 'user_id': vet.id, 'vet_state': state,
+                'stop': start + timedelta(minutes=atype_rec.duration), 'user_id': vet.id, 'vet_state': state, 'vet_reason': reason,
                 'vet_room_id': self._ref('vet_room_surgery' if atype == 'appointment_type_surgery' else 'vet_room_consulting_1').id,
             })
         ICP.set_param('odossey_veterinary.demo_loaded', fields.Datetime.to_string(now))

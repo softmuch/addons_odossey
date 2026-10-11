@@ -36,7 +36,7 @@ class VetVaccination(models.Model):
     product_id = fields.Many2one('product.product', string="Product", required=True,
                                  domain="[('vet_kind', 'in', ('vaccine', 'antiparasitic'))]")
     preventive_group = fields.Selection(related='product_id.vet_preventive_group', store=True, string="Group")
-    dose_number = fields.Integer(string="Dose No.", default=0,
+    dose_number = fields.Integer(aggregator=False, string="Dose No.", default=0,
                                  help="Dose number within the group; filled in automatically from the previous doses.")
     lot_id = fields.Many2one('stock.lot', string="Lot", domain="[('product_id', '=', product_id)]")
     lot_name = fields.Char(string="Lot / Serial", help="Batch number printed on the vaccine label.")

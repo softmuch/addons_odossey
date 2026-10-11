@@ -208,7 +208,7 @@
                 <field name="vet_id"/>
                 <field name="diagnosis_ids"/>
                 <filter string="My Consultations" name="mine" domain="[('vet_id', '=', uid)]"/>
-                <filter string="Today" name="today" domain="[('date', '&gt;=', context_today().strftime('%Y-%m-%d 00:00:00')), ('date', '&lt;=', context_today().strftime('%Y-%m-%d 23:59:59'))]"/>
+                <filter string="Today" name="today" domain="[('date', '&gt;=', datetime.datetime.combine(context_today(), datetime.time(0, 0, 0)).to_utc().strftime('%Y-%m-%d %H:%M:%S')), ('date', '&lt;', datetime.datetime.combine(context_today() + relativedelta(days=1), datetime.time(0, 0, 0)).to_utc().strftime('%Y-%m-%d %H:%M:%S'))]"/>
                 <separator/>
                 <filter string="In Progress" name="in_progress" domain="[('state', '=', 'in_progress')]"/>
                 <filter string="Closed" name="done" domain="[('state', '=', 'done')]"/>

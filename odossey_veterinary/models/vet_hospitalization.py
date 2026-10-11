@@ -160,9 +160,9 @@ class VetHospitalizationTask(models.Model):
     is_overdue = fields.Boolean(compute='_compute_is_overdue')
     done_at = fields.Datetime(readonly=True)
     done_by_id = fields.Many2one('res.users', string="Done By", readonly=True)
-    temperature = fields.Float(string="Temp. (°C)", digits=(4, 1))
-    heart_rate = fields.Integer(string="HR")
-    respiratory_rate = fields.Integer(string="RR")
+    temperature = fields.Float(aggregator=False, string="Temp. (°C)", digits=(4, 1))
+    heart_rate = fields.Integer(aggregator=False, string="HR")
+    respiratory_rate = fields.Integer(aggregator=False, string="RR")
     note = fields.Char()
 
     def _compute_is_overdue(self):

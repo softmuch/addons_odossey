@@ -68,11 +68,11 @@ class VetConsultation(models.Model):
     anamnesis = fields.Html(string="History (Anamnesis)", help="What the owner reports: symptoms, since when, appetite, "
                                                                  "vomiting/diarrhoea, medication received...")
     # O - objective: vital signs
-    weight = fields.Float(string="Weight (kg)", digits=(16, 2))
+    weight = fields.Float(aggregator=False, string="Weight (kg)", digits=(16, 2))
     body_condition = fields.Selection([(str(i), str(i)) for i in range(1, 10)], string="Body Condition (1-9)")
-    temperature = fields.Float(string="Temperature (°C)", digits=(4, 1))
-    heart_rate = fields.Integer(string="Heart Rate (bpm)")
-    respiratory_rate = fields.Integer(string="Respiratory Rate (rpm)")
+    temperature = fields.Float(aggregator=False, string="Temperature (°C)", digits=(4, 1))
+    heart_rate = fields.Integer(aggregator=False, string="Heart Rate (bpm)")
+    respiratory_rate = fields.Integer(aggregator=False, string="Respiratory Rate (rpm)")
     mucous_membranes = fields.Selection([
         ('pink', "Pink"), ('pale', "Pale"), ('cyanotic', "Cyanotic"), ('icteric', "Icteric"),
         ('congested', "Congested"), ('dry', "Dry / tacky"),

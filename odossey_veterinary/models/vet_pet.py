@@ -78,7 +78,7 @@ class VetPet(models.Model):
     cause_of_death = fields.Char()
 
     weight_ids = fields.One2many('vet.weight', 'pet_id', string="Weight History")
-    weight = fields.Float(string="Current Weight (kg)", compute='_compute_weight', store=True, digits=(16, 2))
+    weight = fields.Float(aggregator=False, string="Current Weight (kg)", compute='_compute_weight', store=True, digits=(16, 2))
     weight_date = fields.Date(string="Weighed On", compute='_compute_weight', store=True)
 
     _microchip_unique = models.Constraint('unique(microchip, company_id)', "Another patient already has this microchip number.")
@@ -174,7 +174,7 @@ class VetWeight(models.Model):
 
     pet_id = fields.Many2one('vet.pet', required=True, ondelete='cascade', index=True)
     date = fields.Date(required=True, default=fields.Date.context_today)
-    weight = fields.Float(string="Weight (kg)", required=True, digits=(16, 2))
+    weight = fields.Float(aggregator=False, string="Weight (kg)", required=True, digits=(16, 2))
     body_condition = fields.Selection([(str(i), str(i)) for i in range(1, 10)], string="Body Condition (1-9)",
                                       help="Body condition score on the 9-point scale (WSAVA): 4-5 is ideal.")
     note = fields.Char()

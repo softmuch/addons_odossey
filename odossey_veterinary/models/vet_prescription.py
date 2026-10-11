@@ -23,7 +23,7 @@ class VetPrescription(models.Model):
     pet_id = fields.Many2one('vet.pet', string="Patient", required=True, tracking=True, index=True)
     owner_id = fields.Many2one(related='pet_id.owner_id', store=True, string="Owner")
     species_id = fields.Many2one(related='pet_id.species_id')
-    pet_weight = fields.Float(string="Weight (kg)", digits=(16, 2))
+    pet_weight = fields.Float(aggregator=False, string="Weight (kg)", digits=(16, 2))
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company, required=True)
     consultation_id = fields.Many2one('vet.consultation', string="Consultation", index=True)
     vet_id = fields.Many2one('res.users', string="Veterinarian", required=True, tracking=True,
@@ -31,7 +31,7 @@ class VetPrescription(models.Model):
                              domain="[('vet_is_veterinarian', '=', True)]")
     vet_license = fields.Char(related='vet_id.vet_license', string="License No.")
     date = fields.Date(required=True, default=fields.Date.context_today, tracking=True)
-    validity_days = fields.Integer(string="Valid for (days)", default=30,
+    validity_days = fields.Integer(aggregator=False, string="Valid for (days)", default=30,
                                    help="Electronic veterinary prescriptions in Argentina are valid 30 or 45 days (Res. SENASA 654/2026).")
     expiry_date = fields.Date(compute='_compute_expiry_date', store=True)
     diagnosis = fields.Char()
@@ -156,7 +156,7 @@ class VetPrescriptionLine(models.Model):
     reference_dose = fields.Char(related='product_id.vet_dose')
     dose = fields.Char(required=True, help="e.g. 1 tablet, 0.5 ml, 10 mg/kg")
     frequency = fields.Char(help="e.g. every 12 h")
-    duration_days = fields.Integer(string="Days")
+    duration_days = fields.Integer(aggregator=False, string="Days")
     route = fields.Selection(related='product_id.vet_route', readonly=False, store=True)
     quantity = fields.Float(string="Qty to Dispense", default=1.0, digits='Product Unit')
     instructions = fields.Char()

@@ -127,7 +127,7 @@
                     <field name="line_ids">
                         <list editable="bottom" create="0" decoration-danger="flag in ('low', 'high')">
                             <field name="analyte_id" readonly="1"/>
-                            <field name="value"/>
+                            <field name="value" options="{'hide_trailing_zeros': true}"/>
                             <field name="value_text" optional="show"/>
                             <field name="unit"/>
                             <field name="reference"/>
@@ -286,7 +286,9 @@
                             <field name="partner_ids" widget="many2manyattendee" invisible="1"/>
                         </group>
                     </group>
-                    <field name="description" placeholder="Reason / notes from the owner..."/>
+                    <group>
+                        <field name="vet_reason" placeholder="e.g. vomiting since yesterday"/>
+                    </group>
                 </sheet>
             </form>
         </field>
@@ -305,6 +307,7 @@
                 <field name="vet_appointment_type_id" filters="1"/>
                 <field name="vet_room_id" filters="1"/>
                 <field name="user_id" filters="1" string="Veterinarian"/>
+                <field name="vet_reason"/>
                 <field name="vet_state"/>
             </calendar>
         </field>
@@ -320,6 +323,7 @@
                 <field name="vet_pet_id"/>
                 <field name="vet_owner_id"/>
                 <field name="vet_appointment_type_id"/>
+                <field name="vet_reason" optional="show"/>
                 <field name="vet_room_id" optional="show"/>
                 <field name="user_id" string="Veterinarian"/>
                 <field name="vet_state" widget="badge" decoration-success="vet_state == 'done'" decoration-info="vet_state in ('arrived', 'in_consultation')"
@@ -338,7 +342,7 @@
                 <field name="vet_pet_id"/>
                 <field name="vet_owner_id"/>
                 <field name="user_id" string="Veterinarian"/>
-                <filter string="Today" name="today" domain="[('start', '&gt;=', context_today().strftime('%Y-%m-%d 00:00:00')), ('start', '&lt;=', context_today().strftime('%Y-%m-%d 23:59:59'))]"/>
+                <filter string="Today" name="today" domain="[('start', '&gt;=', datetime.datetime.combine(context_today(), datetime.time(0, 0, 0)).to_utc().strftime('%Y-%m-%d %H:%M:%S')), ('start', '&lt;', datetime.datetime.combine(context_today() + relativedelta(days=1), datetime.time(0, 0, 0)).to_utc().strftime('%Y-%m-%d %H:%M:%S'))]"/>
                 <filter string="Waiting Room" name="waiting" domain="[('vet_state', '=', 'arrived')]"/>
                 <filter string="My Appointments" name="mine" domain="[('user_id', '=', uid)]"/>
             </search>

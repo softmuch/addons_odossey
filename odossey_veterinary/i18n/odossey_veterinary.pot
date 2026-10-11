@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e-20260622\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-10 22:19+0000\n"
-"PO-Revision-Date: 2026-10-10 22:19+0000\n"
+"POT-Creation-Date: 2026-10-10 22:55+0000\n"
+"PO-Revision-Date: 2026-10-10 22:55+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -5902,16 +5902,12 @@ msgid "Reason"
 msgstr ""
 
 #. module: odossey_veterinary
-#: model_terms:ir.ui.view,arch_db:odossey_veterinary.calendar_event_view_form_vet
-msgid "Reason / notes from the owner..."
-msgstr ""
-
-#. module: odossey_veterinary
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_hospitalization__reason
 msgid "Reason for Admission"
 msgstr ""
 
 #. module: odossey_veterinary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_calendar_event__vet_reason
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_consultation__reason
 msgid "Reason for Visit"
 msgstr ""
@@ -7694,6 +7690,13 @@ msgid "What happened and when:"
 msgstr ""
 
 #. module: odossey_veterinary
+#: model:ir.model.fields,help:odossey_veterinary.field_calendar_event__vet_reason
+msgid ""
+"What the owner reports when booking. It becomes the reason of the "
+"consultation. Example: vomiting since yesterday."
+msgstr ""
+
+#. module: odossey_veterinary
 #: model:ir.model.fields,help:odossey_veterinary.field_vet_consultation__anamnesis
 msgid ""
 "What the owner reports: symptoms, since when, appetite, vomiting/diarrhoea, "
@@ -7951,6 +7954,11 @@ msgstr ""
 #: model:ir.model.fields,help:odossey_veterinary.field_product_product__vet_mandatory
 #: model:ir.model.fields,help:odossey_veterinary.field_product_template__vet_mandatory
 msgid "e.g. rabies vaccination (Argentina, Law 22.953)."
+msgstr ""
+
+#. module: odossey_veterinary
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.calendar_event_view_form_vet
+msgid "e.g. vomiting since yesterday"
 msgstr ""
 
 #. module: odossey_veterinary

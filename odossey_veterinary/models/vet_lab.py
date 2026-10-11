@@ -90,7 +90,7 @@ class VetLabResultLine(models.Model):
     sequence = fields.Integer(related='analyte_id.sequence', store=True)
     analyte_id = fields.Many2one('vet.lab.analyte', required=True)
     unit = fields.Char(related='analyte_id.unit')
-    value = fields.Float(digits=(16, 3))
+    value = fields.Float(aggregator=False, digits=(16, 3))
     value_text = fields.Char(string="Text Result")
     ref_min = fields.Float(compute='_compute_ref', digits=(16, 3))
     ref_max = fields.Float(compute='_compute_ref', digits=(16, 3))
@@ -109,7 +109,17 @@ class VetLabResultLine(models.Model):
         for line in self:
             lo, hi = line._ref_range()
             line.ref_min, line.ref_max = lo, hi
-            line.reference = '%g - %g' % (lo, hi) if (lo or hi) else ''
+            line.reference = '%s - %s' % (line._vet_format_number(lo), line._vet_format_number(hi)) if (lo or hi) else ''
+
+    def _vet_format_number(self, value):
+        """Number in the user's language without trailing zeros: 38 / 1,025 / 7,5 (es) or 7.5 (en)."""
+        lang = self.env['res.lang']._get_data(code=self.env.lang or 'en_US')
+        text = ('%.3f' % value).rstrip('0').rstrip('.')
+        return text.replace('.', lang.decimal_point or '.')
+
+    def _vet_value_display(self):
+        self.ensure_one()
+        return self._vet_format_number(self.value)
 
     @api.depends('value', 'value_text', 'analyte_id', 'result_id.species_id')
     def _compute_flag(self):
@@ -152,7 +162,7 @@ class VetCertificate(models.Model):
     body = fields.Html(string="Certificate Text")
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
 
-    @api.onchange('certificate_type', 'date', 'pet_id')
+    @api.onchange('certificate_type', 'date', 'pet_id', 'destination')
     def _onchange_type(self):
         if self.certificate_type in ('travel', 'deworming') and self.date:
             self.valid_until = fields.Date.add(self.date, days=10)

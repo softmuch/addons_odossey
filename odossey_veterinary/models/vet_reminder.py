@@ -5,6 +5,7 @@ from urllib.parse import quote
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import format_date
 
 
 class VetPet(models.Model):
@@ -29,7 +30,7 @@ class VetPet(models.Model):
         due = self._vet_due_preventive(days=60)
         owner_name = (self.owner_id.name or '').split(' ')[0]
         if due:
-            items = '\n'.join('• %s: %s (%s)' % (rec.pet_id.name, rec.product_id.name, fields.Date.to_string(rec.next_date))
+            items = '\n'.join('• %s: %s (%s)' % (rec.pet_id.name, rec.product_id.name, format_date(self.env, rec.next_date, lang_code=self.owner_id.lang or self.env.lang))
                               for rec in due)
             return _("Hello %(owner)s! This is %(clinic)s. These preventive treatments are due:\n%(items)s\n"
                      "Reply to this message to book an appointment.",

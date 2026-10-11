@@ -179,7 +179,7 @@ class TestConsultation(VetCommon):
     def test_appointment_starts_consultation(self):
         event = self.env['calendar.event'].create({
             'vet_pet_id': self.pet.id, 'vet_appointment_type_id': self.ref('appointment_type_vaccination').id,
-            'start': fields.Datetime.now(), 'user_id': self.vet.id,
+            'start': fields.Datetime.now(), 'user_id': self.vet.id, 'vet_reason': "Annual booster",
         })
         self.assertIn(self.owner, event.partner_ids)
         self.assertEqual(round((event.stop - event.start).total_seconds() / 60), 15)
@@ -187,6 +187,7 @@ class TestConsultation(VetCommon):
         consultation = self.env['vet.consultation'].browse(action['res_id'])
         self.assertEqual(consultation.state, 'in_progress')
         self.assertEqual(consultation.consultation_type, 'vaccination')
+        self.assertEqual(consultation.reason, "Annual booster")  # not the calendar's auto-generated description
         self.assertEqual(event.vet_state, 'in_consultation')
         self.assertIn(self.ref('product_service_vaccination'), consultation.line_ids.product_id)
 
@@ -284,6 +285,32 @@ class TestConsentLab(VetCommon):
         self.assertEqual(creat.flag, 'high')
         creat.value = 1.0
         self.assertEqual(creat.flag, 'normal')
+        # numbers without trailing zeros and with the language's decimal separator
+        self.assertEqual(creat.with_context(lang='en_US')._vet_format_number(1.025), '1.025')
+        self.assertEqual(creat.with_context(lang='en_US')._vet_format_number(38.0), '38')
+        self.assertNotIn('.000', creat.reference)
+
+    def test_ui_details(self):
+        # consent date rendered in the owner's language format, not ISO
+        consent = self.env['vet.consent'].create({
+            'pet_id': self.pet.id, 'template_id': self.ref('consent_template_surgery_anesthesia').id})
+        self.assertNotIn(fields.Date.to_string(fields.Date.today()), consent.content)
+        # travel certificate text follows the destination
+        with Form(self.env['vet.certificate']) as form:
+            form.pet_id = self.pet
+            form.certificate_type = 'travel'
+            form.destination = "Uruguay"
+            self.assertIn("Uruguay", str(form.body))
+        # clinical numbers are not summed when grouping
+        for model, field in (('vet.vaccination', 'dose_number'), ('vet.consultation', 'temperature'), ('vet.pet', 'weight')):
+            self.assertFalse(self.env[model]._fields[field].aggregator, field)
+        # default hospitalization day service visible in Settings
+        settings = self.env['res.config.settings'].create({})
+        self.assertEqual(settings.vet_hospitalization_product_id, self.env['vet.hospitalization']._default_day_product())
+        # product categories named in the clinic's language
+        from odoo.addons.odossey_veterinary.hooks import localize_product_categories
+        localize_product_categories(self.env, 'es_AR')
+        self.assertEqual(self.ref('product_category_medications').name, "Medicamentos")
 
 
 class TestDemoAndReports(VetCommon):

@@ -22,6 +22,15 @@ class ResConfigSettings(models.TransientModel):
              "Wednesday 10:00 → 2 days.")
     vet_demo_loaded = fields.Boolean(compute='_compute_vet_demo_loaded')
 
+    @api.model
+    def get_values(self):
+        res = super().get_values()
+        if not res.get('vet_hospitalization_product_id'):
+            # show the service actually charged by default (see vet.hospitalization._get_day_product)
+            product = self.env.ref('odossey_veterinary.product_service_hospitalization_day', raise_if_not_found=False)
+            res['vet_hospitalization_product_id'] = product.id if product else False
+        return res
+
     def _compute_vet_demo_loaded(self):
         loaded = bool(self.env['ir.config_parameter'].sudo().get_param('odossey_veterinary.demo_loaded'))
         for rec in self:
