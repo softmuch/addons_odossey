@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form_claude_ocr" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.claude.ocr</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <block id="account_digitalization" position="inside">
+                <setting id="claude_ocr_settings" string="Digitization with Claude"
+                         help="Read vendor bills with Claude and confirm the data in a review wizard">
+                    <div class="content-group">
+                        <div class="row mt8">
+                            <label for="claude_ocr_api_key" class="col-lg-4 o_light_label"/>
+                            <field name="claude_ocr_api_key" password="True" placeholder="sk-ant-..."/>
+                        </div>
+                        <div class="row">
+                            <label for="claude_ocr_model" class="col-lg-4 o_light_label"/>
+                            <field name="claude_ocr_model"/>
+                        </div>
+                        <div class="row">
+                            <label for="claude_ocr_max_tokens" class="col-lg-4 o_light_label"/>
+                            <field name="claude_ocr_max_tokens"/>
+                        </div>
+                        <div class="row">
+                            <label for="claude_ocr_instructions" class="col-lg-4 o_light_label"/>
+                            <field name="claude_ocr_instructions"/>
+                        </div>
+                    </div>
+                </setting>
+            </block>
+        </field>
+    </record>
+
+</odoo>

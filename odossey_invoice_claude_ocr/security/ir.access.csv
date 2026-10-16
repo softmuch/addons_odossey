@@ -1,0 +1,4 @@
+id,name,model_id,group_id/id,operation,domain
+access_claude_invoice_wizard,access.claude.invoice.wizard,claude.invoice.wizard,account.group_account_invoice,crud,
+access_claude_invoice_wizard_line,access.claude.invoice.wizard.line,claude.invoice.wizard.line,account.group_account_invoice,crud,
+access_claude_invoice_wizard_unmapped,access.claude.invoice.wizard.unmapped,claude.invoice.wizard.unmapped,account.group_account_invoice,crud,
