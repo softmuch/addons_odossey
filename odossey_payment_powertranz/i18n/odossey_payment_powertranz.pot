@@ -1,0 +1,329 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* odossey_payment_powertranz
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20251212\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-16 15:17+0000\n"
+"PO-Revision-Date: 2026-10-16 15:17+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: odossey_payment_powertranz
+#: model:ir.model.fields,field_description:odossey_payment_powertranz.field_payment_provider__powertranz_use_3ds
+#: model_terms:ir.ui.view,arch_db:odossey_payment_powertranz.payment_provider_form
+msgid "3-D Secure"
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model:ir.model.fields,field_description:odossey_payment_powertranz.field_payment_provider__powertranz_allow_non_3ds_cards
+msgid "Accept cards without 3-D Secure"
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model:ir.model.fields,field_description:odossey_payment_powertranz.field_payment_provider__powertranz_allow_3ds_unavailable
+msgid "Accept when 3-D Secure is unavailable"
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model:ir.model.fields,help:odossey_payment_powertranz.field_payment_provider__powertranz_use_3ds
+msgid ""
+"Authenticate the cardholder with 3-D Secure on the hosted page "
+"(recommended)."
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#. odoo-python
+#: code:addons/odossey_payment_powertranz/models/payment_transaction.py:0
+msgid "Authorization code: %s"
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model:ir.model.fields,field_description:odossey_payment_powertranz.field_payment_provider__code
+msgid "Code"
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model:ir.model.fields,help:odossey_payment_powertranz.field_payment_provider__powertranz_allow_3ds_unavailable
+msgid ""
+"Complete the payment when the 3-D Secure authentication could not be "
+"performed (status U, technical problem). There is no liability shift for "
+"these payments."
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model:ir.model.fields,help:odossey_payment_powertranz.field_payment_provider__powertranz_allow_non_3ds_cards
+msgid ""
+"Complete the payment when the card is not enrolled in 3-D Secure. There is "
+"no liability shift for these payments."
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#. odoo-python
+#: code:addons/odossey_payment_powertranz/models/payment_provider.py:0
+msgid "Could not establish the connection to the API."
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model:ir.model.fields,field_description:odossey_payment_powertranz.field_payment_provider__powertranz_gateway_key
+msgid "Gateway Key"
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model:ir.model.fields,field_description:odossey_payment_powertranz.field_payment_provider__powertranz_page_name
+msgid "Hosted Page Name"
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model:ir.model.fields,field_description:odossey_payment_powertranz.field_payment_provider__powertranz_page_set
+msgid "Hosted Page Set"
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model:ir.model.fields,help:odossey_payment_powertranz.field_payment_provider__powertranz_api_url
+msgid ""
+"Leave empty to use the default production API "
+"(https://gateway.ptranz.com/api/). Only change it if the bank gives you "
+"another host."
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#. odoo-python
+#: code:addons/odossey_payment_powertranz/models/payment_transaction.py:0
+msgid "No transaction found matching reference %s."
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model:ir.model.fields,help:odossey_payment_powertranz.field_payment_provider__powertranz_gateway_key
+msgid "Only fill it if PowerTranz explicitly gave you a gateway key."
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model_terms:ir.ui.view,arch_db:odossey_payment_powertranz.payment_provider_form
+msgid "PTZ/MyPageSet"
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model:ir.model,name:odossey_payment_powertranz.model_payment_provider
+msgid "Payment Provider"
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model:ir.model,name:odossey_payment_powertranz.model_payment_transaction
+msgid "Payment Transaction"
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model:ir.model.fields.selection,name:odossey_payment_powertranz.selection__payment_provider__code__powertranz
+#: model:payment.provider,name:odossey_payment_powertranz.payment_provider_powertranz
+msgid "PowerTranz"
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model:ir.model.fields,field_description:odossey_payment_powertranz.field_payment_provider__powertranz_merchant_id
+msgid "PowerTranz ID"
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model:ir.model.fields,field_description:odossey_payment_powertranz.field_payment_provider__powertranz_password
+msgid "PowerTranz Password"
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model:ir.model.fields,field_description:odossey_payment_powertranz.field_payment_transaction__powertranz_redirect_data
+msgid "PowerTranz Redirect Data"
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model:ir.model.fields,field_description:odossey_payment_powertranz.field_payment_transaction__powertranz_spi_token
+msgid "PowerTranz SPI Token"
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model:ir.model.fields,field_description:odossey_payment_powertranz.field_payment_provider__powertranz_api_url
+msgid "Production API URL"
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#. odoo-python
+#: code:addons/odossey_payment_powertranz/models/payment_transaction.py:0
+msgid "RRN: %s"
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#. odoo-python
+#: code:addons/odossey_payment_powertranz/models/payment_transaction.py:0
+msgid "Received data with missing reference."
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#. odoo-python
+#: code:addons/odossey_payment_powertranz/models/payment_transaction.py:0
+msgid "The 3-D Secure authentication was not successful (status %s)."
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#. odoo-python
+#: code:addons/odossey_payment_powertranz/models/payment_provider.py:0
+msgid "The API returned an invalid response."
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model:ir.model.fields,help:odossey_payment_powertranz.field_payment_provider__powertranz_page_name
+msgid ""
+"The Page Name of the hosted payment page created in the PowerTranz merchant "
+"portal."
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model:ir.model.fields,help:odossey_payment_powertranz.field_payment_provider__powertranz_page_set
+msgid ""
+"The Page Set of the hosted payment page created in the PowerTranz merchant "
+"portal. The 'PTZ/' prefix is added automatically."
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model:ir.model.fields,help:odossey_payment_powertranz.field_payment_provider__powertranz_merchant_id
+msgid ""
+"The PowerTranz ID (merchant ID) given by PowerTranz or the acquiring bank."
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#. odoo-python
+#: code:addons/odossey_payment_powertranz/models/payment_transaction.py:0
+msgid "The card does not support 3-D Secure."
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#. odoo-python
+#: code:addons/odossey_payment_powertranz/models/payment_provider.py:0
+msgid "The communication with the API failed (HTTP %(status)s)."
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#. odoo-python
+#: code:addons/odossey_payment_powertranz/models/payment_transaction.py:0
+msgid "The hosted payment page returned the code %s."
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#. odoo-python
+#: code:addons/odossey_payment_powertranz/models/payment_transaction.py:0
+msgid "The payment could not be completed (session expired)."
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#. odoo-python
+#: code:addons/odossey_payment_powertranz/models/payment_transaction.py:0
+msgid "The payment could not be started: %s"
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#. odoo-python
+#: code:addons/odossey_payment_powertranz/models/payment_transaction.py:0
+msgid "The payment data does not match the transaction (%s)."
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#. odoo-python
+#: code:addons/odossey_payment_powertranz/models/payment_transaction.py:0
+msgid "The payment was declined: %s"
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model:ir.model.fields,help:odossey_payment_powertranz.field_payment_provider__powertranz_password
+msgid "The processing password given by PowerTranz or the acquiring bank."
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#. odoo-python
+#: code:addons/odossey_payment_powertranz/models/payment_transaction.py:0
+msgid ""
+"The refund was approved but its data does not match (%s). Please check it in"
+" the PowerTranz portal."
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#. odoo-python
+#: code:addons/odossey_payment_powertranz/models/payment_transaction.py:0
+msgid "The refund was refused: %s"
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model:ir.model.fields,help:odossey_payment_powertranz.field_payment_provider__code
+msgid "The technical code of this payment provider."
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#. odoo-python
+#: code:addons/odossey_payment_powertranz/models/payment_transaction.py:0
+msgid "The transaction identifier does not match the transaction %s."
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#. odoo-python
+#: code:addons/odossey_payment_powertranz/models/payment_transaction.py:0
+msgid "Unknown error"
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model_terms:payment.provider,auth_msg:odossey_payment_powertranz.payment_provider_powertranz
+msgid "Your payment has been authorized."
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model_terms:payment.provider,cancel_msg:odossey_payment_powertranz.payment_provider_powertranz
+msgid "Your payment has been cancelled."
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model_terms:payment.provider,pending_msg:odossey_payment_powertranz.payment_provider_powertranz
+msgid ""
+"Your payment has been successfully processed but is waiting for approval."
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model_terms:payment.provider,done_msg:odossey_payment_powertranz.payment_provider_powertranz
+msgid "Your payment has been successfully processed."
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#. odoo-python
+#: code:addons/odossey_payment_powertranz/models/payment_transaction.py:0
+msgid "amount"
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#. odoo-python
+#: code:addons/odossey_payment_powertranz/models/payment_transaction.py:0
+msgid "currency"
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#: model_terms:ir.ui.view,arch_db:odossey_payment_powertranz.payment_provider_form
+msgid "https://gateway.ptranz.com/api/"
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#. odoo-python
+#: code:addons/odossey_payment_powertranz/models/payment_transaction.py:0
+msgid "order identifier"
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#. odoo-python
+#: code:addons/odossey_payment_powertranz/models/payment_transaction.py:0
+msgid "original transaction"
+msgstr ""
+
+#. module: odossey_payment_powertranz
+#. odoo-python
+#: code:addons/odossey_payment_powertranz/models/payment_transaction.py:0
+msgid "transaction identifier"
+msgstr ""

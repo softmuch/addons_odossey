@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="payment_provider_form" model="ir.ui.view">
+        <field name="name">PowerTranz Provider Form</field>
+        <field name="model">payment.provider</field>
+        <field name="inherit_id" ref="payment.payment_provider_form"/>
+        <field name="arch" type="xml">
+            <group name="provider_credentials" position="inside">
+                <group invisible="code != 'powertranz'">
+                    <field name="powertranz_merchant_id"
+                           required="code == 'powertranz' and state != 'disabled'"/>
+                    <field name="powertranz_password" password="True"
+                           required="code == 'powertranz' and state != 'disabled'"/>
+                    <field name="powertranz_page_set" placeholder="PTZ/MyPageSet"
+                           required="code == 'powertranz' and state != 'disabled'"/>
+                    <field name="powertranz_page_name"
+                           required="code == 'powertranz' and state != 'disabled'"/>
+                    <field name="powertranz_gateway_key" password="True"/>
+                    <field name="powertranz_api_url" placeholder="https://gateway.ptranz.com/api/"/>
+                </group>
+            </group>
+            <group name="provider_config" position="inside">
+                <group string="3-D Secure" invisible="code != 'powertranz'" name="powertranz_3ds">
+                    <field name="powertranz_use_3ds"/>
+                    <field name="powertranz_allow_non_3ds_cards" invisible="not powertranz_use_3ds"/>
+                    <field name="powertranz_allow_3ds_unavailable" invisible="not powertranz_use_3ds"/>
+                </group>
+            </group>
+        </field>
+    </record>
+
+</odoo>
