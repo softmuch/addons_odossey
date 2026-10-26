@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_oph" model="ir.ui.view">
+        <field name="name">res.config.settings.form.oph</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Ophthalmology" string="Ophthalmology" name="odossey_ophthalmology" groups="odossey_ophthalmology.group_oph_manager">
+                    <block title="Clinic" name="oph_clinic">
+                        <setting string="High Pressure Warning" help="Intraocular pressures above this value are highlighted in the exam.">
+                            <field name="oph_iop_threshold"/>
+                            <div class="text-muted small mt-1">Example: 21 → a pressure of 24 mmHg shows a red warning in the exam.</div>
+                        </setting>
+                        <setting string="Bill When Closing an Exam" help="Closing an exam bills its charges to the health insurance and to the patient.">
+                            <field name="oph_auto_billing"/>
+                            <div class="text-muted small mt-1">Example: OSDE patient with consultation + OCT → 2 services in the monthly settlement and a quotation with the co-payments.</div>
+                        </setting>
+                    </block>
+                    <block title="Demo Data" name="oph_demo">
+                        <setting string="Load Demo Data" help="Creates professionals, patients, appointments, exams, studies, surgeries, prescriptions and insurance services to try the application.">
+                            <field name="oph_demo_loaded" invisible="1"/>
+                            <button name="action_oph_load_demo" type="object" string="Load Demo Data" class="btn-secondary" icon="fa-magic"
+                                    invisible="oph_demo_loaded"
+                                    confirm="Load demo data in this database? It creates patients and their clinical records."/>
+                            <div invisible="not oph_demo_loaded" class="text-success"><i class="fa fa-check me-1" title="Loaded"/>Demo data loaded.</div>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="oph_settings_action" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'module': 'odossey_ophthalmology', 'bin_size': False}</field>
+    </record>
+</odoo>

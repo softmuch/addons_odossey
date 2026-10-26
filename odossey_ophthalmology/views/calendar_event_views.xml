@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="calendar_event_view_form_oph" model="ir.ui.view">
+        <field name="name">calendar.event.form.oph</field>
+        <field name="model">calendar.event</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <form string="Appointment">
+                <header>
+                    <button name="action_oph_confirm" type="object" string="Confirm" invisible="oph_state != 'booked'"/>
+                    <button name="action_oph_arrived" type="object" string="Patient Arrived" class="btn-primary"
+                            invisible="oph_state not in ('booked', 'confirmed')"/>
+                    <button name="action_oph_start_pre_consultation" type="object" string="Pre-consultation"
+                            invisible="oph_state not in ('arrived', 'confirmed', 'booked')"
+                            groups="odossey_ophthalmology.group_oph_technician"/>
+                    <button name="action_oph_dilating" type="object" string="Dilating"
+                            invisible="oph_state not in ('arrived', 'pre_consultation', 'in_consultation')"/>
+                    <button name="action_oph_in_studies" type="object" string="In Studies"
+                            invisible="oph_state not in ('arrived', 'pre_consultation', 'dilating', 'in_consultation')"/>
+                    <button name="action_oph_start_consultation" type="object" string="Start Consultation" class="btn-primary"
+                            invisible="oph_state in ('done', 'cancelled', 'no_show', 'withdrawn', 'to_reschedule') or not oph_patient_id"
+                            groups="odossey_ophthalmology.group_oph_ophthalmologist"/>
+                    <button name="action_oph_whatsapp" type="object" string="WhatsApp" icon="fa-whatsapp"
+                            invisible="not oph_patient_id or oph_state not in ('booked', 'confirmed')"/>
+                    <button name="action_oph_no_show" type="object" string="No Show" invisible="oph_state not in ('booked', 'confirmed')"/>
+                    <button name="action_oph_withdrawn" type="object" string="Left Without Being Seen"
+                            invisible="oph_state not in ('arrived', 'pre_consultation', 'dilating', 'in_studies')"/>
+                    <button name="action_oph_to_reschedule" type="object" string="To Reschedule" invisible="oph_state not in ('booked', 'confirmed')"/>
+                    <button name="action_oph_cancel" type="object" string="Cancel" invisible="oph_state in ('done', 'cancelled')"/>
+                    <field name="oph_state" widget="statusbar" statusbar_visible="booked,confirmed,arrived,in_consultation,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_oph_open_patient" type="object" class="oe_stat_button" icon="fa-user" invisible="not oph_patient_id">
+                            <span>Patient</span>
+                        </button>
+                    </div>
+                    <div class="alert alert-warning mb-2" role="alert" invisible="oph_alert_level in (False, 'none')">
+                        <div class="d-flex align-items-center flex-wrap gap-2">
+                            <i class="fa fa-exclamation-triangle" title="Alerts"/>
+                            <field name="oph_alert_html" nolabel="1"/>
+                        </div>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Appointment"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="oph_patient_id" required="1" context="{'default_is_oph_patient': True, 'oph_show_record': True}"
+                                   options="{'no_quick_create': True}"/>
+                            <field name="oph_record_number" invisible="not oph_patient_id"/>
+                            <field name="oph_appointment_type_id"/>
+                            <field name="oph_reason"/>
+                            <field name="user_id" string="Professional" domain="['|', ('oph_is_ophthalmologist', '=', True), ('oph_is_technician', '=', True)]"/>
+                            <field name="oph_room_id"/>
+                        </group>
+                        <group>
+                            <field name="start" string="Date" options="{'show_seconds': False}"/>
+                            <field name="duration" widget="float_time" string="Duration"/>
+                            <field name="stop" invisible="1"/>
+                            <field name="allday" invisible="1"/>
+                            <field name="oph_insurance_id" placeholder="Private"/>
+                            <field name="oph_member_number" invisible="not oph_insurance_id"/>
+                            <field name="oph_authorization" invisible="not oph_insurance_id"/>
+                            <field name="oph_arrival_time" invisible="not oph_arrival_time" options="{'show_seconds': False}"/>
+                            <field name="oph_wait_minutes" invisible="not oph_wait_minutes"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Exams" name="exams" groups="odossey_ophthalmology.group_oph_technician">
+                            <field name="oph_exam_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="doctor_id"/>
+                                    <field name="main_diagnosis"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="description" placeholder="Internal notes..."/>
+                        </page>
+                    </notebook>
+                    <field name="partner_ids" invisible="1"/>
+                    <field name="is_oph_appointment" invisible="1"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="calendar_event_view_calendar_oph" model="ir.ui.view">
+        <field name="name">calendar.event.calendar.oph</field>
+        <field name="model">calendar.event</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <calendar string="Agenda" date_start="start" date_stop="stop" date_delay="duration" all_day="allday"
+                      mode="week" color="user_id" event_open_popup="0" quick_create="0"
+                      form_view_id="%(odossey_ophthalmology.calendar_event_view_form_oph)d" scales="day,week,month">
+                <field name="oph_patient_id"/>
+                <field name="oph_appointment_type_id" filters="1"/>
+                <field name="user_id" filters="1" avatar_field="avatar_128"/>
+                <field name="oph_room_id"/>
+                <field name="oph_insurance_id"/>
+                <field name="oph_state"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="calendar_event_view_list_oph" model="ir.ui.view">
+        <field name="name">calendar.event.list.oph</field>
+        <field name="model">calendar.event</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <list string="Appointments" decoration-muted="oph_state in ('cancelled', 'no_show', 'withdrawn')"
+                  decoration-danger="oph_wait_minutes &gt; 30">
+                <field name="start" string="Date" widget="datetime" options="{'show_seconds': False}"/>
+                <field name="oph_patient_id"/>
+                <field name="oph_record_number" optional="hide"/>
+                <field name="oph_appointment_type_id"/>
+                <field name="user_id" string="Professional"/>
+                <field name="oph_room_id" optional="show"/>
+                <field name="oph_insurance_id" optional="show"/>
+                <field name="oph_wait_minutes" optional="show"/>
+                <field name="oph_state" widget="badge" decoration-success="oph_state == 'done'"
+                       decoration-info="oph_state in ('arrived', 'pre_consultation', 'dilating', 'in_studies')"
+                       decoration-warning="oph_state == 'in_consultation'" decoration-danger="oph_state in ('no_show', 'cancelled')"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Waiting room: today's appointments by visit status -->
+    <record id="calendar_event_view_kanban_oph_waiting" model="ir.ui.view">
+        <field name="name">calendar.event.kanban.oph.waiting</field>
+        <field name="model">calendar.event</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="oph_state" group_create="false" group_delete="false" group_edit="false"
+                    records_draggable="true" quick_create="false" default_order="start">
+                <field name="oph_state"/>
+                <field name="oph_wait_minutes"/>
+                <field name="oph_alert_level"/>
+                <progressbar field="oph_state" colors='{"done": "success", "no_show": "danger", "cancelled": "danger"}'/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex justify-content-between">
+                            <field name="oph_patient_id" class="fw-bold"/>
+                            <field name="start" widget="datetime" options="{'show_date': False, 'show_seconds': False}"/>
+                        </div>
+                        <div class="text-muted small">
+                            <field name="oph_appointment_type_id"/> · <field name="user_id"/>
+                        </div>
+                        <div class="small"><field name="oph_insurance_id"/></div>
+                        <div class="mt-1 d-flex gap-1 flex-wrap">
+                            <span t-if="record.oph_wait_minutes.raw_value" t-attf-class="badge rounded-pill {{ record.oph_wait_minutes.raw_value &gt; 30 ? 'text-bg-danger' : 'text-bg-info' }}">
+                                <i class="fa fa-clock-o" title="Waiting"/> <t t-esc="record.oph_wait_minutes.raw_value"/> min
+                            </span>
+                            <span t-if="record.oph_alert_level.raw_value and record.oph_alert_level.raw_value != 'none'" class="badge rounded-pill text-bg-warning">
+                                <i class="fa fa-exclamation-triangle" title="Alerts"/> Alerts
+                            </span>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="calendar_event_view_search_oph" model="ir.ui.view">
+        <field name="name">calendar.event.search.oph</field>
+        <field name="model">calendar.event</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <search string="Appointments">
+                <field name="oph_patient_id"/>
+                <field name="user_id" string="Professional"/>
+                <field name="oph_appointment_type_id"/>
+                <field name="oph_insurance_id"/>
+                <filter name="today" string="Today"
+                        domain="[('start', '&gt;=', datetime.datetime.combine(context_today(), datetime.time(0, 0, 0)).to_utc().strftime('%Y-%m-%d %H:%M:%S')),
+                                 ('start', '&lt;', datetime.datetime.combine(context_today() + relativedelta(days=1), datetime.time(0, 0, 0)).to_utc().strftime('%Y-%m-%d %H:%M:%S'))]"/>
+                <filter name="tomorrow" string="Tomorrow"
+                        domain="[('start', '&gt;=', datetime.datetime.combine(context_today() + relativedelta(days=1), datetime.time(0, 0, 0)).to_utc().strftime('%Y-%m-%d %H:%M:%S')),
+                                 ('start', '&lt;', datetime.datetime.combine(context_today() + relativedelta(days=2), datetime.time(0, 0, 0)).to_utc().strftime('%Y-%m-%d %H:%M:%S'))]"/>
+                <filter name="mine" string="My Appointments" domain="[('user_id', '=', uid)]"/>
+                <separator/>
+                <filter name="waiting" string="Waiting" domain="[('oph_state', 'in', ('arrived', 'pre_consultation', 'dilating', 'in_studies'))]"/>
+                <filter name="to_reschedule" string="To Reschedule" domain="[('oph_state', '=', 'to_reschedule')]"/>
+                <group>
+                    <filter name="group_state" string="Visit Status" context="{'group_by': 'oph_state'}"/>
+                    <filter name="group_user" string="Professional" context="{'group_by': 'user_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="oph_appointment_action" model="ir.actions.act_window">
+        <field name="name">Agenda</field>
+        <field name="res_model">calendar.event</field>
+        <field name="view_mode">calendar,list,form</field>
+        <field name="domain">[('is_oph_appointment', '=', True)]</field>
+        <field name="context">{'default_oph_state': 'booked'}</field>
+        <field name="search_view_id" ref="calendar_event_view_search_oph"/>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'calendar', 'view_id': ref('calendar_event_view_calendar_oph')}),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('calendar_event_view_list_oph')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('calendar_event_view_form_oph')})]"/>
+    </record>
+
+    <record id="oph_waiting_room_action" model="ir.actions.act_window">
+        <field name="name">Waiting Room</field>
+        <field name="res_model">calendar.event</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('is_oph_appointment', '=', True), '|', ('oph_appointment_type_id', '=', False), ('oph_appointment_type_id.visit_type', '!=', 'surgery')]</field>
+        <field name="context">{'search_default_today': 1}</field>
+        <field name="search_view_id" ref="calendar_event_view_search_oph"/>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('calendar_event_view_kanban_oph_waiting')}),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('calendar_event_view_list_oph')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('calendar_event_view_form_oph')})]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No appointments today</p>
+            <p>Mark the patient as arrived when he gets to the reception: the waiting time starts counting.</p>
+        </field>
+    </record>
+
+    <record id="oph_to_reschedule_action" model="ir.actions.act_window">
+        <field name="name">To Reschedule</field>
+        <field name="res_model">calendar.event</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('is_oph_appointment', '=', True), ('oph_state', 'in', ('to_reschedule', 'no_show'))]</field>
+        <field name="search_view_id" ref="calendar_event_view_search_oph"/>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('calendar_event_view_list_oph')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('calendar_event_view_form_oph')})]"/>
+    </record>
+</odoo>

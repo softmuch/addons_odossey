@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========================================================= diagnoses -->
+    <record id="oph_diagnosis_view_list" model="ir.ui.view">
+        <field name="name">oph.diagnosis.list</field>
+        <field name="model">oph.diagnosis</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="group"/>
+                <field name="chronic"/>
+                <field name="control_months"/>
+                <field name="active" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+    <record id="oph_diagnosis_view_search" model="ir.ui.view">
+        <field name="name">oph.diagnosis.search</field>
+        <field name="model">oph.diagnosis</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]"/>
+                <filter name="chronic" string="Chronic" domain="[('chronic', '=', True)]"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_group" string="Group" context="{'group_by': 'group'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="oph_diagnosis_action" model="ir.actions.act_window">
+        <field name="name">Diagnoses (ICD-10)</field>
+        <field name="res_model">oph.diagnosis</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- ========================================================= allergies -->
+    <record id="oph_allergy_view_list" model="ir.ui.view">
+        <field name="name">oph.allergy.list</field>
+        <field name="model">oph.allergy</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="severity"/>
+                <field name="active" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+    <record id="oph_allergy_action" model="ir.actions.act_window">
+        <field name="name">Allergies</field>
+        <field name="res_model">oph.allergy</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- ========================================================= study types -->
+    <record id="oph_study_type_view_list" model="ir.ui.view">
+        <field name="name">oph.study.type.list</field>
+        <field name="model">oph.study.type</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="kind"/>
+                <field name="duration"/>
+                <field name="product_id"/>
+            </list>
+        </field>
+    </record>
+    <record id="oph_study_type_view_form" model="ir.ui.view">
+        <field name="name">oph.study.type.form</field>
+        <field name="model">oph.study.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title"><h1><field name="name" placeholder="e.g. Macular OCT"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="kind"/>
+                            <field name="duration"/>
+                        </group>
+                        <group>
+                            <field name="product_id"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <separator string="Report Template"/>
+                    <field name="report_template"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="oph_study_type_action" model="ir.actions.act_window">
+        <field name="name">Study Types</field>
+        <field name="res_model">oph.study.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ========================================================= procedures -->
+    <record id="oph_procedure_view_list" model="ir.ui.view">
+        <field name="name">oph.procedure.list</field>
+        <field name="model">oph.procedure</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="kind"/>
+                <field name="duration"/>
+                <field name="anesthesia"/>
+                <field name="requires_iol"/>
+                <field name="product_id"/>
+            </list>
+        </field>
+    </record>
+    <record id="oph_procedure_view_form" model="ir.ui.view">
+        <field name="name">oph.procedure.form</field>
+        <field name="model">oph.procedure</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title"><h1><field name="name" placeholder="e.g. Phacoemulsification + monofocal IOL"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="kind"/>
+                            <field name="duration"/>
+                            <field name="anesthesia"/>
+                            <field name="requires_iol"/>
+                        </group>
+                        <group>
+                            <field name="product_id"/>
+                            <field name="consent_template_id"/>
+                            <field name="postop_days"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="oph_procedure_view_search" model="ir.ui.view">
+        <field name="name">oph.procedure.search</field>
+        <field name="model">oph.procedure</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_kind" string="Type" context="{'group_by': 'kind'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="oph_procedure_action" model="ir.actions.act_window">
+        <field name="name">Surgical Procedures</field>
+        <field name="res_model">oph.procedure</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ========================================================= appointment types & rooms -->
+    <record id="oph_appointment_type_view_list" model="ir.ui.view">
+        <field name="name">oph.appointment.type.list</field>
+        <field name="model">oph.appointment.type</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="visit_type"/>
+                <field name="duration"/>
+                <field name="product_id"/>
+                <field name="study_type_id"/>
+                <field name="color" widget="color_picker"/>
+            </list>
+        </field>
+    </record>
+    <record id="oph_appointment_type_action" model="ir.actions.act_window">
+        <field name="name">Appointment Types</field>
+        <field name="res_model">oph.appointment.type</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="oph_room_view_list" model="ir.ui.view">
+        <field name="name">oph.room.list</field>
+        <field name="model">oph.room</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="room_type"/>
+            </list>
+        </field>
+    </record>
+    <record id="oph_room_action" model="ir.actions.act_window">
+        <field name="name">Rooms</field>
+        <field name="res_model">oph.room</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- ========================================================= consent templates -->
+    <record id="oph_consent_template_view_list" model="ir.ui.view">
+        <field name="name">oph.consent.template.list</field>
+        <field name="model">oph.consent.template</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+    <record id="oph_consent_template_view_form" model="ir.ui.view">
+        <field name="name">oph.consent.template.form</field>
+        <field name="model">oph.consent.template</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name"/></h1></div>
+                    <div class="text-muted mb-2">
+                        Placeholders: {patient}, {document}, {procedure}, {date}, {doctor}, {company}.
+                    </div>
+                    <field name="body"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="oph_consent_template_action" model="ir.actions.act_window">
+        <field name="name">Consent Templates</field>
+        <field name="res_model">oph.consent.template</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ========================================================= products of the clinic -->
+    <record id="product_template_form_view_oph" model="ir.ui.view">
+        <field name="name">product.template.form.oph</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Ophthalmology" name="ophthalmology">
+                    <group>
+                        <group>
+                            <field name="oph_kind"/>
+                            <field name="oph_nomenclator_code"/>
+                        </group>
+                        <group invisible="oph_kind != 'medication'">
+                            <field name="oph_active_ingredient"/>
+                            <field name="oph_presentation"/>
+                            <field name="oph_posology"/>
+                        </group>
+                        <group invisible="oph_kind != 'iol'">
+                            <field name="oph_iol_type"/>
+                            <field name="oph_iol_constant"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record id="oph_product_search_view" model="ir.ui.view">
+        <field name="name">product.template.search.oph</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='services']" position="before">
+                <filter name="oph_medications" string="Medications" domain="[('oph_kind', '=', 'medication')]"/>
+                <filter name="oph_iol" string="Intraocular Lenses" domain="[('oph_kind', '=', 'iol')]"/>
+                <filter name="oph_supplies" string="Surgical Supplies" domain="[('oph_kind', '=', 'supply')]"/>
+                <filter name="oph_services" string="Clinic Services" domain="[('oph_kind', 'in', ('consultation', 'study', 'surgery'))]"/>
+                <separator/>
+            </xpath>
+        </field>
+    </record>
+    <record id="oph_service_action" model="ir.actions.act_window">
+        <field name="name">Services and Fees</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('oph_kind', 'in', ('consultation', 'study', 'surgery'))]</field>
+        <field name="context">{'default_oph_kind': 'consultation', 'default_type': 'service'}</field>
+    </record>
+    <record id="oph_medication_action" model="ir.actions.act_window">
+        <field name="name">Medications</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('oph_kind', '=', 'medication')]</field>
+        <field name="context">{'default_oph_kind': 'medication', 'default_type': 'consu'}</field>
+    </record>
+    <record id="oph_iol_action" model="ir.actions.act_window">
+        <field name="name">Intraocular Lenses</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('oph_kind', '=', 'iol')]</field>
+        <field name="context">{'default_oph_kind': 'iol', 'default_type': 'consu', 'default_is_storable': True, 'default_tracking': 'serial'}</field>
+    </record>
+    <record id="oph_supply_action" model="ir.actions.act_window">
+        <field name="name">Surgical Supplies</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('oph_kind', 'in', ('supply', 'contact_lens', 'optical'))]</field>
+        <field name="context">{'default_oph_kind': 'supply', 'default_type': 'consu', 'default_is_storable': True, 'default_tracking': 'lot'}</field>
+    </record>
+    <record id="oph_lens_lot_action" model="ir.actions.act_window">
+        <field name="name">Lens Serials and Lots</field>
+        <field name="res_model">stock.lot</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('product_id.oph_kind', 'in', ('iol', 'supply'))]</field>
+    </record>
+    <record id="oph_picking_action" model="ir.actions.act_window">
+        <field name="name">Receipts and Deliveries</field>
+        <field name="res_model">stock.picking</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="context">{'contact_display': 'partner_address'}</field>
+        <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+    </record>
+    <record id="oph_supplier_action" model="ir.actions.act_window">
+        <field name="name">Suppliers</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('supplier_rank', '>', 0)]</field>
+        <field name="context">{'res_partner_search_mode': 'supplier', 'default_is_company': True}</field>
+    </record>
+</odoo>

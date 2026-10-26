@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_my_home_oph" name="My Eye Health" customize_show="True" inherit_id="portal.portal_my_home">
+        <div id="portal_client_category" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/odossey_ophthalmology/static/src/img/portal-eye.svg'"/>
+                <t t-set="title">My Eye Health</t>
+                <t t-set="url" t-value="'/my/ophthalmology'"/>
+                <t t-set="text">Appointments, prescriptions, study reports and consents</t>
+                <t t-set="placeholder_count" t-value="'oph_document_count'"/>
+            </t>
+        </div>
+    </template>
+
+    <template id="portal_breadcrumbs_oph" inherit_id="portal.portal_breadcrumbs" priority="63">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'oph_home'" class="breadcrumb-item active">My Eye Health</li>
+            <li t-if="page_name == 'oph_consent'" class="breadcrumb-item"><a href="/my/ophthalmology">My Eye Health</a></li>
+            <li t-if="page_name == 'oph_consent'" class="breadcrumb-item active"><t t-esc="consent.name"/></li>
+        </xpath>
+    </template>
+
+    <template id="portal_oph_document_table">
+        <div class="mt-4" t-if="records">
+            <h4 t-esc="title"/>
+            <table class="table table-sm o_portal_my_doc_table">
+                <tbody>
+                    <tr t-foreach="records" t-as="rec">
+                        <td><t t-esc="rec.name"/></td>
+                        <td t-if="len(patients) &gt; 1"><t t-esc="rec.patient_id.name"/></td>
+                        <td><t t-esc="label(rec)"/></td>
+                        <td class="text-end">
+                            <a t-att-href="rec.get_portal_url()" class="btn btn-sm btn-secondary"><i class="fa fa-download me-1"/>PDF</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </template>
+
+    <template id="portal_my_ophthalmology" name="My Eye Health">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">My Eye Health</t>
+            </t>
+            <p t-if="not patients" class="mt-3">You are not registered as a patient of the clinic yet.</p>
+            <div class="mt-3" t-if="appointments">
+                <h4>Next Appointments</h4>
+                <table class="table table-sm">
+                    <tbody>
+                        <tr t-foreach="appointments" t-as="event">
+                            <td><span t-field="event.start" t-options="{'widget': 'datetime', 'hide_seconds': True}"/></td>
+                            <td t-if="len(patients) &gt; 1"><t t-esc="event.oph_patient_id.name"/></td>
+                            <td><t t-esc="event.oph_appointment_type_id.name"/></td>
+                            <td><t t-esc="event.user_id.name"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-4" t-if="consents">
+                <h4>Informed Consents</h4>
+                <table class="table table-sm">
+                    <tbody>
+                        <tr t-foreach="consents" t-as="consent">
+                            <td><t t-esc="consent.title"/></td>
+                            <td>
+                                <span t-if="consent.state == 'signed'" class="badge rounded-pill text-bg-success">Signed</span>
+                                <span t-else="" class="badge rounded-pill text-bg-warning">Waiting signature</span>
+                            </td>
+                            <td class="text-end"><a t-att-href="consent.get_portal_url()" class="btn btn-sm btn-primary">Open</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <t t-call="odossey_ophthalmology.portal_oph_document_table">
+                <t t-set="title">Glasses and Contact Lens Prescriptions</t>
+                <t t-set="records" t-value="glasses"/>
+                <t t-set="label" t-value="lambda r: '%s - %s' % (r.date.strftime('%d/%m/%Y'), dict(r._fields['lens_use']._description_selection(r.env)).get(r.lens_use))"/>
+            </t>
+            <t t-call="odossey_ophthalmology.portal_oph_document_table">
+                <t t-set="title">Prescriptions</t>
+                <t t-set="records" t-value="prescriptions"/>
+                <t t-set="label" t-value="lambda r: '%s - %s' % (r.date.strftime('%d/%m/%Y'), ', '.join(r.line_ids.mapped('active_ingredient')))"/>
+            </t>
+            <t t-call="odossey_ophthalmology.portal_oph_document_table">
+                <t t-set="title">Study Reports</t>
+                <t t-set="records" t-value="studies"/>
+                <t t-set="label" t-value="lambda r: '%s - %s' % (r.date.strftime('%d/%m/%Y'), r.study_type_id.name)"/>
+            </t>
+            <t t-call="odossey_ophthalmology.portal_oph_document_table">
+                <t t-set="title">Certificates</t>
+                <t t-set="records" t-value="certificates"/>
+                <t t-set="label" t-value="lambda r: '%s - %s' % (r.date.strftime('%d/%m/%Y'), dict(r._fields['certificate_type']._description_selection(r.env)).get(r.certificate_type))"/>
+            </t>
+            <div class="mt-4" t-if="surgeries">
+                <h4>Surgeries</h4>
+                <table class="table table-sm">
+                    <tbody>
+                        <tr t-foreach="surgeries" t-as="surgery">
+                            <td><span t-field="surgery.start" t-options="{'widget': 'datetime', 'hide_seconds': True}"/></td>
+                            <td><t t-esc="surgery.procedure_id.name"/> (<span t-field="surgery.eye"/>)</td>
+                            <td><span t-field="surgery.state"/></td>
+                            <td class="text-end">
+                                <a t-if="surgery.state == 'done' and surgery.iol_lot_id" t-att-href="surgery.get_portal_url()" class="btn btn-sm btn-secondary">
+                                    <i class="fa fa-download me-1"/>Implant card</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+
+    <template id="portal_consent_page" name="Consent">
+        <t t-call="portal.portal_layout">
+            <t t-set="o_portal_fullwidth_alert" t-if="message == 'sign_ok'">
+                <div class="alert alert-success o_oph_consent_signed" role="alert">Thank you, the consent has been signed.</div>
+            </t>
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h3 class="mb-0"><t t-esc="consent.title"/></h3>
+                    <small class="text-muted"><t t-esc="consent.name"/> · <t t-esc="consent.patient_id.name"/></small>
+                </div>
+                <div class="card-body">
+                    <div t-field="consent.content"/>
+                    <t t-if="consent.state in ('signed', 'revoked')">
+                        <hr/>
+                        <img t-if="consent.signature" t-att-src="image_data_uri(consent.signature)" style="max-height: 6rem;" alt="Signature"/>
+                        <p class="mb-0">Signed by <strong t-esc="consent.signed_by"/> on <span t-field="consent.signed_on" t-options="{'widget': 'datetime', 'hide_seconds': True}"/></p>
+                        <a class="btn btn-secondary mt-2" t-att-href="consent.get_portal_url(report_type='pdf', download=True)">
+                            <i class="fa fa-download me-1"/>Download PDF
+                        </a>
+                    </t>
+                    <t t-if="can_sign">
+                        <hr/>
+                        <p>I have read and understood this document and I give my consent.</p>
+                        <t t-call="portal.signature_form">
+                            <t t-set="call_url" t-value="consent.get_portal_url(suffix='/sign')"/>
+                            <t t-set="default_name" t-value="consent.patient_id.name or 'Patient'"/>
+                            <t t-set="send_label">Sign the consent</t>
+                        </t>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

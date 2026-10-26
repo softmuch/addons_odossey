@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========================================================= consents -->
+    <record id="oph_consent_view_form" model="ir.ui.view">
+        <field name="name">oph.consent.form</field>
+        <field name="model">oph.consent</field>
+        <field name="arch" type="xml">
+            <form string="Informed Consent">
+                <header>
+                    <button name="action_send" type="object" string="Send for Signature" invisible="state not in ('draft', 'sent')"/>
+                    <button name="action_sign" type="object" string="Sign" class="btn-primary"
+                            invisible="state not in ('draft', 'sent') or not signature"/>
+                    <button name="action_print" type="object" string="Print"/>
+                    <button name="action_verify_fingerprint" type="object" string="Verify Fingerprint" invisible="state not in ('signed', 'revoked')"/>
+                    <button name="action_refuse" type="object" string="Refused" invisible="state not in ('draft', 'sent')"/>
+                    <button name="action_revoke" type="object" string="Revoke" invisible="state != 'signed'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,sent,signed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" readonly="1"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="patient_id" readonly="state in ('signed', 'revoked')" options="{'no_quick_create': True}"/>
+                            <field name="template_id" readonly="state in ('signed', 'revoked')"/>
+                            <field name="procedure" readonly="state in ('signed', 'revoked')"/>
+                            <field name="surgery_id" readonly="1" invisible="not surgery_id"/>
+                        </group>
+                        <group>
+                            <field name="doctor_id"/>
+                            <field name="signer_role" readonly="state in ('signed', 'revoked')"/>
+                            <field name="signed_on" invisible="not signed_on"/>
+                            <field name="signed_ip" invisible="not signed_ip"/>
+                        </group>
+                    </group>
+                    <field name="content" readonly="state in ('signed', 'revoked')"/>
+                    <group string="Signature">
+                        <field name="signed_by" readonly="state in ('signed', 'revoked')"/>
+                        <field name="signature" widget="signature" readonly="state in ('signed', 'revoked')"/>
+                        <field name="signature_hash" invisible="not signature_hash"/>
+                        <field name="revoke_reason" invisible="state not in ('signed', 'revoked')" readonly="state == 'revoked'"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="oph_consent_view_list" model="ir.ui.view">
+        <field name="name">oph.consent.list</field>
+        <field name="model">oph.consent</field>
+        <field name="arch" type="xml">
+            <list string="Consents">
+                <field name="create_date" string="Date" widget="date"/>
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="title"/>
+                <field name="procedure" optional="show"/>
+                <field name="signed_on" optional="hide"/>
+                <field name="state" widget="badge" decoration-success="state == 'signed'" decoration-warning="state == 'sent'" decoration-danger="state in ('refused', 'revoked')"/>
+            </list>
+        </field>
+    </record>
+    <record id="oph_consent_view_search" model="ir.ui.view">
+        <field name="name">oph.consent.search</field>
+        <field name="model">oph.consent</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="patient_id"/>
+                <field name="template_id"/>
+                <filter name="pending" string="Waiting Signature" domain="[('state', 'in', ('draft', 'sent'))]"/>
+                <filter name="signed" string="Signed" domain="[('state', '=', 'signed')]"/>
+            </search>
+        </field>
+    </record>
+    <record id="oph_consent_action" model="ir.actions.act_window">
+        <field name="name">Informed Consents</field>
+        <field name="res_model">oph.consent</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="oph_consent_view_search"/>
+    </record>
+
+    <!-- ========================================================= certificates -->
+    <record id="oph_certificate_view_form" model="ir.ui.view">
+        <field name="name">oph.certificate.form</field>
+        <field name="model">oph.certificate</field>
+        <field name="arch" type="xml">
+            <form string="Certificate">
+                <header>
+                    <button name="action_issue" type="object" string="Issue" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_print" type="object" string="Print" invisible="state != 'issued'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" readonly="1"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="patient_id" options="{'no_quick_create': True}"/>
+                            <field name="certificate_type"/>
+                            <field name="rest_days" invisible="certificate_type != 'rest'"/>
+                            <field name="exam_id" domain="[('patient_id', '=', patient_id)]"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="doctor_id"/>
+                        </group>
+                    </group>
+                    <field name="body"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="oph_certificate_view_list" model="ir.ui.view">
+        <field name="name">oph.certificate.list</field>
+        <field name="model">oph.certificate</field>
+        <field name="arch" type="xml">
+            <list string="Certificates">
+                <field name="date"/>
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="certificate_type"/>
+                <field name="doctor_id"/>
+                <field name="state" widget="badge" decoration-success="state == 'issued'"/>
+            </list>
+        </field>
+    </record>
+    <record id="oph_certificate_action" model="ir.actions.act_window">
+        <field name="name">Certificates</field>
+        <field name="res_model">oph.certificate</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

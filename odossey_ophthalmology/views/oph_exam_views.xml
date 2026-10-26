@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="oph_exam_view_form" model="ir.ui.view">
+        <field name="name">oph.exam.form</field>
+        <field name="model">oph.exam</field>
+        <field name="arch" type="xml">
+            <form string="Exam">
+                <header>
+                    <button name="action_pre_consultation" type="object" string="Start Pre-consultation" invisible="state != 'draft'"/>
+                    <button name="action_start" type="object" string="Start Consultation" class="btn-primary"
+                            invisible="state not in ('draft', 'pre_consultation')" groups="odossey_ophthalmology.group_oph_ophthalmologist"/>
+                    <button name="action_copy_previous" type="object" string="Copy Previous Exam"
+                            invisible="state not in ('draft', 'pre_consultation', 'in_progress')"/>
+                    <button name="action_done" type="object" string="Close Exam" class="btn-primary"
+                            invisible="state != 'in_progress'" groups="odossey_ophthalmology.group_oph_ophthalmologist"
+                            confirm="Once closed, the exam cannot be modified (only addenda can be added). Continue?"/>
+                    <button name="action_create_glasses" type="object" string="Glasses Prescription"
+                            invisible="state not in ('in_progress', 'done')" groups="odossey_ophthalmology.group_oph_ophthalmologist"/>
+                    <button name="action_new_prescription" type="object" string="Prescription"
+                            invisible="state not in ('in_progress', 'done')" groups="odossey_ophthalmology.group_oph_ophthalmologist"/>
+                    <button name="action_new_surgery" type="object" string="Indicate Surgery"
+                            invisible="state not in ('in_progress', 'done')" groups="odossey_ophthalmology.group_oph_ophthalmologist"/>
+                    <button name="action_new_certificate" type="object" string="Certificate"
+                            invisible="state not in ('in_progress', 'done')" groups="odossey_ophthalmology.group_oph_ophthalmologist"/>
+                    <button name="action_print" type="object" string="Print" invisible="state != 'done'"/>
+                    <button name="action_create_billing" type="object" string="Bill Charges"
+                            invisible="state != 'done'" groups="odossey_ophthalmology.group_oph_reception"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state in ('done', 'cancel')"/>
+                    <button name="action_reset_draft" type="object" string="Reset to Draft" invisible="state != 'cancel'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,pre_consultation,in_progress,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_iop_chart" type="object" class="oe_stat_button" icon="fa-line-chart">
+                            <span>Evolution</span>
+                        </button>
+                        <button name="action_view_sale_orders" type="object" class="oe_stat_button" icon="fa-dollar"
+                                invisible="not sale_order_ids">
+                            <span>Quotations</span>
+                        </button>
+                        <button name="action_view_documents" type="object" class="oe_stat_button" icon="fa-file-text-o"
+                                invisible="not document_count">
+                            <field name="document_count" widget="statinfo" string="Documents"/>
+                        </button>
+                    </div>
+                    <div class="alert alert-warning mb-2" role="alert" invisible="alert_level in (False, 'none')">
+                        <div class="d-flex align-items-center flex-wrap gap-2">
+                            <i class="fa fa-exclamation-triangle" title="Alerts"/>
+                            <field name="alert_html" nolabel="1"/>
+                        </div>
+                    </div>
+                    <div class="alert alert-danger mb-2" role="alert" invisible="not iop_warning">
+                        <i class="fa fa-exclamation-circle" title="Warning"/> <field name="iop_warning" nolabel="1" class="d-inline"/>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="patient_id" context="{'default_is_oph_patient': True, 'oph_show_record': True}"
+                                   options="{'no_quick_create': True}"/>
+                            <field name="record_number"/>
+                            <field name="patient_age"/>
+                            <field name="visit_type"/>
+                            <field name="reason"/>
+                        </group>
+                        <group>
+                            <field name="date" options="{'show_seconds': False}"/>
+                            <field name="doctor_id"/>
+                            <field name="technician_id"/>
+                            <field name="insurance_id" placeholder="Private"/>
+                            <field name="authorization" invisible="not insurance_id"/>
+                            <field name="appointment_id" readonly="1" invisible="not appointment_id"/>
+                            <field name="sale_order_ids" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Anamnesis" name="anamnesis">
+                            <group>
+                                <field name="current_illness" placeholder="Onset, duration, symptoms, eye affected..."/>
+                                <field name="medical_history" placeholder="Systemic diseases and current medication"/>
+                                <field name="ocular_history" placeholder="Previous eye diseases, surgeries, glasses"/>
+                            </group>
+                        </page>
+                        <page string="Pre-consultation" name="pre">
+                            <group string="Visual Acuity">
+                                <group string="Right eye (OD)">
+                                    <field name="va_sc_od" string="Without correction"/>
+                                    <field name="va_cc_od" string="With correction"/>
+                                    <field name="va_ph_od" string="Pinhole"/>
+                                    <field name="va_near_od" string="Near"/>
+                                </group>
+                                <group string="Left eye (OS)">
+                                    <field name="va_sc_os" string="Without correction"/>
+                                    <field name="va_cc_os" string="With correction"/>
+                                    <field name="va_ph_os" string="Pinhole"/>
+                                    <field name="va_near_os" string="Near"/>
+                                </group>
+                            </group>
+                            <group string="Current Glasses (Lensometry)">
+                                <group string="Right eye (OD)">
+                                    <field name="lenso_sph_od" string="Sphere"/>
+                                    <field name="lenso_cyl_od" string="Cylinder"/>
+                                    <field name="lenso_axis_od" string="Axis"/>
+                                    <field name="lenso_add_od" string="Addition"/>
+                                </group>
+                                <group string="Left eye (OS)">
+                                    <field name="lenso_sph_os" string="Sphere"/>
+                                    <field name="lenso_cyl_os" string="Cylinder"/>
+                                    <field name="lenso_axis_os" string="Axis"/>
+                                    <field name="lenso_add_os" string="Addition"/>
+                                </group>
+                            </group>
+                            <group string="Auto-refraction and Keratometry">
+                                <group string="Right eye (OD)">
+                                    <field name="ar_sph_od" string="Sphere"/>
+                                    <field name="ar_cyl_od" string="Cylinder"/>
+                                    <field name="ar_axis_od" string="Axis"/>
+                                    <field name="k1_od" string="K1 (D)"/>
+                                    <field name="k2_od" string="K2 (D)"/>
+                                    <field name="k_axis_od" string="K axis"/>
+                                </group>
+                                <group string="Left eye (OS)">
+                                    <field name="ar_sph_os" string="Sphere"/>
+                                    <field name="ar_cyl_os" string="Cylinder"/>
+                                    <field name="ar_axis_os" string="Axis"/>
+                                    <field name="k1_os" string="K1 (D)"/>
+                                    <field name="k2_os" string="K2 (D)"/>
+                                    <field name="k_axis_os" string="K axis"/>
+                                </group>
+                            </group>
+                            <group string="Intraocular Pressure">
+                                <group string="Right eye (OD)">
+                                    <field name="iop_od" string="Pressure (mmHg)" decoration-danger="iop_od &gt; 21"/>
+                                    <field name="pachymetry_od" string="Pachymetry (µm)"/>
+                                </group>
+                                <group string="Left eye (OS)">
+                                    <field name="iop_os" string="Pressure (mmHg)" decoration-danger="iop_os &gt; 21"/>
+                                    <field name="pachymetry_os" string="Pachymetry (µm)"/>
+                                </group>
+                                <group>
+                                    <field name="iop_method"/>
+                                    <field name="iop_time" options="{'show_seconds': False}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Refraction" name="refraction">
+                            <group string="Subjective Refraction">
+                                <group string="Right eye (OD)">
+                                    <field name="rx_sph_od" string="Sphere"/>
+                                    <field name="rx_cyl_od" string="Cylinder"/>
+                                    <field name="rx_axis_od" string="Axis"/>
+                                    <field name="rx_add_od" string="Addition"/>
+                                    <field name="rx_va_od" string="Best corrected VA"/>
+                                </group>
+                                <group string="Left eye (OS)">
+                                    <field name="rx_sph_os" string="Sphere"/>
+                                    <field name="rx_cyl_os" string="Cylinder"/>
+                                    <field name="rx_axis_os" string="Axis"/>
+                                    <field name="rx_add_os" string="Addition"/>
+                                    <field name="rx_va_os" string="Best corrected VA"/>
+                                </group>
+                                <group>
+                                    <field name="pd_distance"/>
+                                    <field name="pd_near"/>
+                                </group>
+                            </group>
+                            <group string="Orthoptics">
+                                <group>
+                                    <field name="pupils"/>
+                                    <field name="motility"/>
+                                    <field name="cover_test"/>
+                                </group>
+                                <group>
+                                    <field name="color_vision"/>
+                                    <field name="stereopsis"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Slit Lamp" name="slit_lamp" groups="odossey_ophthalmology.group_oph_ophthalmologist">
+                            <group>
+                                <group string="Right eye (OD)">
+                                    <field name="lids_od" string="Lids"/>
+                                    <field name="conjunctiva_od" string="Conjunctiva"/>
+                                    <field name="cornea_od" string="Cornea"/>
+                                    <field name="anterior_chamber_od" string="Anterior chamber"/>
+                                    <field name="iris_od" string="Iris"/>
+                                    <field name="lens_od" string="Lens"/>
+                                    <field name="lens_grade_od" string="Cataract (LOCS)"/>
+                                    <field name="gonioscopy_od" string="Gonioscopy"/>
+                                </group>
+                                <group string="Left eye (OS)">
+                                    <field name="lids_os" string="Lids"/>
+                                    <field name="conjunctiva_os" string="Conjunctiva"/>
+                                    <field name="cornea_os" string="Cornea"/>
+                                    <field name="anterior_chamber_os" string="Anterior chamber"/>
+                                    <field name="iris_os" string="Iris"/>
+                                    <field name="lens_os" string="Lens"/>
+                                    <field name="lens_grade_os" string="Cataract (LOCS)"/>
+                                    <field name="gonioscopy_os" string="Gonioscopy"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Fundus" name="fundus" groups="odossey_ophthalmology.group_oph_ophthalmologist">
+                            <group>
+                                <field name="dilated"/>
+                            </group>
+                            <group>
+                                <group string="Right eye (OD)">
+                                    <field name="vitreous_od" string="Vitreous"/>
+                                    <field name="disc_od" string="Optic disc"/>
+                                    <field name="cup_disc_od" string="Cup / disc" decoration-danger="cup_disc_od &gt;= 0.6"/>
+                                    <field name="macula_od" string="Macula"/>
+                                    <field name="vessels_od" string="Vessels"/>
+                                    <field name="periphery_od" string="Periphery"/>
+                                </group>
+                                <group string="Left eye (OS)">
+                                    <field name="vitreous_os" string="Vitreous"/>
+                                    <field name="disc_os" string="Optic disc"/>
+                                    <field name="cup_disc_os" string="Cup / disc" decoration-danger="cup_disc_os &gt;= 0.6"/>
+                                    <field name="macula_os" string="Macula"/>
+                                    <field name="vessels_os" string="Vessels"/>
+                                    <field name="periphery_os" string="Periphery"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Diagnosis and Plan" name="plan" groups="odossey_ophthalmology.group_oph_ophthalmologist">
+                            <field name="diagnosis_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="diagnosis_id" options="{'no_create': True}"/>
+                                    <field name="eye"/>
+                                    <field name="note"/>
+                                </list>
+                            </field>
+                            <group>
+                                <field name="plan" placeholder="Treatment, studies requested, surgery indicated..."/>
+                                <field name="patient_instructions" placeholder="Printed for the patient: drops, care, alarm signs..."/>
+                                <field name="next_control_date"/>
+                                <field name="clinical_notes" placeholder="Private notes (not printed)"/>
+                            </group>
+                        </page>
+                        <page string="Studies" name="studies">
+                            <field name="study_ids" context="{'default_patient_id': patient_id}">
+                                <list editable="bottom">
+                                    <field name="study_type_id"/>
+                                    <field name="eye"/>
+                                    <field name="patient_id" column_invisible="True"/>
+                                    <field name="name" readonly="1" optional="hide"/>
+                                    <field name="conclusion" readonly="1"/>
+                                    <field name="state" widget="badge" readonly="1" decoration-success="state == 'reported'" decoration-info="state in ('scheduled', 'done')"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Documents" name="documents" groups="odossey_ophthalmology.group_oph_ophthalmologist">
+                            <separator string="Glasses Prescriptions"/>
+                            <field name="glasses_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="lens_use"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                            <separator string="Prescriptions"/>
+                            <field name="prescription_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="diagnosis_id"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                            <separator string="Surgeries"/>
+                            <field name="surgery_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="procedure_id"/>
+                                    <field name="eye"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                            <separator string="Certificates"/>
+                            <field name="certificate_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="certificate_type"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Charges" name="charges">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id"/>
+                                    <field name="name"/>
+                                    <field name="quantity"/>
+                                    <field name="tracking" column_invisible="True"/>
+                                    <field name="lot_id" invisible="tracking == 'none'" optional="show"/>
+                                    <field name="billing"/>
+                                    <field name="claim_id" optional="show"/>
+                                    <field name="sale_line_id" optional="hide"/>
+                                </list>
+                            </field>
+                            <field name="claim_ids" invisible="1"/>
+                        </page>
+                        <page string="Addenda" name="addenda" invisible="state != 'done'">
+                            <field name="addendum_ids">
+                                <list create="1" delete="0">
+                                    <field name="create_date" readonly="1" options="{'show_seconds': False}"/>
+                                    <field name="author_id" readonly="1"/>
+                                    <field name="note"/>
+                                </list>
+                                <form>
+                                    <group>
+                                        <field name="note" placeholder="Correction or new information for the closed exam..."/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="oph_exam_view_list" model="ir.ui.view">
+        <field name="name">oph.exam.list</field>
+        <field name="model">oph.exam</field>
+        <field name="arch" type="xml">
+            <list string="Exams" decoration-muted="state == 'cancel'">
+                <field name="date" widget="datetime" options="{'show_seconds': False}"/>
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="visit_type"/>
+                <field name="doctor_id"/>
+                <field name="main_diagnosis"/>
+                <field name="iop_od" optional="show"/>
+                <field name="iop_os" optional="show"/>
+                <field name="insurance_id" optional="hide"/>
+                <field name="next_control_date" optional="hide"/>
+                <field name="state" widget="badge" decoration-success="state == 'done'" decoration-info="state in ('pre_consultation', 'in_progress')"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="oph_exam_view_graph" model="ir.ui.view">
+        <field name="name">oph.exam.graph</field>
+        <field name="model">oph.exam</field>
+        <field name="arch" type="xml">
+            <graph string="Intraocular Pressure Evolution" type="bar" sample="1">
+                <field name="date" interval="month"/>
+                <field name="iop_os" type="measure"/>
+                <field name="iop_od" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="oph_exam_view_pivot" model="ir.ui.view">
+        <field name="name">oph.exam.pivot</field>
+        <field name="model">oph.exam</field>
+        <field name="arch" type="xml">
+            <pivot string="Exams">
+                <field name="date" interval="month" type="col"/>
+                <field name="doctor_id" type="row"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="oph_exam_view_search" model="ir.ui.view">
+        <field name="name">oph.exam.search</field>
+        <field name="model">oph.exam</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="patient_id"/>
+                <field name="name"/>
+                <field name="doctor_id"/>
+                <field name="diagnosis_ids" string="Diagnosis" filter_domain="[('diagnosis_ids.diagnosis_id', 'ilike', self)]"/>
+                <filter name="today" string="Today"
+                        domain="[('date', '&gt;=', datetime.datetime.combine(context_today(), datetime.time(0, 0, 0)).to_utc().strftime('%Y-%m-%d %H:%M:%S')),
+                                 ('date', '&lt;', datetime.datetime.combine(context_today() + relativedelta(days=1), datetime.time(0, 0, 0)).to_utc().strftime('%Y-%m-%d %H:%M:%S'))]"/>
+                <filter name="mine" string="My Exams" domain="[('doctor_id', '=', uid)]"/>
+                <separator/>
+                <filter name="open" string="Open" domain="[('state', 'in', ('draft', 'pre_consultation', 'in_progress'))]"/>
+                <filter name="done" string="Closed" domain="[('state', '=', 'done')]"/>
+                <separator/>
+                <filter name="high_iop" string="High Pressure" domain="['|', ('iop_od', '&gt;', 21), ('iop_os', '&gt;', 21)]"/>
+                <group>
+                    <filter name="group_doctor" string="Ophthalmologist" context="{'group_by': 'doctor_id'}"/>
+                    <filter name="group_patient" string="Patient" context="{'group_by': 'patient_id'}"/>
+                    <filter name="group_month" string="Month" context="{'group_by': 'date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="oph_exam_action" model="ir.actions.act_window">
+        <field name="name">Exams</field>
+        <field name="res_model">oph.exam</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+        <field name="search_view_id" ref="oph_exam_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No exams yet</p>
+            <p>Exams are created from the waiting room ("Pre-consultation" or "Start Consultation") or from the patient.</p>
+        </field>
+    </record>
+
+    <record id="oph_exam_evolution_action" model="ir.actions.act_window">
+        <field name="name">Evolution</field>
+        <field name="res_model">oph.exam</field>
+        <field name="view_mode">graph,list,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'graph', 'view_id': ref('oph_exam_view_graph')}),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('oph_exam_view_list')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('oph_exam_view_form')})]"/>
+    </record>
+
+    <record id="oph_access_log_view_list" model="ir.ui.view">
+        <field name="name">oph.access.log.list</field>
+        <field name="model">oph.access.log</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" delete="0">
+                <field name="create_date" options="{'show_seconds': False}"/>
+                <field name="user_id"/>
+                <field name="patient_id"/>
+                <field name="res_model" optional="hide"/>
+                <field name="res_id" optional="hide"/>
+            </list>
+        </field>
+    </record>
+    <record id="oph_access_log_view_search" model="ir.ui.view">
+        <field name="name">oph.access.log.search</field>
+        <field name="model">oph.access.log</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="patient_id"/>
+                <field name="user_id"/>
+                <group>
+                    <filter name="group_user" string="User" context="{'group_by': 'user_id'}"/>
+                    <filter name="group_patient" string="Patient" context="{'group_by': 'patient_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="oph_access_log_action" model="ir.actions.act_window">
+        <field name="name">Clinical Record Access Log</field>
+        <field name="res_model">oph.access.log</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

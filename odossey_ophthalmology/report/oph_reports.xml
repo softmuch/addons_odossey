@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========================================================= shared blocks -->
+    <template id="report_patient_block">
+        <div class="row mb-3">
+            <div class="col-7">
+                <strong t-field="patient.name"/>
+                <div t-if="patient.oph_document"><span>ID</span>: <span t-field="patient.oph_document"/></div>
+                <div t-if="patient.oph_birthdate"><span>Date of birth</span>: <span t-field="patient.oph_birthdate"/>
+                    (<span t-field="patient.oph_age"/> <span>years</span>)</div>
+            </div>
+            <div class="col-5 text-end">
+                <div t-if="patient.oph_record_number"><span>Clinical record</span>: <strong t-field="patient.oph_record_number"/></div>
+                <div t-if="patient.oph_insurance_id"><span t-field="patient.oph_insurance_id"/>
+                    <span t-if="patient.oph_member_number"> - <span>Member</span> <span t-field="patient.oph_member_number"/></span></div>
+            </div>
+        </div>
+    </template>
+
+    <template id="report_doctor_signature">
+        <div class="row mt-5" style="page-break-inside: avoid;">
+            <div class="col-6 offset-6 text-center">
+                <img t-if="doctor.oph_signature" t-att-src="image_data_uri(doctor.oph_signature)" style="max-height: 90px;"/>
+                <div style="border-top: 1px solid #333;" class="pt-1">
+                    <strong t-field="doctor.name"/>
+                    <div t-if="doctor.oph_specialty" t-field="doctor.oph_specialty"/>
+                    <div t-if="doctor.oph_license"><span>MN</span> <span t-field="doctor.oph_license"/>
+                        <span t-if="doctor.oph_license_provincial"> - <span>MP</span> <span t-field="doctor.oph_license_provincial"/></span></div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- ========================================================= exam summary -->
+    <template id="report_exam_document">
+        <t t-call="web.external_layout">
+            <t t-set="patient" t-value="doc.patient_id"/>
+            <div class="page">
+                <h3><span>Ophthalmological Exam</span> <span t-field="doc.name"/></h3>
+                <div class="mb-2"><span t-field="doc.date" t-options="{'widget': 'datetime', 'hide_seconds': True}"/> - <span t-field="doc.visit_type"/></div>
+                <t t-call="odossey_ophthalmology.report_patient_block"/>
+                <p t-if="doc.reason"><strong>Reason for visit:</strong> <span t-field="doc.reason"/></p>
+                <table class="table table-sm table-bordered text-center">
+                    <thead>
+                        <tr><th class="text-start"/><th>Right eye (OD)</th><th>Left eye (OS)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="text-start">VA without correction</td><td><span t-field="doc.va_sc_od"/></td><td><span t-field="doc.va_sc_os"/></td></tr>
+                        <tr><td class="text-start">VA with correction</td><td><span t-field="doc.va_cc_od"/></td><td><span t-field="doc.va_cc_os"/></td></tr>
+                        <tr><td class="text-start">Refraction</td>
+                            <td><t t-esc="doc.env['oph.glasses.prescription']._format_diopter(doc.rx_sph_od)"/> / <t t-esc="doc.env['oph.glasses.prescription']._format_diopter(doc.rx_cyl_od)"/> x <t t-esc="doc.rx_axis_od"/>°
+                                <t t-if="doc.rx_add_od"> Add <t t-esc="doc.env['oph.glasses.prescription']._format_diopter(doc.rx_add_od)"/></t></td>
+                            <td><t t-esc="doc.env['oph.glasses.prescription']._format_diopter(doc.rx_sph_os)"/> / <t t-esc="doc.env['oph.glasses.prescription']._format_diopter(doc.rx_cyl_os)"/> x <t t-esc="doc.rx_axis_os"/>°
+                                <t t-if="doc.rx_add_os"> Add <t t-esc="doc.env['oph.glasses.prescription']._format_diopter(doc.rx_add_os)"/></t></td></tr>
+                        <tr><td class="text-start">Best corrected VA</td><td><span t-field="doc.rx_va_od"/></td><td><span t-field="doc.rx_va_os"/></td></tr>
+                        <tr><td class="text-start">Intraocular pressure (mmHg)</td><td><span t-field="doc.iop_od"/></td><td><span t-field="doc.iop_os"/></td></tr>
+                        <tr><td class="text-start">Cup / disc</td><td><span t-field="doc.cup_disc_od"/></td><td><span t-field="doc.cup_disc_os"/></td></tr>
+                        <tr t-if="doc.lens_grade_od or doc.lens_grade_os"><td class="text-start">Lens</td><td><span t-field="doc.lens_grade_od"/></td><td><span t-field="doc.lens_grade_os"/></td></tr>
+                        <tr t-if="doc.macula_od or doc.macula_os"><td class="text-start">Macula</td><td><span t-field="doc.macula_od"/></td><td><span t-field="doc.macula_os"/></td></tr>
+                    </tbody>
+                </table>
+                <h5 t-if="doc.diagnosis_ids">Diagnoses</h5>
+                <ul t-if="doc.diagnosis_ids">
+                    <li t-foreach="doc.diagnosis_ids" t-as="d"><span t-field="d.diagnosis_id"/> - <span t-field="d.eye"/>
+                        <span t-if="d.note"> (<span t-field="d.note"/>)</span></li>
+                </ul>
+                <div t-if="doc.plan"><h5>Plan</h5><div t-field="doc.plan"/></div>
+                <div t-if="doc.patient_instructions"><h5>Instructions</h5><p t-field="doc.patient_instructions"/></div>
+                <p t-if="doc.next_control_date"><strong>Next control:</strong> <span t-field="doc.next_control_date"/></p>
+                <div t-if="doc.addendum_ids" class="mt-3">
+                    <h5>Addenda</h5>
+                    <p t-foreach="doc.addendum_ids" t-as="a"><span t-field="a.create_date" t-options="{'widget': 'datetime', 'hide_seconds': True}"/>
+                        - <span t-field="a.author_id"/>: <span t-field="a.note"/></p>
+                </div>
+                <t t-set="doctor" t-value="doc.doctor_id"/>
+                <t t-call="odossey_ophthalmology.report_doctor_signature"/>
+            </div>
+        </t>
+    </template>
+    <template id="report_exam">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="odossey_ophthalmology.report_exam_document" t-lang="doc.patient_id.lang"/>
+            </t>
+        </t>
+    </template>
+    <record id="action_report_exam" model="ir.actions.report">
+        <field name="name">Exam Summary</field>
+        <field name="model">oph.exam</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odossey_ophthalmology.report_exam</field>
+        <field name="report_file">odossey_ophthalmology.report_exam</field>
+        <field name="print_report_name">object._get_report_base_filename()</field>
+        <field name="binding_model_id" ref="model_oph_exam"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- ========================================================= glasses prescription -->
+    <template id="report_glasses_document">
+        <t t-call="web.external_layout">
+            <t t-set="patient" t-value="doc.patient_id"/>
+            <t t-set="fmt" t-value="doc.env['oph.glasses.prescription']._format_diopter"/>
+            <div class="page">
+                <h3 t-if="doc.prescription_type == 'glasses'">Glasses Prescription</h3>
+                <h3 t-else="">Contact Lens Prescription</h3>
+                <div class="mb-2"><span t-field="doc.name"/> - <span t-field="doc.date"/> - <span t-field="doc.lens_use"/></div>
+                <t t-call="odossey_ophthalmology.report_patient_block"/>
+                <table class="table table-sm table-bordered text-center">
+                    <thead>
+                        <tr><th/><th>Sphere</th><th>Cylinder</th><th>Axis</th><th>Addition</th><th>Prism</th>
+                            <th t-if="doc.prescription_type == 'contact_lens'">Base curve</th>
+                            <th t-if="doc.prescription_type == 'contact_lens'">Diameter</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>OD</strong></td><td t-esc="fmt(doc.sph_od)"/><td t-esc="fmt(doc.cyl_od)"/><td><t t-esc="doc.axis_od"/>°</td>
+                            <td t-esc="fmt(doc.add_od) if doc.add_od else '-'"/><td t-esc="doc.prism_od or '-'"/>
+                            <td t-if="doc.prescription_type == 'contact_lens'"><span t-field="doc.cl_base_curve_od"/></td>
+                            <td t-if="doc.prescription_type == 'contact_lens'"><span t-field="doc.cl_diameter_od"/></td></tr>
+                        <tr><td><strong>OS</strong></td><td t-esc="fmt(doc.sph_os)"/><td t-esc="fmt(doc.cyl_os)"/><td><t t-esc="doc.axis_os"/>°</td>
+                            <td t-esc="fmt(doc.add_os) if doc.add_os else '-'"/><td t-esc="doc.prism_os or '-'"/>
+                            <td t-if="doc.prescription_type == 'contact_lens'"><span t-field="doc.cl_base_curve_os"/></td>
+                            <td t-if="doc.prescription_type == 'contact_lens'"><span t-field="doc.cl_diameter_os"/></td></tr>
+                    </tbody>
+                </table>
+                <p t-if="doc.pd_distance"><strong>Pupillary distance:</strong> <span t-field="doc.pd_distance"/> mm
+                    <span t-if="doc.pd_near"> / <span>near</span> <span t-field="doc.pd_near"/> mm</span></p>
+                <p t-if="doc.cl_brand"><strong>Lens:</strong> <span t-field="doc.cl_brand"/> <span t-if="doc.cl_replacement">(<span t-field="doc.cl_replacement"/>)</span></p>
+                <p t-if="doc.lens_recommendations"><strong>Recommendations:</strong> <span t-field="doc.lens_recommendations"/></p>
+                <p t-if="doc.notes" t-field="doc.notes"/>
+                <p class="small text-muted"><span>Valid until</span> <span t-field="doc.valid_until"/></p>
+                <t t-set="doctor" t-value="doc.doctor_id"/>
+                <t t-call="odossey_ophthalmology.report_doctor_signature"/>
+                <p class="small text-muted mt-3" t-if="doc.content_hash"><span>Fingerprint</span>: <span t-field="doc.content_hash"/></p>
+            </div>
+        </t>
+    </template>
+    <template id="report_glasses">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="odossey_ophthalmology.report_glasses_document" t-lang="doc.patient_id.lang"/>
+            </t>
+        </t>
+    </template>
+    <record id="action_report_glasses" model="ir.actions.report">
+        <field name="name">Glasses Prescription</field>
+        <field name="model">oph.glasses.prescription</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odossey_ophthalmology.report_glasses</field>
+        <field name="report_file">odossey_ophthalmology.report_glasses</field>
+        <field name="print_report_name">object._get_report_base_filename()</field>
+        <field name="binding_model_id" ref="model_oph_glasses_prescription"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- ========================================================= medication prescription -->
+    <template id="report_prescription_document">
+        <t t-call="web.external_layout">
+            <t t-set="patient" t-value="doc.patient_id"/>
+            <div class="page">
+                <h3>Prescription</h3>
+                <div class="mb-2"><span t-field="doc.name"/> - <span t-field="doc.date"/>
+                    <span t-if="doc.cuir"> - <span>CUIR</span> <strong t-field="doc.cuir"/></span></div>
+                <t t-call="odossey_ophthalmology.report_patient_block"/>
+                <p t-if="doc.diagnosis_id"><strong>Diagnosis:</strong> <span t-field="doc.diagnosis_id"/></p>
+                <table class="table table-sm">
+                    <thead><tr><th>Medication</th><th>Eye</th><th>Posology</th><th>Duration</th><th class="text-end">Units</th></tr></thead>
+                    <tbody>
+                        <tr t-foreach="doc.line_ids" t-as="line">
+                            <td><strong t-esc="line.active_ingredient or line.product_id.name"/>
+                                <div class="small text-muted" t-esc="line.product_id.name"/>
+                                <div class="small text-muted" t-if="line.product_id.oph_presentation" t-esc="line.product_id.oph_presentation"/></td>
+                            <td><span t-field="line.eye"/></td>
+                            <td><span t-field="line.posology"/></td>
+                            <td><span t-field="line.duration"/></td>
+                            <td class="text-end"><span t-field="line.quantity"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p t-if="doc.no_substitution"><strong>Do not substitute.</strong></p>
+                <p t-if="doc.notes" t-field="doc.notes"/>
+                <t t-set="doctor" t-value="doc.doctor_id"/>
+                <t t-call="odossey_ophthalmology.report_doctor_signature"/>
+                <p class="small text-muted mt-3" t-if="doc.content_hash"><span>Fingerprint</span>: <span t-field="doc.content_hash"/></p>
+            </div>
+        </t>
+    </template>
+    <template id="report_prescription">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="odossey_ophthalmology.report_prescription_document" t-lang="doc.patient_id.lang"/>
+            </t>
+        </t>
+    </template>
+    <record id="action_report_prescription" model="ir.actions.report">
+        <field name="name">Prescription</field>
+        <field name="model">oph.prescription</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odossey_ophthalmology.report_prescription</field>
+        <field name="report_file">odossey_ophthalmology.report_prescription</field>
+        <field name="print_report_name">object._get_report_base_filename()</field>
+        <field name="binding_model_id" ref="model_oph_prescription"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- ========================================================= study report -->
+    <template id="report_study_document">
+        <t t-call="web.external_layout">
+            <t t-set="patient" t-value="doc.patient_id"/>
+            <div class="page">
+                <h3><span t-field="doc.study_type_id"/></h3>
+                <div class="mb-2"><span t-field="doc.name"/> - <span t-field="doc.date" t-options="{'widget': 'datetime', 'hide_seconds': True}"/> - <span t-field="doc.eye"/></div>
+                <t t-call="odossey_ophthalmology.report_patient_block"/>
+                <table class="table table-sm table-bordered text-center" t-if="doc.kind in ('oct', 'visual_field', 'biometry', 'pachymetry', 'topography', 'endothelial') or doc.result_od or doc.result_os">
+                    <thead><tr><th class="text-start"/><th>Right eye (OD)</th><th>Left eye (OS)</th></tr></thead>
+                    <tbody>
+                        <t t-if="doc.kind == 'oct'">
+                            <tr t-if="(doc.cmt_od or doc.cmt_os)"><td class="text-start">Central macular thickness (µm)</td><td><span t-field="doc.cmt_od"/></td><td><span t-field="doc.cmt_os"/></td></tr>
+                            <tr t-if="(doc.rnfl_od or doc.rnfl_os)"><td class="text-start">Average RNFL (µm)</td><td><span t-field="doc.rnfl_od"/></td><td><span t-field="doc.rnfl_os"/></td></tr>
+                        </t>
+                        <t t-if="doc.kind == 'visual_field'">
+                            <tr t-if="(doc.md_od or doc.md_os)"><td class="text-start">MD (dB)</td><td><span t-field="doc.md_od"/></td><td><span t-field="doc.md_os"/></td></tr>
+                            <tr t-if="(doc.psd_od or doc.psd_os)"><td class="text-start">PSD (dB)</td><td><span t-field="doc.psd_od"/></td><td><span t-field="doc.psd_os"/></td></tr>
+                            <tr t-if="(doc.vfi_od or doc.vfi_os)"><td class="text-start">VFI (%)</td><td><span t-field="doc.vfi_od"/></td><td><span t-field="doc.vfi_os"/></td></tr>
+                        </t>
+                        <t t-if="doc.kind == 'biometry'">
+                            <tr t-if="(doc.axial_length_od or doc.axial_length_os)"><td class="text-start">Axial length (mm)</td><td><span t-field="doc.axial_length_od"/></td><td><span t-field="doc.axial_length_os"/></td></tr>
+                            <tr t-if="(doc.acd_od or doc.acd_os)"><td class="text-start">ACD (mm)</td><td><span t-field="doc.acd_od"/></td><td><span t-field="doc.acd_os"/></td></tr>
+                            <tr t-if="(doc.iol_power_od or doc.iol_power_os)"><td class="text-start">IOL power (D)</td><td><span t-field="doc.iol_power_od"/></td><td><span t-field="doc.iol_power_os"/></td></tr>
+                        </t>
+                        <t t-if="doc.kind in ('pachymetry', 'topography')">
+                            <tr t-if="(doc.pachymetry_od or doc.pachymetry_os)"><td class="text-start">Pachymetry (µm)</td><td><span t-field="doc.pachymetry_od"/></td><td><span t-field="doc.pachymetry_os"/></td></tr>
+                            <tr t-if="doc.kind == 'topography' and (doc.kmax_od or doc.kmax_os)"><td class="text-start">Kmax (D)</td><td><span t-field="doc.kmax_od"/></td><td><span t-field="doc.kmax_os"/></td></tr>
+                        </t>
+                        <t t-if="doc.kind == 'endothelial'">
+                            <tr t-if="(doc.cell_density_od or doc.cell_density_os)"><td class="text-start">Cells / mm²</td><td><span t-field="doc.cell_density_od"/></td><td><span t-field="doc.cell_density_os"/></td></tr>
+                        </t>
+                        <tr t-if="doc.result_od or doc.result_os"><td class="text-start">Result</td><td><span t-field="doc.result_od"/></td><td><span t-field="doc.result_os"/></td></tr>
+                    </tbody>
+                </table>
+                <p t-if="doc.kind == 'biometry' and doc.iol_formula"><strong>Formula:</strong> <span t-field="doc.iol_formula"/>
+                    - <span>Target refraction</span> <span t-field="doc.target_refraction"/> D</p>
+                <div t-if="doc.report" t-field="doc.report"/>
+                <p t-if="doc.conclusion"><strong>Conclusion:</strong> <span t-field="doc.conclusion"/></p>
+                <t t-set="doctor" t-value="doc.reported_by_id or doc.requested_by_id"/>
+                <t t-call="odossey_ophthalmology.report_doctor_signature"/>
+            </div>
+        </t>
+    </template>
+    <template id="report_study">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="odossey_ophthalmology.report_study_document" t-lang="doc.patient_id.lang"/>
+            </t>
+        </t>
+    </template>
+    <record id="action_report_study" model="ir.actions.report">
+        <field name="name">Study Report</field>
+        <field name="model">oph.study</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odossey_ophthalmology.report_study</field>
+        <field name="report_file">odossey_ophthalmology.report_study</field>
+        <field name="print_report_name">object._get_report_base_filename()</field>
+        <field name="binding_model_id" ref="model_oph_study"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- ========================================================= surgery: operative report -->
+    <template id="report_surgery_document">
+        <t t-call="web.external_layout">
+            <t t-set="patient" t-value="doc.patient_id"/>
+            <div class="page">
+                <h3>Operative Report</h3>
+                <div class="mb-2"><span t-field="doc.name"/> - <span t-field="doc.actual_start" t-options="{'widget': 'datetime', 'hide_seconds': True}"/></div>
+                <t t-call="odossey_ophthalmology.report_patient_block"/>
+                <table class="table table-sm">
+                    <tr><td><strong>Procedure</strong></td><td><span t-field="doc.procedure_id"/> - <span t-field="doc.eye"/></td></tr>
+                    <tr><td><strong>Surgeon</strong></td><td><span t-field="doc.surgeon_id"/></td></tr>
+                    <tr t-if="doc.assistant_id"><td><strong>Assistant</strong></td><td><span t-field="doc.assistant_id"/></td></tr>
+                    <tr t-if="doc.anesthetist"><td><strong>Anesthetist</strong></td><td><span t-field="doc.anesthetist"/></td></tr>
+                    <tr><td><strong>Anesthesia</strong></td><td><span t-field="doc.anesthesia"/></td></tr>
+                    <tr t-if="doc.room_id"><td><strong>Operating room</strong></td><td><span t-field="doc.room_id"/></td></tr>
+                    <tr><td><strong>Time</strong></td><td><span t-field="doc.actual_start" t-options="{'widget': 'datetime', 'hide_seconds': True}"/> - <span t-field="doc.actual_end" t-options="{'widget': 'datetime', 'hide_seconds': True}"/></td></tr>
+                    <tr t-if="doc.iol_product_id"><td><strong>Intraocular lens</strong></td>
+                        <td><span t-field="doc.iol_product_id"/> - <span t-field="doc.iol_power"/> D - <span>Serial</span> <span t-field="doc.iol_lot_id"/></td></tr>
+                </table>
+                <h5>Technique and findings</h5>
+                <div t-field="doc.protocol"/>
+                <div t-if="doc.complications"><h5>Complications</h5><p t-field="doc.complications"/></div>
+                <div t-if="doc.postop_instructions"><h5>Post-operative instructions</h5><p t-field="doc.postop_instructions"/></div>
+                <t t-set="doctor" t-value="doc.surgeon_id"/>
+                <t t-call="odossey_ophthalmology.report_doctor_signature"/>
+            </div>
+        </t>
+    </template>
+    <template id="report_surgery">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="odossey_ophthalmology.report_surgery_document" t-lang="doc.patient_id.lang"/>
+            </t>
+        </t>
+    </template>
+    <record id="action_report_surgery" model="ir.actions.report">
+        <field name="name">Operative Report</field>
+        <field name="model">oph.surgery</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odossey_ophthalmology.report_surgery</field>
+        <field name="report_file">odossey_ophthalmology.report_surgery</field>
+        <field name="print_report_name">object._get_report_base_filename()</field>
+        <field name="binding_model_id" ref="model_oph_surgery"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- ========================================================= implant card -->
+    <template id="report_implant_card_document">
+        <t t-call="web.basic_layout">
+            <div class="page">
+                <div style="border: 2px solid #333; border-radius: 8px; padding: 16px; width: 100%;">
+                    <h4 class="text-center">Intraocular Lens Implant Card</h4>
+                    <p class="text-center small">Keep this card and show it to any ophthalmologist who examines you.</p>
+                    <table class="table table-sm">
+                        <tr><td><strong>Patient</strong></td><td><span t-field="doc.patient_id.name"/></td></tr>
+                        <tr t-if="doc.patient_id.oph_document"><td><strong>ID</strong></td><td><span t-field="doc.patient_id.oph_document"/></td></tr>
+                        <tr><td><strong>Eye</strong></td><td><span t-field="doc.eye"/></td></tr>
+                        <tr><td><strong>Date of surgery</strong></td><td><span t-field="doc.actual_start" t-options="{'widget': 'date'}"/></td></tr>
+                        <tr><td><strong>Lens</strong></td><td><span t-field="doc.iol_product_id"/></td></tr>
+                        <tr><td><strong>Power</strong></td><td><span t-field="doc.iol_power"/> D</td></tr>
+                        <tr><td><strong>Serial number</strong></td><td><span t-field="doc.iol_lot_id"/></td></tr>
+                        <tr t-if="doc.iol_expiration"><td><strong>Lens expiry</strong></td><td><span t-field="doc.iol_expiration" t-options="{'widget': 'date'}"/></td></tr>
+                        <tr><td><strong>Surgeon</strong></td><td><span t-field="doc.surgeon_id"/></td></tr>
+                        <tr><td><strong>Clinic</strong></td><td><span t-field="doc.company_id.name"/> <span t-if="doc.company_id.phone"> - <span t-field="doc.company_id.phone"/></span></td></tr>
+                    </table>
+                </div>
+            </div>
+        </t>
+    </template>
+    <template id="report_implant_card">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="odossey_ophthalmology.report_implant_card_document" t-lang="doc.patient_id.lang"/>
+            </t>
+        </t>
+    </template>
+    <record id="action_report_implant_card" model="ir.actions.report">
+        <field name="name">Implant Card</field>
+        <field name="model">oph.surgery</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odossey_ophthalmology.report_implant_card</field>
+        <field name="report_file">odossey_ophthalmology.report_implant_card</field>
+        <field name="print_report_name">'%s - Implant card' % object.name</field>
+        <field name="binding_model_id" ref="model_oph_surgery"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- ========================================================= consent -->
+    <template id="report_consent_document">
+        <t t-call="web.external_layout">
+            <t t-set="patient" t-value="doc.patient_id"/>
+            <div class="page">
+                <h3 t-field="doc.title"/>
+                <div class="mb-2"><span t-field="doc.name"/></div>
+                <t t-call="odossey_ophthalmology.report_patient_block"/>
+                <div t-field="doc.content"/>
+                <div class="row mt-4" style="page-break-inside: avoid;">
+                    <div class="col-6">
+                        <img t-if="doc.signature" t-att-src="image_data_uri(doc.signature)" style="max-height: 90px;"/>
+                        <div style="border-top: 1px solid #333;" class="pt-1">
+                            <strong t-esc="doc.signed_by or doc.patient_id.name"/>
+                            <div t-field="doc.signer_role"/>
+                            <div t-if="doc.signed_on" class="small"><span t-field="doc.signed_on" t-options="{'widget': 'datetime', 'hide_seconds': True}"/></div>
+                        </div>
+                    </div>
+                    <div class="col-6 text-center">
+                        <div style="border-top: 1px solid #333; margin-top: 90px;" class="pt-1">
+                            <strong t-field="doc.doctor_id.name"/>
+                            <div t-if="doc.doctor_id.oph_license"><span>MN</span> <span t-field="doc.doctor_id.oph_license"/></div>
+                        </div>
+                    </div>
+                </div>
+                <p class="small text-muted mt-3" t-if="doc.signature_hash"><span>Fingerprint</span>: <span t-field="doc.signature_hash"/></p>
+                <p class="small text-danger" t-if="doc.state == 'revoked'"><strong>REVOKED</strong>: <span t-field="doc.revoke_reason"/></p>
+            </div>
+        </t>
+    </template>
+    <template id="report_consent">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="odossey_ophthalmology.report_consent_document" t-lang="doc.patient_id.lang"/>
+            </t>
+        </t>
+    </template>
+    <record id="action_report_consent" model="ir.actions.report">
+        <field name="name">Informed Consent</field>
+        <field name="model">oph.consent</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odossey_ophthalmology.report_consent</field>
+        <field name="report_file">odossey_ophthalmology.report_consent</field>
+        <field name="print_report_name">object._get_report_base_filename()</field>
+        <field name="binding_model_id" ref="model_oph_consent"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- ========================================================= certificate -->
+    <template id="report_certificate_document">
+        <t t-call="web.external_layout">
+            <t t-set="patient" t-value="doc.patient_id"/>
+            <div class="page">
+                <h3 class="text-center">Medical Certificate</h3>
+                <div class="text-center mb-4"><span t-field="doc.name"/> - <span t-field="doc.certificate_type"/></div>
+                <div t-field="doc.body" style="font-size: 1.1em;"/>
+                <p class="mt-4"><span t-field="doc.company_id.city"/> <span t-field="doc.date"/></p>
+                <t t-set="doctor" t-value="doc.doctor_id"/>
+                <t t-call="odossey_ophthalmology.report_doctor_signature"/>
+            </div>
+        </t>
+    </template>
+    <template id="report_certificate">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="odossey_ophthalmology.report_certificate_document" t-lang="doc.patient_id.lang"/>
+            </t>
+        </t>
+    </template>
+    <record id="action_report_certificate" model="ir.actions.report">
+        <field name="name">Certificate</field>
+        <field name="model">oph.certificate</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odossey_ophthalmology.report_certificate</field>
+        <field name="report_file">odossey_ophthalmology.report_certificate</field>
+        <field name="print_report_name">object._get_report_base_filename()</field>
+        <field name="binding_model_id" ref="model_oph_certificate"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- ========================================================= settlement detail -->
+    <template id="report_settlement_document">
+        <t t-call="web.external_layout">
+            <div class="page">
+                <h3><span>Settlement</span> <span t-field="doc.name"/></h3>
+                <div class="mb-3"><strong t-field="doc.insurance_id.name"/> - <span t-field="doc.date_from"/> / <span t-field="doc.date_to"/></div>
+                <table class="table table-sm">
+                    <thead><tr><th>Date</th><th>Patient</th><th>Member</th><th>Code</th><th>Service</th><th>Auth.</th>
+                        <th class="text-end">Qty</th><th class="text-end">Amount</th></tr></thead>
+                    <tbody>
+                        <tr t-foreach="doc.claim_ids.sorted(lambda c: (c.date, c.patient_id.name or ''))" t-as="c">
+                            <td><span t-field="c.date"/></td><td><span t-field="c.patient_id.name"/></td><td><span t-field="c.member_number"/></td>
+                            <td><span t-field="c.nomenclator_code"/></td><td><span t-field="c.product_id.name"/></td><td><span t-field="c.authorization"/></td>
+                            <td class="text-end"><span t-field="c.quantity"/></td><td class="text-end"><span t-field="c.amount"/></td>
+                        </tr>
+                    </tbody>
+                    <tfoot/>
+                </table>
+                <p class="text-end"><strong>Total: <span t-field="doc.amount_total"/></strong></p>
+            </div>
+        </t>
+    </template>
+    <template id="report_settlement">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="odossey_ophthalmology.report_settlement_document"/>
+            </t>
+        </t>
+    </template>
+    <record id="action_report_settlement" model="ir.actions.report">
+        <field name="name">Settlement Detail</field>
+        <field name="model">oph.insurance.settlement</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odossey_ophthalmology.report_settlement</field>
+        <field name="report_file">odossey_ophthalmology.report_settlement</field>
+        <field name="print_report_name">object._get_report_base_filename()</field>
+        <field name="binding_model_id" ref="model_oph_insurance_settlement"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- ========================================================= full clinical record -->
+    <template id="report_clinical_record_document">
+        <t t-call="web.external_layout">
+            <t t-set="patient" t-value="doc"/>
+            <div class="page">
+                <h3>Clinical Record</h3>
+                <t t-call="odossey_ophthalmology.report_patient_block"/>
+                <div t-if="doc.oph_allergy_ids"><strong>Allergies:</strong> <span t-esc="', '.join(doc.oph_allergy_ids.mapped('name'))"/></div>
+                <div t-if="doc.oph_medical_history"><strong>Medical history:</strong> <span t-field="doc.oph_medical_history"/></div>
+                <div t-if="doc.oph_ocular_history"><strong>Ocular history:</strong> <span t-field="doc.oph_ocular_history"/></div>
+                <t t-foreach="doc.oph_exam_ids.filtered(lambda e: e.state == 'done').sorted('date')" t-as="exam">
+                    <div class="mt-3" style="page-break-inside: avoid;">
+                        <h5><span t-field="exam.date" t-options="{'widget': 'date'}"/> - <span t-field="exam.name"/> - <span t-field="exam.doctor_id"/></h5>
+                        <p t-if="exam.reason"><strong>Reason:</strong> <span t-field="exam.reason"/></p>
+                        <p><strong>VA cc:</strong> OD <span t-field="exam.va_cc_od"/> / OS <span t-field="exam.va_cc_os"/>
+                            - <strong>IOP:</strong> <span t-field="exam.iop_od"/> / <span t-field="exam.iop_os"/> mmHg</p>
+                        <p t-if="exam.diagnosis_ids"><strong>Diagnoses:</strong>
+                            <span t-esc="'; '.join('%s (%s)' % (d.diagnosis_id.display_name, dict(d._fields['eye']._description_selection(d.env)).get(d.eye)) for d in exam.diagnosis_ids)"/></p>
+                        <div t-if="exam.plan" t-field="exam.plan"/>
+                    </div>
+                </t>
+                <t t-foreach="doc.oph_surgery_ids.filtered(lambda s: s.state == 'done').sorted('actual_start')" t-as="surgery">
+                    <div class="mt-3">
+                        <h5><span t-field="surgery.actual_start" t-options="{'widget': 'date'}"/> - <span t-field="surgery.procedure_id"/> (<span t-field="surgery.eye"/>)</h5>
+                        <p t-if="surgery.iol_lot_id"><span>Lens</span>: <span t-field="surgery.iol_product_id"/> <span t-field="surgery.iol_power"/> D - <span t-field="surgery.iol_lot_id"/></p>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+    <template id="report_clinical_record">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="odossey_ophthalmology.report_clinical_record_document" t-lang="doc.lang"/>
+            </t>
+        </t>
+    </template>
+    <record id="action_report_clinical_record" model="ir.actions.report">
+        <field name="name">Clinical Record</field>
+        <field name="model">res.partner</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odossey_ophthalmology.report_clinical_record</field>
+        <field name="report_file">odossey_ophthalmology.report_clinical_record</field>
+        <field name="print_report_name">object._get_report_base_filename()</field>
+    </record>
+</odoo>

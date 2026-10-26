@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========================================================= glasses / contact lenses -->
+    <record id="oph_glasses_view_form" model="ir.ui.view">
+        <field name="name">oph.glasses.prescription.form</field>
+        <field name="model">oph.glasses.prescription</field>
+        <field name="arch" type="xml">
+            <form string="Glasses Prescription">
+                <header>
+                    <button name="action_issue" type="object" string="Issue" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_print" type="object" string="Print" invisible="state != 'issued'"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state != 'issued'"
+                            confirm="The prescription will no longer be valid. Continue?"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,issued"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" readonly="1"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="patient_id" context="{'oph_show_record': True}" options="{'no_quick_create': True}"/>
+                            <field name="prescription_type"/>
+                            <field name="lens_use"/>
+                            <field name="exam_id" readonly="1" invisible="not exam_id"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="valid_until"/>
+                            <field name="doctor_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Right eye (OD)">
+                            <field name="sph_od" string="Sphere"/>
+                            <field name="cyl_od" string="Cylinder"/>
+                            <field name="axis_od" string="Axis"/>
+                            <field name="add_od" string="Addition"/>
+                            <field name="prism_od" string="Prism"/>
+                            <field name="cl_base_curve_od" string="Base curve (mm)" invisible="prescription_type != 'contact_lens'"/>
+                            <field name="cl_diameter_od" string="Diameter (mm)" invisible="prescription_type != 'contact_lens'"/>
+                        </group>
+                        <group string="Left eye (OS)">
+                            <field name="sph_os" string="Sphere"/>
+                            <field name="cyl_os" string="Cylinder"/>
+                            <field name="axis_os" string="Axis"/>
+                            <field name="add_os" string="Addition"/>
+                            <field name="prism_os" string="Prism"/>
+                            <field name="cl_base_curve_os" string="Base curve (mm)" invisible="prescription_type != 'contact_lens'"/>
+                            <field name="cl_diameter_os" string="Diameter (mm)" invisible="prescription_type != 'contact_lens'"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="pd_distance"/>
+                            <field name="pd_near"/>
+                        </group>
+                        <group>
+                            <field name="cl_brand" invisible="prescription_type != 'contact_lens'"/>
+                            <field name="cl_replacement" invisible="prescription_type != 'contact_lens'"/>
+                            <field name="lens_recommendations" invisible="prescription_type != 'glasses'"/>
+                        </group>
+                    </group>
+                    <field name="notes" placeholder="Observations for the optician..."/>
+                    <group invisible="not content_hash">
+                        <field name="content_hash"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="oph_glasses_view_list" model="ir.ui.view">
+        <field name="name">oph.glasses.prescription.list</field>
+        <field name="model">oph.glasses.prescription</field>
+        <field name="arch" type="xml">
+            <list string="Glasses Prescriptions" decoration-muted="state == 'cancel'">
+                <field name="date"/>
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="prescription_type"/>
+                <field name="lens_use"/>
+                <field name="doctor_id"/>
+                <field name="state" widget="badge" decoration-success="state == 'issued'"/>
+            </list>
+        </field>
+    </record>
+    <record id="oph_glasses_action" model="ir.actions.act_window">
+        <field name="name">Glasses and Contact Lenses</field>
+        <field name="res_model">oph.glasses.prescription</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ========================================================= medication prescriptions -->
+    <record id="oph_prescription_view_form" model="ir.ui.view">
+        <field name="name">oph.prescription.form</field>
+        <field name="model">oph.prescription</field>
+        <field name="arch" type="xml">
+            <form string="Prescription">
+                <header>
+                    <button name="action_issue" type="object" string="Issue" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_print" type="object" string="Print" invisible="state != 'issued'"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state != 'issued'"
+                            confirm="The prescription will no longer be valid. Continue?"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,issued"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-info mb-2" role="status" invisible="state != 'issued' or cuir">
+                        Since 2025 only electronic prescriptions issued on a platform registered in ReNaPDiS are valid in
+                        Argentina: issue it on your platform and write here the prescription number (CUIR).
+                    </div>
+                    <div class="oe_title"><h1><field name="name" readonly="1"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="patient_id" context="{'oph_show_record': True}" options="{'no_quick_create': True}"/>
+                            <field name="insurance_id" placeholder="Private"/>
+                            <field name="member_number" invisible="not insurance_id"/>
+                            <field name="diagnosis_id" options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="doctor_id"/>
+                            <field name="exam_id" readonly="1" invisible="not exam_id"/>
+                            <field name="cuir" readonly="state == 'cancel'"/>
+                            <field name="platform" readonly="state == 'cancel'"/>
+                        </group>
+                    </group>
+                    <field name="line_ids">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="product_id" options="{'no_create': True}"/>
+                            <field name="active_ingredient"/>
+                            <field name="eye"/>
+                            <field name="posology"/>
+                            <field name="duration"/>
+                            <field name="quantity"/>
+                        </list>
+                    </field>
+                    <group>
+                        <field name="no_substitution"/>
+                        <field name="notes" placeholder="Indications for the patient..."/>
+                        <field name="content_hash" invisible="not content_hash"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="oph_prescription_view_list" model="ir.ui.view">
+        <field name="name">oph.prescription.list</field>
+        <field name="model">oph.prescription</field>
+        <field name="arch" type="xml">
+            <list string="Prescriptions" decoration-muted="state == 'cancel'">
+                <field name="date"/>
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="diagnosis_id"/>
+                <field name="doctor_id"/>
+                <field name="cuir" optional="show"/>
+                <field name="state" widget="badge" decoration-success="state == 'issued'"/>
+            </list>
+        </field>
+    </record>
+    <record id="oph_prescription_action" model="ir.actions.act_window">
+        <field name="name">Prescriptions</field>
+        <field name="res_model">oph.prescription</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

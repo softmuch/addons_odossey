@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="module_category_ophthalmology" model="ir.module.category">
+        <field name="name">Ophthalmology</field>
+        <field name="sequence">40</field>
+    </record>
+
+    <record id="privilege_ophthalmology" model="res.groups.privilege">
+        <field name="name">Ophthalmology</field>
+        <field name="category_id" ref="module_category_ophthalmology"/>
+    </record>
+
+    <!-- Reception: patients, agenda, waiting room, insurance and billing; no access to the clinical content -->
+    <record id="group_oph_reception" model="res.groups">
+        <field name="name">Reception</field>
+        <field name="privilege_id" ref="privilege_ophthalmology"/>
+        <field name="sequence">10</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user')), (4, ref('sales_team.group_sale_salesman'))]"/>
+        <field name="comment">Registers patients and their health insurance, books appointments, manages the waiting room and charges the visits.</field>
+    </record>
+
+    <!-- Technician / orthoptist: pre-consultation measurements and complementary studies -->
+    <record id="group_oph_technician" model="res.groups">
+        <field name="name">Technician</field>
+        <field name="privilege_id" ref="privilege_ophthalmology"/>
+        <field name="sequence">20</field>
+        <field name="implied_ids" eval="[(4, ref('group_oph_reception')), (4, ref('stock.group_stock_user'))]"/>
+        <field name="comment">Pre-consultation (visual acuity, refraction, pressure, keratometry) and complementary studies.</field>
+    </record>
+
+    <!-- Ophthalmologist: full clinical record, prescriptions, surgeries -->
+    <record id="group_oph_ophthalmologist" model="res.groups">
+        <field name="name">Ophthalmologist</field>
+        <field name="privilege_id" ref="privilege_ophthalmology"/>
+        <field name="sequence">30</field>
+        <field name="implied_ids" eval="[(4, ref('group_oph_technician'))]"/>
+        <field name="comment">Full clinical record: exams, diagnoses, prescriptions, surgeries, consents and certificates.</field>
+    </record>
+
+    <!-- Administrator: configuration, master data, insurers, settlements, reports -->
+    <record id="group_oph_manager" model="res.groups">
+        <field name="name">Administrator</field>
+        <field name="privilege_id" ref="privilege_ophthalmology"/>
+        <field name="sequence">40</field>
+        <field name="implied_ids" eval="[(4, ref('group_oph_ophthalmologist')), (4, ref('sales_team.group_sale_manager')), (4, ref('account.group_account_invoice')), (4, ref('purchase.group_purchase_user'))]"/>
+        <field name="comment">Configuration, master data, health insurers and agreed fees, monthly settlements and reports.</field>
+    </record>
+
+    <record id="base.user_admin" model="res.users">
+        <field name="group_ids" eval="[(4, ref('group_oph_manager'))]"/>
+    </record>
+
+    <!-- Multi-company -->
+    <record id="oph_exam_company_rule" model="ir.rule">
+        <field name="name">Exams: multi-company</field>
+        <field name="model_id" ref="model_oph_exam"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="oph_surgery_company_rule" model="ir.rule">
+        <field name="name">Surgeries: multi-company</field>
+        <field name="model_id" ref="model_oph_surgery"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="oph_claim_company_rule" model="ir.rule">
+        <field name="name">Insurance services: multi-company</field>
+        <field name="model_id" ref="model_oph_insurance_claim"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="oph_settlement_company_rule" model="ir.rule">
+        <field name="name">Settlements: multi-company</field>
+        <field name="model_id" ref="model_oph_insurance_settlement"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- Portal: a patient only sees his own documents -->
+    <record id="oph_glasses_portal_rule" model="ir.rule">
+        <field name="name">Glasses prescriptions: portal patient</field>
+        <field name="model_id" ref="model_oph_glasses_prescription"/>
+        <field name="domain_force">[('patient_id', 'child_of', [user.commercial_partner_id.id]), ('state', '=', 'issued')]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+    </record>
+    <record id="oph_prescription_portal_rule" model="ir.rule">
+        <field name="name">Prescriptions: portal patient</field>
+        <field name="model_id" ref="model_oph_prescription"/>
+        <field name="domain_force">[('patient_id', 'child_of', [user.commercial_partner_id.id]), ('state', '=', 'issued')]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+    </record>
+    <record id="oph_study_portal_rule" model="ir.rule">
+        <field name="name">Studies: portal patient</field>
+        <field name="model_id" ref="model_oph_study"/>
+        <field name="domain_force">[('patient_id', 'child_of', [user.commercial_partner_id.id]), ('state', '=', 'reported')]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+    </record>
+    <record id="oph_consent_portal_rule" model="ir.rule">
+        <field name="name">Consents: portal patient</field>
+        <field name="model_id" ref="model_oph_consent"/>
+        <field name="domain_force">[('patient_id', 'child_of', [user.commercial_partner_id.id])]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+    </record>
+    <record id="oph_certificate_portal_rule" model="ir.rule">
+        <field name="name">Certificates: portal patient</field>
+        <field name="model_id" ref="model_oph_certificate"/>
+        <field name="domain_force">[('patient_id', 'child_of', [user.commercial_partner_id.id]), ('state', '=', 'issued')]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+    </record>
+    <record id="oph_surgery_portal_rule" model="ir.rule">
+        <field name="name">Surgeries: portal patient</field>
+        <field name="model_id" ref="model_oph_surgery"/>
+        <field name="domain_force">[('patient_id', 'child_of', [user.commercial_partner_id.id])]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+    </record>
+</odoo>

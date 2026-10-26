@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="oph_insurance_view_list" model="ir.ui.view">
+        <field name="name">oph.insurance.list</field>
+        <field name="model">oph.insurance</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="short_name"/>
+                <field name="insurance_type"/>
+                <field name="registry_code" optional="hide"/>
+                <field name="requires_authorization"/>
+                <field name="patient_count"/>
+            </list>
+        </field>
+    </record>
+    <record id="oph_insurance_view_form" model="ir.ui.view">
+        <field name="name">oph.insurance.form</field>
+        <field name="model">oph.insurance</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="%(odossey_ophthalmology.oph_price_update_action)d" type="action" string="Update Fees"
+                            groups="odossey_ophthalmology.group_oph_manager"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_patients" type="object" class="oe_stat_button" icon="fa-users">
+                            <field name="patient_count" widget="statinfo" string="Patients"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title"><h1><field name="name" placeholder="e.g. OSDE"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="short_name"/>
+                            <field name="insurance_type"/>
+                            <field name="registry_code"/>
+                            <field name="partner_id"/>
+                        </group>
+                        <group>
+                            <field name="requires_authorization"/>
+                            <field name="default_copay"/>
+                            <field name="settlement_day"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Agreed Fees" name="fees">
+                            <field name="price_ids" context="{'default_insurance_id': id}">
+                                <list editable="bottom">
+                                    <field name="product_id" domain="[('oph_kind', 'in', ('consultation', 'study', 'surgery', 'iol'))]"/>
+                                    <field name="nomenclator_code"/>
+                                    <field name="plan_id" optional="show"/>
+                                    <field name="insurance_amount" sum="Total"/>
+                                    <field name="copay_amount"/>
+                                    <field name="requires_authorization"/>
+                                    <field name="currency_id" column_invisible="True"/>
+                                    <field name="insurance_id" column_invisible="True"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Plans" name="plans">
+                            <field name="plan_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="active" widget="boolean_toggle"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="oph_insurance_view_search" model="ir.ui.view">
+        <field name="name">oph.insurance.search</field>
+        <field name="model">oph.insurance</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" filter_domain="['|', ('name', 'ilike', self), ('short_name', 'ilike', self)]"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_type" string="Type" context="{'group_by': 'insurance_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="oph_insurance_action" model="ir.actions.act_window">
+        <field name="name">Health Insurances</field>
+        <field name="res_model">oph.insurance</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Add an obra social or prepaid medicine</p>
+            <p>Load the agreed fee of each service (consultation, studies, surgeries) and the co-payment of the patient.</p>
+        </field>
+    </record>
+</odoo>

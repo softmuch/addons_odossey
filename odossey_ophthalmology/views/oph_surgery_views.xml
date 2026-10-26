@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="oph_surgery_view_form" model="ir.ui.view">
+        <field name="name">oph.surgery.form</field>
+        <field name="model">oph.surgery</field>
+        <field name="arch" type="xml">
+            <form string="Surgery">
+                <header>
+                    <button name="action_prepare_consent" type="object" string="Prepare Consent"
+                            invisible="consent_ok or state in ('done', 'cancel')"/>
+                    <button name="action_request_authorization" type="object" string="Request Authorization"
+                            invisible="authorization_state != 'not_required' or not insurance_id or state != 'planned'"/>
+                    <button name="action_authorize" type="object" string="Authorized" class="btn-primary"
+                            invisible="authorization_state not in ('pending', 'rejected') or state in ('done', 'cancel')"/>
+                    <button name="action_confirm" type="object" string="Confirm" class="btn-primary"
+                            invisible="state not in ('planned', 'authorized')"/>
+                    <button name="action_start" type="object" string="Start Surgery" class="btn-primary"
+                            invisible="state != 'confirmed'" groups="odossey_ophthalmology.group_oph_ophthalmologist"/>
+                    <button name="action_done" type="object" string="Close Surgery" class="btn-primary"
+                            invisible="state != 'in_progress'" groups="odossey_ophthalmology.group_oph_ophthalmologist"/>
+                    <button name="action_print_protocol" type="object" string="Operative Report" invisible="state != 'done'"/>
+                    <button name="action_print_implant_card" type="object" string="Implant Card" invisible="state != 'done' or not iol_lot_id"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state in ('done', 'cancel', 'in_progress')"/>
+                    <button name="action_reset_planned" type="object" string="Reset to Planned" invisible="state != 'cancel'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="planned,authorized,confirmed,in_progress,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_sale_orders" type="object" class="oe_stat_button" icon="fa-dollar"
+                                invisible="not sale_order_ids">
+                            <span>Quotations</span>
+                        </button>
+                    </div>
+                    <div class="alert alert-warning mb-2" role="alert" invisible="alert_level in (False, 'none')">
+                        <div class="d-flex align-items-center flex-wrap gap-2">
+                            <i class="fa fa-exclamation-triangle" title="Alerts"/>
+                            <field name="alert_html" nolabel="1"/>
+                        </div>
+                    </div>
+                    <div class="alert alert-info mb-2" role="status" invisible="consent_ok or state in ('done', 'cancel')">
+                        The informed consent is not signed yet: prepare it and have it signed before the surgery.
+                    </div>
+                    <div class="oe_title"><h1><field name="name" readonly="1"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="patient_id" context="{'oph_show_record': True}" options="{'no_quick_create': True}"/>
+                            <field name="record_number"/>
+                            <field name="procedure_id"/>
+                            <field name="eye"/>
+                            <field name="exam_id" readonly="1" invisible="not exam_id"/>
+                        </group>
+                        <group>
+                            <field name="start" options="{'show_seconds': False}"/>
+                            <field name="duration" widget="float_time"/>
+                            <field name="room_id"/>
+                            <field name="surgeon_id"/>
+                            <field name="assistant_id"/>
+                            <field name="anesthetist"/>
+                            <field name="anesthesia"/>
+                        </group>
+                        <group string="Health Insurance">
+                            <field name="insurance_id" placeholder="Private"/>
+                            <field name="authorization_state" invisible="not insurance_id"/>
+                            <field name="authorization" invisible="not insurance_id"/>
+                        </group>
+                        <group string="Status">
+                            <field name="consent_ok"/>
+                            <field name="checklist_progress" widget="progressbar"/>
+                            <field name="sale_order_ids" invisible="1"/>
+                            <field name="requires_iol" invisible="1"/>
+                            <field name="procedure_kind" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Intraocular Lens" name="iol" invisible="not requires_iol">
+                            <group>
+                                <group>
+                                    <field name="biometry_id" options="{'no_create': True}"/>
+                                    <field name="iol_formula"/>
+                                    <field name="target_refraction"/>
+                                    <field name="iol_power"/>
+                                </group>
+                                <group>
+                                    <field name="iol_product_id" options="{'no_create': True}"/>
+                                    <field name="iol_lot_id" options="{'no_create': True}" invisible="not iol_product_id"/>
+                                    <field name="iol_expiration" invisible="not iol_lot_id"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Safety Checklist" name="checklist">
+                            <group>
+                                <group string="Before Anesthesia (sign-in)">
+                                    <field name="check_identity"/>
+                                    <field name="check_site_marked"/>
+                                    <field name="check_fasting"/>
+                                    <field name="check_anticoagulants"/>
+                                    <field name="check_allergies"/>
+                                    <field name="check_preop_assessment"/>
+                                </group>
+                                <group string="Before Incision (time-out) and Sign-out">
+                                    <field name="check_timeout"/>
+                                    <field name="check_iol_verified"/>
+                                    <field name="check_count_sign_out"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Operative Report" name="protocol">
+                            <group>
+                                <group>
+                                    <field name="actual_start" options="{'show_seconds': False}"/>
+                                    <field name="actual_end" options="{'show_seconds': False}"/>
+                                </group>
+                            </group>
+                            <field name="protocol" placeholder="Technique, findings and incidents..."/>
+                            <group>
+                                <field name="complications"/>
+                                <field name="postop_instructions"/>
+                            </group>
+                        </page>
+                        <page string="Charges and Supplies" name="charges">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id"/>
+                                    <field name="name"/>
+                                    <field name="quantity"/>
+                                    <field name="tracking" column_invisible="True"/>
+                                    <field name="lot_id" invisible="tracking == 'none'"/>
+                                    <field name="billing"/>
+                                    <field name="claim_id" readonly="1" optional="show"/>
+                                    <field name="sale_line_id" readonly="1" optional="hide"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Consents and Controls" name="consents">
+                            <field name="consent_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="title"/>
+                                    <field name="state" widget="badge" decoration-success="state == 'signed'" decoration-warning="state == 'sent'"/>
+                                </list>
+                            </field>
+                            <field name="postop_event_ids" readonly="1">
+                                <list>
+                                    <field name="start" options="{'show_seconds': False}"/>
+                                    <field name="name"/>
+                                    <field name="oph_state" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="oph_surgery_view_list" model="ir.ui.view">
+        <field name="name">oph.surgery.list</field>
+        <field name="model">oph.surgery</field>
+        <field name="arch" type="xml">
+            <list string="Surgeries" decoration-muted="state == 'cancel'">
+                <field name="start" widget="datetime" options="{'show_seconds': False}"/>
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="procedure_id"/>
+                <field name="eye"/>
+                <field name="surgeon_id"/>
+                <field name="room_id" optional="show"/>
+                <field name="insurance_id" optional="show"/>
+                <field name="authorization_state" optional="show" widget="badge" decoration-success="authorization_state == 'approved'" decoration-warning="authorization_state == 'pending'" decoration-danger="authorization_state == 'rejected'"/>
+                <field name="consent_ok" optional="show"/>
+                <field name="state" widget="badge" decoration-success="state == 'done'" decoration-info="state in ('authorized', 'confirmed')" decoration-warning="state == 'in_progress'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="oph_surgery_view_calendar" model="ir.ui.view">
+        <field name="name">oph.surgery.calendar</field>
+        <field name="model">oph.surgery</field>
+        <field name="arch" type="xml">
+            <calendar string="Surgical Agenda" date_start="start" date_stop="stop" mode="week" color="room_id"
+                      event_open_popup="0" quick_create="0" scales="day,week,month">
+                <field name="patient_id"/>
+                <field name="procedure_id"/>
+                <field name="eye"/>
+                <field name="surgeon_id" filters="1"/>
+                <field name="room_id" filters="1"/>
+                <field name="state"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="oph_surgery_view_search" model="ir.ui.view">
+        <field name="name">oph.surgery.search</field>
+        <field name="model">oph.surgery</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="patient_id"/>
+                <field name="procedure_id"/>
+                <field name="surgeon_id"/>
+                <field name="iol_lot_id" string="Lens Serial"/>
+                <filter name="upcoming" string="Upcoming" domain="[('state', 'in', ('planned', 'authorized', 'confirmed'))]"/>
+                <filter name="pending_auth" string="Waiting Authorization" domain="[('authorization_state', '=', 'pending')]"/>
+                <filter name="no_consent" string="Consent Missing" domain="[('consent_ok', '=', False), ('state', 'not in', ('done', 'cancel'))]"/>
+                <filter name="done" string="Done" domain="[('state', '=', 'done')]"/>
+                <group>
+                    <filter name="group_procedure" string="Procedure" context="{'group_by': 'procedure_id'}"/>
+                    <filter name="group_surgeon" string="Surgeon" context="{'group_by': 'surgeon_id'}"/>
+                    <filter name="group_month" string="Month" context="{'group_by': 'start:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="oph_surgery_action" model="ir.actions.act_window">
+        <field name="name">Surgeries</field>
+        <field name="res_model">oph.surgery</field>
+        <field name="view_mode">list,calendar,form</field>
+        <field name="search_view_id" ref="oph_surgery_view_search"/>
+    </record>
+    <record id="oph_surgical_agenda_action" model="ir.actions.act_window">
+        <field name="name">Surgical Agenda</field>
+        <field name="res_model">oph.surgery</field>
+        <field name="view_mode">calendar,list,form</field>
+        <field name="search_view_id" ref="oph_surgery_view_search"/>
+        <field name="domain">[('state', '!=', 'cancel')]</field>
+    </record>
+</odoo>

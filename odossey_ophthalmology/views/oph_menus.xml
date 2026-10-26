@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_oph_root" name="Ophthalmology" sequence="30" web_icon="odossey_ophthalmology,static/description/icon.png"
+              groups="odossey_ophthalmology.group_oph_reception"/>
+
+    <!-- Reception -->
+    <menuitem id="menu_oph_reception" name="Reception" parent="menu_oph_root" sequence="10"/>
+    <menuitem id="menu_oph_waiting_room" name="Waiting Room" parent="menu_oph_reception" action="oph_waiting_room_action" sequence="10"/>
+    <menuitem id="menu_oph_agenda" name="Agenda" parent="menu_oph_reception" action="oph_appointment_action" sequence="20"/>
+    <menuitem id="menu_oph_patients" name="Patients" parent="menu_oph_reception" action="oph_patient_action" sequence="30"/>
+    <menuitem id="menu_oph_to_reschedule" name="To Reschedule" parent="menu_oph_reception" action="oph_to_reschedule_action" sequence="40"/>
+    <menuitem id="menu_oph_controls_due" name="Controls Due" parent="menu_oph_reception" action="oph_control_due_action" sequence="50"/>
+
+    <!-- Clinical -->
+    <menuitem id="menu_oph_clinical" name="Clinical" parent="menu_oph_root" sequence="20" groups="odossey_ophthalmology.group_oph_technician"/>
+    <menuitem id="menu_oph_exams" name="Exams" parent="menu_oph_clinical" action="oph_exam_action" sequence="10"/>
+    <menuitem id="menu_oph_studies" name="Studies" parent="menu_oph_clinical" action="oph_study_action" sequence="20"/>
+    <menuitem id="menu_oph_glasses" name="Glasses and Contact Lenses" parent="menu_oph_clinical" action="oph_glasses_action" sequence="30"/>
+    <menuitem id="menu_oph_prescriptions" name="Prescriptions" parent="menu_oph_clinical" action="oph_prescription_action" sequence="40"/>
+    <menuitem id="menu_oph_consents" name="Informed Consents" parent="menu_oph_clinical" action="oph_consent_action" sequence="50"/>
+    <menuitem id="menu_oph_certificates" name="Certificates" parent="menu_oph_clinical" action="oph_certificate_action" sequence="60"/>
+
+    <!-- Surgery -->
+    <menuitem id="menu_oph_surgery" name="Surgery" parent="menu_oph_root" sequence="30"/>
+    <menuitem id="menu_oph_surgical_agenda" name="Surgical Agenda" parent="menu_oph_surgery" action="oph_surgical_agenda_action" sequence="10"/>
+    <menuitem id="menu_oph_surgeries" name="Surgeries" parent="menu_oph_surgery" action="oph_surgery_action" sequence="20"/>
+
+    <!-- Billing -->
+    <menuitem id="menu_oph_billing" name="Billing" parent="menu_oph_root" sequence="40"/>
+    <menuitem id="menu_oph_quotations" name="Patient Quotations" parent="menu_oph_billing" action="oph_sale_order_action" sequence="10"/>
+    <menuitem id="menu_oph_invoices" name="Invoices" parent="menu_oph_billing" action="oph_invoice_action" sequence="20"
+              groups="account.group_account_invoice"/>
+    <menuitem id="menu_oph_payments" name="Payments" parent="menu_oph_billing" action="oph_payment_action" sequence="30"
+              groups="account.group_account_invoice"/>
+    <menuitem id="menu_oph_claims" name="Insurance Services" parent="menu_oph_billing" action="oph_claim_action" sequence="40"/>
+    <menuitem id="menu_oph_settlements" name="Monthly Settlements" parent="menu_oph_billing" action="oph_settlement_action" sequence="50"
+              groups="odossey_ophthalmology.group_oph_manager"/>
+    <menuitem id="menu_oph_insurances" name="Health Insurances" parent="menu_oph_billing" action="oph_insurance_action" sequence="60"/>
+
+    <!-- Pharmacy, lenses and supplies -->
+    <menuitem id="menu_oph_pharmacy" name="Lenses and Supplies" parent="menu_oph_root" sequence="50" groups="odossey_ophthalmology.group_oph_technician"/>
+    <menuitem id="menu_oph_iols" name="Intraocular Lenses" parent="menu_oph_pharmacy" action="oph_iol_action" sequence="10"/>
+    <menuitem id="menu_oph_supplies" name="Surgical Supplies" parent="menu_oph_pharmacy" action="oph_supply_action" sequence="20"/>
+    <menuitem id="menu_oph_medications" name="Medications" parent="menu_oph_pharmacy" action="oph_medication_action" sequence="30"/>
+    <menuitem id="menu_oph_stock" name="Stock" parent="menu_oph_pharmacy" action="stock.action_view_quants" sequence="40"/>
+    <menuitem id="menu_oph_lots" name="Serials and Expiry Dates" parent="menu_oph_pharmacy" action="oph_lens_lot_action" sequence="50"/>
+    <menuitem id="menu_oph_transfers" name="Receipts and Deliveries" parent="menu_oph_pharmacy" action="oph_picking_action" sequence="60"/>
+    <menuitem id="menu_oph_purchases" name="Purchase Orders" parent="menu_oph_pharmacy" action="purchase.purchase_rfq" sequence="70"
+              groups="purchase.group_purchase_user"/>
+    <menuitem id="menu_oph_suppliers" name="Suppliers" parent="menu_oph_pharmacy" action="oph_supplier_action" sequence="80"/>
+
+    <!-- Reporting -->
+    <menuitem id="menu_oph_reporting" name="Reporting" parent="menu_oph_root" sequence="60" groups="odossey_ophthalmology.group_oph_manager"/>
+    <menuitem id="menu_oph_report_exams" name="Exams" parent="menu_oph_reporting" action="oph_exam_action" sequence="10"/>
+    <menuitem id="menu_oph_report_claims" name="Insurance Services" parent="menu_oph_reporting" action="oph_claim_action" sequence="20"/>
+    <menuitem id="menu_oph_report_sales" name="Sales" parent="menu_oph_reporting" action="sale.action_order_report_all" sequence="30"/>
+    <menuitem id="menu_oph_report_invoices" name="Invoicing" parent="menu_oph_reporting" action="account.action_account_invoice_report_all" sequence="40"/>
+    <menuitem id="menu_oph_access_log" name="Clinical Record Access Log" parent="menu_oph_reporting" action="oph_access_log_action" sequence="50"/>
+
+    <!-- Configuration -->
+    <menuitem id="menu_oph_config" name="Configuration" parent="menu_oph_root" sequence="90" groups="odossey_ophthalmology.group_oph_manager"/>
+    <menuitem id="menu_oph_settings" name="Settings" parent="menu_oph_config" action="oph_settings_action" sequence="1" groups="base.group_system"/>
+    <menuitem id="menu_oph_professionals" name="Professionals" parent="menu_oph_config" action="oph_professional_action" sequence="5" groups="base.group_system"/>
+    <menuitem id="menu_oph_services" name="Services and Fees" parent="menu_oph_config" action="oph_service_action" sequence="10"/>
+    <menuitem id="menu_oph_appointment_types" name="Appointment Types" parent="menu_oph_config" action="oph_appointment_type_action" sequence="20"/>
+    <menuitem id="menu_oph_rooms" name="Rooms and Operating Rooms" parent="menu_oph_config" action="oph_room_action" sequence="30"/>
+    <menuitem id="menu_oph_study_types" name="Study Types" parent="menu_oph_config" action="oph_study_type_action" sequence="40"/>
+    <menuitem id="menu_oph_procedures" name="Surgical Procedures" parent="menu_oph_config" action="oph_procedure_action" sequence="50"/>
+    <menuitem id="menu_oph_consent_templates" name="Consent Templates" parent="menu_oph_config" action="oph_consent_template_action" sequence="60"/>
+    <menuitem id="menu_oph_diagnoses" name="Diagnoses (ICD-10)" parent="menu_oph_config" action="oph_diagnosis_action" sequence="70"/>
+    <menuitem id="menu_oph_allergies" name="Allergies" parent="menu_oph_config" action="oph_allergy_action" sequence="80"/>
+</odoo>

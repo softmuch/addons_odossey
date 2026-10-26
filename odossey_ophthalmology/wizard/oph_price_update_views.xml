@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="oph_price_update_view_form" model="ir.ui.view">
+        <field name="name">oph.price.update.form</field>
+        <field name="model">oph.price.update</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="insurance_ids" widget="many2many_tags"/>
+                    <field name="percentage"/>
+                    <field name="update_copay"/>
+                    <field name="rounding"/>
+                </group>
+                <footer>
+                    <button name="action_apply" type="object" string="Apply" class="btn-primary"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="oph_price_update_action" model="ir.actions.act_window">
+        <field name="name">Update Agreed Fees</field>
+        <field name="res_model">oph.price.update</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_oph_insurance"/>
+        <field name="binding_view_types">list,form</field>
+    </record>
+</odoo>

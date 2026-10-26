@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========================================================= patient (res.partner) -->
+    <record id="oph_patient_view_form" model="ir.ui.view">
+        <field name="name">res.partner.form.oph.patient</field>
+        <field name="model">res.partner</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <form string="Patient">
+                <header>
+                    <button name="action_oph_new_appointment" type="object" string="Book Appointment" class="btn-primary"/>
+                    <button name="action_oph_new_exam" type="object" string="New Exam"
+                            groups="odossey_ophthalmology.group_oph_technician"/>
+                    <button name="action_oph_whatsapp_control" type="object" string="WhatsApp" icon="fa-whatsapp" invisible="not phone"/>
+                    <button name="action_oph_print_record" type="object" string="Print Clinical Record"
+                            groups="odossey_ophthalmology.group_oph_ophthalmologist"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_oph_view_appointments" type="object" class="oe_stat_button" icon="fa-calendar">
+                            <field name="oph_appointment_count" widget="statinfo" string="Appointments"/>
+                        </button>
+                        <button name="action_oph_view_exams" type="object" class="oe_stat_button" icon="fa-eye"
+                                groups="odossey_ophthalmology.group_oph_technician">
+                            <field name="oph_exam_count" widget="statinfo" string="Exams"/>
+                        </button>
+                        <button name="action_oph_view_studies" type="object" class="oe_stat_button" icon="fa-bar-chart"
+                                groups="odossey_ophthalmology.group_oph_technician">
+                            <field name="oph_study_count" widget="statinfo" string="Studies"/>
+                        </button>
+                        <button name="action_oph_view_surgeries" type="object" class="oe_stat_button" icon="fa-medkit">
+                            <field name="oph_surgery_count" widget="statinfo" string="Surgeries"/>
+                        </button>
+                        <button name="action_oph_view_glasses" type="object" class="oe_stat_button" icon="fa-file-text-o"
+                                groups="odossey_ophthalmology.group_oph_technician">
+                            <field name="oph_document_count" widget="statinfo" string="Documents"/>
+                        </button>
+                    </div>
+                    <div class="alert alert-warning mb-2" role="alert" invisible="oph_alert_level == 'none'">
+                        <div class="d-flex align-items-center flex-wrap gap-2">
+                            <i class="fa fa-exclamation-triangle" title="Alerts"/>
+                            <field name="oph_alert_html" nolabel="1"/>
+                        </div>
+                    </div>
+                    <field name="avatar_128" invisible="1"/>
+                    <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'avatar_128'}"/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Name and surname" required="1"/></h1>
+                        <div class="text-muted" invisible="not oph_record_number">
+                            <span>Clinical record </span><field name="oph_record_number" class="fw-bold"/>
+                        </div>
+                    </div>
+                    <field name="is_oph_patient" invisible="1"/>
+                    <field name="is_company" invisible="1"/>
+                    <field name="type" invisible="1"/>
+                    <group>
+                        <group string="Personal Data">
+                            <field name="oph_document"/>
+                            <field name="oph_birthdate"/>
+                            <field name="oph_age" invisible="not oph_birthdate"/>
+                            <field name="oph_gender"/>
+                            <field name="oph_occupation"/>
+                            <field name="lang" invisible="1"/>
+                        </group>
+                        <group string="Contact">
+                            <field name="phone" widget="phone"/>
+                            <field name="email" widget="email"/>
+                            <label for="street" string="Address"/>
+                            <div class="o_address_format">
+                                <field name="street" placeholder="Street..." class="o_address_street"/>
+                                <field name="city" placeholder="City" class="o_address_city"/>
+                                <field name="state_id" class="o_address_state" placeholder="State" options="{'no_open': True, 'no_quick_create': True}"/>
+                                <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                <field name="country_id" placeholder="Country" class="o_address_country" options="{'no_open': True, 'no_create': True}"/>
+                            </div>
+                            <field name="oph_referred_by"/>
+                        </group>
+                        <group string="Health Insurance">
+                            <field name="oph_insurance_id" placeholder="Private patient"/>
+                            <field name="oph_plan_id" invisible="not oph_insurance_id"/>
+                            <field name="oph_member_number" invisible="not oph_insurance_id"/>
+                        </group>
+                        <group string="Follow-up" groups="odossey_ophthalmology.group_oph_technician">
+                            <field name="oph_last_exam_date"/>
+                            <field name="oph_next_control_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Medical Background" name="background" groups="odossey_ophthalmology.group_oph_technician">
+                            <group>
+                                <group>
+                                    <field name="oph_allergy_ids" widget="many2many_tags" options="{'color_field': 'id'}"/>
+                                    <field name="oph_diabetes"/>
+                                    <field name="oph_hypertension"/>
+                                    <field name="oph_anticoagulated"/>
+                                </group>
+                                <group>
+                                    <field name="oph_tamsulosin"/>
+                                    <field name="oph_glaucoma_family"/>
+                                    <field name="oph_contact_lens_user"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="oph_medical_history" placeholder="Systemic diseases, previous surgeries, current medication..."/>
+                                <field name="oph_ocular_history" placeholder="Eye diseases, surgeries, trauma, glasses used..."/>
+                            </group>
+                        </page>
+                        <page string="Exams" name="exams" groups="odossey_ophthalmology.group_oph_technician">
+                            <field name="oph_exam_ids" readonly="1">
+                                <list decoration-muted="state == 'cancel'">
+                                    <field name="date" widget="datetime" options="{'show_seconds': False}"/>
+                                    <field name="name"/>
+                                    <field name="visit_type"/>
+                                    <field name="doctor_id"/>
+                                    <field name="main_diagnosis"/>
+                                    <field name="iop_od" string="IOP OD"/>
+                                    <field name="iop_os" string="IOP OS"/>
+                                    <field name="state" widget="badge" decoration-success="state == 'done'" decoration-info="state in ('pre_consultation', 'in_progress')"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Surgeries" name="surgeries">
+                            <field name="oph_surgery_ids" readonly="1">
+                                <list>
+                                    <field name="start" widget="datetime" options="{'show_seconds': False}"/>
+                                    <field name="name"/>
+                                    <field name="procedure_id"/>
+                                    <field name="eye"/>
+                                    <field name="surgeon_id"/>
+                                    <field name="state" widget="badge" decoration-success="state == 'done'" decoration-info="state in ('authorized', 'confirmed')"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Appointments" name="appointments">
+                            <field name="oph_appointment_ids" readonly="1">
+                                <list>
+                                    <field name="start" widget="datetime" options="{'show_seconds': False}"/>
+                                    <field name="oph_appointment_type_id"/>
+                                    <field name="user_id"/>
+                                    <field name="oph_state" widget="badge" decoration-success="oph_state == 'done'" decoration-danger="oph_state in ('no_show', 'cancelled')"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="comment" placeholder="Administrative notes..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="oph_patient_view_list" model="ir.ui.view">
+        <field name="name">res.partner.list.oph.patient</field>
+        <field name="model">res.partner</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <list string="Patients">
+                <field name="oph_record_number"/>
+                <field name="name"/>
+                <field name="oph_document"/>
+                <field name="oph_age"/>
+                <field name="phone" optional="show"/>
+                <field name="email" optional="hide"/>
+                <field name="oph_insurance_id"/>
+                <field name="oph_member_number" optional="hide"/>
+                <field name="oph_next_control_date" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="oph_patient_view_kanban" model="ir.ui.view">
+        <field name="name">res.partner.kanban.oph.patient</field>
+        <field name="model">res.partner</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <kanban class="o_res_partner_kanban">
+                <field name="oph_alert_level"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <aside class="o_kanban_aside_full">
+                            <field name="avatar_128" widget="image" class="o_kanban_image_fill w-100" options="{'img_class': 'object-fit-cover'}"/>
+                        </aside>
+                        <main class="ps-2 ps-md-0">
+                            <field name="name" class="fw-bold fs-5"/>
+                            <div class="text-muted small">
+                                <field name="oph_record_number"/>
+                                <span t-if="record.oph_age.raw_value"> · <field name="oph_age"/> <span>years</span></span>
+                            </div>
+                            <div><field name="oph_insurance_id"/></div>
+                            <div t-if="record.oph_alert_level.raw_value != 'none'" class="mt-1">
+                                <span class="badge rounded-pill text-bg-warning"><i class="fa fa-exclamation-triangle" title="Alerts"/> Alerts</span>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="oph_patient_view_search" model="ir.ui.view">
+        <field name="name">res.partner.search.oph.patient</field>
+        <field name="model">res.partner</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <search string="Patients">
+                <field name="name" string="Patient"
+                       filter_domain="['|', '|', '|', ('name', 'ilike', self), ('oph_record_number', 'ilike', self), ('oph_document', 'ilike', self), ('oph_member_number', 'ilike', self)]"/>
+                <field name="phone"/>
+                <field name="oph_insurance_id"/>
+                <filter name="private" string="Private Patients" domain="[('oph_insurance_id', '=', False)]"/>
+                <filter name="with_alerts" string="Anticoagulated" domain="[('oph_anticoagulated', '=', True)]"/>
+                <filter name="diabetic" string="Diabetic" domain="[('oph_diabetes', '=', True)]"/>
+                <separator/>
+                <filter name="control_due" string="Control Due"
+                        domain="[('oph_next_control_date', '&lt;=', (context_today() + relativedelta(days=15)).strftime('%Y-%m-%d'))]"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_insurance" string="Health Insurance" context="{'group_by': 'oph_insurance_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="oph_patient_action" model="ir.actions.act_window">
+        <field name="name">Patients</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('is_oph_patient', '=', True)]</field>
+        <field name="context">{'default_is_oph_patient': True, 'default_is_company': False}</field>
+        <field name="search_view_id" ref="oph_patient_view_search"/>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('oph_patient_view_kanban')}),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('oph_patient_view_list')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('oph_patient_view_form')})]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Register the first patient</p>
+            <p>The clinical record number is assigned automatically. Load the health insurance and the member number
+                to bill the services to the obra social.</p>
+        </field>
+    </record>
+
+    <record id="oph_control_due_action" model="ir.actions.act_window">
+        <field name="name">Controls Due</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('is_oph_patient', '=', True), ('oph_next_control_date', '!=', False)]</field>
+        <field name="context">{'search_default_control_due': 1}</field>
+        <field name="search_view_id" ref="oph_patient_view_search"/>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('oph_patient_view_list')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('oph_patient_view_form')})]"/>
+    </record>
+
+    <!-- professional data on the user form -->
+    <record id="view_users_form_oph" model="ir.ui.view">
+        <field name="name">res.users.form.oph</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Ophthalmology" name="ophthalmology">
+                    <group>
+                        <group>
+                            <field name="oph_is_ophthalmologist"/>
+                            <field name="oph_is_technician"/>
+                            <field name="oph_specialty"/>
+                            <field name="oph_color" widget="color_picker"/>
+                        </group>
+                        <group>
+                            <field name="oph_license"/>
+                            <field name="oph_license_provincial"/>
+                            <field name="oph_signature" widget="image"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_users_form_simple_modif_oph" model="ir.ui.view">
+        <field name="name">res.users.preferences.oph</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Professional Data" name="oph_professional" invisible="not oph_is_ophthalmologist">
+                    <field name="oph_is_ophthalmologist" invisible="1"/>
+                    <group>
+                        <field name="oph_specialty"/>
+                        <field name="oph_license"/>
+                        <field name="oph_license_provincial"/>
+                        <field name="oph_signature" widget="image"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record id="oph_professional_action" model="ir.actions.act_window">
+        <field name="name">Professionals</field>
+        <field name="res_model">res.users</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">['|', ('oph_is_ophthalmologist', '=', True), ('oph_is_technician', '=', True)]</field>
+        <field name="context">{'default_oph_is_ophthalmologist': True}</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('base.view_users_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('base.view_users_form')})]"/>
+    </record>
+</odoo>

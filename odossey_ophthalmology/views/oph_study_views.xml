@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="oph_study_view_form" model="ir.ui.view">
+        <field name="name">oph.study.form</field>
+        <field name="model">oph.study</field>
+        <field name="arch" type="xml">
+            <form string="Study">
+                <header>
+                    <button name="action_schedule" type="object" string="Schedule" invisible="state != 'requested'"/>
+                    <button name="action_done" type="object" string="Mark as Performed" class="btn-primary"
+                            invisible="state not in ('requested', 'scheduled')"/>
+                    <button name="action_report" type="object" string="Sign Report" class="btn-primary"
+                            invisible="state not in ('requested', 'scheduled', 'done')" groups="odossey_ophthalmology.group_oph_ophthalmologist"/>
+                    <button name="action_print" type="object" string="Print" invisible="state != 'reported'"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state in ('reported', 'cancel')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="requested,scheduled,done,reported"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" readonly="1"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="patient_id" context="{'default_is_oph_patient': True, 'oph_show_record': True}" options="{'no_quick_create': True}"/>
+                            <field name="study_type_id"/>
+                            <field name="kind" invisible="1"/>
+                            <field name="eye"/>
+                            <field name="exam_id" readonly="1" invisible="not exam_id"/>
+                        </group>
+                        <group>
+                            <field name="date" options="{'show_seconds': False}"/>
+                            <field name="requested_by_id"/>
+                            <field name="technician_id"/>
+                            <field name="reported_by_id"/>
+                            <field name="insurance_id" placeholder="Private"/>
+                            <field name="authorization" invisible="not insurance_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Results" name="results">
+                            <group invisible="kind != 'oct'">
+                                <group string="Right eye (OD)">
+                                    <field name="cmt_od" string="Central macular thickness (µm)"/>
+                                    <field name="rnfl_od" string="Average RNFL (µm)"/>
+                                </group>
+                                <group string="Left eye (OS)">
+                                    <field name="cmt_os" string="Central macular thickness (µm)"/>
+                                    <field name="rnfl_os" string="Average RNFL (µm)"/>
+                                </group>
+                            </group>
+                            <group invisible="kind != 'visual_field'">
+                                <group string="Right eye (OD)">
+                                    <field name="md_od" string="MD (dB)"/>
+                                    <field name="psd_od" string="PSD (dB)"/>
+                                    <field name="vfi_od" string="VFI (%)"/>
+                                </group>
+                                <group string="Left eye (OS)">
+                                    <field name="md_os" string="MD (dB)"/>
+                                    <field name="psd_os" string="PSD (dB)"/>
+                                    <field name="vfi_os" string="VFI (%)"/>
+                                </group>
+                            </group>
+                            <group invisible="kind != 'biometry'">
+                                <group string="Right eye (OD)">
+                                    <field name="axial_length_od" string="Axial length (mm)"/>
+                                    <field name="acd_od" string="ACD (mm)"/>
+                                    <field name="iol_power_od" string="IOL power (D)"/>
+                                </group>
+                                <group string="Left eye (OS)">
+                                    <field name="axial_length_os" string="Axial length (mm)"/>
+                                    <field name="acd_os" string="ACD (mm)"/>
+                                    <field name="iol_power_os" string="IOL power (D)"/>
+                                </group>
+                                <group>
+                                    <field name="iol_formula"/>
+                                    <field name="target_refraction"/>
+                                </group>
+                            </group>
+                            <group invisible="kind not in ('pachymetry', 'topography')">
+                                <group string="Right eye (OD)">
+                                    <field name="pachymetry_od" string="Pachymetry (µm)"/>
+                                    <field name="kmax_od" string="Kmax (D)" invisible="kind != 'topography'"/>
+                                </group>
+                                <group string="Left eye (OS)">
+                                    <field name="pachymetry_os" string="Pachymetry (µm)"/>
+                                    <field name="kmax_os" string="Kmax (D)" invisible="kind != 'topography'"/>
+                                </group>
+                            </group>
+                            <group invisible="kind != 'endothelial'">
+                                <group string="Right eye (OD)">
+                                    <field name="cell_density_od" string="Cells / mm²"/>
+                                </group>
+                                <group string="Left eye (OS)">
+                                    <field name="cell_density_os" string="Cells / mm²"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="result_od"/>
+                                <field name="result_os"/>
+                                <field name="conclusion"/>
+                            </group>
+                        </page>
+                        <page string="Report" name="report">
+                            <field name="report" placeholder="Report of the study..."/>
+                        </page>
+                        <page string="Device Files" name="files">
+                            <field name="attachment_ids" widget="many2many_binary"/>
+                        </page>
+                        <page string="Charges" name="charges">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="quantity"/>
+                                    <field name="billing"/>
+                                    <field name="claim_id" readonly="1"/>
+                                    <field name="sale_line_id" readonly="1" optional="hide"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="oph_study_view_list" model="ir.ui.view">
+        <field name="name">oph.study.list</field>
+        <field name="model">oph.study</field>
+        <field name="arch" type="xml">
+            <list string="Studies" decoration-muted="state == 'cancel'">
+                <field name="date" widget="datetime" options="{'show_seconds': False}"/>
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="study_type_id"/>
+                <field name="eye"/>
+                <field name="technician_id" optional="show"/>
+                <field name="conclusion" optional="show"/>
+                <field name="state" widget="badge" decoration-success="state == 'reported'" decoration-info="state in ('scheduled', 'done')" decoration-warning="state == 'requested'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="oph_study_view_search" model="ir.ui.view">
+        <field name="name">oph.study.search</field>
+        <field name="model">oph.study</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="patient_id"/>
+                <field name="study_type_id"/>
+                <filter name="pending" string="To Perform" domain="[('state', 'in', ('requested', 'scheduled'))]"/>
+                <filter name="to_report" string="To Report" domain="[('state', '=', 'done')]"/>
+                <filter name="reported" string="Reported" domain="[('state', '=', 'reported')]"/>
+                <group>
+                    <filter name="group_type" string="Study" context="{'group_by': 'study_type_id'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="oph_study_action" model="ir.actions.act_window">
+        <field name="name">Studies</field>
+        <field name="res_model">oph.study</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="oph_study_view_search"/>
+        <field name="context">{'search_default_pending': 1, 'search_default_to_report': 1}</field>
+    </record>
+</odoo>

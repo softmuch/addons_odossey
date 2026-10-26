@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- ========================================================= sequences -->
+        <record id="seq_oph_patient" model="ir.sequence">
+            <field name="name">Clinical record</field>
+            <field name="code">oph.patient</field>
+            <field name="prefix">HC-</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_oph_exam" model="ir.sequence">
+            <field name="name">Ophthalmology exam</field>
+            <field name="code">oph.exam</field>
+            <field name="prefix">CON/%(range_year)s/</field>
+            <field name="padding">5</field>
+            <field name="use_date_range" eval="True"/>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_oph_study" model="ir.sequence">
+            <field name="name">Complementary study</field>
+            <field name="code">oph.study</field>
+            <field name="prefix">EST/%(range_year)s/</field>
+            <field name="padding">5</field>
+            <field name="use_date_range" eval="True"/>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_oph_glasses" model="ir.sequence">
+            <field name="name">Glasses prescription</field>
+            <field name="code">oph.glasses.prescription</field>
+            <field name="prefix">RXA/%(range_year)s/</field>
+            <field name="padding">5</field>
+            <field name="use_date_range" eval="True"/>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_oph_prescription" model="ir.sequence">
+            <field name="name">Medication prescription</field>
+            <field name="code">oph.prescription</field>
+            <field name="prefix">REC/%(range_year)s/</field>
+            <field name="padding">5</field>
+            <field name="use_date_range" eval="True"/>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_oph_surgery" model="ir.sequence">
+            <field name="name">Surgery</field>
+            <field name="code">oph.surgery</field>
+            <field name="prefix">CIR/%(range_year)s/</field>
+            <field name="padding">4</field>
+            <field name="use_date_range" eval="True"/>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_oph_consent" model="ir.sequence">
+            <field name="name">Informed consent</field>
+            <field name="code">oph.consent</field>
+            <field name="prefix">CI/%(range_year)s/</field>
+            <field name="padding">4</field>
+            <field name="use_date_range" eval="True"/>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_oph_certificate" model="ir.sequence">
+            <field name="name">Certificate</field>
+            <field name="code">oph.certificate</field>
+            <field name="prefix">CER/%(range_year)s/</field>
+            <field name="padding">4</field>
+            <field name="use_date_range" eval="True"/>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_oph_settlement" model="ir.sequence">
+            <field name="name">Insurance settlement</field>
+            <field name="code">oph.insurance.settlement</field>
+            <field name="prefix">LIQ/%(range_year)s/</field>
+            <field name="padding">4</field>
+            <field name="use_date_range" eval="True"/>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- ========================================================= crons -->
+        <record id="ir_cron_oph_appointment_reminders" model="ir.cron">
+            <field name="name">Ophthalmology: appointment reminders</field>
+            <field name="model_id" ref="calendar.model_calendar_event"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_oph_appointment_reminders()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="True"/>
+        </record>
+        <record id="ir_cron_oph_control_recall" model="ir.cron">
+            <field name="name">Ophthalmology: control recalls</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_oph_control_recall()</field>
+            <field name="interval_number">7</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="True"/>
+        </record>
+
+        <!-- ========================================================= emails -->
+        <record id="mail_template_appointment_reminder" model="mail.template">
+            <field name="name">Ophthalmology: appointment reminder</field>
+            <field name="model_id" ref="calendar.model_calendar_event"/>
+            <field name="subject">{{ user.company_id.name }} - Reminder of your appointment</field>
+            <field name="email_to">{{ object.oph_patient_id.email_formatted }}</field>
+            <field name="lang">{{ object.oph_patient_id.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html" type="html">
+<div style="margin: 0; padding: 0;">
+    <p>Hello <t t-out="object.oph_patient_id.name or ''">Ana</t>,</p>
+    <p>We remind you of your appointment at <t t-out="user.company_id.name or ''">the clinic</t>:</p>
+    <ul>
+        <li>Date and time: <t t-out="format_datetime(object.start, tz=object.oph_patient_id.tz or user.tz, dt_format='short')">01/12/2026 10:00</t></li>
+        <li t-if="object.user_id">Professional: <t t-out="object.user_id.name or ''">Dr. Pérez</t></li>
+        <li t-if="object.oph_appointment_type_id">Type: <t t-out="object.oph_appointment_type_id.name or ''">Control</t></li>
+    </ul>
+    <p>Please bring your current glasses, the list of the medication you use, your ID and your health insurance card.
+        If your pupils are dilated your vision will be blurred for some hours: come with a companion and do not drive.</p>
+    <p>If you cannot come, please let us know by replying to this email.</p>
+    <p>Best regards,<br/><t t-out="user.company_id.name or ''">The clinic</t></p>
+</div>
+            </field>
+        </record>
+        <record id="mail_template_control_recall" model="mail.template">
+            <field name="name">Ophthalmology: control recall</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="subject">{{ user.company_id.name }} - Time for your eye control</field>
+            <field name="email_to">{{ object.email_formatted }}</field>
+            <field name="lang">{{ object.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html" type="html">
+<div style="margin: 0; padding: 0;">
+    <p>Hello <t t-out="object.name or ''">Ana</t>,</p>
+    <p>According to your last visit, your next eye control is due on
+        <b t-out="format_date(object.oph_next_control_date)">01/12/2026</b>.</p>
+    <p>Regular controls are essential to protect your vision. Reply to this email or call us to book your appointment.</p>
+    <p>Best regards,<br/><t t-out="user.company_id.name or ''">The clinic</t></p>
+</div>
+            </field>
+        </record>
+    </data>
+</odoo>

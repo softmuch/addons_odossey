@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========================================================= insurance services -->
+    <record id="oph_claim_view_list" model="ir.ui.view">
+        <field name="name">oph.insurance.claim.list</field>
+        <field name="model">oph.insurance.claim</field>
+        <field name="arch" type="xml">
+            <list string="Insurance Services" editable="bottom" create="0"
+                  decoration-warning="state == 'pending'" decoration-danger="state == 'rejected'" decoration-muted="state == 'billed'">
+                <header>
+                    <button name="action_authorize" type="object" string="Authorized"/>
+                    <button name="action_rebill" type="object" string="Present Again"/>
+                </header>
+                <field name="date" readonly="state == 'billed'"/>
+                <field name="patient_id" readonly="1"/>
+                <field name="insurance_id" readonly="1"/>
+                <field name="member_number" readonly="state == 'billed'"/>
+                <field name="nomenclator_code" readonly="state == 'billed'"/>
+                <field name="product_id" readonly="1"/>
+                <field name="quantity" readonly="state == 'billed'"/>
+                <field name="unit_amount" readonly="state == 'billed'"/>
+                <field name="amount" sum="Total"/>
+                <field name="copay_amount" optional="hide" sum="Co-payments"/>
+                <field name="authorization" readonly="state == 'billed'"/>
+                <field name="settlement_id" readonly="1" optional="show"/>
+                <field name="rejection_reason" optional="hide"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="state" widget="badge" decoration-success="state == 'billed'" decoration-info="state == 'to_bill'"/>
+            </list>
+        </field>
+    </record>
+    <record id="oph_claim_view_search" model="ir.ui.view">
+        <field name="name">oph.insurance.claim.search</field>
+        <field name="model">oph.insurance.claim</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="patient_id"/>
+                <field name="insurance_id"/>
+                <field name="nomenclator_code"/>
+                <filter name="pending" string="Waiting Authorization" domain="[('state', '=', 'pending')]"/>
+                <filter name="to_bill" string="To Bill" domain="[('state', '=', 'to_bill')]"/>
+                <filter name="rejected" string="Rejected" domain="[('state', '=', 'rejected')]"/>
+                <group>
+                    <filter name="group_insurance" string="Health Insurance" context="{'group_by': 'insurance_id'}"/>
+                    <filter name="group_month" string="Month" context="{'group_by': 'date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="oph_claim_view_pivot" model="ir.ui.view">
+        <field name="name">oph.insurance.claim.pivot</field>
+        <field name="model">oph.insurance.claim</field>
+        <field name="arch" type="xml">
+            <pivot string="Insurance Services">
+                <field name="insurance_id" type="row"/>
+                <field name="date" interval="month" type="col"/>
+                <field name="amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+    <record id="oph_claim_action" model="ir.actions.act_window">
+        <field name="name">Insurance Services</field>
+        <field name="res_model">oph.insurance.claim</field>
+        <field name="view_mode">list,pivot</field>
+        <field name="search_view_id" ref="oph_claim_view_search"/>
+        <field name="context">{'search_default_pending': 1, 'search_default_to_bill': 1, 'search_default_group_insurance': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No services to present</p>
+            <p>Services covered by a health insurance are created automatically when an exam, study or surgery is closed.</p>
+        </field>
+    </record>
+
+    <!-- ========================================================= settlements -->
+    <record id="oph_settlement_view_form" model="ir.ui.view">
+        <field name="name">oph.insurance.settlement.form</field>
+        <field name="model">oph.insurance.settlement</field>
+        <field name="arch" type="xml">
+            <form string="Settlement">
+                <header>
+                    <button name="action_load_claims" type="object" string="Load Services" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_create_invoice" type="object" string="Create Invoice" class="btn-primary"
+                            invisible="state != 'draft' or not claim_count"/>
+                    <button name="action_export_csv" type="object" string="Export Detail (CSV)" invisible="not claim_count"/>
+                    <button name="action_print" type="object" string="Print" invisible="not claim_count"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state == 'cancel'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,invoiced"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_invoice" type="object" class="oe_stat_button" icon="fa-file-text-o" invisible="not invoice_id">
+                            <span>Invoice</span>
+                        </button>
+                    </div>
+                    <div class="oe_title"><h1><field name="name" readonly="1"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="insurance_id" readonly="state != 'draft'"/>
+                            <field name="date_from" readonly="state != 'draft'"/>
+                            <field name="date_to" readonly="state != 'draft'"/>
+                        </group>
+                        <group>
+                            <field name="claim_count"/>
+                            <field name="amount_total"/>
+                            <field name="invoice_id" readonly="1" invisible="not invoice_id"/>
+                            <field name="payment_state" invisible="not invoice_id"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <field name="claim_ids" readonly="state != 'draft'">
+                        <list create="0" editable="bottom">
+                            <field name="date" readonly="1"/>
+                            <field name="patient_id" readonly="1"/>
+                            <field name="member_number" readonly="1"/>
+                            <field name="nomenclator_code" readonly="1"/>
+                            <field name="product_id" readonly="1"/>
+                            <field name="quantity" readonly="1"/>
+                            <field name="unit_amount" readonly="1"/>
+                            <field name="amount" sum="Total"/>
+                            <field name="authorization" readonly="1"/>
+                            <field name="currency_id" column_invisible="True"/>
+                            <field name="state" widget="badge"/>
+                        </list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="oph_settlement_view_list" model="ir.ui.view">
+        <field name="name">oph.insurance.settlement.list</field>
+        <field name="model">oph.insurance.settlement</field>
+        <field name="arch" type="xml">
+            <list string="Settlements">
+                <field name="name"/>
+                <field name="insurance_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="claim_count"/>
+                <field name="amount_total" sum="Total"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="payment_state" optional="show" widget="badge"/>
+                <field name="state" widget="badge" decoration-success="state == 'invoiced'"/>
+            </list>
+        </field>
+    </record>
+    <record id="oph_settlement_action" model="ir.actions.act_window">
+        <field name="name">Monthly Settlements</field>
+        <field name="res_model">oph.insurance.settlement</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create the settlement of the month</p>
+            <p>Choose the health insurance and the period, load the services and create the invoice to the insurer.</p>
+        </field>
+    </record>
+
+    <!-- ========================================================= sales / invoices of the patients -->
+    <record id="view_order_form_oph" model="ir.ui.view">
+        <field name="name">sale.order.form.oph</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='sale_header']" position="inside">
+                <group invisible="not oph_exam_id and not oph_surgery_id and not oph_study_id">
+                    <field name="oph_exam_id" readonly="1" invisible="not oph_exam_id"/>
+                    <field name="oph_surgery_id" readonly="1" invisible="not oph_surgery_id"/>
+                    <field name="oph_study_id" readonly="1" invisible="not oph_study_id"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+    <record id="oph_sale_order_action" model="ir.actions.act_window">
+        <field name="name">Patient Quotations</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('partner_id.is_oph_patient', '=', True)]</field>
+        <field name="search_view_id" ref="sale.sale_order_view_search_inherit_quotation"/>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('sale.view_quotation_tree_with_onboarding')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('sale.view_order_form')})]"/>
+    </record>
+    <record id="oph_invoice_action" model="ir.actions.act_window">
+        <field name="name">Invoices</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('move_type', 'in', ('out_invoice', 'out_refund'))]</field>
+        <field name="context">{'default_move_type': 'out_invoice'}</field>
+        <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('account.view_out_invoice_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('account.view_move_form')})]"/>
+    </record>
+    <record id="oph_payment_action" model="ir.actions.act_window">
+        <field name="name">Payments</field>
+        <field name="res_model">account.payment</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('partner_type', '=', 'customer')]</field>
+        <field name="context">{'default_payment_type': 'inbound', 'default_partner_type': 'customer'}</field>
+    </record>
+</odoo>
