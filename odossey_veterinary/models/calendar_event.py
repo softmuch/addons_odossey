@@ -53,6 +53,21 @@ class CalendarEvent(models.Model):
     ], string="Visit Status", default='booked', tracking=True)
     vet_consultation_ids = fields.One2many('vet.consultation', 'appointment_id', string="Consultations")
     is_vet_appointment = fields.Boolean(compute='_compute_is_vet_appointment', store=True)
+    vet_veterinarian_id = fields.Many2one(
+        'res.users', string="Veterinarian", compute='_compute_vet_veterinarian_id', inverse='_inverse_vet_veterinarian_id',
+        store=True, index='btree_not_null',
+        domain="[('vet_is_veterinarian', '=', True), ('share', '=', False)]",
+        help="Professional who attends the appointment. Only users marked as veterinarians are listed. Example: Dra. Ana Torres.")
+
+    @api.depends('user_id')
+    def _compute_vet_veterinarian_id(self):
+        for event in self:
+            event.vet_veterinarian_id = event.user_id if event.user_id.vet_is_veterinarian else False
+
+    def _inverse_vet_veterinarian_id(self):
+        for event in self:
+            if event.vet_veterinarian_id:
+                event.user_id = event.vet_veterinarian_id
 
     @api.depends('vet_pet_id', 'vet_appointment_type_id')
     def _compute_is_vet_appointment(self):

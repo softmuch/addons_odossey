@@ -58,7 +58,7 @@
                             <field name="owner_id" context="{'res_partner_search_mode': 'customer'}"/>
                             <field name="owner_phone" widget="phone" invisible="not owner_phone"/>
                             <field name="species_id" options="{'no_create': True}"/>
-                            <field name="breed_id" options="{'no_create': True}" invisible="not species_id"/>
+                            <field name="breed_id" options="{'no_create_edit': True}" context="{'default_species_id': species_id}" invisible="not species_id"/>
                             <field name="sex"/>
                             <field name="neutered"/>
                             <field name="neutered_date" invisible="not neutered"/>

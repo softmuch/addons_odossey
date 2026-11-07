@@ -360,3 +360,25 @@ class TestPortal(HttpCase):
         actions |= self.env.ref('odossey_veterinary.vet_appointment_action') | self.env.ref('odossey_veterinary.vet_waiting_room_action')
         for action in actions:
             self.assertNotIn('ref(', action.context or '', action.xml_id)
+
+
+@tagged('post_install', '-at_install')
+class TestVetAgendaAndBreeds(VetCommon):
+
+    def test_reception_creates_breed_from_patient(self):
+        """Reception adds a missing breed while registering the patient (quick create keeps the species)."""
+        Breed = self.env['vet.breed'].with_user(self.reception).with_context(default_species_id=self.dog.id)
+        breed_id, _name = Breed.name_create("Caniche toy")
+        breed = self.env['vet.breed'].browse(breed_id)
+        self.assertEqual(breed.species_id, self.dog)
+        with self.assertRaises(AccessError):
+            breed.with_user(self.reception).unlink()
+
+    def test_appointment_veterinarian_field(self):
+        event = self.env['calendar.event'].with_user(self.reception).create({
+            'name': "Turno", 'vet_pet_id': self.pet.id, 'start': fields.Datetime.now(),
+            'stop': fields.Datetime.now() + timedelta(minutes=30), 'vet_veterinarian_id': self.vet.id})
+        self.assertEqual(event.user_id, self.vet)
+        self.assertEqual(event.vet_veterinarian_id, self.vet)
+        event.user_id = self.reception
+        self.assertFalse(event.vet_veterinarian_id, "only veterinarians are shown as the professional")

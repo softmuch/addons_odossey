@@ -1,7 +1,7 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_vet_species_group_vet_reception,vet.species group_vet_reception,model_vet_species,odossey_veterinary.group_vet_reception,1,0,0,0
 access_vet_species_group_vet_manager,vet.species group_vet_manager,model_vet_species,odossey_veterinary.group_vet_manager,1,1,1,1
-access_vet_breed_group_vet_reception,vet.breed group_vet_reception,model_vet_breed,odossey_veterinary.group_vet_reception,1,0,0,0
+access_vet_breed_group_vet_reception,vet.breed group_vet_reception,model_vet_breed,odossey_veterinary.group_vet_reception,1,1,1,0
 access_vet_breed_group_vet_manager,vet.breed group_vet_manager,model_vet_breed,odossey_veterinary.group_vet_manager,1,1,1,1
 access_vet_alert_group_vet_reception,vet.alert group_vet_reception,model_vet_alert,odossey_veterinary.group_vet_reception,1,0,0,0
 access_vet_alert_group_vet_manager,vet.alert group_vet_manager,model_vet_alert,odossey_veterinary.group_vet_manager,1,1,1,1

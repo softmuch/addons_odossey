@@ -282,7 +282,8 @@
                             <field name="stop"/>
                             <field name="duration" widget="float_time"/>
                             <field name="allday" invisible="1"/>
-                            <field name="user_id" string="Veterinarian"/>
+                            <field name="vet_veterinarian_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="user_id" invisible="1"/>
                             <field name="partner_ids" widget="many2manyattendee" invisible="1"/>
                         </group>
                     </group>
@@ -306,7 +307,7 @@
                 <field name="vet_owner_id"/>
                 <field name="vet_appointment_type_id" filters="1"/>
                 <field name="vet_room_id" filters="1"/>
-                <field name="user_id" filters="1" string="Veterinarian"/>
+                <field name="vet_veterinarian_id" filters="1"/>
                 <field name="vet_reason"/>
                 <field name="vet_state"/>
             </calendar>

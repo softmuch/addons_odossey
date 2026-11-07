@@ -7735,6 +7735,7 @@ msgstr "Demo veterinaria cargada"
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.report_vaccination_card
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_consultation_view_search
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_prescription_view_search
+#: model:ir.model.fields,field_description:odossey_veterinary.field_calendar_event__vet_veterinarian_id
 msgid "Veterinarian"
 msgstr "Veterinario"
 
@@ -8701,3 +8702,12 @@ msgstr "· <strong>Válido hasta:</strong>"
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.report_certificate
 msgid "· Valid until"
 msgstr "· Válido hasta"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,help:odossey_veterinary.field_calendar_event__vet_veterinarian_id
+msgid ""
+"Professional who attends the appointment. Only users marked as veterinarians"
+" are listed. Example: Dra. Ana Torres."
+msgstr ""
+"Profesional que atiende el turno. Solo se listan los usuarios marcados como "
+"veterinarios. Ejemplo: Dra. Ana Torres."
