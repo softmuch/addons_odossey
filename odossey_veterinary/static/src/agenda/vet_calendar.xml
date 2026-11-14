@@ -4,7 +4,7 @@
     <!-- Agenda cell: time, patient (species, alerts), owner and phone, veterinarian, reason and status -->
     <t t-name="odossey_veterinary.VetCalendarEvent">
         <t t-set="r" t-value="rawRecord"/>
-        <div t-attf-class="o_vet_event {{ vetCard.status ? 'o_vet_event_has_status' : '' }}">
+        <div t-attf-class="o_vet_event {{ vetCard.status ? 'o_vet_event_has_status' : '' }} {{ vetCard.species and r.vet_card_species_icon ? 'o_vet_event_has_icon' : '' }}">
             <div class="o_vet_event_head">
                 <span t-if="!isTimeHidden" class="fc-time o_vet_event_time" t-esc="startTime"/>
                 <i t-if="vetCard.alerts and r.vet_card_danger" class="fa fa-exclamation-triangle o_vet_event_alert" t-att-title="r.vet_card_alert"/>
@@ -23,12 +23,16 @@
             <div t-if="vetCard.reason and (r.vet_reason or r.vet_appointment_type_id)" class="o_vet_event_line o_vet_event_reason">
                 <t t-if="r.vet_appointment_type_id" t-esc="r.vet_appointment_type_id[1]"/>
                 <t t-if="r.vet_reason and r.vet_appointment_type_id">: </t>
-                <t t-esc="r.vet_reason"/>
+                <t t-if="r.vet_reason" t-esc="r.vet_reason"/>
             </div>
             <div t-if="vetCard.alerts and r.vet_card_alert" class="o_vet_event_line o_vet_event_alert_text">
                 <i class="fa fa-exclamation-circle me-1" title="Alerts"/><t t-esc="r.vet_card_alert"/>
             </div>
-            <span t-if="vetCard.status and r.vet_card_status_label" class="o_vet_event_status" t-esc="r.vet_card_status_label"/>
+            <!-- top right corner: face of the animal (and the status in the day view) -->
+            <span class="o_vet_event_corner">
+                <span t-if="vetCard.status and r.vet_card_status_label" class="o_vet_event_status" t-esc="r.vet_card_status_label"/>
+                <img t-if="vetCard.species and r.vet_card_species_icon" class="o_vet_event_species_icon" t-att-src="r.vet_card_species_icon" t-att-alt="r.vet_card_species" t-att-title="r.vet_card_species"/>
+            </span>
         </div>
     </t>
 

@@ -15,6 +15,13 @@
         .o_vet_event.o_vet_event_has_status .o_vet_event_head {
             padding-right: 0;
         }
+        .o_vet_event.o_vet_event_has_icon .o_vet_event_head {
+            padding-right: 1.5rem;
+        }
+        // the face is taller than the first line: keep the second line clear too
+        .o_vet_event.o_vet_event_has_icon .o_vet_event_head + .o_vet_event_line {
+            padding-right: 1.1rem;
+        }
     }
     &.fc-timeGridDay-view .o_vet_event_new_icon {
         display: none;
@@ -81,6 +88,25 @@
     .o_vet_event_pet {
         font-size: 0.8rem;
     }
+    // top right corner: status (day view) and face of the animal
+    .o_vet_event_corner {
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.2rem;
+    }
+    .o_vet_event_species_icon {
+        width: 1.3rem;
+        height: 1.3rem;
+    }
+    &.o_vet_event_has_icon .o_vet_event_head {
+        padding-right: 1.5rem;
+    }
+    &.o_vet_event_has_icon.o_vet_event_has_status .o_vet_event_head {
+        padding-right: 6rem;
+    }
     .o_vet_event_species {
         margin-left: 0.2rem;
         opacity: 0.8;
@@ -97,14 +123,11 @@
     }
     .o_vet_event_new {
         margin-left: 0.25rem;
-        background-color: $warning;
-        color: $dark;
+        background-color: $danger;
+        color: $white;
         font-size: 0.65rem;
     }
     .o_vet_event_status {
-        position: absolute;
-        top: 0;
-        right: 0;
         max-width: 4.4rem;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -130,6 +153,6 @@
 }
 
 .o_vet_event .o_vet_event_new_icon {
-    color: $warning;
+    color: $danger;
     margin-right: 0.2rem;
 }

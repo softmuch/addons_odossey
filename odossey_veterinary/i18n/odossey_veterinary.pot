@@ -1252,6 +1252,7 @@ msgstr ""
 
 #. module: odossey_veterinary
 #: model:vet.species,name:odossey_veterinary.species_budgerigar
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__budgerigar
 msgid "Budgerigar"
 msgstr ""
 
@@ -1310,6 +1311,7 @@ msgstr ""
 
 #. module: odossey_veterinary
 #: model:vet.species,name:odossey_veterinary.species_canary
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__canary
 msgid "Canary"
 msgstr ""
 
@@ -1413,6 +1415,7 @@ msgstr ""
 
 #. module: odossey_veterinary
 #: model:vet.species,name:odossey_veterinary.species_cat
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__cat
 msgid "Cat"
 msgstr ""
 
@@ -1537,6 +1540,7 @@ msgstr ""
 
 #. module: odossey_veterinary
 #: model:vet.species,name:odossey_veterinary.species_chinchilla
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__chinchilla
 msgid "Chinchilla"
 msgstr ""
 
@@ -2614,6 +2618,7 @@ msgstr ""
 
 #. module: odossey_veterinary
 #: model:vet.species,name:odossey_veterinary.species_dog
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__dog
 msgid "Dog"
 msgstr ""
 
@@ -3206,6 +3211,7 @@ msgstr ""
 
 #. module: odossey_veterinary
 #: model:vet.species,name:odossey_veterinary.species_ferret
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__ferret
 msgid "Ferret"
 msgstr ""
 
@@ -3532,6 +3538,7 @@ msgstr ""
 
 #. module: odossey_veterinary
 #: model:vet.species,name:odossey_veterinary.species_guinea_pig
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__guinea_pig
 msgid "Guinea pig"
 msgstr ""
 
@@ -3553,6 +3560,7 @@ msgstr ""
 
 #. module: odossey_veterinary
 #: model:vet.species,name:odossey_veterinary.species_hamster
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__hamster
 msgid "Hamster"
 msgstr ""
 
@@ -3718,6 +3726,7 @@ msgstr ""
 
 #. module: odossey_veterinary
 #: model:vet.species,name:odossey_veterinary.species_horse
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__horse
 msgid "Horse"
 msgstr ""
 
@@ -3982,6 +3991,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_hospitalization__activity_exception_icon
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_pet__activity_exception_icon
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_prescription__activity_exception_icon
+#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_species__icon
 msgid "Icon"
 msgstr ""
 
@@ -4569,6 +4579,7 @@ msgstr ""
 
 #. module: odossey_veterinary
 #: model:vet.species,name:odossey_veterinary.species_lizard
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__lizard
 msgid "Lizard"
 msgstr ""
 
@@ -4852,6 +4863,7 @@ msgstr ""
 
 #. module: odossey_veterinary
 #: model:vet.species,name:odossey_veterinary.species_mouse
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__mouse
 msgid "Mouse"
 msgstr ""
 
@@ -5643,6 +5655,7 @@ msgstr ""
 
 #. module: odossey_veterinary
 #: model:vet.species,name:odossey_veterinary.species_parrot
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__parrot
 msgid "Parrot"
 msgstr ""
 
@@ -6283,6 +6296,7 @@ msgstr ""
 
 #. module: odossey_veterinary
 #: model:vet.species,name:odossey_veterinary.species_rabbit
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__rabbit
 msgid "Rabbit"
 msgstr ""
 
@@ -6336,6 +6350,7 @@ msgstr ""
 
 #. module: odossey_veterinary
 #: model:vet.species,name:odossey_veterinary.species_rat
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__rat
 msgid "Rat"
 msgstr ""
 
@@ -7088,6 +7103,7 @@ msgstr ""
 
 #. module: odossey_veterinary
 #: model:vet.species,name:odossey_veterinary.species_snake
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__snake
 msgid "Snake"
 msgstr ""
 
@@ -9201,4 +9217,34 @@ msgstr ""
 #. module: odossey_veterinary
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.report_certificate
 msgid "· Valid until"
+msgstr ""
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_species__icon_url
+msgid "Icon Preview"
+msgstr ""
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,help:odossey_veterinary.field_vet_species__icon
+msgid "Face shown next to the patient in the agenda. Example: Dog."
+msgstr ""
+
+#. module: odossey_veterinary
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__cockatiel
+msgid "Bird"
+msgstr ""
+
+#. module: odossey_veterinary
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__turtle
+msgid "Turtle"
+msgstr ""
+
+#. module: odossey_veterinary
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__cattle
+msgid "Cow"
+msgstr ""
+
+#. module: odossey_veterinary
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__other
+msgid "Paw"
 msgstr ""

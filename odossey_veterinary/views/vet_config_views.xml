@@ -9,6 +9,8 @@
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
                 <field name="code"/>
+                <field name="icon_url" widget="image_url" options="{'size': [24, 24]}" string=" " width="40px"/>
+                <field name="icon"/>
                 <field name="breed_count"/>
                 <field name="active" widget="boolean_toggle"/>
             </list>

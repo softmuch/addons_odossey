@@ -81,6 +81,7 @@ class CalendarEvent(models.Model):
     # Information shown inside the agenda cell (the reception reads it without opening the appointment)
     vet_card_pet = fields.Char(compute='_compute_vet_card')
     vet_card_species = fields.Char(compute='_compute_vet_card')
+    vet_card_species_icon = fields.Char(compute='_compute_vet_card')
     vet_card_owner = fields.Char(compute='_compute_vet_card')
     vet_card_phone = fields.Char(compute='_compute_vet_card')
     vet_card_alert = fields.Char(compute='_compute_vet_card')
@@ -89,7 +90,7 @@ class CalendarEvent(models.Model):
     vet_card_status_label = fields.Char(compute='_compute_vet_card')
 
     @api.depends('vet_pet_id', 'vet_contact_name', 'vet_contact_phone', 'vet_contact_pet_name', 'vet_contact_species_id',
-                 'vet_state')
+                 'vet_state', 'vet_pet_id.species_id.icon', 'vet_contact_species_id.icon')
     @api.depends_context('lang')
     def _compute_vet_card(self):
         for event in self:
@@ -97,7 +98,9 @@ class CalendarEvent(models.Model):
             event.vet_is_provisional = not pet and bool(event.vet_contact_name or event.vet_contact_pet_name
                                                        or event.vet_contact_phone)
             event.vet_card_pet = pet.name or event.vet_contact_pet_name or False
-            event.vet_card_species = (pet.species_id or event.vet_contact_species_id).name or False
+            species = pet.species_id or event.vet_contact_species_id
+            event.vet_card_species = species.name or False
+            event.vet_card_species_icon = species.icon_url or False
             event.vet_card_owner = pet.owner_id.name or event.vet_contact_name or False
             event.vet_card_phone = pet.owner_id.phone or event.vet_contact_phone or False
             event.vet_card_alert = pet.alert_summary or False

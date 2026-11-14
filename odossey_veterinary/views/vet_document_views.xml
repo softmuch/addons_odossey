@@ -378,6 +378,7 @@
                 <field name="vet_pet_id" invisible="1"/>
                 <field name="vet_contact_phone" invisible="1"/>
                 <field name="vet_is_provisional" invisible="1"/>
+                <field name="vet_card_species_icon" invisible="1"/>
                 <field name="vet_card_danger" invisible="1"/>
                 <field name="vet_card_status" invisible="1"/>
                 <field name="vet_card_status_label" invisible="1"/>
