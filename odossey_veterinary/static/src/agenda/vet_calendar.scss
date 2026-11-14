@@ -23,9 +23,6 @@
             padding-right: 1.1rem;
         }
     }
-    &.fc-timeGridDay-view .o_vet_event_new_icon {
-        display: none;
-    }
     // every row is a bookable slot: show all the lines of the grid
     .fc-timegrid-slot-minor {
         border-top-style: dotted;
@@ -152,9 +149,4 @@
             color: $white;
         }
     }
-}
-
-.o_vet_event .o_vet_event_new_icon {
-    color: $danger;
-    margin-right: 0.2rem;
 }

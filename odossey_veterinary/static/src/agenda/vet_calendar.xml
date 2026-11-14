@@ -8,7 +8,6 @@
             <div class="o_vet_event_head">
                 <span t-if="!isTimeHidden" class="fc-time o_vet_event_time" t-esc="startTime"/>
                 <i t-if="vetCard.alerts and r.vet_card_danger" class="fa fa-exclamation-triangle o_vet_event_alert" t-att-title="r.vet_card_alert"/>
-                <i t-if="r.vet_is_provisional" class="fa fa-user-plus o_vet_event_new_icon" title="Patient to register"/>
                 <b class="o_vet_event_pet" t-esc="r.vet_card_pet or title"/>
                 <span t-if="vetCard.species and r.vet_card_species" class="o_vet_event_species" t-esc="'(' + r.vet_card_species + ')'"/>
                 <span t-if="r.vet_is_provisional" class="badge rounded-pill o_vet_event_new">To register</span>
