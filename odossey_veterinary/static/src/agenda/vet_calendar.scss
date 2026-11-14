@@ -61,8 +61,10 @@
         &.o_vet_status_no_show .o_vet_event_pet {
             text-decoration: line-through;
         }
+        // booked by phone, patient to register: lighter diagonal stripes of the same color
         &.o_vet_provisional {
             border-style: dashed !important;
+            background-image: repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.45) 0 16px, transparent 16px 32px);
         }
     }
 }
