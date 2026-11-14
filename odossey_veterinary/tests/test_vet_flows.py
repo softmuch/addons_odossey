@@ -382,3 +382,121 @@ class TestVetAgendaAndBreeds(VetCommon):
         self.assertEqual(event.vet_veterinarian_id, self.vet)
         event.user_id = self.reception
         self.assertFalse(event.vet_veterinarian_id, "only veterinarians are shown as the professional")
+
+
+@tagged('post_install', '-at_install')
+class TestAgenda(VetCommon):
+    """Agenda requested by the reception (14/11/2026): slots from the opening time, phone booking with minimum data,
+    veterinarians managed by the clinic administrator, settings."""
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.calendar = cls.env['resource.calendar'].create({
+            'name': "Clinic", 'tz': 'America/Argentina/Buenos_Aires', 'attendance_ids': [(5, 0, 0)] + [
+                (0, 0, {'name': 'AM', 'dayofweek': str(d), 'hour_from': 8 + 40 / 60, 'hour_to': 12 + 40 / 60, 'day_period': 'morning'})
+                for d in range(5)] + [
+                (0, 0, {'name': 'PM', 'dayofweek': str(d), 'hour_from': 14, 'hour_to': 18, 'day_period': 'afternoon'})
+                for d in range(5)]})
+        cls.env.company.resource_calendar_id = cls.calendar
+        cls.ICP = cls.env['ir.config_parameter'].sudo()
+        cls.ICP.set_param('odossey_veterinary.agenda_slot_minutes', 20)
+        cls.manager = new_test_user(cls.env, login='vet_manager_test', groups='odossey_veterinary.group_vet_manager')
+
+    def test_settings_payload_and_opening_time(self):
+        settings = self.env['calendar.event'].with_context(tz='America/Argentina/Buenos_Aires').vet_get_agenda_settings()
+        self.assertEqual(settings['slot_minutes'], 20)
+        self.assertIn({'daysOfWeek': [1], 'startTime': '08:40', 'endTime': '12:40'}, settings['business_hours'])
+        # a user in Europe/Rome sees the same opening in his own time (Argentina is UTC-3, Rome UTC+1 in November)
+        rome = self.env['calendar.event'].with_context(tz='Europe/Rome').vet_get_agenda_settings()
+        self.assertIn({'daysOfWeek': [1], 'startTime': '12:40', 'endTime': '16:40'}, rome['business_hours'])
+        self.assertTrue(all(settings['card'].values()), "every piece of information shown by default")
+
+    def test_next_slot_follows_the_grid(self):
+        Event = self.env['calendar.event']
+        # Monday 16/11/2026 07:00 in Argentina (10:00 UTC) → first slot 8:40 (11:40 UTC)
+        self.assertEqual(Event._vet_next_slot(fields.Datetime.to_datetime('2026-11-16 10:00:00')),
+                         fields.Datetime.to_datetime('2026-11-16 11:40:00'))
+        # 9:05 → 9:20 (12:20 UTC)
+        self.assertEqual(Event._vet_next_slot(fields.Datetime.to_datetime('2026-11-16 12:05:00')),
+                         fields.Datetime.to_datetime('2026-11-16 12:20:00'))
+        # 12:30 (last slot 12:20 is over) → 14:00 (17:00 UTC)
+        self.assertEqual(Event._vet_next_slot(fields.Datetime.to_datetime('2026-11-16 15:30:00')),
+                         fields.Datetime.to_datetime('2026-11-16 17:00:00'))
+        # Friday 19:00 → Monday 8:40
+        self.assertEqual(Event._vet_next_slot(fields.Datetime.to_datetime('2026-11-20 22:00:00')),
+                         fields.Datetime.to_datetime('2026-11-23 11:40:00'))
+
+    def test_default_type_and_duration(self):
+        atype = self.ref('appointment_type_vaccination') if self.env.ref('odossey_veterinary.appointment_type_vaccination', raise_if_not_found=False) \
+            else self.env['vet.appointment.type'].create({'name': "Vacuna", 'duration': 15})
+        self.ICP.set_param('odossey_veterinary.default_appointment_type_id', atype.id)
+        values = self.env['calendar.event'].with_context(vet_agenda=True, default_start='2026-11-16 12:00:00').default_get(
+            ['start', 'stop', 'vet_appointment_type_id'])
+        self.assertEqual(values['vet_appointment_type_id'], atype.id)
+        self.assertEqual(values['stop'], fields.Datetime.to_datetime('2026-11-16 12:00:00') + timedelta(minutes=atype.duration))
+
+    def test_phone_booking_then_register(self):
+        Event = self.env['calendar.event'].with_user(self.reception)
+        event = Event.create({'vet_contact_name': "Marta Gómez", 'vet_contact_phone': '358 412-3456',
+                              'vet_contact_pet_name': "Toby", 'vet_contact_species_id': self.dog.id,
+                              'vet_appointment_type_id': self.ref('appointment_type_consultation').id,
+                              'start': fields.Datetime.now() + timedelta(days=3)})
+        self.assertTrue(event.is_vet_appointment)
+        self.assertTrue(event.vet_is_provisional)
+        self.assertTrue(event.name.startswith("Toby"))
+        self.assertTrue(event.stop > event.start)
+        self.assertEqual((event.vet_card_pet, event.vet_card_owner, event.vet_card_phone, event.vet_card_species),
+                         ("Toby", "Marta Gómez", '358 412-3456', self.dog.name))
+        # the reception registers the patient on arrival: the owner with the same phone is suggested
+        action = event.with_user(self.reception).action_vet_register_patient()
+        wizard = self.env[action['res_model']].with_user(self.reception).with_context(action['context']).create({})
+        self.assertEqual(wizard.owner_id, self.owner, "owner found by phone")
+        self.assertEqual(wizard.pet_name, "Toby")
+        wizard.action_confirm()
+        self.assertEqual(event.vet_pet_id.name, "Toby")
+        self.assertEqual(event.vet_pet_id.owner_id, self.owner)
+        self.assertFalse(event.vet_is_provisional)
+        self.assertIn(self.owner, event.partner_ids)
+
+    def test_register_new_owner_and_start(self):
+        event = self.env['calendar.event'].create({
+            'vet_contact_name': "Pedro Nuevo", 'vet_contact_phone': '11 9999 0000', 'vet_contact_pet_name': "Michi",
+            'vet_contact_species_id': self.cat.id, 'start': fields.Datetime.now(), 'stop': fields.Datetime.now() + timedelta(minutes=20),
+            'vet_appointment_type_id': self.ref('appointment_type_consultation').id})
+        action = event.with_user(self.vet).action_vet_start_consultation()
+        self.assertEqual(action['res_model'], 'vet.appointment.register', "no patient yet: register it first")
+        wizard = self.env['vet.appointment.register'].with_user(self.vet).with_context(action['context']).create({})
+        self.assertFalse(wizard.owner_id)
+        result = wizard.action_confirm()
+        self.assertEqual(result['res_model'], 'vet.consultation', "then the consultation starts")
+        self.assertEqual(event.vet_pet_id.owner_id.name, "Pedro Nuevo")
+        self.assertEqual(event.vet_pet_id.owner_id.phone, '11 9999 0000')
+
+    def test_staff_wizard(self):
+        wizard = self.env['vet.staff.wizard'].with_user(self.manager).create({})
+        line = wizard.line_ids.filtered(lambda l: l.user_id == self.reception)
+        line.is_veterinarian = True
+        wizard.write({'line_ids': [(0, 0, {'name': "Dra. Sofía Pérez", 'license': 'MP 1', 'is_veterinarian': True})]})
+        wizard.action_apply()
+        self.assertTrue(self.reception.vet_is_veterinarian)
+        new = self.env['res.users'].search([('name', '=', "Dra. Sofía Pérez")])
+        self.assertTrue(new.vet_is_veterinarian)
+        self.assertEqual(new.login, 'sofia.perez')
+        self.assertTrue(new.has_group('odossey_veterinary.group_vet_veterinarian'))
+        with self.assertRaises(AccessError):
+            self.env['vet.staff.wizard'].with_user(self.reception).create({})
+
+    def test_settings_flags_can_be_unticked(self):
+        settings = self.env['res.config.settings'].create({'group_vet_use_rooms': False, 'vet_agenda_card_phone': False,
+                                                           'vet_agenda_require_veterinarian': True})
+        settings.execute()
+        settings = self.env['res.config.settings'].create({})
+        self.assertFalse(settings.group_vet_use_rooms)
+        self.assertFalse(settings.vet_agenda_card_phone)
+        self.assertTrue(settings.vet_agenda_card_owner)
+        self.assertNotIn(self.ref('group_vet_use_rooms'), self.env.ref('base.group_user').implied_ids)
+        event = self.env['calendar.event'].new({})
+        self.assertFalse(event.vet_use_rooms)
+        self.assertTrue(event.vet_require_veterinarian)
+        self.assertFalse(self.env['calendar.event'].vet_get_agenda_settings()['card']['phone'])

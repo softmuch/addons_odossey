@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Phone booking → owner and patient registered on arrival -->
+    <record id="vet_appointment_register_view_form" model="ir.ui.view">
+        <field name="name">vet.appointment.register.form</field>
+        <field name="model">vet.appointment.register</field>
+        <field name="arch" type="xml">
+            <form string="Register Patient">
+                <field name="appointment_id" invisible="1"/>
+                <field name="phone_match_ids" invisible="1"/>
+                <div class="alert alert-info mb-3" role="alert" invisible="not phone_match_ids or owner_id">
+                    <i class="fa fa-phone me-2" title="Phone"/>There are owners with this phone: pick one in «Existing Owner» to avoid duplicates.
+                </div>
+                <group>
+                    <group string="Owner">
+                        <field name="owner_id" options="{'no_create': True}" context="{'show_vat': True}"/>
+                        <field name="owner_name" invisible="owner_id" required="not owner_id"/>
+                        <field name="owner_phone" widget="phone"/>
+                        <field name="owner_email" widget="email"/>
+                        <field name="owner_vat" invisible="owner_id"/>
+                    </group>
+                    <group string="Patient">
+                        <field name="pet_id" invisible="not owner_id" options="{'no_create': True}"/>
+                        <field name="pet_name" invisible="pet_id" required="not pet_id"/>
+                        <field name="species_id" invisible="pet_id" required="not pet_id" options="{'no_create': True}"/>
+                        <field name="breed_id" invisible="pet_id" options="{'no_create_edit': True}" context="{'default_species_id': species_id}"/>
+                        <field name="sex" invisible="pet_id"/>
+                        <field name="birthdate" invisible="pet_id"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Register" class="btn-primary" data-hotkey="q"/>
+                    <button string="Discard" special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Veterinarians of the clinic -->
+    <record id="vet_staff_wizard_view_form" model="ir.ui.view">
+        <field name="name">vet.staff.wizard.form</field>
+        <field name="model">vet.staff.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Veterinarians">
+                <div class="text-muted mb-2">
+                    Tick «Attends Appointments» for the professionals who can be chosen in the agenda. To add a veterinarian
+                    who has no user yet, add a line with the name: a user without password is created.
+                </div>
+                <field name="line_ids">
+                    <list editable="bottom" delete="0" decoration-muted="not is_veterinarian">
+                        <field name="user_id" column_invisible="1"/>
+                        <field name="name" readonly="user_id" required="not user_id"/>
+                        <field name="login" readonly="user_id" optional="hide"/>
+                        <field name="is_veterinarian" widget="boolean_toggle"/>
+                        <field name="license"/>
+                        <field name="color" widget="color_picker"/>
+                    </list>
+                </field>
+                <footer>
+                    <button name="action_apply" type="object" string="Save" class="btn-primary" data-hotkey="q"/>
+                    <button string="Discard" special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="vet_staff_wizard_action" model="ir.actions.act_window">
+        <field name="name">Veterinarians</field>
+        <field name="res_model">vet.staff.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

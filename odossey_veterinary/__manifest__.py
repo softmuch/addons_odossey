@@ -1,6 +1,6 @@
 {
     'name': 'Odossey || Veterinary',
-    'version': '19.0.1.0.1',
+    'version': '19.0.1.1.0',
     'category': 'Services/Veterinary',
     'author': 'Odossey',
     'website': 'odossey.com',
@@ -45,11 +45,17 @@ Veterinary clinic management (Odoo Community only)
         'views/vet_vaccination_views.xml',
         'views/vet_hospitalization_views.xml',
         'views/vet_document_views.xml',
+        'wizard/vet_wizard_views.xml',
         'views/vet_config_views.xml',
         'views/portal_templates.xml',
         'report/vet_reports.xml',
         'views/vet_menus.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'odossey_veterinary/static/src/agenda/**/*',
+        ],
+    },
     'post_init_hook': 'post_init_hook',
     'images': ['static/description/icon.png'],
     'installable': True,

@@ -304,6 +304,62 @@
                             <div class="text-muted small mt-1">Example: 7 → for a vaccine due on Friday 14, the owner receives the email on Friday 7. Overdue items are included too.</div>
                         </setting>
                     </block>
+                    <block title="Agenda" name="vet_agenda">
+                        <setting string="Opening Hours" help="The agenda starts at the opening time and shades closed hours.">
+                            <field name="vet_resource_calendar_id" options="{'no_create': True}"/>
+                            <div class="text-muted small mt-1">Example: Monday to Friday 8:40-12:40 and 14:00-18:00 → the first row of the agenda is 8:40.</div>
+                        </setting>
+                        <setting string="Agenda Slots" help="Length of each row of the agenda and step of the time picker.">
+                            <field name="vet_agenda_slot_minutes"/>
+                            <div class="text-muted small mt-1">Example: 20 → rows 8:40, 9:00, 9:20... and the time of an appointment is chosen among :00, :20 and :40.</div>
+                        </setting>
+                        <setting string="Row Height" help="Taller rows show more information inside each appointment.">
+                            <field name="vet_agenda_row_height"/>
+                            <div class="text-muted small mt-1">Example: Comfortable → patient and species, owner and phone, veterinarian and reason, without opening the appointment.</div>
+                        </setting>
+                        <setting string="Agenda Opens On" help="View of the first visit; then every user keeps the last one chosen.">
+                            <field name="vet_agenda_default_scale"/>
+                            <div class="text-muted small mt-1">Example: Week → Monday to Saturday at once.</div>
+                        </setting>
+                        <setting string="Hide Closed Days" help="Days without opening hours are not shown, the open ones get wider.">
+                            <field name="vet_agenda_hide_closed_days"/>
+                            <div class="text-muted small mt-1">Example: Sunday closed → the week goes from Monday to Saturday.</div>
+                        </setting>
+                        <setting string="Colors" help="What the color of each appointment tells.">
+                            <field name="vet_agenda_color_by"/>
+                            <div class="text-muted small mt-1">Example: Veterinarian → each professional with the color chosen in Configuration › Veterinarians.</div>
+                        </setting>
+                        <setting string="Default Appointment Type" help="Proposed when booking; its duration is the length of the appointment.">
+                            <field name="vet_default_appointment_type_id" options="{'no_create': True}"/>
+                            <div class="text-muted small mt-1">Example: Consultation (20 min). Durations: Configuration › Appointment Types.</div>
+                        </setting>
+                        <setting string="Book by Room" help="Ask for a consulting room in every appointment.">
+                            <field name="group_vet_use_rooms"/>
+                            <div class="text-muted small mt-1">Example: untick it when the clinic books by veterinarian only; the Rooms menu is hidden too.</div>
+                        </setting>
+                        <setting string="Veterinarian Required" help="An appointment cannot be saved without the veterinarian who attends it.">
+                            <field name="vet_agenda_require_veterinarian"/>
+                            <div class="text-muted small mt-1">Example: the reception always books with Dra. Capiello, Dr. Singh or Dra. Echazu.</div>
+                        </setting>
+                        <setting string="Inside Each Appointment" help="Information shown in the agenda cell, besides time and patient.">
+                            <div class="content-group">
+                                <div class="row mt-1">
+                                    <div class="col-6"><field name="vet_agenda_card_species" class="w-auto me-1"/><label for="vet_agenda_card_species"/></div>
+                                    <div class="col-6"><field name="vet_agenda_card_owner" class="w-auto me-1"/><label for="vet_agenda_card_owner"/></div>
+                                    <div class="col-6"><field name="vet_agenda_card_phone" class="w-auto me-1"/><label for="vet_agenda_card_phone"/></div>
+                                    <div class="col-6"><field name="vet_agenda_card_veterinarian" class="w-auto me-1"/><label for="vet_agenda_card_veterinarian"/></div>
+                                    <div class="col-6"><field name="vet_agenda_card_reason" class="w-auto me-1"/><label for="vet_agenda_card_reason"/></div>
+                                    <div class="col-6"><field name="vet_agenda_card_alerts" class="w-auto me-1"/><label for="vet_agenda_card_alerts"/></div>
+                                    <div class="col-6"><field name="vet_agenda_card_status" class="w-auto me-1"/><label for="vet_agenda_card_status"/></div>
+                                </div>
+                            </div>
+                            <div class="text-muted small mt-1">Example: Toby (Dog) · Marta Gómez · 351 555-1234 · Dra. Capiello · Consultation: vomiting · Confirmed.</div>
+                        </setting>
+                        <setting string="Veterinarians" help="Who can be chosen as veterinarian in the agenda, consultations and prescriptions.">
+                            <button name="%(odossey_veterinary.vet_staff_wizard_action)d" type="action" string="Manage Veterinarians" class="btn-secondary" icon="fa-user-md"/>
+                            <div class="text-muted small mt-1">Example: tick «Attends appointments» for Dra. Valentina Capiello, or add a new veterinarian by name.</div>
+                        </setting>
+                    </block>
                     <block title="Billing" name="vet_billing">
                         <setting string="Quotation from Consultation" help="Closing a consultation turns its charges into a quotation for the owner.">
                             <field name="vet_auto_sale_order"/>

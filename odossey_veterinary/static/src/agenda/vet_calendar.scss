@@ -1,0 +1,135 @@
+// Agenda of the clinic: taller rows and a readable appointment cell
+.o_calendar_widget .o_vet_agenda {
+    &.o_vet_rows_comfortable .fc-timegrid-slot {
+        height: 4.1rem;
+    }
+    &.o_vet_rows_large .fc-timegrid-slot {
+        height: 5.6rem;
+    }
+    // narrow columns (week, month): the status is the colored bar, the labels only in the day view
+    &:not(.fc-timeGridDay-view) {
+        .o_vet_event_status,
+        .o_vet_event_new {
+            display: none;
+        }
+        .o_vet_event.o_vet_event_has_status .o_vet_event_head {
+            padding-right: 0;
+        }
+    }
+    &.fc-timeGridDay-view .o_vet_event_new_icon {
+        display: none;
+    }
+    // every row is a bookable slot: show all the lines of the grid
+    .fc-timegrid-slot-minor {
+        border-top-style: dotted;
+    }
+    // closed hours
+    .fc-non-business {
+        background: rgba(0, 0, 0, 0.06);
+    }
+
+    .o_vet_event_card {
+        overflow: hidden;
+
+        .fc-event-main {
+            padding: 1px 3px 1px 7px;
+        }
+        // status bar on the left (booked → confirmed → arrived → in consultation → done)
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 4px;
+            background-color: var(--o-vet-status-color, transparent);
+            z-index: 1;
+        }
+        &.o_vet_status_done,
+        &.o_vet_status_cancelled,
+        &.o_vet_status_no_show {
+            opacity: 0.55;
+        }
+        &.o_vet_status_cancelled .o_vet_event_pet,
+        &.o_vet_status_no_show .o_vet_event_pet {
+            text-decoration: line-through;
+        }
+        &.o_vet_provisional {
+            border-style: dashed !important;
+        }
+    }
+}
+
+.o_vet_event {
+    position: relative;
+    font-size: 0.75rem;
+    line-height: 1.2;
+    white-space: nowrap;
+
+    .o_vet_event_head,
+    .o_vet_event_line {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    &.o_vet_event_has_status .o_vet_event_head {
+        padding-right: 4.5rem; // room for the status
+    }
+    .o_vet_event_time {
+        font-weight: 600;
+        margin-right: 0.25rem;
+    }
+    .o_vet_event_pet {
+        font-size: 0.8rem;
+    }
+    .o_vet_event_species {
+        margin-left: 0.2rem;
+        opacity: 0.8;
+    }
+    .o_vet_event_alert,
+    .o_vet_event_alert_text {
+        color: $danger;
+    }
+    .o_vet_event_alert {
+        margin-right: 0.2rem;
+    }
+    .o_vet_event_reason {
+        font-style: italic;
+    }
+    .o_vet_event_new {
+        margin-left: 0.25rem;
+        background-color: $warning;
+        color: $dark;
+        font-size: 0.65rem;
+    }
+    .o_vet_event_status {
+        position: absolute;
+        top: 0;
+        right: 0;
+        max-width: 4.4rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding: 0 0.35rem;
+        border-radius: 1rem;
+        font-size: 0.65rem;
+        line-height: 1.4;
+        background-color: rgba(0, 0, 0, 0.12);
+    }
+}
+
+// status colour of the badge (left to right on the visit: booked → confirmed → arrived → in consultation → done)
+@each $status, $color in (booked: $gray-600, confirmed: $info, arrived: $orange, in_consultation: $success,
+                         done: $gray-500, no_show: $danger, cancelled: $danger) {
+    .o_vet_status_#{$status} {
+        --o-vet-status-color: #{$color};
+
+        .o_vet_event_status {
+            background-color: $color;
+            color: $white;
+        }
+    }
+}
+
+.o_vet_event .o_vet_event_new_icon {
+    color: $warning;
+    margin-right: 0.2rem;
+}

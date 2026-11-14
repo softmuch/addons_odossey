@@ -8,6 +8,14 @@ def post_init_hook(env):
     only when the company invoices in Argentine pesos: elsewhere the clinic sets its own prices."""
     apply_ar_reference_prices(env)
     localize_product_categories(env)
+    enable_rooms(env)
+
+
+def enable_rooms(env):
+    """By default the agenda books by consulting room (Settings › Veterinary › Book by Room)."""
+    group = env.ref('odossey_veterinary.group_vet_use_rooms', raise_if_not_found=False)
+    if group:
+        env.ref('base.group_user').sudo().write({'implied_ids': [(4, group.id)]})
 
 
 # product.category.name is not translatable: the categories are named in the company's language at install time

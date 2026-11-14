@@ -265,26 +265,46 @@
                     <button name="action_vet_start_consultation" type="object" string="Start Consultation" class="btn-primary"
                             invisible="vet_state not in ('arrived', 'in_consultation') or not vet_pet_id"
                             groups="odossey_veterinary.group_vet_veterinarian"/>
+                    <button name="action_vet_register_patient" type="object" string="Register Patient" class="btn-primary"
+                            invisible="vet_pet_id or vet_state in ('done', 'cancelled', 'no_show')"/>
                     <button name="action_vet_no_show" type="object" string="No Show" invisible="vet_state not in ('booked', 'confirmed')"/>
                     <field name="vet_state" widget="statusbar" statusbar_visible="booked,confirmed,arrived,in_consultation,done"/>
                 </header>
                 <sheet>
-                    <div class="oe_title"><h1><field name="name" placeholder="e.g. Firulais - Vaccination"/></h1></div>
+                    <div class="oe_title"><h1><field name="name" required="0" placeholder="Filled in from the patient and the type"/></h1></div>
                     <group>
-                        <group>
-                            <field name="vet_pet_id" options="{'no_quick_create': True}"/>
-                            <field name="vet_owner_id"/>
+                        <group name="vet_patient">
+                            <field name="vet_pet_id" options="{'no_quick_create': True}"
+                                   placeholder="Search by patient, owner or microchip"/>
+                            <field name="vet_owner_id" invisible="not vet_pet_id"/>
                             <field name="vet_appointment_type_id"/>
-                            <field name="vet_room_id"/>
+                            <field name="vet_room_id" invisible="not vet_use_rooms"/>
                         </group>
-                        <group>
-                            <field name="start"/>
-                            <field name="stop"/>
-                            <field name="duration" widget="float_time"/>
+                        <group name="vet_when">
+                            <field name="vet_use_rooms" invisible="1"/>
+                            <field name="vet_require_veterinarian" invisible="1"/>
+                            <field name="start" widget="vet_slot_datetime" string="Date &amp; Time"/>
+                            <field name="duration" widget="float_time" string="Duration"/>
+                            <field name="stop" invisible="1"/>
                             <field name="allday" invisible="1"/>
-                            <field name="vet_veterinarian_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="vet_veterinarian_id" options="{'no_create': True, 'no_open': True}"
+                                   required="vet_require_veterinarian"
+                                   placeholder="Veterinarians: Configuration › Veterinarians"/>
                             <field name="user_id" invisible="1"/>
                             <field name="partner_ids" widget="many2manyattendee" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Phone Booking" name="vet_phone_booking" invisible="vet_pet_id">
+                        <div class="text-muted small o_col" colspan="2">
+                            New owner? Write only these data now; register owner and patient when they arrive.
+                        </div>
+                        <group>
+                            <field name="vet_contact_name" placeholder="e.g. Marta Gómez"/>
+                            <field name="vet_contact_phone" widget="phone" placeholder="e.g. 351 555-1234"/>
+                        </group>
+                        <group>
+                            <field name="vet_contact_pet_name" placeholder="e.g. Toby"/>
+                            <field name="vet_contact_species_id" string="Species" options="{'no_create': True, 'no_open': True}"/>
                         </group>
                     </group>
                     <group>
@@ -295,21 +315,73 @@
         </field>
     </record>
 
+    <!-- Booking from a click in the agenda: the minimum to hold the slot -->
+    <record id="calendar_event_view_form_vet_quick" model="ir.ui.view">
+        <field name="name">calendar.event.form.vet.quick</field>
+        <field name="model">calendar.event</field>
+        <field name="priority">110</field>
+        <field name="arch" type="xml">
+            <form string="Book Appointment">
+                <field name="name" invisible="1" required="0"/>
+                <field name="stop" invisible="1"/>
+                <field name="allday" invisible="1"/>
+                <field name="user_id" invisible="1"/>
+                <field name="partner_ids" invisible="1"/>
+                <field name="vet_state" invisible="1"/>
+                <group>
+                    <group name="vet_patient">
+                        <field name="vet_pet_id" options="{'no_quick_create': True}"
+                               placeholder="Registered patient: search by name, owner or microchip"/>
+                        <field name="vet_contact_name" invisible="vet_pet_id" placeholder="New owner, e.g. Marta Gómez"/>
+                        <field name="vet_contact_phone" invisible="vet_pet_id" widget="phone" placeholder="e.g. 351 555-1234"/>
+                        <field name="vet_contact_pet_name" invisible="vet_pet_id" placeholder="e.g. Toby"/>
+                        <field name="vet_contact_species_id" string="Species" invisible="vet_pet_id" options="{'no_create': True, 'no_open': True}"/>
+                    </group>
+                    <group name="vet_when">
+                        <field name="start" widget="vet_slot_datetime" string="Date &amp; Time"/>
+                        <field name="duration" widget="float_time" string="Duration"/>
+                        <field name="vet_appointment_type_id" options="{'no_create': True}"/>
+                        <field name="vet_use_rooms" invisible="1"/>
+                        <field name="vet_require_veterinarian" invisible="1"/>
+                        <field name="vet_room_id" options="{'no_create': True}" invisible="not vet_use_rooms"/>
+                        <field name="vet_veterinarian_id" options="{'no_create': True, 'no_open': True}"
+                               required="vet_require_veterinarian"
+                               placeholder="Veterinarians: Configuration › Veterinarians"/>
+                    </group>
+                </group>
+                <group>
+                    <field name="vet_reason" placeholder="e.g. vomiting since yesterday"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
     <record id="calendar_event_view_calendar_vet" model="ir.ui.view">
         <field name="name">calendar.event.calendar.vet</field>
         <field name="model">calendar.event</field>
         <field name="priority">100</field>
         <field name="arch" type="xml">
             <calendar string="Agenda" date_start="start" date_stop="stop" date_delay="duration" all_day="allday"
-                      mode="day" color="vet_appointment_type_id" event_open_popup="0" quick_create="0"
+                      js_class="vet_calendar" mode="day" color="vet_appointment_type_id" event_open_popup="0"
+                      quick_create="1" quick_create_view_id="%(odossey_veterinary.calendar_event_view_form_vet_quick)d"
                       form_view_id="%(odossey_veterinary.calendar_event_view_form_vet)d">
-                <field name="vet_pet_id"/>
-                <field name="vet_owner_id"/>
+                <field name="vet_card_pet" string="Patient"/>
+                <field name="vet_card_species" string="Species"/>
+                <field name="vet_card_owner" string="Owner"/>
+                <field name="vet_card_phone" string="Phone" widget="phone"/>
+                <field name="vet_card_alert" string="Alerts" invisible="not vet_card_alert"/>
                 <field name="vet_appointment_type_id" filters="1"/>
                 <field name="vet_room_id" filters="1"/>
                 <field name="vet_veterinarian_id" filters="1"/>
                 <field name="vet_reason"/>
                 <field name="vet_state"/>
+                <field name="vet_pet_id" invisible="1"/>
+                <field name="vet_contact_phone" invisible="1"/>
+                <field name="vet_is_provisional" invisible="1"/>
+                <field name="vet_card_danger" invisible="1"/>
+                <field name="vet_card_status" invisible="1"/>
+                <field name="vet_card_status_label" invisible="1"/>
+                <field name="vet_card_color" invisible="1"/>
             </calendar>
         </field>
     </record>
@@ -321,8 +393,11 @@
         <field name="arch" type="xml">
             <list decoration-muted="vet_state in ('done', 'cancelled', 'no_show')" decoration-info="vet_state == 'arrived'">
                 <field name="start"/>
-                <field name="vet_pet_id"/>
-                <field name="vet_owner_id"/>
+                <field name="vet_pet_id" column_invisible="1"/>
+                <field name="vet_card_pet" string="Patient"/>
+                <field name="vet_card_owner" string="Owner"/>
+                <field name="vet_card_phone" string="Phone" widget="phone" optional="show"/>
+                <field name="vet_is_provisional" string="To Register" widget="boolean" optional="show"/>
                 <field name="vet_appointment_type_id"/>
                 <field name="vet_reason" optional="show"/>
                 <field name="vet_room_id" optional="show"/>
@@ -342,7 +417,11 @@
             <search>
                 <field name="vet_pet_id"/>
                 <field name="vet_owner_id"/>
+                <field name="vet_contact_name" string="Contact"
+                       filter_domain="['|', '|', ('vet_contact_name', 'ilike', self), ('vet_contact_pet_name', 'ilike', self), ('vet_contact_phone', 'ilike', self)]"/>
                 <field name="user_id" string="Veterinarian"/>
+                <filter string="Patient to Register" name="provisional"
+                        domain="[('vet_pet_id', '=', False), '|', '|', ('vet_contact_name', '!=', False), ('vet_contact_pet_name', '!=', False), ('vet_contact_phone', '!=', False)]"/>
                 <filter string="Today" name="today" domain="[('start', '&gt;=', datetime.datetime.combine(context_today(), datetime.time(0, 0, 0)).to_utc().strftime('%Y-%m-%d %H:%M:%S')), ('start', '&lt;', datetime.datetime.combine(context_today() + relativedelta(days=1), datetime.time(0, 0, 0)).to_utc().strftime('%Y-%m-%d %H:%M:%S'))]"/>
                 <filter string="Waiting Room" name="waiting" domain="[('vet_state', '=', 'arrived')]"/>
                 <filter string="My Appointments" name="mine" domain="[('user_id', '=', uid)]"/>
@@ -356,7 +435,7 @@
         <field name="view_mode">calendar,list,form</field>
         <field name="domain">[('is_vet_appointment', '=', True)]</field>
         <field name="search_view_id" ref="calendar_event_view_search_vet"/>
-        <field name="context" eval="{'default_vet_appointment_type_id': ref('odossey_veterinary.appointment_type_consultation')}"/>
+        <field name="context" eval="{'vet_agenda': True}"/>
     </record>
     <record id="vet_appointment_action_calendar" model="ir.actions.act_window.view">
         <field name="sequence">1</field>

@@ -53,3 +53,6 @@ access_vet_hospitalization_schedule_wizard_group_vet_veterinarian,vet.hospitaliz
 access_vet_prescription_group_portal,vet.prescription group_portal,model_vet_prescription,base.group_portal,1,0,0,0
 access_vet_consent_group_portal,vet.consent group_portal,model_vet_consent,base.group_portal,1,0,0,0
 access_vet_certificate_group_portal,vet.certificate group_portal,model_vet_certificate,base.group_portal,1,0,0,0
+access_vet_appointment_register_reception,vet.appointment.register reception,model_vet_appointment_register,odossey_veterinary.group_vet_reception,1,1,1,1
+access_vet_staff_wizard_manager,vet.staff.wizard manager,model_vet_staff_wizard,odossey_veterinary.group_vet_manager,1,1,1,1
+access_vet_staff_wizard_line_manager,vet.staff.wizard.line manager,model_vet_staff_wizard_line,odossey_veterinary.group_vet_manager,1,1,1,1

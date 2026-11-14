@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- Agenda cell: time, patient (species, alerts), owner and phone, veterinarian, reason and status -->
+    <t t-name="odossey_veterinary.VetCalendarEvent">
+        <t t-set="r" t-value="rawRecord"/>
+        <div t-attf-class="o_vet_event {{ vetCard.status ? 'o_vet_event_has_status' : '' }}">
+            <div class="o_vet_event_head">
+                <span t-if="!isTimeHidden" class="fc-time o_vet_event_time" t-esc="startTime"/>
+                <i t-if="vetCard.alerts and r.vet_card_danger" class="fa fa-exclamation-triangle o_vet_event_alert" t-att-title="r.vet_card_alert"/>
+                <i t-if="r.vet_is_provisional" class="fa fa-user-plus o_vet_event_new_icon" title="Patient to register"/>
+                <b class="o_vet_event_pet" t-esc="r.vet_card_pet or title"/>
+                <span t-if="vetCard.species and r.vet_card_species" class="o_vet_event_species" t-esc="'(' + r.vet_card_species + ')'"/>
+                <span t-if="r.vet_is_provisional" class="badge rounded-pill o_vet_event_new">To register</span>
+            </div>
+            <div t-if="(vetCard.owner and r.vet_card_owner) or (vetCard.phone and r.vet_card_phone)" class="o_vet_event_line">
+                <t t-if="vetCard.owner and r.vet_card_owner"><i class="fa fa-user me-1" title="Owner"/><t t-esc="r.vet_card_owner"/></t>
+                <t t-if="vetCard.phone and r.vet_card_phone"><i class="fa fa-phone ms-2 me-1" title="Phone"/><t t-esc="r.vet_card_phone"/></t>
+            </div>
+            <div t-if="vetCard.veterinarian and r.vet_veterinarian_id" class="o_vet_event_line">
+                <i class="fa fa-user-md me-1" title="Veterinarian"/><t t-esc="r.vet_veterinarian_id[1]"/>
+            </div>
+            <div t-if="vetCard.reason and (r.vet_reason or r.vet_appointment_type_id)" class="o_vet_event_line o_vet_event_reason">
+                <t t-if="r.vet_appointment_type_id" t-esc="r.vet_appointment_type_id[1]"/>
+                <t t-if="r.vet_reason and r.vet_appointment_type_id">: </t>
+                <t t-esc="r.vet_reason"/>
+            </div>
+            <div t-if="vetCard.alerts and r.vet_card_alert" class="o_vet_event_line o_vet_event_alert_text">
+                <i class="fa fa-exclamation-circle me-1" title="Alerts"/><t t-esc="r.vet_card_alert"/>
+            </div>
+            <span t-if="vetCard.status and r.vet_card_status_label" class="o_vet_event_status" t-esc="r.vet_card_status_label"/>
+        </div>
+    </t>
+
+    <t t-name="odossey_veterinary.VetSlotDateTimeField">
+        <DateTimeField t-props="fieldProps"/>
+    </t>
+
+</templates>
