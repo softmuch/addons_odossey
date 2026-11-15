@@ -4,6 +4,8 @@ from datetime import timedelta
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
+from .product_template import VET_ROUTES
+
 
 class VetHospitalization(models.Model):
     _name = 'vet.hospitalization'
@@ -151,7 +153,7 @@ class VetHospitalizationTask(models.Model):
     name = fields.Char(string="Description", required=True)
     product_id = fields.Many2one('product.product', string="Product")
     dose = fields.Char()
-    route = fields.Selection(related='product_id.vet_route', readonly=False)
+    route = fields.Selection(VET_ROUTES, compute='_compute_route', store=True, readonly=False, precompute=True)
     quantity = fields.Float(default=1.0, digits='Product Unit')
     chargeable = fields.Boolean(default=True, help="Charge the product on the hospitalization order when done.")
     scheduled_at = fields.Datetime(string="Scheduled", required=True, default=fields.Datetime.now)
@@ -164,6 +166,12 @@ class VetHospitalizationTask(models.Model):
     heart_rate = fields.Integer(aggregator=False, string="HR")
     respiratory_rate = fields.Integer(aggregator=False, string="RR")
     note = fields.Char()
+
+    @api.depends('product_id')
+    def _compute_route(self):
+        """Route of the product as first value; changing it here never changes the product."""
+        for task in self:
+            task.route = task.product_id.vet_route or task.route
 
     def _compute_is_overdue(self):
         now = fields.Datetime.now()

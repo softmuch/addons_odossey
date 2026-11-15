@@ -27,6 +27,13 @@ PREVENTIVE_GROUPS = [
 ]
 
 
+
+VET_ROUTES = [
+    ('po', "Oral (PO)"), ('sc', "Subcutaneous (SC)"), ('im', "Intramuscular (IM)"), ('iv', "Intravenous (IV)"),
+    ('topical', "Topical"), ('spot_on', "Spot-on"), ('ophthalmic', "Ophthalmic"), ('otic', "Otic"),
+    ('intranasal', "Intranasal"), ('inhaled', "Inhaled"), ('other', "Other"),
+]
+
 class VetMedicationCategory(models.Model):
     _name = 'vet.medication.category'
     _description = 'Medication Category'
@@ -62,11 +69,7 @@ class ProductTemplate(models.Model):
     vet_registration = fields.Char(string="Health Registration No.",
                                    help="Official registration number (SENASA in Argentina, AIC in Italy).")
     vet_dose = fields.Char(string="Reference Dose", help="Orientative dose, e.g. '12.5-25 mg/kg every 12 h PO'. Always confirmed by the veterinarian.")
-    vet_route = fields.Selection([
-        ('po', "Oral (PO)"), ('sc', "Subcutaneous (SC)"), ('im', "Intramuscular (IM)"), ('iv', "Intravenous (IV)"),
-        ('topical', "Topical"), ('spot_on', "Spot-on"), ('ophthalmic', "Ophthalmic"), ('otic', "Otic"),
-        ('intranasal', "Intranasal"), ('inhaled', "Inhaled"), ('other', "Other"),
-    ], string="Route")
+    vet_route = fields.Selection(VET_ROUTES, string="Route")
     # preventive care (vaccines and antiparasitics)
     vet_preventive_group = fields.Selection(PREVENTIVE_GROUPS, string="Preventive Group",
                                             help="Products of the same group replace each other in the patient's plan: "

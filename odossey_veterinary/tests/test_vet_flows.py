@@ -211,6 +211,26 @@ class TestPrescription(VetCommon):
         with self.assertRaises(UserError):
             rx.unlink()
 
+    def test_route_changed_without_touching_the_product(self):
+        """The route of the medication is only the first value: the veterinarian (no rights on products) changes it on
+        the prescription line and on a day-time treatment without error, and the product keeps its own route."""
+        self.synulox.vet_route = 'po'
+        with Form(self.env['vet.prescription'].with_user(self.vet)) as form:
+            form.pet_id = self.pet
+            with form.line_ids.new() as line:
+                line.product_id = self.synulox
+                self.assertEqual(line.route, 'po')
+                line.dose = "1 comp"
+                line.route = 'sc'
+        self.assertEqual(form.record.line_ids.route, 'sc')
+        self.assertEqual(self.synulox.vet_route, 'po')
+        hosp = self.env['vet.hospitalization'].create({'pet_id': self.pet.id, 'reason': "Control", 'vet_id': self.vet.id})
+        task = self.env['vet.hospitalization.task'].with_user(self.vet).create({
+            'hospitalization_id': hosp.id, 'name': "Synulox", 'product_id': self.synulox.id})
+        self.assertEqual(task.route, 'po')
+        task.route = 'iv'
+        self.assertEqual(self.synulox.vet_route, 'po')
+
     def test_issue_needs_license(self):
         self.vet.vet_license = False
         rx = self.env['vet.prescription'].create({
@@ -289,6 +309,28 @@ class TestConsentLab(VetCommon):
         self.assertEqual(creat.with_context(lang='en_US')._vet_format_number(1.025), '1.025')
         self.assertEqual(creat.with_context(lang='en_US')._vet_format_number(38.0), '38')
         self.assertNotIn('.000', creat.reference)
+
+    def test_lab_result_saved_from_screen(self):
+        """The panel fills the lines on screen (onchange) with their analyte, a readonly column: it must still be
+        saved (force_save), from the Lab Results menu and from the Lab tab of a consultation."""
+        panel = self.ref('lab_panel_biochem_basic')
+        with Form(self.env['vet.lab.result'].with_user(self.vet)) as form:
+            form.pet_id = self.pet
+            form.panel_id = panel
+            with form.line_ids.edit(0) as line:
+                line.value = 1.5
+        result = form.record
+        self.assertEqual(result.line_ids.analyte_id, panel.analyte_ids)
+        self.assertIn(1.5, result.line_ids.mapped('value'))
+
+        consultation = self.env['vet.consultation'].with_user(self.vet).create({'pet_id': self.pet.id, 'vet_id': self.vet.id})
+        with Form(consultation) as cform:
+            with cform.lab_result_ids.new() as lab:
+                lab.panel_id = panel
+                with lab.line_ids.edit(0) as line:
+                    line.value = 2.0
+        self.assertEqual(consultation.lab_result_ids.line_ids.analyte_id, panel.analyte_ids)
+        self.assertEqual(consultation.lab_result_ids.pet_id, self.pet)
 
     def test_ui_details(self):
         # consent date rendered in the owner's language format, not ISO

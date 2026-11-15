@@ -126,7 +126,9 @@
                     </group>
                     <field name="line_ids">
                         <list editable="bottom" create="0" decoration-danger="flag in ('low', 'high')">
-                            <field name="analyte_id" readonly="1"/>
+                            <!-- filled by the panel (onchange): readonly fields are not sent
+                                 when saving unless force_save, and the line is required -->
+                            <field name="analyte_id" readonly="1" force_save="1"/>
                             <field name="value" options="{'hide_trailing_zeros': true}"/>
                             <field name="value_text" optional="show"/>
                             <field name="unit"/>

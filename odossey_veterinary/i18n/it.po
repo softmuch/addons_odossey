@@ -4346,6 +4346,8 @@ msgstr ""
 
 #. module: odossey_veterinary
 #: model:ir.model.fields.selection,name:odossey_veterinary.selection__product_template__vet_route__inhaled
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_prescription_line__route__inhaled
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_hospitalization_task__route__inhaled
 msgid "Inhaled"
 msgstr "Inalatoria"
 
@@ -4430,16 +4432,22 @@ msgstr "Intervallo e durata devono essere positivi."
 
 #. module: odossey_veterinary
 #: model:ir.model.fields.selection,name:odossey_veterinary.selection__product_template__vet_route__im
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_prescription_line__route__im
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_hospitalization_task__route__im
 msgid "Intramuscular (IM)"
 msgstr "Intramuscolare (IM)"
 
 #. module: odossey_veterinary
 #: model:ir.model.fields.selection,name:odossey_veterinary.selection__product_template__vet_route__intranasal
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_prescription_line__route__intranasal
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_hospitalization_task__route__intranasal
 msgid "Intranasal"
 msgstr "Intranasale"
 
 #. module: odossey_veterinary
 #: model:ir.model.fields.selection,name:odossey_veterinary.selection__product_template__vet_route__iv
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_prescription_line__route__iv
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_hospitalization_task__route__iv
 msgid "Intravenous (IV)"
 msgstr "Endovenosa (IV)"
 
@@ -5674,11 +5682,15 @@ msgstr "Sala operatoria"
 #. module: odossey_veterinary
 #: model:ir.model.fields.selection,name:odossey_veterinary.selection__product_template__vet_route__ophthalmic
 #: model:vet.medication.category,name:odossey_veterinary.medcat_ophthalmic
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_prescription_line__route__ophthalmic
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_hospitalization_task__route__ophthalmic
 msgid "Ophthalmic"
 msgstr "Oftalmico"
 
 #. module: odossey_veterinary
 #: model:ir.model.fields.selection,name:odossey_veterinary.selection__product_template__vet_route__po
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_prescription_line__route__po
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_hospitalization_task__route__po
 msgid "Oral (PO)"
 msgstr "Orale (PO)"
 
@@ -5721,6 +5733,8 @@ msgstr "Chirurgia ortopedica semplice"
 #: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_certificate__certificate_type__other
 #: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_room__room_type__other
 #: model:vet.species,name:odossey_veterinary.species_other
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_prescription_line__route__other
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_hospitalization_task__route__other
 msgid "Other"
 msgstr "Altro"
 
@@ -5742,6 +5756,8 @@ msgstr "Altro uccello"
 #. module: odossey_veterinary
 #: model:ir.model.fields.selection,name:odossey_veterinary.selection__product_template__vet_route__otic
 #: model:vet.medication.category,name:odossey_veterinary.medcat_otic
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_prescription_line__route__otic
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_hospitalization_task__route__otic
 msgid "Otic"
 msgstr "Auricolare"
 
@@ -7458,6 +7474,8 @@ msgstr "Sphynx"
 
 #. module: odossey_veterinary
 #: model:ir.model.fields.selection,name:odossey_veterinary.selection__product_template__vet_route__spot_on
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_prescription_line__route__spot_on
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_hospitalization_task__route__spot_on
 msgid "Spot-on"
 msgstr "Spot-on"
 
@@ -7540,6 +7558,8 @@ msgstr "Stuporoso"
 
 #. module: odossey_veterinary
 #: model:ir.model.fields.selection,name:odossey_veterinary.selection__product_template__vet_route__sc
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_prescription_line__route__sc
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_hospitalization_task__route__sc
 msgid "Subcutaneous (SC)"
 msgstr "Sottocutanea (SC)"
 
@@ -7919,6 +7939,8 @@ msgstr "Appuntamenti di oggi"
 
 #. module: odossey_veterinary
 #: model:ir.model.fields.selection,name:odossey_veterinary.selection__product_template__vet_route__topical
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_prescription_line__route__topical
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_hospitalization_task__route__topical
 msgid "Topical"
 msgstr "Topica"
 

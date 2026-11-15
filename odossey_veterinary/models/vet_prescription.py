@@ -4,6 +4,8 @@ from datetime import timedelta
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
+from .product_template import VET_ROUTES
+
 
 class VetPrescription(models.Model):
     _name = 'vet.prescription'
@@ -157,9 +159,16 @@ class VetPrescriptionLine(models.Model):
     dose = fields.Char(required=True, help="e.g. 1 tablet, 0.5 ml, 10 mg/kg")
     frequency = fields.Char(help="e.g. every 12 h")
     duration_days = fields.Integer(aggregator=False, string="Days")
-    route = fields.Selection(related='product_id.vet_route', readonly=False, store=True)
+    # route of the product as first value, changed per prescription without touching the product
+    # (a writable related field wrote the product: medication master data, and AccessError for veterinarians)
+    route = fields.Selection(VET_ROUTES, compute='_compute_route', store=True, readonly=False, precompute=True)
     quantity = fields.Float(string="Qty to Dispense", default=1.0, digits='Product Unit')
     instructions = fields.Char()
+
+    @api.depends('product_id')
+    def _compute_route(self):
+        for line in self:
+            line.route = line.product_id.vet_route or line.route
 
     @api.onchange('product_id')
     def _onchange_product_id(self):
