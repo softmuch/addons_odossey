@@ -72,11 +72,14 @@ function toTime(minutes) {
 
 /**
  * Popover of an appointment: "Start Consultation" next to "Edit", so the veterinarian opens the record of the visit
- * straight from the agenda (phone bookings first go through "Register Patient").
+ * straight from the agenda (phone bookings first go through "Register Patient"). A phone booking whose patient is
+ * not registered yet shows a green "Register Patient" button in the header, after the title; the delete button
+ * stands alone on the right, away from "Start Consultation".
  */
 export class VetCalendarCommonPopover extends CalendarCommonPopover {
     static subTemplates = {
         ...CalendarCommonPopover.subTemplates,
+        popover: "odossey_veterinary.VetCalendarCommonPopover.popover",
         footer: "odossey_veterinary.VetCalendarCommonPopover.footer",
     };
 
@@ -98,6 +101,30 @@ export class VetCalendarCommonPopover extends CalendarCommonPopover {
             !["done", "cancelled", "no_show"].includes(raw.vet_card_status) &&
             (raw.vet_pet_id || raw.vet_is_provisional)
         );
+    }
+
+    get canRegisterPatient() {
+        const raw = this.props.record.rawRecord || {};
+        return (
+            this.isEventEditable &&
+            raw.vet_is_provisional &&
+            !raw.vet_pet_id &&
+            !["done", "cancelled", "no_show"].includes(raw.vet_card_status)
+        );
+    }
+
+    async onRegisterPatient() {
+        const model = this.props.model;
+        const resId = this.props.record.id;
+        this.props.close();
+        await this.action.doActionButton({
+            type: "object",
+            name: "action_vet_register_patient",
+            resModel: "calendar.event",
+            resId,
+            resIds: [resId],
+            onClose: () => model.load(),
+        });
     }
 
     async onStartConsultation() {

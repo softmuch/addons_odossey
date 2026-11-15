@@ -35,7 +35,36 @@
         </div>
     </t>
 
-    <!-- popover of the appointment: Edit, Start Consultation, Delete -->
+    <!-- popover of the appointment: "Register Patient" after the title (phone booking not registered yet) -->
+    <t t-name="odossey_veterinary.VetCalendarCommonPopover.popover">
+        <div class="card-header d-flex justify-content-between align-items-center py-2 pe-2">
+            <span class="popover-header d-flex align-items-center border-0 text-truncate">
+                <i t-if="props.record.titleIcon" t-attf-class="me-2 {{props.record.titleIcon}}"/>
+                <span class="text-truncate" t-esc="props.record.title" t-att-data-tooltip="props.record.title"/>
+                <t t-call="odossey_veterinary.VetCalendarRegisterPatientButton">
+                    <t t-set="extra_class" t-value="'btn-sm ms-2 flex-shrink-0'"/>
+                </t>
+            </span>
+            <span class="o_cw_popover_close ms-4 mt-2 me-2" t-on-click.stop="() => props.close()">
+                <i class="fc-close fc-icon fc-icon-x" />
+            </span>
+        </div>
+        <div class="o_cw_body">
+            <t t-call="{{ constructor.subTemplates.body }}" />
+            <div t-if="hasFooter" class="card-footer d-flex gap-1 border-top">
+                <t t-call="{{ constructor.subTemplates.footer }}" />
+            </div>
+        </div>
+    </t>
+
+    <t t-name="odossey_veterinary.VetCalendarRegisterPatientButton">
+        <a t-if="canRegisterPatient" href="#" t-attf-class="btn btn-success o_vet_popover_register_patient {{ extra_class or '' }}"
+           t-on-click.prevent="onRegisterPatient" title="Register Patient">
+            <i class="fa fa-user-plus me-1"/>Register Patient
+        </a>
+    </t>
+
+    <!-- footer: Edit, Start Consultation ... Delete on the far right (away from Start Consultation) -->
     <t t-name="odossey_veterinary.VetCalendarCommonPopover.footer">
         <t t-if="isEventEditable or isEventViewable">
             <a href="#" class="btn btn-primary o_cw_popover_edit" t-on-click="onEditEvent">
@@ -47,8 +76,10 @@
            t-on-click.prevent="onStartConsultation">
             <i class="fa fa-stethoscope me-1"/>Start Consultation
         </a>
+        <!-- phones: the popover is a dialog without the header above -->
+        <t t-if="env.isSmall" t-call="odossey_veterinary.VetCalendarRegisterPatientButton"/>
         <t t-if="isEventDeletable">
-            <a href="#" class="btn btn-secondary o_cw_popover_delete" t-on-click="onDeleteEvent"><i class="fa fa-trash"/></a>
+            <a href="#" class="btn btn-secondary o_cw_popover_delete ms-auto" t-on-click="onDeleteEvent" title="Delete"><i class="fa fa-trash"/></a>
         </t>
     </t>
 
