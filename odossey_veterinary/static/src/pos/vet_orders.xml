@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <!-- "Visits" button next to the customer: orders of the visits to charge, with the pending count -->
+    <t t-name="odossey_veterinary.ControlButtons" t-inherit="point_of_sale.ControlButtons" t-inherit-mode="extension">
+        <xpath expr="//SelectPartnerButton" position="after">
+            <button t-if="!props.showRemainingButtons" class="btn btn-primary btn-lg text-truncate o_vet_pos_orders_button"
+                    t-on-click="() => this.onClickVetOrders()">
+                <i class="fa fa-stethoscope me-1" role="img" aria-label="Visits to charge" title="Visits to charge"/>
+                Visits
+                <span t-if="vetOrdersCount" class="badge rounded-pill text-bg-danger ms-1 o_vet_pos_orders_count" t-esc="vetOrdersCount"/>
+            </button>
+        </xpath>
+    </t>
+
+    <t t-name="odossey_veterinary.VetOrdersDialog">
+        <Dialog title.translate="Visits to Charge" size="'xl'" footer="false" contentClass="'o_vet_pos_orders'">
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-search"/></span>
+                    <input type="text" class="form-control form-control-lg o_vet_pos_orders_search" t-att-value="state.search"
+                           t-on-input="onSearchInput" placeholder="Patient, owner, phone, ID or order"/>
+                </div>
+                <i t-if="state.loading" class="fa fa-circle-o-notch fa-spin text-muted"/>
+            </div>
+            <div t-if="!state.orders.length and !state.loading" class="text-center text-muted py-5">
+                <i class="fa fa-check-circle fa-3x d-block mb-2"/>
+                No visit to charge.
+            </div>
+            <div t-else="" class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Patient</th>
+                            <th>Owner</th>
+                            <th t-if="!ui.isSmall">Veterinarian</th>
+                            <th t-if="!ui.isSmall">Order</th>
+                            <th class="text-end">To Charge</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="state.orders" t-as="order" t-key="order.id" class="o_vet_pos_order_row cursor-pointer"
+                            t-on-click="() => this.select(order)">
+                            <td class="text-nowrap" t-esc="formatDate(order.date)"/>
+                            <td class="fw-bold" t-esc="order.pet"/>
+                            <td>
+                                <div t-esc="order.owner"/>
+                                <small t-if="order.phone" class="text-muted" t-esc="order.phone"/>
+                            </td>
+                            <td t-if="!ui.isSmall" t-esc="order.veterinarian"/>
+                            <td t-if="!ui.isSmall" class="text-muted" t-esc="order.name"/>
+                            <td class="text-end fw-bold text-nowrap" t-esc="formatAmount(order.amount_due)"/>
+                            <td><span t-attf-class="badge rounded-pill {{ badgeClass(order.payment_state) }}" t-esc="order.payment_state_label"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </Dialog>
+    </t>
+
+</templates>

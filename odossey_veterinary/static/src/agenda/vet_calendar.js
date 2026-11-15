@@ -6,6 +6,10 @@ import { calendarView } from "@web/views/calendar/calendar_view";
 import { CalendarModel } from "@web/views/calendar/calendar_model";
 import { CalendarRenderer } from "@web/views/calendar/calendar_renderer";
 import { CalendarCommonRenderer } from "@web/views/calendar/calendar_common/calendar_common_renderer";
+import { CalendarCommonPopover } from "@web/views/calendar/calendar_common/calendar_common_popover";
+import { useService } from "@web/core/utils/hooks";
+import { user } from "@web/core/user";
+import { onWillStart } from "@odoo/owl";
 import { getVetAgendaSettings } from "./vet_agenda_settings";
 
 /**
@@ -66,8 +70,54 @@ function toTime(minutes) {
     return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:00`;
 }
 
+/**
+ * Popover of an appointment: "Start Consultation" next to "Edit", so the veterinarian opens the record of the visit
+ * straight from the agenda (phone bookings first go through "Register Patient").
+ */
+export class VetCalendarCommonPopover extends CalendarCommonPopover {
+    static subTemplates = {
+        ...CalendarCommonPopover.subTemplates,
+        footer: "odossey_veterinary.VetCalendarCommonPopover.footer",
+    };
+
+    setup() {
+        super.setup();
+        this.action = useService("action");
+        this.isVeterinarian = false;
+        onWillStart(async () => {
+            this.isVeterinarian = await user.hasGroup("odossey_veterinary.group_vet_veterinarian");
+        });
+    }
+
+    get canStartConsultation() {
+        const raw = this.props.record.rawRecord || {};
+        // vet_card_status = visit status shown in the agenda (vet_state, or the simplified status of a clinic)
+        return (
+            this.isVeterinarian &&
+            "vet_card_status" in raw &&
+            !["done", "cancelled", "no_show"].includes(raw.vet_card_status) &&
+            (raw.vet_pet_id || raw.vet_is_provisional)
+        );
+    }
+
+    async onStartConsultation() {
+        const model = this.props.model;
+        const resId = this.props.record.id;
+        this.props.close();
+        await this.action.doActionButton({
+            type: "object",
+            name: "action_vet_start_consultation",
+            resModel: "calendar.event",
+            resId,
+            resIds: [resId],
+            onClose: () => model.load(),
+        });
+    }
+}
+
 export class VetCalendarCommonRenderer extends CalendarCommonRenderer {
     static eventTemplate = "odossey_veterinary.VetCalendarEvent";
+    static components = { ...CalendarCommonRenderer.components, Popover: VetCalendarCommonPopover };
 
     get options() {
         const options = super.options;

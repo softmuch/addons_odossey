@@ -1,6 +1,6 @@
 {
     'name': 'Odossey || Veterinary',
-    'version': '19.0.1.1.0',
+    'version': '19.0.1.2.0',
     'category': 'Services/Veterinary',
     'author': 'Odossey',
     'website': 'odossey.com',
@@ -21,6 +21,8 @@ Veterinary clinic management (Odoo Community only)
 * Informed consents signed on screen or from the portal; health, travel, deworming and death certificates;
   rabies vaccination certificate (Law 22.953, Argentina).
 * Agenda with appointment types, rooms and visit status; owner portal (pets, vaccination card, documents).
+* Cash desk: the reception finds the orders of the visits not paid yet in the Point of Sale (live list, updated
+  as soon as the veterinarian closes the consultation) and the payment status of every order.
 * Argentine master data: species, breeds, diseases, vaccines, medications, supplies, services and lab panels,
   translated into English, Spanish and Italian. Demo data on demand from the settings.
 """,
@@ -33,6 +35,8 @@ Veterinary clinic management (Odoo Community only)
         'sale_stock',
         'product_expiry',
         'account',
+        'point_of_sale',
+        'pos_sale',
     ],
     'data': [
         'security/vet_security.xml',
@@ -44,6 +48,7 @@ Veterinary clinic management (Odoo Community only)
         'views/vet_consultation_views.xml',
         'views/vet_vaccination_views.xml',
         'views/vet_hospitalization_views.xml',
+        'views/vet_cash_desk_views.xml',
         'views/vet_document_views.xml',
         'wizard/vet_wizard_views.xml',
         'views/vet_config_views.xml',
@@ -54,6 +59,9 @@ Veterinary clinic management (Odoo Community only)
     'assets': {
         'web.assets_backend': [
             'odossey_veterinary/static/src/agenda/**/*',
+        ],
+        'point_of_sale._assets_pos': [
+            'odossey_veterinary/static/src/pos/**/*',
         ],
     },
     'post_init_hook': 'post_init_hook',

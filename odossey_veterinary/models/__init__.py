@@ -14,3 +14,4 @@ from . import calendar_event
 from . import vet_reminder
 from . import res_config_settings
 from . import vet_demo
+from . import vet_cash_desk

@@ -35,6 +35,23 @@
         </div>
     </t>
 
+    <!-- popover of the appointment: Edit, Start Consultation, Delete -->
+    <t t-name="odossey_veterinary.VetCalendarCommonPopover.footer">
+        <t t-if="isEventEditable or isEventViewable">
+            <a href="#" class="btn btn-primary o_cw_popover_edit" t-on-click="onEditEvent">
+                <t t-if="isEventEditable">Edit</t>
+                <t t-else="">View</t>
+            </a>
+        </t>
+        <a t-if="canStartConsultation" href="#" class="btn btn-primary o_vet_popover_start_consultation"
+           t-on-click.prevent="onStartConsultation">
+            <i class="fa fa-stethoscope me-1"/>Start Consultation
+        </a>
+        <t t-if="isEventDeletable">
+            <a href="#" class="btn btn-secondary o_cw_popover_delete" t-on-click="onDeleteEvent"><i class="fa fa-trash"/></a>
+        </t>
+    </t>
+
     <t t-name="odossey_veterinary.VetSlotDateTimeField">
         <DateTimeField t-props="fieldProps"/>
     </t>

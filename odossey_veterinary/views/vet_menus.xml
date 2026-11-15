@@ -16,8 +16,15 @@
         <field name="name">Orders to Charge</field>
         <field name="res_model">sale.order</field>
         <field name="view_mode">list,form</field>
-        <field name="domain">[('vet_pet_id', '!=', False)]</field>
+        <field name="domain">[('vet_chargeable', '=', True)]</field>
         <field name="context">{'search_default_my_quotation': 0}</field>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'list', 'view_id': ref('sale_order_view_list_vet')}), (0, 0, {'view_mode': 'form'})]"/>
+        <field name="search_view_id" ref="sale_order_view_search_vet"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No order yet</p>
+            <p>When the veterinarian closes a consultation its order appears here and in the cash desk, where the
+                reception charges it. Not Paid in red, Paid and Invoiced in green.</p>
+        </field>
     </record>
 
     <menuitem id="menu_vet_root" name="Veterinary" sequence="30" web_icon="odossey_veterinary,static/description/icon.png"

@@ -1408,6 +1408,7 @@ msgstr "Annullare questa ricetta?"
 #: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_consultation__state__cancel
 #: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_hospitalization__state__cancel
 #: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_prescription__state__cancel
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.sale_order_view_search_vet
 msgid "Cancelled"
 msgstr "Annullato"
 
@@ -2300,6 +2301,7 @@ msgstr ""
 "rosso in tutte le schermate del paziente."
 
 #. module: odossey_veterinary
+#. odoo-javascript
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_certificate__date
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_consultation__date
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_consultation_line__date
@@ -2314,6 +2316,9 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_consultation_line_view_search
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_consultation_view_search
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_prescription_view_search
+#: code:addons/odossey_veterinary/static/src/pos/vet_orders.xml:0
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.sale_order_view_list_vet
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.sale_order_view_search_vet
 msgid "Date"
 msgstr "Data"
 
@@ -2335,6 +2340,7 @@ msgstr "Data di vaccinazione"
 
 #. module: odossey_veterinary
 #: model:ir.model.fields.selection,name:odossey_veterinary.selection__res_config_settings__vet_agenda_default_scale__day
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.sale_order_view_search_vet
 msgid "Day"
 msgstr "Giorno"
 
@@ -5790,6 +5796,9 @@ msgstr "Numero di attività scadute"
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_appointment_register_view_form
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_pet_view_search
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_vaccination_view_search
+#: code:addons/odossey_veterinary/static/src/pos/vet_orders.xml:0
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.sale_order_view_list_vet
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.sale_order_view_search_vet
 msgid "Owner"
 msgstr "Proprietario"
 
@@ -5896,6 +5905,7 @@ msgid "Parvovirus rapid test"
 msgstr "Test rapido parvovirus"
 
 #. module: odossey_veterinary
+#. odoo-javascript
 #: model:ir.model.fields,field_description:odossey_veterinary.field_calendar_event__vet_pet_id
 #: model:ir.model.fields,field_description:odossey_veterinary.field_sale_order__vet_pet_id
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_certificate__pet_id
@@ -5912,6 +5922,7 @@ msgstr "Test rapido parvovirus"
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_appointment_register_view_form
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_hospitalization_task_view_search
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_pet_view_form
+#: code:addons/odossey_veterinary/static/src/pos/vet_orders.xml:0
 msgid "Patient"
 msgstr "Paziente"
 
@@ -7462,6 +7473,8 @@ msgid "Start"
 msgstr "Avvia"
 
 #. module: odossey_veterinary
+#. odoo-javascript
+#: code:addons/odossey_veterinary/static/src/agenda/vet_calendar.xml:0
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.calendar_event_view_form_vet
 msgid "Start Consultation"
 msgstr "Avvia visita"
@@ -7479,7 +7492,9 @@ msgid "State"
 msgstr "Stato"
 
 #. module: odossey_veterinary
+#. odoo-javascript
 #: model:ir.model.fields,field_description:odossey_veterinary.field_res_config_settings__vet_agenda_card_status
+#: code:addons/odossey_veterinary/static/src/pos/vet_orders.xml:0
 msgid "Status"
 msgstr "Stato"
 
@@ -7892,6 +7907,7 @@ msgstr "Tobramicina"
 #. module: odossey_veterinary
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.calendar_event_view_search_vet
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_consultation_view_search
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.sale_order_view_search_vet
 msgid "Today"
 msgstr "Oggi"
 
@@ -7911,6 +7927,7 @@ msgstr "Topica"
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_consultation_line_view_list_controlled
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_consultation_view_form
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_consultation_view_list
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.sale_order_view_list_vet
 msgid "Total"
 msgstr "Totale"
 
@@ -8438,6 +8455,9 @@ msgstr "Usa sale"
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.report_vaccination_card
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_consultation_view_search
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_prescription_view_search
+#: code:addons/odossey_veterinary/static/src/pos/vet_orders.xml:0
+#: model:ir.model.fields,field_description:odossey_veterinary.field_sale_order__vet_veterinarian_id
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.sale_order_view_search_vet
 msgid "Veterinarian"
 msgstr "Veterinario"
 
@@ -9569,3 +9589,161 @@ msgstr "Mucca"
 #: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__other
 msgid "Paw"
 msgstr "Impronta"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__sale_order__vet_payment_state__in_pos
+msgid "At the Cash Desk"
+msgstr "In cassa"
+
+#. module: odossey_veterinary
+#. odoo-javascript
+#: code:addons/odossey_veterinary/static/src/agenda/vet_calendar.xml:0
+msgid "Edit"
+msgstr "Modifica"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__sale_order__vet_payment_state__invoiced
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.sale_order_view_search_vet
+msgid "Invoiced"
+msgstr "Fatturato"
+
+#. module: odossey_veterinary
+#: model:ir.model,name:odossey_veterinary.model_account_move
+msgid "Journal Entry"
+msgstr "Registrazione contabile"
+
+#. module: odossey_veterinary
+#: model_terms:ir.actions.act_window,help:odossey_veterinary.vet_sale_order_action
+msgid "No order yet"
+msgstr "Ancora nessun ordine"
+
+#. module: odossey_veterinary
+#. odoo-javascript
+#: code:addons/odossey_veterinary/static/src/pos/vet_orders.xml:0
+msgid "No visit to charge."
+msgstr "Nessuna visita da incassare."
+
+#. module: odossey_veterinary
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__sale_order__vet_payment_state__unpaid
+msgid "Not Paid"
+msgstr "Non pagato"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,help:odossey_veterinary.field_sale_order__vet_payment_state
+msgid ""
+"Not Paid: nobody charged it yet. At the Cash Desk: loaded in a till but not "
+"paid yet. Paid: charged at the cash desk with a ticket. Invoiced: charged "
+"with an invoice."
+msgstr ""
+"Non pagato: nessuno l'ha ancora incassato. In cassa: caricato in una cassa "
+"ma non ancora pagato. Pagato: incassato in cassa con scontrino. Fatturato: "
+"incassato con fattura."
+
+#. module: odossey_veterinary
+#. odoo-javascript
+#: code:addons/odossey_veterinary/static/src/pos/vet_orders.xml:0
+msgid "Order"
+msgstr "Ordine"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,help:odossey_veterinary.field_sale_order__vet_chargeable
+msgid ""
+"Order of a patient (consultation, adjustment, hospitalization): the "
+"reception charges it at the cash desk."
+msgstr ""
+"Ordine di un paziente (visita, rettifica, ricovero): la reception lo incassa"
+" in cassa."
+
+#. module: odossey_veterinary
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__sale_order__vet_payment_state__paid
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.sale_order_view_search_vet
+msgid "Paid"
+msgstr "Pagato"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__sale_order__vet_payment_state__partial
+msgid "Partially Paid"
+msgstr "Pagato in parte"
+
+#. module: odossey_veterinary
+#. odoo-javascript
+#: code:addons/odossey_veterinary/static/src/pos/vet_orders.xml:0
+msgid "Patient, owner, phone, ID or order"
+msgstr "Paziente, proprietario, telefono, codice fiscale o ordine"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_sale_order__vet_payment_state
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.sale_order_view_search_vet
+msgid "Payment"
+msgstr "Incasso"
+
+#. module: odossey_veterinary
+#: model:ir.model,name:odossey_veterinary.model_pos_order
+msgid "Point of Sale Orders"
+msgstr "Ordini punto vendita"
+
+#. module: odossey_veterinary
+#. odoo-javascript
+#: code:addons/odossey_veterinary/static/src/pos/vet_orders.xml:0
+#: model:ir.model.fields,field_description:odossey_veterinary.field_sale_order__vet_amount_due
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.sale_order_view_list_vet
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.sale_order_view_search_vet
+msgid "To Charge"
+msgstr "Da incassare"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,help:odossey_veterinary.field_sale_order__vet_amount_due
+msgid ""
+"Total of the order minus what was already paid at the cash desk or invoiced "
+"from the order."
+msgstr ""
+"Totale dell'ordine meno quanto già pagato in cassa o fatturato dall'ordine."
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_calendar_event__vet_card_species_icon
+msgid "Vet Card Species Icon"
+msgstr "Icona specie nella scheda"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_sale_order__vet_chargeable
+msgid "Veterinary Order"
+msgstr "Ordine veterinario"
+
+#. module: odossey_veterinary
+#: model:res.groups,name:odossey_veterinary.group_vet_use_rooms
+msgid "Veterinary: book by room"
+msgstr "Veterinaria: appuntamenti per sala"
+
+#. module: odossey_veterinary
+#. odoo-javascript
+#: code:addons/odossey_veterinary/static/src/agenda/vet_calendar.xml:0
+msgid "View"
+msgstr "Visualizza"
+
+#. module: odossey_veterinary
+#. odoo-javascript
+#: code:addons/odossey_veterinary/static/src/pos/vet_orders.xml:0
+msgid "Visits"
+msgstr "Visite"
+
+#. module: odossey_veterinary
+#. odoo-javascript
+#: code:addons/odossey_veterinary/static/src/pos/vet_orders.xml:0
+msgid "Visits to Charge"
+msgstr "Visite da incassare"
+
+#. module: odossey_veterinary
+#. odoo-javascript
+#: code:addons/odossey_veterinary/static/src/pos/vet_orders.xml:0
+msgid "Visits to charge"
+msgstr "Visite da incassare"
+
+#. module: odossey_veterinary
+#: model_terms:ir.actions.act_window,help:odossey_veterinary.vet_sale_order_action
+msgid ""
+"When the veterinarian closes a consultation its order appears here and in the cash desk, where the\n"
+"                reception charges it. Not Paid in red, Paid and Invoiced in green."
+msgstr ""
+"<p class=\"o_view_nocontent_smiling_face\">Ancora nessun ordine</p>\n"
+"            <p>Quando il veterinario chiude una visita, il suo ordine appare qui e in cassa, dove la\n"
+"                reception lo incassa. Non pagato in rosso, Pagato e Fatturato in verde.</p>"

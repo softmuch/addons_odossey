@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Orders of the visits with their payment status (Reception › Orders) -->
+    <record id="sale_order_view_list_vet" model="ir.ui.view">
+        <field name="name">sale.order.list.vet</field>
+        <field name="model">sale.order</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <list create="0" decoration-muted="state == 'cancel'">
+                <field name="date_order" string="Date"/>
+                <field name="name"/>
+                <field name="vet_pet_id"/>
+                <field name="partner_id" string="Owner"/>
+                <field name="vet_veterinarian_id" optional="show"/>
+                <field name="vet_consultation_id" optional="hide"/>
+                <field name="state" column_invisible="1"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="amount_total" sum="Total"/>
+                <field name="vet_amount_due" sum="To Charge" decoration-danger="vet_amount_due &gt; 0"/>
+                <field name="vet_payment_state" widget="badge"
+                       decoration-danger="vet_payment_state in ('unpaid', 'partial')"
+                       decoration-warning="vet_payment_state == 'in_pos'"
+                       decoration-success="vet_payment_state in ('paid', 'invoiced')"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="sale_order_view_search_vet" model="ir.ui.view">
+        <field name="name">sale.order.search.vet</field>
+        <field name="model">sale.order</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="vet_pet_id"/>
+                <field name="partner_id" string="Owner" filter_domain="['|', '|', ('partner_id', 'ilike', self), ('partner_id.phone', 'ilike', self), ('partner_id.vat', 'ilike', self)]"/>
+                <field name="name"/>
+                <field name="vet_veterinarian_id"/>
+                <filter string="To Charge" name="to_charge" domain="[('vet_payment_state', 'in', ('unpaid', 'in_pos', 'partial'))]"/>
+                <filter string="Paid" name="paid" domain="[('vet_payment_state', '=', 'paid')]"/>
+                <filter string="Invoiced" name="invoiced" domain="[('vet_payment_state', '=', 'invoiced')]"/>
+                <separator/>
+                <filter string="Today" name="today" domain="[('date_order', '&gt;=', datetime.datetime.combine(context_today(), datetime.time(0, 0, 0)).to_utc().strftime('%Y-%m-%d %H:%M:%S'))]"/>
+                <filter string="Date" name="filter_date_order" date="date_order"/>
+                <separator/>
+                <filter string="Cancelled" name="cancelled" domain="[('state', '=', 'cancel')]"/>
+                <group>
+                    <filter string="Payment" name="group_payment" context="{'group_by': 'vet_payment_state'}"/>
+                    <filter string="Veterinarian" name="group_vet" context="{'group_by': 'vet_veterinarian_id'}"/>
+                    <filter string="Day" name="group_day" context="{'group_by': 'date_order:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- payment status and link to the tickets of the cash desk in the order -->
+    <record id="sale_order_view_form_vet_payment" model="ir.ui.view">
+        <field name="name">sale.order.form.vet.payment</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('oe_title')]" position="before">
+                <field name="vet_payment_state" widget="badge" invisible="not vet_payment_state"
+                       class="float-end fs-6"
+                       decoration-danger="vet_payment_state in ('unpaid', 'partial')"
+                       decoration-warning="vet_payment_state == 'in_pos'"
+                       decoration-success="vet_payment_state in ('paid', 'invoiced')"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
