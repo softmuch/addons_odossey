@@ -59,7 +59,11 @@
 
     <!-- Billing -->
     <menuitem id="menu_vet_billing" name="Billing" parent="menu_vet_root" sequence="40"/>
+    <menuitem id="menu_vet_cash_desk" name="Cash Desk" parent="menu_vet_billing" action="vet_open_cash_desk_action" sequence="5"
+              groups="point_of_sale.group_pos_user"/>
     <menuitem id="menu_vet_orders" name="Orders to Charge" parent="menu_vet_billing" action="vet_sale_order_action" sequence="10"/>
+    <menuitem id="menu_vet_purchase_orders" name="Purchase Orders" parent="menu_vet_billing" action="vet_purchase_order_action"
+              sequence="30" groups="purchase.group_purchase_user"/>
     <menuitem id="menu_vet_invoices" name="Invoices" parent="menu_vet_billing" action="account.action_move_out_invoice_type" sequence="20"
               groups="account.group_account_invoice"/>
 

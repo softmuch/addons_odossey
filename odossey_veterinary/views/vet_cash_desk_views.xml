@@ -67,4 +67,22 @@
             </xpath>
         </field>
     </record>
+
+    <!-- Cash desk: opens the till straight from the Veterinary app and comes back to the agenda -->
+    <record id="vet_open_cash_desk_action" model="ir.actions.client">
+        <field name="name">Cash Desk</field>
+        <field name="tag">odossey_veterinary.open_cash_desk</field>
+    </record>
+
+    <!-- Purchases from the Veterinary app (also for the users limited to it) -->
+    <record id="vet_purchase_order_action" model="ir.actions.act_window">
+        <field name="name">Purchase Orders</field>
+        <field name="res_model">purchase.order</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create a purchase order</p>
+            <p>Order medications, vaccines or supplies to a supplier; the goods are received in Pharmacy.</p>
+        </field>
+    </record>
 </odoo>

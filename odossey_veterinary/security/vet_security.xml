@@ -41,6 +41,26 @@
         <field name="group_ids" eval="[(4, ref('group_vet_manager'))]"/>
     </record>
 
+    <!-- Scope: which apps the user sees. "Veterinary Only" hides every other app (menus only: the access rights
+         still come from the groups of the user) and opens the Veterinary app after login. -->
+    <record id="privilege_veterinary_scope" model="res.groups.privilege">
+        <field name="name">Scope</field>
+        <field name="category_id" ref="module_category_veterinary"/>
+        <field name="sequence">110</field>
+    </record>
+    <record id="group_vet_scope_all" model="res.groups">
+        <field name="name">All Apps</field>
+        <field name="privilege_id" ref="privilege_veterinary_scope"/>
+        <field name="sequence">10</field>
+        <field name="comment">Sees every app the access rights allow.</field>
+    </record>
+    <record id="group_vet_scope_vet_only" model="res.groups">
+        <field name="name">Veterinary Only</field>
+        <field name="privilege_id" ref="privilege_veterinary_scope"/>
+        <field name="sequence">20</field>
+        <field name="comment">Only the Veterinary app is shown: agenda, patients, cash desk, pharmacy, purchases...</field>
+    </record>
+
     <!-- Agenda booked by consulting room (Settings › Veterinary › Book by Room): shows rooms in the agenda -->
     <record id="group_vet_use_rooms" model="res.groups">
         <field name="name">Veterinary: book by room</field>

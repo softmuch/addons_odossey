@@ -9731,3 +9731,63 @@ msgstr ""
 "<p class=\"o_view_nocontent_smiling_face\">Todavía no hay órdenes</p>\n"
 "            <p>Cuando el veterinario cierra una consulta, su orden aparece aquí y en la caja, donde la\n"
 "                recepción la cobra. No pagado en rojo, Pagado y Facturado en verde.</p>"
+
+#. module: odossey_veterinary
+#: model:res.groups,name:odossey_veterinary.group_vet_scope_all
+msgid "All Apps"
+msgstr "Todas las Apps"
+
+#. module: odossey_veterinary
+#: model:ir.actions.client,name:odossey_veterinary.vet_open_cash_desk_action
+#: model:ir.ui.menu,name:odossey_veterinary.menu_vet_cash_desk
+msgid "Cash Desk"
+msgstr "Caja"
+
+#. module: odossey_veterinary
+#: model_terms:ir.actions.act_window,help:odossey_veterinary.vet_purchase_order_action
+msgid "Create a purchase order"
+msgstr "Creá una orden de compra"
+
+#. module: odossey_veterinary
+#: model:ir.model,name:odossey_veterinary.model_ir_ui_menu
+msgid "Menu"
+msgstr "Menú"
+
+#. module: odossey_veterinary
+#: model:res.groups,comment:odossey_veterinary.group_vet_scope_vet_only
+msgid ""
+"Only the Veterinary app is shown: agenda, patients, cash desk, pharmacy, "
+"purchases..."
+msgstr ""
+"Solo se muestra la app Veterinaria: agenda, pacientes, caja, farmacia, "
+"compras..."
+
+#. module: odossey_veterinary
+#: model_terms:ir.actions.act_window,help:odossey_veterinary.vet_purchase_order_action
+msgid ""
+"Order medications, vaccines or supplies to a supplier; the goods are "
+"received in Pharmacy."
+msgstr ""
+"Pedí medicamentos, vacunas o insumos a un proveedor; la mercadería se recibe"
+" en Farmacia."
+
+#. module: odossey_veterinary
+#: model:ir.actions.act_window,name:odossey_veterinary.vet_purchase_order_action
+#: model:ir.ui.menu,name:odossey_veterinary.menu_vet_purchase_orders
+msgid "Purchase Orders"
+msgstr "Órdenes de compra"
+
+#. module: odossey_veterinary
+#: model:res.groups.privilege,name:odossey_veterinary.privilege_veterinary_scope
+msgid "Scope"
+msgstr "Alcance"
+
+#. module: odossey_veterinary
+#: model:res.groups,comment:odossey_veterinary.group_vet_scope_all
+msgid "Sees every app the access rights allow."
+msgstr "Ve todas las apps que permiten sus permisos."
+
+#. module: odossey_veterinary
+#: model:res.groups,name:odossey_veterinary.group_vet_scope_vet_only
+msgid "Veterinary Only"
+msgstr "Sólo Veterinaria"

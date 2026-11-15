@@ -9417,3 +9417,59 @@ msgid ""
 "When the veterinarian closes a consultation its order appears here and in the cash desk, where the\n"
 "                reception charges it. Not Paid in red, Paid and Invoiced in green."
 msgstr ""
+
+#. module: odossey_veterinary
+#: model:res.groups,name:odossey_veterinary.group_vet_scope_all
+msgid "All Apps"
+msgstr ""
+
+#. module: odossey_veterinary
+#: model:ir.actions.client,name:odossey_veterinary.vet_open_cash_desk_action
+#: model:ir.ui.menu,name:odossey_veterinary.menu_vet_cash_desk
+msgid "Cash Desk"
+msgstr ""
+
+#. module: odossey_veterinary
+#: model_terms:ir.actions.act_window,help:odossey_veterinary.vet_purchase_order_action
+msgid "Create a purchase order"
+msgstr ""
+
+#. module: odossey_veterinary
+#: model:ir.model,name:odossey_veterinary.model_ir_ui_menu
+msgid "Menu"
+msgstr ""
+
+#. module: odossey_veterinary
+#: model:res.groups,comment:odossey_veterinary.group_vet_scope_vet_only
+msgid ""
+"Only the Veterinary app is shown: agenda, patients, cash desk, pharmacy, "
+"purchases..."
+msgstr ""
+
+#. module: odossey_veterinary
+#: model_terms:ir.actions.act_window,help:odossey_veterinary.vet_purchase_order_action
+msgid ""
+"Order medications, vaccines or supplies to a supplier; the goods are "
+"received in Pharmacy."
+msgstr ""
+
+#. module: odossey_veterinary
+#: model:ir.actions.act_window,name:odossey_veterinary.vet_purchase_order_action
+#: model:ir.ui.menu,name:odossey_veterinary.menu_vet_purchase_orders
+msgid "Purchase Orders"
+msgstr ""
+
+#. module: odossey_veterinary
+#: model:res.groups.privilege,name:odossey_veterinary.privilege_veterinary_scope
+msgid "Scope"
+msgstr ""
+
+#. module: odossey_veterinary
+#: model:res.groups,comment:odossey_veterinary.group_vet_scope_all
+msgid "Sees every app the access rights allow."
+msgstr ""
+
+#. module: odossey_veterinary
+#: model:res.groups,name:odossey_veterinary.group_vet_scope_vet_only
+msgid "Veterinary Only"
+msgstr ""

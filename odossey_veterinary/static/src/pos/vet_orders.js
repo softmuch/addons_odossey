@@ -8,6 +8,11 @@ import { Component, onMounted, onWillStart, onWillUnmount, useState } from "@odo
 import { usePos } from "@point_of_sale/app/hooks/pos_hook";
 import { PosStore } from "@point_of_sale/app/services/pos_store";
 import { ControlButtons } from "@point_of_sale/app/screens/product_screen/control_buttons/control_buttons";
+import { browser } from "@web/core/browser/browser";
+import { user } from "@web/core/user";
+
+const POS_RETURN_KEY = "odossey_veterinary.pos_return";
+const AGENDA_URL = "/odoo/action-odossey_veterinary.vet_appointment_action";
 
 const LOTS_QUESTION = "Do you want to load the SN/Lots linked to the Sales Order?";
 
@@ -22,6 +27,28 @@ patch(PosStore.prototype, {
         this.data.connectWebSocket("VET_ORDERS_CHANGED", () => this.vetRefreshOrders());
         this.vetRefreshOrders();
         return res;
+    },
+
+    /** Back to the agenda when the till was opened from the Veterinary app or the user only sees that app. */
+    async redirectToBackend() {
+        let fromVeterinary = false;
+        try {
+            fromVeterinary = browser.sessionStorage.getItem(POS_RETURN_KEY) === "1";
+        } catch {
+            // no session storage: rely on the scope of the user
+        }
+        if (!fromVeterinary) {
+            try {
+                fromVeterinary = await user.hasGroup("odossey_veterinary.group_vet_scope_vet_only");
+            } catch {
+                fromVeterinary = false;
+            }
+        }
+        if (fromVeterinary) {
+            window.location = AGENDA_URL;
+            return;
+        }
+        return super.redirectToBackend(...arguments);
     },
 
     async vetRefreshOrders() {

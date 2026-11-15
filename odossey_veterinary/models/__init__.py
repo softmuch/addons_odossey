@@ -15,3 +15,4 @@ from . import vet_reminder
 from . import res_config_settings
 from . import vet_demo
 from . import vet_cash_desk
+from . import vet_scope

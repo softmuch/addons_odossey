@@ -37,6 +37,7 @@ Veterinary clinic management (Odoo Community only)
         'account',
         'point_of_sale',
         'pos_sale',
+        'purchase',
     ],
     'data': [
         'security/vet_security.xml',
@@ -59,6 +60,7 @@ Veterinary clinic management (Odoo Community only)
     'assets': {
         'web.assets_backend': [
             'odossey_veterinary/static/src/agenda/**/*',
+            'odossey_veterinary/static/src/backend/**/*',
         ],
         'point_of_sale._assets_pos': [
             'odossey_veterinary/static/src/pos/**/*',
