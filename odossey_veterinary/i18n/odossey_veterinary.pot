@@ -579,6 +579,12 @@ msgid "Admitted to hospital: %s"
 msgstr ""
 
 #. module: odossey_veterinary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_product_product__vet_adult_age_months
+#: model:ir.model.fields,field_description:odossey_veterinary.field_product_template__vet_adult_age_months
+msgid "Adult From (months)"
+msgstr ""
+
+#. module: odossey_veterinary
 #: model:product.template,name:odossey_veterinary.product_med_advocate_product_template
 msgid "Advocate"
 msgstr ""
@@ -606,6 +612,15 @@ msgstr ""
 #. module: odossey_veterinary
 #: model:ir.model.fields,help:odossey_veterinary.field_vet_pet__age
 msgid "Age computed from the date of birth."
+msgstr ""
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,help:odossey_veterinary.field_product_product__vet_adult_age_months
+#: model:ir.model.fields,help:odossey_veterinary.field_product_template__vet_adult_age_months
+msgid ""
+"Age from which the animal is considered an adult: the vaccine goes straight "
+"to the booster, even if it is the first dose ever. 0 = not applicable "
+"(always the primary course). E.g. 12."
 msgstr ""
 
 #. module: odossey_veterinary
@@ -2240,6 +2255,11 @@ msgid "Date Of Death"
 msgstr ""
 
 #. module: odossey_veterinary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_vaccination__pet_birthdate
+msgid "Date of Birth"
+msgstr ""
+
+#. module: odossey_veterinary
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.report_rabies_certificate
 msgid "Date of vaccination"
 msgstr ""
@@ -2265,6 +2285,14 @@ msgstr ""
 #. module: odossey_veterinary
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.res_config_settings_view_form_vet
 msgid "Days before the due date the reminder email is sent to the owner."
+msgstr ""
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,help:odossey_veterinary.field_product_product__vet_dose_interval_days
+#: model:ir.model.fields,help:odossey_veterinary.field_product_template__vet_dose_interval_days
+msgid ""
+"Days between the doses of the primary course (e.g. 25: the 2nd dose 25 days "
+"after the 1st, the 3rd 25 days after the 2nd)."
 msgstr ""
 
 #. module: odossey_veterinary
@@ -4214,9 +4242,9 @@ msgid "Internal parasites (deworming)"
 msgstr ""
 
 #. module: odossey_veterinary
-#: model:ir.model.fields,field_description:odossey_veterinary.field_product_product__vet_dose_interval_weeks
-#: model:ir.model.fields,field_description:odossey_veterinary.field_product_template__vet_dose_interval_weeks
-msgid "Interval Between Doses (weeks)"
+#: model:ir.model.fields,field_description:odossey_veterinary.field_product_product__vet_dose_interval_days
+#: model:ir.model.fields,field_description:odossey_veterinary.field_product_template__vet_dose_interval_days
+msgid "Interval Between Doses (days)"
 msgstr ""
 
 #. module: odossey_veterinary
@@ -5167,6 +5195,12 @@ msgstr ""
 #. module: odossey_veterinary
 #: model_terms:ir.actions.act_window,help:odossey_veterinary.vet_controlled_register_action
 msgid "No controlled drug used yet"
+msgstr ""
+
+#. module: odossey_veterinary
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_pet_view_form
+msgid ""
+"No date of birth: the vaccine due dates do not take the age into account."
 msgstr ""
 
 #. module: odossey_veterinary
@@ -7516,6 +7550,14 @@ msgstr ""
 #. odoo-python
 #: code:addons/odossey_veterinary/models/vet_consent.py:0
 msgid "The owner %s has no email address."
+msgstr ""
+
+#. module: odossey_veterinary
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_vaccination_view_form
+msgid ""
+"The patient has no date of birth: the next due date does not take the age "
+"into account (primary course doses). Load the date of birth in the patient "
+"form."
 msgstr ""
 
 #. module: odossey_veterinary
