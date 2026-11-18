@@ -515,6 +515,31 @@ class TestAgenda(VetCommon):
         self.assertEqual(event.vet_pet_id.owner_id.name, "Pedro Nuevo")
         self.assertEqual(event.vet_pet_id.owner_id.phone, '11 9999 0000')
 
+    def test_register_owner_who_is_a_user(self):
+        """The owner picked is the contact of a member of the staff: the reception fills the missing phone,
+        never the email (where the password reset of the user is sent)."""
+        staff = new_test_user(self.env, login='staff_owner_test', name="Daniel Staff", groups='base.group_user')
+        staff.partner_id.write({'phone': False, 'email': False})
+        event = self.env['calendar.event'].with_user(self.reception).create({
+            'vet_contact_name': "Daniel Staff", 'vet_contact_phone': '388 520-0621', 'vet_contact_pet_name': "Igor",
+            'vet_contact_species_id': self.dog.id, 'vet_appointment_type_id': self.ref('appointment_type_consultation').id,
+            'start': fields.Datetime.now() + timedelta(days=2)})
+        wizard = self.env['vet.appointment.register'].with_user(self.reception).with_context(default_appointment_id=event.id).create({
+            'owner_id': staff.partner_id.id, 'owner_phone': '388 520-0621', 'owner_email': 'someone@example.com'})
+        wizard.action_confirm()
+        self.assertEqual(event.vet_pet_id.owner_id, staff.partner_id)
+        self.assertEqual(staff.partner_id.phone, '388 520-0621', "the missing phone is filled")
+        self.assertFalse(staff.partner_id.email, "the email of a user is not changed from the reception")
+        # a plain owner still gets the missing email
+        self.owner.email = False
+        event2 = self.env['calendar.event'].with_user(self.reception).create({
+            'vet_contact_name': "Otro", 'vet_contact_pet_name': "Pipo", 'vet_contact_species_id': self.dog.id,
+            'vet_appointment_type_id': self.ref('appointment_type_consultation').id,
+            'start': fields.Datetime.now() + timedelta(days=2, hours=1)})
+        self.env['vet.appointment.register'].with_user(self.reception).with_context(default_appointment_id=event2.id).create({
+            'owner_id': self.owner.id, 'owner_email': 'owner@example.com'}).action_confirm()
+        self.assertEqual(self.owner.email, 'owner@example.com')
+
     def test_staff_wizard(self):
         wizard = self.env['vet.staff.wizard'].with_user(self.manager).create({})
         line = wizard.line_ids.filtered(lambda l: l.user_id == self.reception)

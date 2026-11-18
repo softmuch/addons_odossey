@@ -84,10 +84,13 @@ class VetAppointmentRegister(models.TransientModel):
             vals = {}
             if self.owner_phone and not owner.phone:
                 vals['phone'] = self.owner_phone
-            if self.owner_email and not owner.email:
+            # the email of a user's contact is where its password reset is sent: never filled from here
+            if self.owner_email and not owner.email and not owner.with_context(active_test=False).user_ids:
                 vals['email'] = self.owner_email
             if vals:
-                owner.write(vals)
+                # only empty fields are filled; the owner may be the contact of a user (a member of the staff
+                # who brings their pet), which the reception cannot modify
+                owner.sudo().write(vals)
         pet = self.pet_id
         if not pet:
             if not self.pet_name or not self.species_id:
