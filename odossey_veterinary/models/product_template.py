@@ -78,7 +78,13 @@ class ProductTemplate(models.Model):
     vet_min_age_weeks = fields.Integer(string="Minimum Age (weeks)")
     vet_initial_doses = fields.Integer(string="Initial Doses", default=1,
                                        help="Number of doses of the primary course (e.g. 3 for a puppy polyvalent vaccine).")
-    vet_dose_interval_weeks = fields.Integer(string="Interval Between Doses (weeks)", default=3)
+    vet_dose_interval_days = fields.Integer(string="Interval Between Doses (days)", default=21,
+                                            help="Days between the doses of the primary course (e.g. 25: the 2nd dose "
+                                                 "25 days after the 1st, the 3rd 25 days after the 2nd).")
+    vet_adult_age_months = fields.Integer(string="Adult From (months)",
+                                          help="Age from which the animal is considered an adult: the vaccine goes "
+                                               "straight to the booster, even if it is the first dose ever. "
+                                               "0 = not applicable (always the primary course). E.g. 12.")
     vet_booster_months = fields.Integer(string="Booster Every (months)", default=12,
                                         help="Months until the next booster once the primary course is complete.")
     vet_repeat_days = fields.Integer(string="Repeat Every (days)",

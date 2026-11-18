@@ -554,7 +554,7 @@
         <field name="vet_preventive_group">canine_polyvalent</field>
         <field name="vet_min_age_weeks">6</field>
         <field name="vet_initial_doses">2</field>
-        <field name="vet_dose_interval_weeks">3</field>
+        <field name="vet_dose_interval_days">21</field>
         <field name="vet_booster_months">12</field>
         <field name="vet_route">sc</field>
         <field name="vet_sale_condition">vet_only</field>
@@ -576,7 +576,7 @@
         <field name="vet_preventive_group">canine_polyvalent</field>
         <field name="vet_min_age_weeks">6</field>
         <field name="vet_initial_doses">3</field>
-        <field name="vet_dose_interval_weeks">3</field>
+        <field name="vet_dose_interval_days">21</field>
         <field name="vet_booster_months">12</field>
         <field name="vet_route">sc</field>
         <field name="vet_sale_condition">vet_only</field>
@@ -598,7 +598,7 @@
         <field name="vet_preventive_group">canine_polyvalent</field>
         <field name="vet_min_age_weeks">4</field>
         <field name="vet_initial_doses">2</field>
-        <field name="vet_dose_interval_weeks">3</field>
+        <field name="vet_dose_interval_days">21</field>
         <field name="vet_booster_months">12</field>
         <field name="vet_route">sc</field>
         <field name="vet_sale_condition">vet_only</field>
@@ -620,7 +620,7 @@
         <field name="vet_preventive_group">canine_polyvalent</field>
         <field name="vet_min_age_weeks">6</field>
         <field name="vet_initial_doses">2</field>
-        <field name="vet_dose_interval_weeks">3</field>
+        <field name="vet_dose_interval_days">21</field>
         <field name="vet_booster_months">12</field>
         <field name="vet_route">sc</field>
         <field name="vet_sale_condition">vet_only</field>
@@ -642,7 +642,7 @@
         <field name="vet_preventive_group">leptospirosis</field>
         <field name="vet_min_age_weeks">6</field>
         <field name="vet_initial_doses">2</field>
-        <field name="vet_dose_interval_weeks">3</field>
+        <field name="vet_dose_interval_days">21</field>
         <field name="vet_booster_months">12</field>
         <field name="vet_route">sc</field>
         <field name="vet_sale_condition">vet_only</field>
@@ -664,7 +664,7 @@
         <field name="vet_preventive_group">canine_polyvalent</field>
         <field name="vet_min_age_weeks">6</field>
         <field name="vet_initial_doses">3</field>
-        <field name="vet_dose_interval_weeks">3</field>
+        <field name="vet_dose_interval_days">21</field>
         <field name="vet_booster_months">12</field>
         <field name="vet_route">sc</field>
         <field name="vet_sale_condition">vet_only</field>
@@ -686,7 +686,7 @@
         <field name="vet_preventive_group">canine_polyvalent</field>
         <field name="vet_min_age_weeks">8</field>
         <field name="vet_initial_doses">2</field>
-        <field name="vet_dose_interval_weeks">3</field>
+        <field name="vet_dose_interval_days">21</field>
         <field name="vet_booster_months">12</field>
         <field name="vet_route">sc</field>
         <field name="vet_sale_condition">vet_only</field>
@@ -708,7 +708,7 @@
         <field name="vet_preventive_group">canine_polyvalent</field>
         <field name="vet_min_age_weeks">6</field>
         <field name="vet_initial_doses">3</field>
-        <field name="vet_dose_interval_weeks">3</field>
+        <field name="vet_dose_interval_days">21</field>
         <field name="vet_booster_months">12</field>
         <field name="vet_route">sc</field>
         <field name="vet_sale_condition">vet_only</field>
@@ -729,7 +729,7 @@
         <field name="vet_preventive_group">canine_polyvalent</field>
         <field name="vet_min_age_weeks">6</field>
         <field name="vet_initial_doses">3</field>
-        <field name="vet_dose_interval_weeks">3</field>
+        <field name="vet_dose_interval_days">21</field>
         <field name="vet_booster_months">12</field>
         <field name="vet_route">sc</field>
         <field name="vet_sale_condition">vet_only</field>
@@ -751,7 +751,7 @@
         <field name="vet_preventive_group">kennel_cough</field>
         <field name="vet_min_age_weeks">3</field>
         <field name="vet_initial_doses">1</field>
-        <field name="vet_dose_interval_weeks">3</field>
+        <field name="vet_dose_interval_days">21</field>
         <field name="vet_booster_months">12</field>
         <field name="vet_route">intranasal</field>
         <field name="vet_sale_condition">vet_only</field>
@@ -773,7 +773,7 @@
         <field name="vet_preventive_group">kennel_cough</field>
         <field name="vet_min_age_weeks">8</field>
         <field name="vet_initial_doses">1</field>
-        <field name="vet_dose_interval_weeks">3</field>
+        <field name="vet_dose_interval_days">21</field>
         <field name="vet_booster_months">12</field>
         <field name="vet_route">po</field>
         <field name="vet_sale_condition">vet_only</field>
@@ -795,7 +795,7 @@
         <field name="vet_preventive_group">rabies</field>
         <field name="vet_min_age_weeks">12</field>
         <field name="vet_initial_doses">1</field>
-        <field name="vet_dose_interval_weeks">3</field>
+        <field name="vet_dose_interval_days">21</field>
         <field name="vet_booster_months">12</field>
         <field name="vet_route">sc</field>
         <field name="vet_sale_condition">vet_only</field>
@@ -818,7 +818,7 @@
         <field name="vet_preventive_group">rabies</field>
         <field name="vet_min_age_weeks">12</field>
         <field name="vet_initial_doses">1</field>
-        <field name="vet_dose_interval_weeks">3</field>
+        <field name="vet_dose_interval_days">21</field>
         <field name="vet_booster_months">12</field>
         <field name="vet_route">sc</field>
         <field name="vet_sale_condition">vet_only</field>
@@ -841,7 +841,7 @@
         <field name="vet_preventive_group">rabies</field>
         <field name="vet_min_age_weeks">12</field>
         <field name="vet_initial_doses">1</field>
-        <field name="vet_dose_interval_weeks">3</field>
+        <field name="vet_dose_interval_days">21</field>
         <field name="vet_booster_months">12</field>
         <field name="vet_route">sc</field>
         <field name="vet_sale_condition">vet_only</field>
@@ -863,7 +863,7 @@
         <field name="vet_preventive_group">rabies</field>
         <field name="vet_min_age_weeks">12</field>
         <field name="vet_initial_doses">1</field>
-        <field name="vet_dose_interval_weeks">3</field>
+        <field name="vet_dose_interval_days">21</field>
         <field name="vet_booster_months">12</field>
         <field name="vet_route">sc</field>
         <field name="vet_sale_condition">vet_only</field>
@@ -886,7 +886,7 @@
         <field name="vet_preventive_group">feline_polyvalent</field>
         <field name="vet_min_age_weeks">12</field>
         <field name="vet_initial_doses">2</field>
-        <field name="vet_dose_interval_weeks">3</field>
+        <field name="vet_dose_interval_days">21</field>
         <field name="vet_booster_months">12</field>
         <field name="vet_route">sc</field>
         <field name="vet_sale_condition">vet_only</field>
@@ -908,7 +908,7 @@
         <field name="vet_preventive_group">feline_polyvalent</field>
         <field name="vet_min_age_weeks">8</field>
         <field name="vet_initial_doses">2</field>
-        <field name="vet_dose_interval_weeks">4</field>
+        <field name="vet_dose_interval_days">28</field>
         <field name="vet_booster_months">12</field>
         <field name="vet_route">sc</field>
         <field name="vet_sale_condition">vet_only</field>
@@ -930,7 +930,7 @@
         <field name="vet_preventive_group">feline_polyvalent</field>
         <field name="vet_min_age_weeks">8</field>
         <field name="vet_initial_doses">2</field>
-        <field name="vet_dose_interval_weeks">3</field>
+        <field name="vet_dose_interval_days">21</field>
         <field name="vet_booster_months">12</field>
         <field name="vet_route">sc</field>
         <field name="vet_sale_condition">vet_only</field>
@@ -952,7 +952,7 @@
         <field name="vet_preventive_group">felv</field>
         <field name="vet_min_age_weeks">8</field>
         <field name="vet_initial_doses">2</field>
-        <field name="vet_dose_interval_weeks">4</field>
+        <field name="vet_dose_interval_days">28</field>
         <field name="vet_booster_months">12</field>
         <field name="vet_route">sc</field>
         <field name="vet_sale_condition">vet_only</field>

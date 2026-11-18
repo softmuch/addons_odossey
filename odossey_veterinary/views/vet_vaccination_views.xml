@@ -13,6 +13,11 @@
                     <field name="state" widget="statusbar" statusbar_visible="up_to_date,due_soon,overdue"/>
                 </header>
                 <sheet>
+                    <field name="pet_birthdate" invisible="1"/>
+                    <div class="alert alert-warning" role="alert"
+                         invisible="not pet_id or pet_birthdate or preventive_type != 'vaccine'">
+                        The patient has no date of birth: the next due date does not take the age into account (primary course doses). Load the date of birth in the patient form.
+                    </div>
                     <group>
                         <group>
                             <field name="pet_id" options="{'no_create': True}"/>

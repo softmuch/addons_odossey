@@ -109,6 +109,9 @@
                             </field>
                         </page>
                         <page string="Vaccination &amp; Parasite Control" name="preventive">
+                            <div class="alert alert-warning" role="alert" invisible="birthdate">
+                                No date of birth: the vaccine due dates do not take the age into account.
+                            </div>
                             <field name="vaccination_ids" readonly="1">
                                 <list decoration-danger="state == 'overdue'" decoration-warning="state == 'due_soon'" decoration-muted="state == 'done'">
                                     <field name="date"/>
