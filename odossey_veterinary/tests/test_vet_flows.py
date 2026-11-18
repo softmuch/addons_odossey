@@ -73,6 +73,63 @@ class TestPet(VetCommon):
         self.assertTrue(self.pet.has_danger_alert)
         self.assertIn(self.pet, self.env['vet.pet'].search([('has_danger_alert', '=', True)]))
 
+    def test_alert_summaries_by_severity(self):
+        Alert = self.env['vet.alert']
+        cardiac = Alert.create({'name': "Cardiac", 'severity': 'danger'})
+        diabetic = Alert.create({'name': "Diabetic", 'severity': 'warning'})
+        renal = Alert.create({'name': "Renal patient", 'severity': 'warning'})
+        shy = Alert.create({'name': "Shy", 'severity': 'info'})
+        summaries = lambda record, prefix='': tuple(
+            record[f'{prefix}{severity}_alert_summary'] for severity in ('danger', 'warning', 'info'))
+
+        # no alerts: no box at all
+        self.assertEqual(summaries(self.pet), (False, False, False))
+
+        # only a warning: yellow box, no red one
+        self.pet.alert_ids = [(6, 0, diabetic.ids)]
+        self.assertFalse(self.pet.has_danger_alert)
+        self.assertEqual(summaries(self.pet), (False, "Diabetic", False))
+
+        # one alert of each severity, each one in its own box
+        self.pet.alert_ids = [(6, 0, (cardiac | diabetic | renal | shy).ids)]
+        self.assertEqual(summaries(self.pet), ("Cardiac", "Diabetic · Renal patient", "Shy"))
+
+        # consultation header and agenda cell show the same split
+        consultation = self.env['vet.consultation'].create({'pet_id': self.pet.id, 'vet_id': self.vet.id})
+        self.assertEqual(summaries(consultation, 'pet_'), ("Cardiac", "Diabetic · Renal patient", "Shy"))
+        event = self.env['calendar.event'].create({
+            'name': "Turno", 'vet_pet_id': self.pet.id, 'start': fields.Datetime.now(),
+            'stop': fields.Datetime.now() + timedelta(minutes=30)})
+        self.assertEqual((event.vet_card_danger_alert, event.vet_card_warning_alert, event.vet_card_info_alert),
+                         ("Cardiac", "Diabetic · Renal patient", "Shy"))
+
+    def test_alert_display_settings(self):
+        Alert = self.env['vet.alert']
+        cardiac = Alert.create({'name': "Cardiac", 'severity': 'danger'})
+        diabetic = Alert.create({'name': "Diabetic", 'severity': 'warning'})
+        shy = Alert.create({'name': "Shy", 'severity': 'info'})
+        self.assertTrue(shy.show_in_consultation, "new alerts are shown by default")
+        self.pet.alert_ids = [(6, 0, (cardiac | diabetic | shy).ids)]
+
+        # hidden alerts leave the boxes, but stay on the patient file and keep the danger flag
+        (cardiac | shy).show_in_consultation = False
+        self.assertFalse(self.pet.danger_alert_summary)
+        self.assertEqual(self.pet.warning_alert_summary, "Diabetic")
+        self.assertFalse(self.pet.info_alert_summary)
+        self.assertTrue(self.pet.has_danger_alert)
+        self.assertEqual(self.pet.alert_summary, "Cardiac · Diabetic · Shy")
+
+        # an aggressive temperament is always shown in red, even with the 'Aggressive' alert hidden
+        aggressive = self.ref('alert_aggressive')
+        self.assertEqual(aggressive.name, "Aggressive")
+        aggressive.show_in_consultation = False
+        self.pet.write({'temperament': 'aggressive', 'alert_ids': [(4, aggressive.id)]})
+        self.assertEqual(self.pet.danger_alert_summary, "Aggressive")
+
+        # ... and only once when the 'Aggressive' alert is shown too
+        (aggressive | cardiac).show_in_consultation = True
+        self.assertEqual(self.pet.danger_alert_summary, "Aggressive · Cardiac")
+
 
 class TestPreventive(VetCommon):
 

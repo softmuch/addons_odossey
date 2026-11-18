@@ -19,6 +19,12 @@ class VetAlert(models.Model):
     ], default='other', required=True)
     color = fields.Integer(compute='_compute_color')
     active = fields.Boolean(default=True)
+    show_in_consultation = fields.Boolean(
+        string="Show in Consultation and Agenda", default=True,
+        help="Show this alert in the header of the consultation and in the agenda cell, in the box of its "
+             "severity (red: danger, yellow: warning, blue: information).\n"
+             "Example: turn it off for 'Friendly' so only the alerts that matter stand out. "
+             "The alert stays on the patient file either way.")
 
     @api.depends('severity')
     def _compute_color(self):
@@ -69,6 +75,11 @@ class VetPet(models.Model):
     alert_ids = fields.Many2many('vet.alert', string="Alerts")
     has_danger_alert = fields.Boolean(compute='_compute_has_danger_alert', store=True)
     alert_summary = fields.Char(compute='_compute_alert_summary')
+    # One summary per severity, so each box shows only its own alerts (red: danger, yellow: warning,
+    # blue: information). Only alerts marked 'Show in Consultation and Agenda' are listed.
+    danger_alert_summary = fields.Char(compute='_compute_alert_summaries_by_severity')
+    warning_alert_summary = fields.Char(compute='_compute_alert_summaries_by_severity')
+    info_alert_summary = fields.Char(compute='_compute_alert_summaries_by_severity')
     allergy_notes = fields.Text(string="Allergies", tracking=True)
     chronic_condition_ids = fields.Many2many('vet.disease', string="Chronic Conditions")
     diet = fields.Char(help="Food the patient usually eats.")
@@ -112,13 +123,38 @@ class VetPet(models.Model):
         for pet in self:
             pet.has_danger_alert = pet.temperament == 'aggressive' or any(a.severity == 'danger' for a in pet.alert_ids)
 
+    def _aggressive_label(self):
+        return dict(self._fields['temperament']._description_selection(self.env))['aggressive']
+
     @api.depends('alert_ids', 'temperament')
     def _compute_alert_summary(self):
         for pet in self:
             names = pet.alert_ids.mapped('name')
             if pet.temperament == 'aggressive':
-                names.insert(0, dict(self._fields['temperament']._description_selection(self.env))['aggressive'])
+                names.insert(0, pet._aggressive_label())
             pet.alert_summary = ' · '.join(names)
+
+    # severity of vet.alert -> summary field that lists the alerts of that severity
+    _ALERT_SUMMARY_FIELDS = {
+        'danger': 'danger_alert_summary',
+        'warning': 'warning_alert_summary',
+        'info': 'info_alert_summary',
+    }
+
+    @api.depends('alert_ids', 'alert_ids.severity', 'alert_ids.name', 'alert_ids.show_in_consultation', 'temperament')
+    def _compute_alert_summaries_by_severity(self):
+        for pet in self:
+            # sorted by name in Python: the cache keeps the order alerts were added (and NewIds can't be searched)
+            shown = pet.alert_ids.filtered('show_in_consultation').sorted(lambda a: a.name or '')
+            for severity, field_name in self._ALERT_SUMMARY_FIELDS.items():
+                names = shown.filtered(lambda a: a.severity == severity).mapped('name')
+                # an aggressive temperament is always shown in red (it is not an alert, so it cannot be hidden),
+                # once: not again when an alert with the same name is already listed
+                if severity == 'danger' and pet.temperament == 'aggressive':
+                    label = pet._aggressive_label()
+                    if label not in names:
+                        names.insert(0, label)
+                pet[field_name] = ' · '.join(names) or False
 
     @api.onchange('species_id')
     def _onchange_species_id(self):

@@ -9815,3 +9815,91 @@ msgstr "Ve todas las apps que permiten sus permisos."
 #: model:res.groups,name:odossey_veterinary.group_vet_scope_vet_only
 msgid "Veterinary Only"
 msgstr "Sólo Veterinaria"
+
+#. module: odossey_veterinary
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_consultation_view_form
+msgid "<i class=\"fa fa-exclamation-circle\" title=\"Warning\"/><strong>Warning:</strong>"
+msgstr "<i class=\"fa fa-exclamation-circle\" title=\"Advertencia\"/><strong>Advertencia:</strong>"
+
+#. module: odossey_veterinary
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_consultation_view_form
+msgid "<i class=\"fa fa-exclamation-triangle\" title=\"Danger\"/><strong>Danger:</strong>"
+msgstr "<i class=\"fa fa-exclamation-triangle\" title=\"Peligro\"/><strong>Peligro:</strong>"
+
+#. module: odossey_veterinary
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_consultation_view_form
+msgid "<i class=\"fa fa-info-circle\" title=\"Information\"/><strong>Information:</strong>"
+msgstr "<i class=\"fa fa-info-circle\" title=\"Información\"/><strong>Información:</strong>"
+
+#. module: odossey_veterinary
+#: model:ir.actions.act_window,name:odossey_veterinary.vet_alert_action_display
+#: model:ir.ui.menu,name:odossey_veterinary.menu_vet_alert_display
+msgid "Alert Display Settings"
+msgstr "Configuración visualización alertas"
+
+#. module: odossey_veterinary
+#: model_terms:ir.actions.act_window,help:odossey_veterinary.vet_alert_action_display
+msgid ""
+"Create the alerts in Alerts &amp; Allergies, then choose here which ones are shown in the consultation\n"
+"                and the agenda: red box for danger, yellow for warning, blue for information."
+msgstr ""
+"Creá las alertas en Alertas y alergias y después elegí acá cuáles se muestran en la consulta\n"
+"                y en la agenda: recuadro rojo para peligro, amarillo para advertencia y azul para información."
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_consultation__pet_danger_alert_summary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_pet__danger_alert_summary
+msgid "Danger Alert Summary"
+msgstr "Resumen de alertas de peligro"
+
+#. module: odossey_veterinary
+#. odoo-javascript
+#: code:addons/odossey_veterinary/static/src/agenda/vet_calendar.xml:0
+msgid "Delete"
+msgstr "Eliminar"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_consultation__pet_info_alert_summary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_pet__info_alert_summary
+msgid "Info Alert Summary"
+msgstr "Resumen de alertas de información"
+
+#. module: odossey_veterinary
+#: model_terms:ir.actions.act_window,help:odossey_veterinary.vet_alert_action_display
+msgid "No alerts yet"
+msgstr "Todavía no hay alertas"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_alert__show_in_consultation
+msgid "Show in Consultation and Agenda"
+msgstr "Mostrar en consulta y agenda"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,help:odossey_veterinary.field_vet_alert__show_in_consultation
+msgid ""
+"Show this alert in the header of the consultation and in the agenda cell, in the box of its severity (red: danger, yellow: warning, blue: information).\n"
+"Example: turn it off for 'Friendly' so only the alerts that matter stand out. The alert stays on the patient file either way."
+msgstr ""
+"Muestra esta alerta en la cabecera de la consulta y en la tarjeta de la agenda, en el recuadro de su gravedad (rojo: peligro, amarillo: advertencia, azul: información).\n"
+"Ejemplo: desactivala para «Amigable» así se destacan solo las alertas importantes. La alerta sigue igual en la ficha del paciente."
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_calendar_event__vet_card_danger_alert
+msgid "Vet Card Danger Alert"
+msgstr "Tarjeta: alertas de peligro"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_calendar_event__vet_card_info_alert
+msgid "Vet Card Info Alert"
+msgstr "Tarjeta: alertas de información"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_calendar_event__vet_card_warning_alert
+msgid "Vet Card Warning Alert"
+msgstr "Tarjeta: alertas de advertencia"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_consultation__pet_warning_alert_summary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_pet__warning_alert_summary
+msgid "Warning Alert Summary"
+msgstr "Resumen de alertas de advertencia"

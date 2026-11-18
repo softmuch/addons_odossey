@@ -72,6 +72,34 @@
         <field name="view_mode">list</field>
     </record>
 
+    <!-- Alert display settings: which alerts are shown in the consultation header and the agenda cell -->
+    <record id="vet_alert_view_list_display" model="ir.ui.view">
+        <field name="name">vet.alert.list.display</field>
+        <field name="model">vet.alert</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <list editable="bottom" create="0" delete="0">
+                <field name="name" readonly="1"/>
+                <field name="category" readonly="1"/>
+                <field name="severity" readonly="1" widget="badge" decoration-danger="severity == 'danger'"
+                       decoration-warning="severity == 'warning'" decoration-info="severity == 'info'"/>
+                <field name="show_in_consultation" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+    <record id="vet_alert_action_display" model="ir.actions.act_window">
+        <field name="name">Alert Display Settings</field>
+        <field name="res_model">vet.alert</field>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="vet_alert_view_list_display"/>
+        <field name="context">{'group_by': 'severity'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No alerts yet</p>
+            <p>Create the alerts in Alerts &amp; Allergies, then choose here which ones are shown in the consultation
+                and the agenda: red box for danger, yellow for warning, blue for information.</p>
+        </field>
+    </record>
+
     <!-- Diseases -->
     <record id="vet_disease_view_list" model="ir.ui.view">
         <field name="name">vet.disease.list</field>
