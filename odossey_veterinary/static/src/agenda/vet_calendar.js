@@ -11,6 +11,7 @@ import { useService } from "@web/core/utils/hooks";
 import { user } from "@web/core/user";
 import { onWillStart } from "@odoo/owl";
 import { getVetAgendaSettings } from "./vet_agenda_settings";
+import { computeAgendaGrid, daySlot, snapToDay, toTime } from "./vet_agenda_grid";
 
 /**
  * Agenda of the clinic: the day starts at the opening time and closed hours are shaded, one row per slot
@@ -57,17 +58,6 @@ export class VetCalendarModel extends CalendarModel {
         record.vetCard = (this.vetAgenda && this.vetAgenda.card) || {};
         return record;
     }
-}
-
-function toMinutes(time) {
-    const [h, m] = time.split(":").map((v) => parseInt(v));
-    return h * 60 + (m || 0);
-}
-
-function toTime(minutes) {
-    const h = Math.floor(minutes / 60);
-    const m = minutes % 60;
-    return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:00`;
 }
 
 /**
@@ -149,34 +139,73 @@ export class VetCalendarCommonRenderer extends CalendarCommonRenderer {
     get options() {
         const options = super.options;
         const agenda = this.props.model.vetAgenda || {};
-        const hours = agenda.business_hours || [];
-        const slot = agenda.slot_minutes || 15;
-        if (hours.length) {
-            const start = Math.min(...hours.map((h) => toMinutes(h.startTime)));
-            const end = Math.max(...hours.map((h) => toMinutes(h.endTime)));
-            // the last row ends at closing time or later, aligned to the slot grid
-            const rows = Math.ceil((end - start) / slot);
-            if (agenda.hide_closed_days) {
-                const open = new Set(hours.flatMap((h) => h.daysOfWeek));
-                const hidden = [0, 1, 2, 3, 4, 5, 6].filter((d) => !open.has(d));
-                if (hidden.length < 7) {
-                    options.hiddenDays = hidden;
-                }
+        // day view: the slot and the opening of that day (the view is rebuilt when the date changes); week: one
+        // grid for all the days (see computeAgendaGrid)
+        const grid = computeAgendaGrid(agenda, this.props.model.scale, this.props.model.date.weekday % 7);
+        this.vetRowFactor = grid.rowFactor;
+        if (grid.start !== null) {
+            if (agenda.hide_closed_days && grid.hiddenDays) {
+                options.hiddenDays = grid.hiddenDays;
             }
             Object.assign(options, {
-                businessHours: hours,
-                slotMinTime: toTime(start),
-                slotMaxTime: toTime(Math.min(24 * 60, start + rows * slot)),
-                scrollTime: toTime(start),
+                businessHours: grid.hours,
+                slotMinTime: toTime(grid.start),
+                slotMaxTime: toTime(grid.end),
+                scrollTime: toTime(grid.start),
             });
         }
         Object.assign(options, {
-            slotDuration: { minutes: slot },
-            snapDuration: { minutes: slot },
-            slotLabelInterval: { minutes: slot },
+            slotDuration: { minutes: grid.slot },
+            snapDuration: { minutes: grid.slot },
+            slotLabelInterval: { minutes: grid.labelSlot },
             viewClassNames: ["o_vet_agenda", `o_vet_rows_${agenda.row_height || "comfortable"}`],
         });
         return options;
+    }
+
+    viewDidMount(info) {
+        super.viewDidMount(info);
+        // rows shorter than a slot in the week (see options): scale their height
+        info.el.style.setProperty("--o-vet-row-factor", String(this.vetRowFactor || 1));
+    }
+
+    /**
+     * Clicks, selections and drags land on the grid of their own day, counted from its opening: a click on Saturday
+     * 9:10 with 30-minute Saturday slots books 9:00-9:30, even if the week shows rows of 10 minutes.
+     */
+    fcEventToRecord(event) {
+        const res = super.fcEventToRecord(event);
+        const agenda = this.props.model.vetAgenda;
+        if (!agenda || res.isAllDay || this.props.model.scale === "month" || !res.start) {
+            return res;
+        }
+        const existing = res.id && this.props.model.records[res.id];
+        if (!existing) {
+            // new appointment: the row clicked, at least one slot long
+            const start = snapToDay(agenda, res.start);
+            const slot = daySlot(agenda, start.weekday % 7);
+            let end = res.end ? snapToDay(agenda, res.end.minus({ minutes: 1 })).plus({ minutes: slot }) : null;
+            if (!end || end <= start) {
+                end = start.plus({ minutes: slot });
+            }
+            return { ...res, start, end };
+        }
+        const start = snapToDay(agenda, res.start, true);
+        if (!res.end) {
+            return { ...res, start };
+        }
+        const oldDuration = existing.end ? existing.end.diff(existing.start).as("minutes") : null;
+        const duration = res.end.diff(res.start).as("minutes");
+        if (oldDuration !== null && Math.round(duration) === Math.round(oldDuration)) {
+            // moved: keep its length
+            return { ...res, start, end: start.plus({ minutes: duration }) };
+        }
+        // resized: the edge that moved snaps to the grid, the other one stays
+        if (+res.start !== +existing.start) {
+            return start < res.end ? { ...res, start } : res;
+        }
+        const end = snapToDay(agenda, res.end, true);
+        return end > res.start ? { ...res, end } : res;
     }
 
     eventClassNames(info) {

@@ -10,6 +10,7 @@ from . import vet_prescription
 from . import vet_hospitalization
 from . import vet_consent
 from . import vet_lab
+from . import resource_calendar
 from . import calendar_event
 from . import vet_reminder
 from . import res_config_settings

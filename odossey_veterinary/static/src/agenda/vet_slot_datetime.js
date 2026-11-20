@@ -6,7 +6,8 @@ import { getVetAgendaSettings } from "./vet_agenda_settings";
 
 /**
  * Date & time of an appointment: the time picker offers the agenda slots (Settings › Veterinary › Agenda Slots),
- * e.g. :00, :20 and :40 with 20-minute slots, instead of quarters of an hour.
+ * e.g. :00, :20 and :40 with 20-minute slots, instead of quarters of an hour; the slot of the day of the appointment
+ * when it is set in the opening hours (:00 and :30 on Saturday with 30-minute Saturday slots).
  */
 export class VetSlotDateTimeField extends Component {
     static template = "odossey_veterinary.VetSlotDateTimeField";
@@ -18,8 +19,8 @@ export class VetSlotDateTimeField extends Component {
         this.slot = null;
         onWillStart(async () => {
             try {
-                const settings = await getVetAgendaSettings(this.orm);
-                this.slot = settings.slot_minutes;
+                this.settings = await getVetAgendaSettings(this.orm);
+                this.slot = this.settings.slot_minutes;
             } catch {
                 this.slot = null;
             }
@@ -29,7 +30,10 @@ export class VetSlotDateTimeField extends Component {
     get fieldProps() {
         const props = { ...this.props };
         if (this.slot && isNaN(props.rounding)) {
-            props.rounding = this.slot;
+            // the slot of the day of the appointment (e.g. 30 minutes on Saturday), otherwise the general one
+            const value = props.record.data[props.name];
+            const bySlot = this.settings.slot_by_day || {};
+            props.rounding = (value && value.isValid && bySlot[String(value.weekday % 7)]) || this.slot;
         }
         return props;
     }

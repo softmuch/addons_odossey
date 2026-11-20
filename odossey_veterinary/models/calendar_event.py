@@ -198,6 +198,24 @@ class CalendarEvent(models.Model):
             return 15
 
     @api.model
+    def _vet_slot_by_weekday(self):
+        """Slot of every weekday (0 = Monday) in minutes: the one set in the opening hours of that day, otherwise the
+        general slot of the settings. Example: general 20, Saturday rows 30 → {0: 20, ..., 5: 30, 6: 20}."""
+        general = self._vet_agenda_slot_minutes()
+        slots = dict.fromkeys(range(7), general)
+        attendances = self._vet_opening_calendar().attendance_ids.filtered(lambda a: not a.display_type and a.vet_slot_minutes)
+        for att in attendances.sorted(lambda a: (a.week_type or '', a.hour_from)):
+            day = int(att.dayofweek)
+            if slots[day] == general:
+                slots[day] = max(5, min(120, att.vet_slot_minutes))
+        return slots
+
+    @api.model
+    def _vet_slot_minutes_for(self, value):
+        """Slot of the day of ``value`` (date or naive datetime in the time zone of the clinic)."""
+        return self._vet_slot_by_weekday()[value.weekday()]
+
+    @api.model
     def _vet_opening_calendar(self):
         return self.env.company.resource_calendar_id
 
@@ -217,11 +235,15 @@ class CalendarEvent(models.Model):
 
     @api.model
     def vet_get_agenda_settings(self):
-        """Opening hours (FullCalendar businessHours, in the time zone of the user, who sees the agenda in it),
-        slot length and row height of the agenda."""
+        """Opening hours (FullCalendar businessHours, in the time zone of the context: the agenda sends the one it is
+        drawn in), slot length and row height of the agenda."""
         ICP = self.env['ir.config_parameter'].sudo()
         clinic_tz = self._vet_clinic_tz()
-        user_tz = pytz.timezone(self.env.context.get('tz') or self.env.user.tz or clinic_tz.zone)
+        # the agenda sends the time zone it is drawn in (the browser's), which can differ from the user preferences
+        try:
+            user_tz = pytz.timezone(self.env.context.get('tz') or self.env.user.tz or clinic_tz.zone)
+        except pytz.UnknownTimeZoneError:
+            user_tz = clinic_tz
         today = fields.Date.context_today(self)
         business_hours = []
 
@@ -231,9 +253,13 @@ class CalendarEvent(models.Model):
             shift = (moved.date() - today).days
             return (day + shift) % 7, moved.hour * 60 + moved.minute
 
+        slot_by_weekday = self._vet_slot_by_weekday()
+        # slot of every day of the user (FullCalendar: 0 = Sunday); a day moved by the time zone keeps its slot
+        slot_by_day = {str((day + 1) % 7): minutes for day, minutes in slot_by_weekday.items()}
         for day, periods in self._vet_opening_hours().items():
             for hour_from, hour_to in periods:
                 day_from, minute_from = to_user(day, hour_from)
+                slot_by_day[str((day_from + 1) % 7)] = slot_by_weekday[day]
                 day_to, minute_to = to_user(day, hour_to)
                 if day_to != day_from:  # the period crosses midnight in the user's time zone: keep the day part
                     minute_to = 24 * 60
@@ -246,6 +272,7 @@ class CalendarEvent(models.Model):
         return {
             'business_hours': business_hours,
             'slot_minutes': self._vet_agenda_slot_minutes(),
+            'slot_by_day': slot_by_day,
             'row_height': ICP.get_param('odossey_veterinary.agenda_row_height', 'comfortable') or 'comfortable',
             'default_scale': self._vet_agenda_param('agenda_default_scale', 'day'),
             'use_rooms': self._vet_agenda_options()['use_rooms'],
@@ -259,18 +286,20 @@ class CalendarEvent(models.Model):
     def _vet_next_slot(self, now=None):
         """Next free time of the grid: today from now on, aligned to the slots counted from the opening time
         (8:40 → 8:40, 9:00, 9:20...), skipping closed hours; tomorrow's opening when the day is over."""
-        slot = self._vet_agenda_slot_minutes()
+        slots = self._vet_slot_by_weekday()
         clinic_tz = self._vet_clinic_tz()
         now = now or fields.Datetime.now()
         local_now = pytz.utc.localize(now).astimezone(clinic_tz).replace(tzinfo=None)
         hours = self._vet_opening_hours()
         if not hours:
+            slot = slots[local_now.weekday()]
             minutes = -(-(local_now.hour * 60 + local_now.minute) // slot) * slot
             local = datetime.combine(local_now.date(), time.min) + timedelta(minutes=minutes)
         else:
             local = None
             for offset in range(8):
                 day = local_now.date() + timedelta(days=offset)
+                slot = slots[day.weekday()]
                 for hour_from, hour_to in hours.get(day.weekday(), []):
                     start = datetime.combine(day, time.min) + timedelta(minutes=round(hour_from * 60))
                     end = datetime.combine(day, time.min) + timedelta(minutes=round(hour_to * 60))
@@ -300,7 +329,8 @@ class CalendarEvent(models.Model):
             start = self._vet_next_slot()
             res['start'] = start
             atype = self.env['vet.appointment.type'].browse(res.get('vet_appointment_type_id') or ctx.get('default_vet_appointment_type_id'))
-            minutes = atype.exists().duration or self._vet_agenda_slot_minutes()
+            local_start = pytz.utc.localize(start).astimezone(self._vet_clinic_tz()).replace(tzinfo=None)
+            minutes = atype.exists().duration or self._vet_slot_minutes_for(local_start)
             if 'stop' in fields_list:
                 res['stop'] = start + timedelta(minutes=minutes)
         return res

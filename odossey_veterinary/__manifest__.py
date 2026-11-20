@@ -1,6 +1,6 @@
 {
     'name': 'Odossey || Veterinary',
-    'version': '19.0.1.2.0',
+    'version': '19.0.1.4.0',
     'category': 'Services/Veterinary',
     'author': 'Odossey',
     'website': 'odossey.com',
@@ -29,6 +29,7 @@ Veterinary clinic management (Odoo Community only)
     'depends': [
         'mail',
         'contacts',
+        'resource',
         'portal',
         'calendar',
         'sale_management',
@@ -64,6 +65,9 @@ Veterinary clinic management (Odoo Community only)
         ],
         'point_of_sale._assets_pos': [
             'odossey_veterinary/static/src/pos/**/*',
+        ],
+        'web.assets_unit_tests': [
+            'odossey_veterinary/static/tests/**/*',
         ],
     },
     'post_init_hook': 'post_init_hook',

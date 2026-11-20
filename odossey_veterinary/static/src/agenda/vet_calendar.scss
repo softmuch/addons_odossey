@@ -1,10 +1,15 @@
 // Agenda of the clinic: taller rows and a readable appointment cell
 .o_calendar_widget .o_vet_agenda {
+    // --o-vet-row-factor: rows shorter than a slot in the week when the days have different slots (20 and 30
+    // minutes → rows of 10 minutes at half height)
+    &.o_vet_rows_compact .fc-timegrid-slot {
+        height: calc(1.5em * var(--o-vet-row-factor, 1));
+    }
     &.o_vet_rows_comfortable .fc-timegrid-slot {
-        height: 4.1rem;
+        height: calc(4.1rem * var(--o-vet-row-factor, 1));
     }
     &.o_vet_rows_large .fc-timegrid-slot {
-        height: 5.6rem;
+        height: calc(5.6rem * var(--o-vet-row-factor, 1));
     }
     // narrow columns (week, month): the status is the colored bar, the labels only in the day view
     &:not(.fc-timeGridDay-view) {
@@ -23,7 +28,7 @@
             padding-right: 1.1rem;
         }
     }
-    // every row is a bookable slot: show all the lines of the grid
+    // every row is a bookable slot: show all the lines of the grid (see the rule below for the week)
     .fc-timegrid-slot-minor {
         border-top-style: dotted;
     }
@@ -149,4 +154,11 @@
             color: $white;
         }
     }
+}
+
+// The week hides the minor lines (.o_calendar_renderer .o_calendar_widget .fc-timeGridWeek-view
+// .fc-timegrid-slot-minor, web/calendar_renderer.scss): with 20 and 30-minute days its rows are of 10 minutes and
+// the unlabeled lines (Saturday 9:30, 10:30...) are rows of the agenda too
+.o_calendar_renderer .o_calendar_widget .o_vet_agenda.fc-view .fc-timegrid-slot-minor {
+    border-top-style: dotted;
 }

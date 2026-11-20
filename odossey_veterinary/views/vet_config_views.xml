@@ -314,6 +314,7 @@
                         <setting string="Agenda Slots" help="Length of each row of the agenda and step of the time picker.">
                             <field name="vet_agenda_slot_minutes"/>
                             <div class="text-muted small mt-1">Example: 20 → rows 8:40, 9:00, 9:20... and the time of an appointment is chosen among :00, :20 and :40.</div>
+                            <div class="text-muted small mt-1">A different slot for a day (e.g. 30 minutes on Saturday) is set in the "Agenda Slot (min)" column of the opening hours.</div>
                         </setting>
                         <setting string="Row Height" help="Taller rows show more information inside each appointment.">
                             <field name="vet_agenda_row_height"/>
@@ -392,5 +393,17 @@
         <field name="view_mode">form</field>
         <field name="target">current</field>
         <field name="context">{'module': 'odossey_veterinary', 'bin_size': False}</field>
+    </record>
+
+    <!-- Opening hours: slot of the agenda per day (0 = general slot of the settings) -->
+    <record id="resource_calendar_attendance_list_vet" model="ir.ui.view">
+        <field name="name">resource.calendar.attendance.list.vet</field>
+        <field name="model">resource.calendar.attendance</field>
+        <field name="inherit_id" ref="resource.view_resource_calendar_attendance_tree"/>
+        <field name="arch" type="xml">
+            <field name="hour_to" position="after">
+                <field name="vet_slot_minutes" optional="show" invisible="display_type"/>
+            </field>
+        </field>
     </record>
 </odoo>

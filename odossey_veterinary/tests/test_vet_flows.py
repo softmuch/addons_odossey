@@ -2,6 +2,7 @@ import base64
 from datetime import timedelta
 
 from dateutil.relativedelta import relativedelta
+from freezegun import freeze_time
 
 from odoo import fields
 from odoo.exceptions import AccessError, UserError, ValidationError
@@ -477,6 +478,75 @@ class TestAgenda(VetCommon):
             ['start', 'stop', 'vet_appointment_type_id'])
         self.assertEqual(values['vet_appointment_type_id'], atype.id)
         self.assertEqual(values['stop'], fields.Datetime.to_datetime('2026-11-16 12:00:00') + timedelta(minutes=atype.duration))
+
+    def _open_saturday(self, slot=30):
+        """Saturday 9:00-13:00 with its own slot (20 minutes from Monday to Friday, 30 on Saturday)."""
+        return self.env['resource.calendar.attendance'].create({
+            'calendar_id': self.calendar.id, 'name': 'SAT', 'dayofweek': '5', 'hour_from': 9, 'hour_to': 13,
+            'day_period': 'morning', 'vet_slot_minutes': slot})
+
+    def test_slot_per_weekday(self):
+        Event = self.env['calendar.event']
+        self.assertEqual(Event._vet_slot_by_weekday(), dict.fromkeys(range(7), 20), "nothing set: the general slot")
+        self._open_saturday()
+        self.assertEqual(Event._vet_slot_by_weekday()[5], 30)
+        self.assertEqual(Event._vet_slot_by_weekday()[0], 20)
+        settings = Event.with_context(tz='America/Argentina/Buenos_Aires').vet_get_agenda_settings()
+        self.assertEqual(settings['slot_minutes'], 20, "the general slot is still sent")
+        self.assertEqual(settings['slot_by_day'], {'0': 20, '1': 20, '2': 20, '3': 20, '4': 20, '5': 20, '6': 30},
+                         "FullCalendar days: 0 = Sunday, 6 = Saturday")
+
+    def test_opening_hours_sent_to_the_agenda(self):
+        """The agenda starts every day at its opening (start of the first period, never a closing), in the time zone
+        it is drawn in: the browser sends it in the context, even when the user preferences say another one."""
+        self._open_saturday()
+        brussels = new_test_user(self.env, login='vet_brussels_test', groups='odossey_veterinary.group_vet_reception',
+                                 tz='Europe/Brussels')
+        Event = self.env['calendar.event'].with_user(brussels)
+        settings = Event.with_context(tz='America/Argentina/Buenos_Aires').vet_get_agenda_settings()
+        hours = settings['business_hours']
+        saturday = [h for h in hours if h['daysOfWeek'] == [6]]
+        monday = sorted((h for h in hours if h['daysOfWeek'] == [1]), key=lambda h: h['startTime'])
+        self.assertEqual(saturday, [{'daysOfWeek': [6], 'startTime': '09:00', 'endTime': '13:00'}])
+        self.assertEqual([(h['startTime'], h['endTime']) for h in monday], [('08:40', '12:40'), ('14:00', '18:00')],
+                         "a day with two periods: the morning opens at 8:40")
+        # the same user in the time zone of his preferences (Brussels, UTC+1 in November): the agenda would start at
+        # 12:40 on a computer in Argentina, which is why the agenda sends the time zone of the browser
+        own_tz = Event.with_context(tz=None).vet_get_agenda_settings()['business_hours']
+        self.assertIn({'daysOfWeek': [6], 'startTime': '13:00', 'endTime': '17:00'}, own_tz)
+        # an unknown time zone falls back to the one of the clinic
+        wrong = Event.with_context(tz='Mars/Olympus').vet_get_agenda_settings()['business_hours']
+        self.assertIn({'daysOfWeek': [6], 'startTime': '09:00', 'endTime': '13:00'}, wrong)
+
+    def test_next_slot_uses_the_slot_of_the_day(self):
+        Event = self.env['calendar.event']
+        self._open_saturday()
+        # Saturday 21/11/2026 9:10 in Argentina (12:10 UTC) → 9:30 (12:30 UTC), rows of 30 counted from 9:00
+        self.assertEqual(Event._vet_next_slot(fields.Datetime.to_datetime('2026-11-21 12:10:00')),
+                         fields.Datetime.to_datetime('2026-11-21 12:30:00'))
+        # Monday 16/11/2026 8:50 (11:50 UTC) → 9:00 (12:00 UTC), rows of 20 counted from 8:40
+        self.assertEqual(Event._vet_next_slot(fields.Datetime.to_datetime('2026-11-16 11:50:00')),
+                         fields.Datetime.to_datetime('2026-11-16 12:00:00'))
+        # Friday 19:00 → Saturday 9:00 now that Saturday is open
+        self.assertEqual(Event._vet_next_slot(fields.Datetime.to_datetime('2026-11-20 22:00:00')),
+                         fields.Datetime.to_datetime('2026-11-21 12:00:00'))
+
+    def test_new_appointment_lasts_the_slot_of_the_day(self):
+        self._open_saturday()
+        with freeze_time('2026-11-21 12:10:00'):
+            values = self.env['calendar.event'].with_context(vet_agenda=True).default_get(['start', 'stop'])
+        self.assertEqual(values['start'], fields.Datetime.to_datetime('2026-11-21 12:30:00'))
+        self.assertEqual(values['stop'], fields.Datetime.to_datetime('2026-11-21 13:00:00'), "30 minutes on Saturday")
+
+    def test_slot_of_a_day_is_one(self):
+        self.calendar.attendance_ids.filtered(lambda a: a.dayofweek == '0' and a.day_period == 'morning').vet_slot_minutes = 30
+        afternoon = self.calendar.attendance_ids.filtered(lambda a: a.dayofweek == '0' and a.day_period == 'afternoon')
+        with self.assertRaises(ValidationError):
+            afternoon.vet_slot_minutes = 20
+        afternoon.vet_slot_minutes = 30
+        self.assertEqual(self.env['calendar.event']._vet_slot_by_weekday()[0], 30)
+        with self.assertRaises(ValidationError):
+            afternoon.vet_slot_minutes = 200
 
     def test_phone_booking_then_register(self):
         Event = self.env['calendar.event'].with_user(self.reception)

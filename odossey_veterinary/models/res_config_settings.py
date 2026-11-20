@@ -35,7 +35,8 @@ class ResConfigSettings(models.TransientModel):
     vet_agenda_slot_minutes = fields.Integer(
         string="Agenda Slot (min)", config_parameter='odossey_veterinary.agenda_slot_minutes', default=15,
         help="Length of each row of the agenda and step of the time picker of the appointments; clicks and drags "
-             "snap to it, counted from the opening time. Example: 20 → 8:40, 9:00, 9:20...")
+             "snap to it, counted from the opening time. Example: 20 → 8:40, 9:00, 9:20... A day can use its own "
+             "slot, set in the opening hours (e.g. 30 minutes on Saturday).")
     vet_agenda_default_scale = fields.Selection([
         ('day', "Day"), ('week', "Week"), ('month', "Month"),
     ], string="Agenda Opens On", config_parameter='odossey_veterinary.agenda_default_scale', default='day',
