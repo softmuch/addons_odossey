@@ -639,6 +639,7 @@ msgstr ""
 
 #. module: odossey_veterinary
 #: model:ir.model.fields,field_description:odossey_veterinary.field_res_config_settings__vet_agenda_slot_minutes
+#: model:ir.model.fields,field_description:odossey_veterinary.field_resource_calendar_attendance__vet_slot_minutes
 msgid "Agenda Slot (min)"
 msgstr ""
 
@@ -4555,7 +4556,8 @@ msgstr ""
 msgid ""
 "Length of each row of the agenda and step of the time picker of the "
 "appointments; clicks and drags snap to it, counted from the opening time. "
-"Example: 20 → 8:40, 9:00, 9:20..."
+"Example: 20 → 8:40, 9:00, 9:20... A day can use its own slot, set in the "
+"opening hours (e.g. 30 minutes on Saturday)."
 msgstr ""
 
 #. module: odossey_veterinary
@@ -9496,4 +9498,26 @@ msgstr ""
 #. module: odossey_veterinary
 #: model:res.groups,name:odossey_veterinary.group_vet_scope_vet_only
 msgid "Veterinary Only"
+msgstr ""
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,help:odossey_veterinary.field_resource_calendar_attendance__vet_slot_minutes
+msgid "Length of the rows of the veterinary agenda on this day; 0 uses the general slot of the settings. Every period of the same day must use the same value. Example: 20 minutes from Monday to Friday and 30 on Saturday → leave 0 on weekdays (general slot 20) and type 30 in the Saturday rows."
+msgstr ""
+
+#. module: odossey_veterinary
+#. odoo-python
+#: code:addons/odossey_veterinary/models/resource_calendar.py:0
+msgid "The agenda slot must be 0 (general slot) or between 5 and 120 minutes."
+msgstr ""
+
+#. module: odossey_veterinary
+#. odoo-python
+#: code:addons/odossey_veterinary/models/resource_calendar.py:0
+msgid "All the periods of the same day must use the same agenda slot (%(day)s: %(a)s and %(b)s minutes)."
+msgstr ""
+
+#. module: odossey_veterinary
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.res_config_settings_view_form_vet
+msgid "A different slot for a day (e.g. 30 minutes on Saturday) is set in the \"Agenda Slot (min)\" column of the opening hours."
 msgstr ""
