@@ -104,9 +104,63 @@ class PosDeliveryOrder(models.Model):
             })
 
     @api.model
+    def _mark_paid_from_pos_orders(self, pos_orders, notify=False):
+        """Set payment_state=paid (and the real total) on the delivery records of the
+        given paid POS orders; create the record when the order has none."""
+        for order in pos_orders:
+            if not order.uuid:
+                continue
+            delivery = self.search([('pos_order_uid', '=', order.uuid)], limit=1)
+            vals = {
+                'payment_state': 'paid',
+                'amount_total': order.amount_total,
+                'pos_order_id': order.id,
+            }
+            if delivery:
+                if any(delivery[k] != v for k, v in (
+                    ('payment_state', 'paid'),
+                    ('amount_total', order.amount_total),
+                    ('pos_order_id', order),
+                )):
+                    delivery.write(vals)
+            else:
+                partner = order.partner_id
+                delivery = self.create({
+                    **vals,
+                    'partner_id': partner.id,
+                    'partner_name': partner.name or '',
+                    'partner_phone': partner.phone or partner.mobile or '',
+                    'delivery_address': ', '.join(filter(None, [partner.street, partner.city, partner.zip])),
+                    'pos_session_id': order.session_id.id,
+                    'pos_order_uid': order.uuid,
+                    'start_time': order.date_order,
+                    'delivery_state': 'preparing',
+                })
+            if notify and order.config_id:
+                order.config_id._notify('DELIVERY_STATE_CHANGE', {
+                    'delivery_id': delivery.id,
+                    'delivery_state': delivery.delivery_state,
+                    'payment_state': 'paid',
+                    'amount_total': delivery.amount_total,
+                })
+
+    @api.model
+    def _fix_unpaid_of_paid_orders(self):
+        """Self-heal: records left "unpaid" although their POS order was paid."""
+        unpaid = self.search([('payment_state', '=', 'unpaid'), ('pos_order_uid', '!=', False)])
+        if not unpaid:
+            return
+        paid_orders = self.env['pos.order'].search([
+            ('uuid', 'in', unpaid.mapped('pos_order_uid')),
+            ('state', 'in', ('paid', 'done', 'invoiced')),
+        ])
+        self._mark_paid_from_pos_orders(paid_orders)
+
+    @api.model
     def sync_kds_states(self, session_id=False):
         """Fallback: update preparing→ready when all KDS lines are off cooking state.
         Also hides delivery orders whose linked POS order has been cancelled."""
+        self._fix_unpaid_of_paid_orders()
         self._adopt_orphan_delivery_orders(session_id)
         # Hide delivery orders whose POS order is cancelled
         hide_domain = [('hidden', '=', False), ('pos_order_uid', '!=', False)]

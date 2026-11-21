@@ -62,6 +62,12 @@ export class DeliveryScreen extends Component {
         const order = this.state.orders.find((o) => o.id === payload.delivery_id);
         if (order) {
             order.delivery_state = payload.delivery_state;
+            if (payload.payment_state) {
+                order.payment_state = payload.payment_state;
+            }
+            if (payload.amount_total !== undefined) {
+                order.amount_total = payload.amount_total;
+            }
             this.state.orders = [...this.state.orders];
         } else {
             // Order not in local list (new order or created from another terminal).
