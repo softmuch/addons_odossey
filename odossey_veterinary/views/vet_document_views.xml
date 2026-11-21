@@ -382,6 +382,9 @@
                 <field name="vet_is_provisional" invisible="1"/>
                 <field name="vet_card_species_icon" invisible="1"/>
                 <field name="vet_card_danger" invisible="1"/>
+                <field name="vet_card_danger_alert" invisible="1"/>
+                <field name="vet_card_warning_alert" invisible="1"/>
+                <field name="vet_card_info_alert" invisible="1"/>
                 <field name="vet_card_status" invisible="1"/>
                 <field name="vet_card_status_label" invisible="1"/>
                 <field name="vet_card_color" invisible="1"/>

@@ -122,6 +122,13 @@
     .o_vet_event_alert {
         margin-right: 0.2rem;
     }
+    // plain $warning and $info are too light to read on the cell background
+    .o_vet_event_warning_text {
+        color: shade-color($warning, 45%);
+    }
+    .o_vet_event_info_text {
+        color: shade-color($info, 45%);
+    }
     .o_vet_event_reason {
         font-style: italic;
     }

@@ -86,6 +86,10 @@ class CalendarEvent(models.Model):
     vet_card_phone = fields.Char(compute='_compute_vet_card')
     vet_card_alert = fields.Char(compute='_compute_vet_card')
     vet_card_danger = fields.Boolean(compute='_compute_vet_card')
+    # alerts split by severity for the cell (only the alerts marked to be shown, see vet.alert)
+    vet_card_danger_alert = fields.Char(compute='_compute_vet_card')
+    vet_card_warning_alert = fields.Char(compute='_compute_vet_card')
+    vet_card_info_alert = fields.Char(compute='_compute_vet_card')
     vet_card_status = fields.Char(compute='_compute_vet_card')
     vet_card_status_label = fields.Char(compute='_compute_vet_card')
 
@@ -105,6 +109,9 @@ class CalendarEvent(models.Model):
             event.vet_card_phone = pet.owner_id.phone or event.vet_contact_phone or False
             event.vet_card_alert = pet.alert_summary or False
             event.vet_card_danger = pet.has_danger_alert
+            event.vet_card_danger_alert = pet.danger_alert_summary or False
+            event.vet_card_warning_alert = pet.warning_alert_summary or False
+            event.vet_card_info_alert = pet.info_alert_summary or False
             event.vet_card_status, event.vet_card_status_label = event._vet_card_status()
 
     @api.depends('vet_veterinarian_id.vet_color', 'vet_appointment_type_id.color', 'vet_room_id')

@@ -86,6 +86,7 @@
     <menuitem id="menu_vet_species" name="Species" parent="menu_vet_master" action="vet_species_action" sequence="10"/>
     <menuitem id="menu_vet_breeds" name="Breeds" parent="menu_vet_master" action="vet_breed_action" sequence="20"/>
     <menuitem id="menu_vet_alerts" name="Alerts &amp; Allergies" parent="menu_vet_master" action="vet_alert_action" sequence="30"/>
+    <menuitem id="menu_vet_alert_display" name="Alert Display Settings" parent="menu_vet_master" action="vet_alert_action_display" sequence="35"/>
     <menuitem id="menu_vet_diseases" name="Diseases &amp; Diagnoses" parent="menu_vet_master" action="vet_disease_action" sequence="40"/>
     <menuitem id="menu_vet_medication_categories" name="Therapeutic Categories" parent="menu_vet_master" action="vet_medication_category_action" sequence="50"/>
     <menuitem id="menu_vet_lab_panels" name="Lab Panels" parent="menu_vet_master" action="vet_lab_panel_action" sequence="60"/>
