@@ -93,6 +93,17 @@ export class VetCalendarCommonPopover extends CalendarCommonPopover {
         );
     }
 
+    /** Patient alerts for the popover, one box per severity (only the severities shown, see
+     *  Configuration › Alert Display Settings): same boxes as the consultation header. */
+    get vetAlerts() {
+        const raw = this.props.record.rawRecord || {};
+        return [
+            { key: "danger", icon: "fa-exclamation-triangle", text: raw.vet_card_danger_alert },
+            { key: "warning", icon: "fa-exclamation-circle", text: raw.vet_card_warning_alert },
+            { key: "info", icon: "fa-info-circle", text: raw.vet_card_info_alert },
+        ].filter((alert) => alert.text);
+    }
+
     get canRegisterPatient() {
         const raw = this.props.record.rawRecord || {};
         return (

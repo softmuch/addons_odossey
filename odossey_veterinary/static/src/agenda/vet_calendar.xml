@@ -56,6 +56,13 @@
             </span>
         </div>
         <div class="o_cw_body">
+            <!-- patient alerts by severity, as in the consultation header -->
+            <div t-foreach="vetAlerts" t-as="alert" t-key="alert.key"
+                 t-attf-class="alert alert-{{ alert.key }} o_vet_popover_alert d-flex align-items-baseline gap-2 rounded-0 border-0 mb-0 py-1 px-3"
+                 role="alert">
+                <i t-attf-class="fa {{ alert.icon }}" t-att-title="alert.text"/>
+                <span t-esc="alert.text"/>
+            </div>
             <t t-call="{{ constructor.subTemplates.body }}" />
             <div t-if="hasFooter" class="card-footer d-flex gap-1 border-top">
                 <t t-call="{{ constructor.subTemplates.footer }}" />

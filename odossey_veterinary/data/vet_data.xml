@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="1">
+        <!-- ========================================================= alert display by severity -->
+        <record id="alert_display_danger" model="vet.alert.severity.display">
+            <field name="sequence">1</field>
+            <field name="severity">danger</field>
+        </record>
+        <record id="alert_display_warning" model="vet.alert.severity.display">
+            <field name="sequence">2</field>
+            <field name="severity">warning</field>
+        </record>
+        <record id="alert_display_info" model="vet.alert.severity.display">
+            <field name="sequence">3</field>
+            <field name="severity">info</field>
+        </record>
         <!-- ========================================================= sequences -->
         <record id="seq_vet_pet" model="ir.sequence">
             <field name="name">Patient record</field>

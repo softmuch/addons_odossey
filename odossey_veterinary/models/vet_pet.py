@@ -19,18 +19,38 @@ class VetAlert(models.Model):
     ], default='other', required=True)
     color = fields.Integer(compute='_compute_color')
     active = fields.Boolean(default=True)
-    show_in_consultation = fields.Boolean(
-        string="Show in Consultation and Agenda", default=True,
-        help="Show this alert in the header of the consultation and in the agenda cell, in the box of its "
-             "severity (red: danger, yellow: warning, blue: information).\n"
-             "Example: turn it off for 'Friendly' so only the alerts that matter stand out. "
-             "The alert stays on the patient file either way.")
-
     @api.depends('severity')
     def _compute_color(self):
         colors = {'info': 4, 'warning': 2, 'danger': 1}
         for alert in self:
             alert.color = colors.get(alert.severity, 0)
+
+
+class VetAlertSeverityDisplay(models.Model):
+    """One record per alert severity: whether the alerts of that severity are shown in the
+    consultation header and in the agenda cell (Configuration › Alert Display Settings)."""
+    _name = 'vet.alert.severity.display'
+    _description = 'Alert Display by Severity'
+    _order = 'sequence, id'
+    _rec_name = 'severity'
+
+    sequence = fields.Integer(default=10)
+    severity = fields.Selection([
+        ('danger', "Danger"), ('warning', "Warning"), ('info', "Information"),
+    ], required=True, readonly=True)
+    show_in_consultation = fields.Boolean(
+        string="Show in Consultation and Agenda", default=True,
+        help="Show the alerts of this severity in the header of the consultation and in the agenda cell "
+             "(red box: danger, yellow: warning, blue: information).\n"
+             "Example: turn off Information so only the alerts that matter stand out. "
+             "The alerts stay on the patient file either way.")
+
+    _severity_unique = models.Constraint('UNIQUE(severity)', "There is already a display setting for this severity.")
+
+    @api.model
+    def _vet_hidden_severities(self):
+        """Severities switched off. A severity without a record is shown."""
+        return set(self.sudo().search([('show_in_consultation', '=', False)]).mapped('severity'))
 
 
 class VetPet(models.Model):
@@ -141,14 +161,19 @@ class VetPet(models.Model):
         'info': 'info_alert_summary',
     }
 
-    @api.depends('alert_ids', 'alert_ids.severity', 'alert_ids.name', 'alert_ids.show_in_consultation', 'temperament')
+    @api.depends('alert_ids', 'alert_ids.severity', 'alert_ids.name', 'temperament')
     def _compute_alert_summaries_by_severity(self):
+        # severities switched off in Configuration › Alert Display Settings (vet.alert.severity.display)
+        hidden = self.env['vet.alert.severity.display']._vet_hidden_severities()
         for pet in self:
             # sorted by name in Python: the cache keeps the order alerts were added (and NewIds can't be searched)
-            shown = pet.alert_ids.filtered('show_in_consultation').sorted(lambda a: a.name or '')
+            alerts = pet.alert_ids.sorted(lambda a: a.name or '')
             for severity, field_name in self._ALERT_SUMMARY_FIELDS.items():
-                names = shown.filtered(lambda a: a.severity == severity).mapped('name')
-                # an aggressive temperament is always shown in red (it is not an alert, so it cannot be hidden),
+                if severity in hidden:
+                    pet[field_name] = False
+                    continue
+                names = alerts.filtered(lambda a: a.severity == severity).mapped('name')
+                # an aggressive temperament goes in the red box like a danger alert,
                 # once: not again when an alert with the same name is already listed
                 if severity == 'danger' and pet.temperament == 'aggressive':
                     label = pet._aggressive_label()

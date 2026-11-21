@@ -265,6 +265,14 @@ msgstr ""
 
 #. module: odossey_veterinary
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_consultation_view_form
+msgid ""
+"<i class=\"fa fa-exclamation-circle\" "
+"title=\"Warning\"/><strong>Warning:</strong>"
+msgstr ""
+"<i class=\"fa fa-exclamation-circle\" "
+"title=\"Advertencia\"/><strong>Advertencia:</strong>"
+
+#. module: odossey_veterinary
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_hospitalization_view_form
 msgid "<i class=\"fa fa-exclamation-triangle\" title=\"Alert\"/>"
 msgstr "<i class=\"fa fa-exclamation-triangle\" title=\"Alerta\"/>"
@@ -277,6 +285,15 @@ msgid ""
 msgstr ""
 "<i class=\"fa fa-exclamation-triangle\" title=\"Alerta\"/>\n"
 "                    <strong>Alerta:</strong>"
+
+#. module: odossey_veterinary
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_consultation_view_form
+msgid ""
+"<i class=\"fa fa-exclamation-triangle\" "
+"title=\"Danger\"/><strong>Danger:</strong>"
+msgstr ""
+"<i class=\"fa fa-exclamation-triangle\" "
+"title=\"Peligro\"/><strong>Peligro:</strong>"
 
 #. module: odossey_veterinary
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_pet_view_form
@@ -296,6 +313,15 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_pet_view_form
 msgid "<i class=\"fa fa-info-circle\" title=\"Alert\"/>"
 msgstr "<i class=\"fa fa-info-circle\" title=\"Alerta\"/>"
+
+#. module: odossey_veterinary
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_consultation_view_form
+msgid ""
+"<i class=\"fa fa-info-circle\" "
+"title=\"Information\"/><strong>Information:</strong>"
+msgstr ""
+"<i class=\"fa fa-info-circle\" "
+"title=\"Información\"/><strong>Información:</strong>"
 
 #. module: odossey_veterinary
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_prescription_view_form
@@ -412,6 +438,15 @@ msgstr "<strong>Peso:</strong>"
 #: model_terms:vet.consultation.template,physical_exam:odossey_veterinary.consultation_template_emergency
 msgid "A - Airway:"
 msgstr "A - Vía aérea:"
+
+#. module: odossey_veterinary
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.res_config_settings_view_form_vet
+msgid ""
+"A different slot for a day (e.g. 30 minutes on Saturday) is set in the "
+"\"Agenda Slot (min)\" column of the opening hours."
+msgstr ""
+"Un intervalo distinto para un día (p. ej. 30 minutos el sábado) se configura"
+" en la columna \"Intervalo de la agenda (min)\" del horario de atención."
 
 #. module: odossey_veterinary
 #: model:ir.model.fields,help:odossey_veterinary.field_vet_consultation__follow_up_date
@@ -734,6 +769,17 @@ msgid "Alert"
 msgstr "Alerta"
 
 #. module: odossey_veterinary
+#: model:ir.actions.act_window,name:odossey_veterinary.vet_alert_action_display
+#: model:ir.ui.menu,name:odossey_veterinary.menu_vet_alert_display
+msgid "Alert Display Settings"
+msgstr "Configuración visualización alertas"
+
+#. module: odossey_veterinary
+#: model:ir.model,name:odossey_veterinary.model_vet_alert_severity_display
+msgid "Alert Display by Severity"
+msgstr "Visualización de alertas por severidad"
+
+#. module: odossey_veterinary
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_consultation__pet_alert_summary
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_hospitalization__pet_alert_summary
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_pet__alert_summary
@@ -766,9 +812,24 @@ msgid "Algen"
 msgstr "Algen"
 
 #. module: odossey_veterinary
+#: model:res.groups,name:odossey_veterinary.group_vet_scope_all
+msgid "All Apps"
+msgstr "Todas las Apps"
+
+#. module: odossey_veterinary
 #: model:ir.ui.menu,name:odossey_veterinary.menu_vet_products
 msgid "All Products"
 msgstr "Todos los productos"
+
+#. module: odossey_veterinary
+#. odoo-python
+#: code:addons/odossey_veterinary/models/resource_calendar.py:0
+msgid ""
+"All the periods of the same day must use the same agenda slot (%(day)s: "
+"%(a)s and %(b)s minutes)."
+msgstr ""
+"Todos los períodos del mismo día tienen que usar el mismo intervalo de la "
+"agenda (%(day)s: %(a)s y %(b)s minutos)."
 
 #. module: odossey_veterinary
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_consultation__pet_allergy_notes
@@ -1040,7 +1101,7 @@ msgid "Ask for a consulting room in every appointment."
 msgstr "Pedir un consultorio en cada turno."
 
 #. module: odossey_veterinary
-#: model:ir.model.fields,help:odossey_veterinary.field_res_config_settings__vet_agenda_use_rooms
+#: model:ir.model.fields,help:odossey_veterinary.field_res_config_settings__group_vet_use_rooms
 msgid ""
 "Ask for a consulting room in every appointment. Untick it when the clinic "
 "books by veterinarian only."
@@ -1053,6 +1114,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_consultation_view_form
 msgid "Assessment"
 msgstr "Evaluación"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__sale_order__vet_payment_state__in_pos
+msgid "At the Cash Desk"
+msgstr "En caja"
 
 #. module: odossey_veterinary
 #: model:vet.disease,name:odossey_veterinary.disease_atopic_dermatitis
@@ -1207,6 +1273,11 @@ msgid "Biochemistry panel"
 msgstr "Perfil bioquímico"
 
 #. module: odossey_veterinary
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__cockatiel
+msgid "Bird"
+msgstr "Ave"
+
+#. module: odossey_veterinary
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_appointment_register__birthdate
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_pet__birthdate
 msgid "Birthdate"
@@ -1259,7 +1330,7 @@ msgid "Book Appointment"
 msgstr "Agendar turno"
 
 #. module: odossey_veterinary
-#: model:ir.model.fields,field_description:odossey_veterinary.field_res_config_settings__vet_agenda_use_rooms
+#: model:ir.model.fields,field_description:odossey_veterinary.field_res_config_settings__group_vet_use_rooms
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.res_config_settings_view_form_vet
 msgid "Book by Room"
 msgstr "Turnos por consultorio"
@@ -1501,6 +1572,12 @@ msgid "Cardiology"
 msgstr "Cardiológico"
 
 #. module: odossey_veterinary
+#: model:ir.actions.client,name:odossey_veterinary.vet_open_cash_desk_action
+#: model:ir.ui.menu,name:odossey_veterinary.menu_vet_cash_desk
+msgid "Cash Desk"
+msgstr "Caja"
+
+#. module: odossey_veterinary
 #: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__cat
 #: model:vet.species,name:odossey_veterinary.species_cat
 msgid "Cat"
@@ -1657,6 +1734,15 @@ msgstr "Cloro"
 #: model:vet.lab.analyte,name:odossey_veterinary.lab_panel_hepatic_7
 msgid "Cholesterol"
 msgstr "Colesterol"
+
+#. module: odossey_veterinary
+#: model_terms:ir.actions.act_window,help:odossey_veterinary.vet_alert_action_display
+msgid ""
+"Choose which alert severities are shown in the consultation and the agenda:\n"
+"                red box for danger, yellow for warning, blue for information."
+msgstr ""
+"Elegí qué severidades de alerta se muestran en la consulta y en la agenda:\n"
+"                recuadro rojo para peligro, amarillo para advertencia, azul para información."
 
 #. module: odossey_veterinary
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_pet__chronic_condition_ids
@@ -2137,6 +2223,11 @@ msgid "Cotton"
 msgstr "Algodón"
 
 #. module: odossey_veterinary
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__cattle
+msgid "Cow"
+msgstr "Vaca"
+
+#. module: odossey_veterinary
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_consultation_view_form
 msgid "Create Sale Order"
 msgstr "Crear orden de venta"
@@ -2147,7 +2238,13 @@ msgid "Create Sale Order When Closing a Consultation"
 msgstr "Crear orden de venta al cerrar una consulta"
 
 #. module: odossey_veterinary
+#: model_terms:ir.actions.act_window,help:odossey_veterinary.vet_purchase_order_action
+msgid "Create a purchase order"
+msgstr "Creá una orden de compra"
+
+#. module: odossey_veterinary
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_alert__create_uid
+#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_alert_severity_display__create_uid
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_appointment_register__create_uid
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_appointment_type__create_uid
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_breed__create_uid
@@ -2181,6 +2278,7 @@ msgstr "Creado por"
 
 #. module: odossey_veterinary
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_alert__create_date
+#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_alert_severity_display__create_date
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_appointment_register__create_date
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_appointment_type__create_date
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_breed__create_date
@@ -2303,8 +2401,15 @@ msgstr "Cargo diario"
 
 #. module: odossey_veterinary
 #: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_alert__severity__danger
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_alert_severity_display__severity__danger
 msgid "Danger"
 msgstr "Peligro"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_consultation__pet_danger_alert_summary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_pet__danger_alert_summary
+msgid "Danger Alert Summary"
+msgstr "Resumen de alertas de peligro"
 
 #. module: odossey_veterinary
 #: model:ir.model.fields,help:odossey_veterinary.field_vet_alert__severity
@@ -2392,8 +2497,8 @@ msgid ""
 "Days between the doses of the primary course (e.g. 25: the 2nd dose 25 days "
 "after the 1st, the 3rd 25 days after the 2nd)."
 msgstr ""
-"Días entre las dosis del plan primario (ej.: 25: la 2ª dosis 25 días "
-"después de la 1ª, la 3ª 25 días después de la 2ª)."
+"Días entre las dosis del plan primario (ej.: 25: la 2ª dosis 25 días después"
+" de la 1ª, la 3ª 25 días después de la 2ª)."
 
 #. module: odossey_veterinary
 #: model:ir.model.fields,help:odossey_veterinary.field_res_config_settings__vet_agenda_hide_closed_days
@@ -2456,6 +2561,12 @@ msgstr "Defensor 1"
 #: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_consultation__diagnosis_type__definitive
 msgid "Definitive"
 msgstr "Definitivo"
+
+#. module: odossey_veterinary
+#. odoo-javascript
+#: code:addons/odossey_veterinary/static/src/agenda/vet_calendar.xml:0
+msgid "Delete"
+msgstr "Eliminar"
 
 #. module: odossey_veterinary
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.res_config_settings_view_form_vet
@@ -2697,13 +2808,18 @@ msgid "Diseases & Diagnoses"
 msgstr "Enfermedades y diagnósticos"
 
 #. module: odossey_veterinary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_account_move__display_name
 #: model:ir.model.fields,field_description:odossey_veterinary.field_calendar_event__display_name
+#: model:ir.model.fields,field_description:odossey_veterinary.field_ir_ui_menu__display_name
+#: model:ir.model.fields,field_description:odossey_veterinary.field_pos_order__display_name
 #: model:ir.model.fields,field_description:odossey_veterinary.field_product_template__display_name
 #: model:ir.model.fields,field_description:odossey_veterinary.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:odossey_veterinary.field_res_partner__display_name
 #: model:ir.model.fields,field_description:odossey_veterinary.field_res_users__display_name
+#: model:ir.model.fields,field_description:odossey_veterinary.field_resource_calendar_attendance__display_name
 #: model:ir.model.fields,field_description:odossey_veterinary.field_sale_order__display_name
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_alert__display_name
+#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_alert_severity_display__display_name
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_appointment_register__display_name
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_appointment_type__display_name
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_breed__display_name
@@ -2953,6 +3069,12 @@ msgstr "Ecocardiografía"
 #: model_terms:vet.consultation.template,physical_exam:odossey_veterinary.consultation_template_puppy
 msgid "Ectoparasites:"
 msgstr "Ectoparásitos:"
+
+#. module: odossey_veterinary
+#. odoo-javascript
+#: code:addons/odossey_veterinary/static/src/agenda/vet_calendar.xml:0
+msgid "Edit"
+msgstr "Editar"
 
 #. module: odossey_veterinary
 #: model:vet.lab.analyte,name:odossey_veterinary.lab_panel_rapid_canine_3
@@ -3294,6 +3416,11 @@ msgstr "FIV/FeLV positivo – aislar"
 #: model:product.template,name:odossey_veterinary.product_service_test_fiv_felv_product_template
 msgid "FIV/FeLV rapid test"
 msgstr "Test rápido FIV/FeLV"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,help:odossey_veterinary.field_vet_species__icon
+msgid "Face shown next to the patient in the agenda. Example: Dog."
+msgstr "Cara que se ve junto al paciente en la agenda. Ejemplo: Perro."
 
 #. module: odossey_veterinary
 #: model_terms:vet.consultation.template,anamnesis:odossey_veterinary.consultation_template_presurgical
@@ -4153,13 +4280,18 @@ msgstr ""
 " libre y voluntaria la eutanasia de mi mascota el {date}."
 
 #. module: odossey_veterinary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_account_move__id
 #: model:ir.model.fields,field_description:odossey_veterinary.field_calendar_event__id
+#: model:ir.model.fields,field_description:odossey_veterinary.field_ir_ui_menu__id
+#: model:ir.model.fields,field_description:odossey_veterinary.field_pos_order__id
 #: model:ir.model.fields,field_description:odossey_veterinary.field_product_template__id
 #: model:ir.model.fields,field_description:odossey_veterinary.field_res_config_settings__id
 #: model:ir.model.fields,field_description:odossey_veterinary.field_res_partner__id
 #: model:ir.model.fields,field_description:odossey_veterinary.field_res_users__id
+#: model:ir.model.fields,field_description:odossey_veterinary.field_resource_calendar_attendance__id
 #: model:ir.model.fields,field_description:odossey_veterinary.field_sale_order__id
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_alert__id
+#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_alert_severity_display__id
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_appointment_register__id
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_appointment_type__id
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_breed__id
@@ -4225,6 +4357,11 @@ msgstr "Catéter IV 24G"
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_species__icon
 msgid "Icon"
 msgstr "Icono"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_species__icon_url
+msgid "Icon Preview"
+msgstr "Vista del ícono"
 
 #. module: odossey_veterinary
 #: model:ir.model.fields,help:odossey_veterinary.field_vet_consultation__activity_exception_icon
@@ -4342,7 +4479,14 @@ msgstr ""
 "de protección."
 
 #. module: odossey_veterinary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_consultation__pet_info_alert_summary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_pet__info_alert_summary
+msgid "Info Alert Summary"
+msgstr "Resumen de alertas de información"
+
+#. module: odossey_veterinary
 #: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_alert__severity__info
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_alert_severity_display__severity__info
 msgid "Information"
 msgstr "Información"
 
@@ -4489,6 +4633,12 @@ msgid "Invoice Status"
 msgstr "Estado de facturación"
 
 #. module: odossey_veterinary
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__sale_order__vet_payment_state__invoiced
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.sale_order_view_search_vet
+msgid "Invoiced"
+msgstr "Facturado"
+
+#. module: odossey_veterinary
 #: model:ir.ui.menu,name:odossey_veterinary.menu_vet_invoices
 msgid "Invoices"
 msgstr "Facturas"
@@ -4587,6 +4737,11 @@ msgstr "Prurito / lesiones en piel"
 #: model:vet.breed,name:odossey_veterinary.breed_dog_jack_russell
 msgid "Jack Russell Terrier"
 msgstr "Jack Russell Terrier"
+
+#. module: odossey_veterinary
+#: model:ir.model,name:odossey_veterinary.model_account_move
+msgid "Journal Entry"
+msgstr "Asiento contable"
 
 #. module: odossey_veterinary
 #: model:vet.lab.analyte,name:odossey_veterinary.lab_panel_coagulation_2
@@ -4692,6 +4847,7 @@ msgstr "Fecha de la última consulta"
 
 #. module: odossey_veterinary
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_alert__write_uid
+#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_alert_severity_display__write_uid
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_appointment_register__write_uid
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_appointment_type__write_uid
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_breed__write_uid
@@ -4725,6 +4881,7 @@ msgstr "Última actualización por"
 
 #. module: odossey_veterinary
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_alert__write_date
+#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_alert_severity_display__write_date
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_appointment_register__write_date
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_appointment_type__write_date
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_breed__write_date
@@ -4799,6 +4956,20 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.res_config_settings_view_form_vet
 msgid "Length of each row of the agenda and step of the time picker."
 msgstr "Duración de cada fila de la agenda y paso del selector de hora."
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,help:odossey_veterinary.field_resource_calendar_attendance__vet_slot_minutes
+msgid ""
+"Length of the rows of the veterinary agenda on this day; 0 uses the general "
+"slot of the settings. Every period of the same day must use the same value. "
+"Example: 20 minutes from Monday to Friday and 30 on Saturday → leave 0 on "
+"weekdays (general slot 20) and type 30 in the Saturday rows."
+msgstr ""
+"Duración de las filas de la agenda veterinaria en este día; 0 usa el "
+"intervalo general de los ajustes. Todos los períodos del mismo día deben "
+"usar el mismo valor. Ejemplo: 20 minutos de lunes a viernes y 30 el sábado →"
+" dejá 0 entre semana (intervalo general 20) y poné 30 en las filas del "
+"sábado."
 
 #. module: odossey_veterinary
 #: model:ir.model.fields.selection,name:odossey_veterinary.selection__product_template__vet_preventive_group__leptospirosis
@@ -5005,6 +5176,11 @@ msgstr "Mediano"
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_consultation__attitude
 msgid "Mental Status"
 msgstr "Estado mental"
+
+#. module: odossey_veterinary
+#: model:ir.model,name:odossey_veterinary.model_ir_ui_menu
+msgid "Menu"
+msgstr "Menú"
 
 #. module: odossey_veterinary
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_certificate__message_has_error
@@ -5415,8 +5591,18 @@ msgstr "Todavía no se usaron medicamentos controlados"
 msgid ""
 "No date of birth: the vaccine due dates do not take the age into account."
 msgstr ""
-"Sin fecha de nacimiento: el vencimiento de las vacunas no tiene en cuenta "
-"la edad."
+"Sin fecha de nacimiento: el vencimiento de las vacunas no tiene en cuenta la"
+" edad."
+
+#. module: odossey_veterinary
+#: model_terms:ir.actions.act_window,help:odossey_veterinary.vet_alert_action_display
+msgid "No display settings"
+msgstr "Sin configuración de visualización"
+
+#. module: odossey_veterinary
+#: model_terms:ir.actions.act_window,help:odossey_veterinary.vet_sale_order_action
+msgid "No order yet"
+msgstr "Todavía no hay órdenes"
 
 #. module: odossey_veterinary
 #: model_terms:ir.actions.act_window,help:odossey_veterinary.vet_owner_action
@@ -5443,6 +5629,12 @@ msgstr "Sin registro"
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.report_vaccination_card
 msgid "No record yet."
 msgstr "Todavía no hay registros."
+
+#. module: odossey_veterinary
+#. odoo-javascript
+#: code:addons/odossey_veterinary/static/src/pos/vet_orders.xml:0
+msgid "No visit to charge."
+msgstr "No hay visitas por cobrar."
 
 #. module: odossey_veterinary
 #: model:product.template,name:odossey_veterinary.product_vaccine_nobivac_dhppi_product_template
@@ -5494,6 +5686,21 @@ msgstr "Normal"
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_consultation_view_search
 msgid "Not Invoiced"
 msgstr "No facturado"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__sale_order__vet_payment_state__unpaid
+msgid "Not Paid"
+msgstr "No pagado"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,help:odossey_veterinary.field_sale_order__vet_payment_state
+msgid ""
+"Not Paid: nobody charged it yet. At the Cash Desk: loaded in a till but not "
+"paid yet. Paid: charged at the cash desk with a ticket. Invoiced: charged "
+"with an invoice."
+msgstr ""
+"No pagado: nadie la cobró todavía. En caja: cargada en una caja pero sin "
+"pagar. Pagado: cobrada en caja con ticket. Facturado: cobrada con factura."
 
 #. module: odossey_veterinary
 #. odoo-python
@@ -5684,6 +5891,15 @@ msgid "Only signed consents can be revoked."
 msgstr "Solo se pueden revocar los consentimientos firmados."
 
 #. module: odossey_veterinary
+#: model:res.groups,comment:odossey_veterinary.group_vet_scope_vet_only
+msgid ""
+"Only the Veterinary app is shown: agenda, patients, cash desk, pharmacy, "
+"purchases..."
+msgstr ""
+"Solo se muestra la app Veterinaria: agenda, pacientes, caja, farmacia, "
+"compras..."
+
+#. module: odossey_veterinary
 #. odoo-python
 #: code:addons/odossey_veterinary/wizard/vet_staff_wizard.py:0
 msgid "Only the clinic administrator can manage the veterinarians."
@@ -5726,6 +5942,30 @@ msgstr "Oftalmológico"
 #: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_prescription_line__route__po
 msgid "Oral (PO)"
 msgstr "Oral (PO)"
+
+#. module: odossey_veterinary
+#. odoo-javascript
+#: code:addons/odossey_veterinary/static/src/pos/vet_orders.xml:0
+msgid "Order"
+msgstr "Orden"
+
+#. module: odossey_veterinary
+#: model_terms:ir.actions.act_window,help:odossey_veterinary.vet_purchase_order_action
+msgid ""
+"Order medications, vaccines or supplies to a supplier; the goods are "
+"received in Pharmacy."
+msgstr ""
+"Pedí medicamentos, vacunas o insumos a un proveedor; la mercadería se recibe"
+" en Farmacia."
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,help:odossey_veterinary.field_sale_order__vet_chargeable
+msgid ""
+"Order of a patient (consultation, adjustment, hospitalization): the "
+"reception charges it at the cash desk."
+msgstr ""
+"Orden de un paciente (consulta, ajuste, internación): la recepción la cobra "
+"en la caja."
 
 #. module: odossey_veterinary
 #: model:ir.actions.act_window,name:odossey_veterinary.vet_sale_order_action
@@ -5907,6 +6147,12 @@ msgid "PT (prothrombin time)"
 msgstr "TP (tiempo de protrombina)"
 
 #. module: odossey_veterinary
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__sale_order__vet_payment_state__paid
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.sale_order_view_search_vet
+msgid "Paid"
+msgstr "Pagado"
+
+#. module: odossey_veterinary
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_consultation__pain_score
 msgid "Pain Score"
 msgstr "Escala de dolor"
@@ -5942,6 +6188,11 @@ msgstr "Panleucopenia (Ag)"
 #: model:vet.species,name:odossey_veterinary.species_parrot
 msgid "Parrot"
 msgstr "Loro"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__sale_order__vet_payment_state__partial
+msgid "Partially Paid"
+msgstr "Pago parcial"
 
 #. module: odossey_veterinary
 #: model:vet.lab.analyte,name:odossey_veterinary.lab_panel_rapid_canine_1
@@ -5998,9 +6249,9 @@ msgstr "Paciente a registrar"
 
 #. module: odossey_veterinary
 #. odoo-javascript
-#: code:addons/odossey_veterinary/static/src/agenda/vet_calendar.xml:0
-msgid "Patient to register"
-msgstr "Paciente a registrar"
+#: code:addons/odossey_veterinary/static/src/pos/vet_orders.xml:0
+msgid "Patient, owner, phone, ID or order"
+msgstr "Paciente, tutor, teléfono, DNI/CUIT u orden"
 
 #. module: odossey_veterinary
 #: model:ir.actions.act_window,name:odossey_veterinary.vet_pet_action
@@ -6008,6 +6259,17 @@ msgstr "Paciente a registrar"
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_pet_view_list
 msgid "Patients"
 msgstr "Pacientes"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__other
+msgid "Paw"
+msgstr "Huella"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_sale_order__vet_payment_state
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.sale_order_view_search_vet
+msgid "Payment"
+msgstr "Cobro"
 
 #. module: odossey_veterinary
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_pet__pedigree
@@ -6192,6 +6454,11 @@ msgstr "Plaquetas"
 msgid "Please read and sign the consent %(title)s for %(pet)s: %(link)s"
 msgstr ""
 "Por favor, leé y firmá el consentimiento %(title)s para %(pet)s: %(link)s"
+
+#. module: odossey_veterinary
+#: model:ir.model,name:odossey_veterinary.model_pos_order
+msgid "Point of Sale Orders"
+msgstr "Órdenes del punto de venta"
 
 #. module: odossey_veterinary
 #: model:product.template,name:odossey_veterinary.product_item_sutura_poliglactina_product_template
@@ -6531,6 +6798,12 @@ msgid "Puppy first vaccine (distemper + parvo)"
 msgstr "Primera vacuna de cachorro (moquillo + parvovirus)"
 
 #. module: odossey_veterinary
+#: model:ir.actions.act_window,name:odossey_veterinary.vet_purchase_order_action
+#: model:ir.ui.menu,name:odossey_veterinary.menu_vet_purchase_orders
+msgid "Purchase Orders"
+msgstr "Órdenes de compra"
+
+#. module: odossey_veterinary
 #: model:product.template,name:odossey_veterinary.product_vaccine_purevax_felv_product_template
 msgid "Purevax FeLV"
 msgstr "Purevax FeLV"
@@ -6764,8 +7037,8 @@ msgid "Register"
 msgstr "Registrar"
 
 #. module: odossey_veterinary
-#. odoo-python
 #. odoo-javascript
+#. odoo-python
 #: code:addons/odossey_veterinary/models/calendar_event.py:0
 #: code:addons/odossey_veterinary/static/src/agenda/vet_calendar.xml:0
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.calendar_event_view_form_vet
@@ -7121,6 +7394,11 @@ msgid "Scheduled"
 msgstr "Programado"
 
 #. module: odossey_veterinary
+#: model:res.groups.privilege,name:odossey_veterinary.privilege_veterinary_scope
+msgid "Scope"
+msgstr "Alcance"
+
+#. module: odossey_veterinary
 #: model:vet.breed,name:odossey_veterinary.breed_cat_scottish_fold
 msgid "Scottish Fold"
 msgstr "Scottish Fold"
@@ -7158,6 +7436,11 @@ msgid "Sediment (cells, casts, crystals, bacteria)"
 msgstr "Sedimento (células, cilindros, cristales, bacterias)"
 
 #. module: odossey_veterinary
+#: model:res.groups,comment:odossey_veterinary.group_vet_scope_all
+msgid "Sees every app the access rights allow."
+msgstr "Ve todas las apps que permiten sus permisos."
+
+#. module: odossey_veterinary
 #. odoo-python
 #: code:addons/odossey_veterinary/models/calendar_event.py:0
 msgid "Select the patient of the appointment first."
@@ -7180,6 +7463,7 @@ msgid "Send for Signature"
 msgstr "Enviar a firmar"
 
 #. module: odossey_veterinary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_alert_severity_display__sequence
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_appointment_type__sequence
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_consent_template__sequence
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_consultation_line__sequence
@@ -7248,6 +7532,7 @@ msgstr "Grave (≥ 10 %)"
 
 #. module: odossey_veterinary
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_alert__severity
+#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_alert_severity_display__severity
 msgid "Severity"
 msgstr "Gravedad"
 
@@ -7271,6 +7556,20 @@ msgstr "Shih Tzu"
 #: model:ir.model.fields,help:odossey_veterinary.field_vet_species__code
 msgid "Short technical code, e.g. DOG, CAT."
 msgstr "Código técnico corto, p. ej. DOG, CAT."
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_alert_severity_display__show_in_consultation
+msgid "Show in Consultation and Agenda"
+msgstr "Mostrar en consulta y agenda"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,help:odossey_veterinary.field_vet_alert_severity_display__show_in_consultation
+msgid ""
+"Show the alerts of this severity in the header of the consultation and in the agenda cell (red box: danger, yellow: warning, blue: information).\n"
+"Example: turn off Information so only the alerts that matter stand out. The alerts stay on the patient file either way."
+msgstr ""
+"Muestra las alertas de esta severidad en el encabezado de la consulta y en la celda de la agenda (recuadro rojo: peligro, amarillo: advertencia, azul: información).\n"
+"Ejemplo: desactivá Información para que solo se destaquen las alertas importantes. Las alertas siguen en la ficha del paciente en cualquier caso."
 
 #. module: odossey_veterinary
 #: model:vet.breed,name:odossey_veterinary.breed_cat_siamese
@@ -7743,6 +8042,14 @@ msgid "Thank you, the consent has been signed."
 msgstr "¡Gracias! El consentimiento quedó firmado."
 
 #. module: odossey_veterinary
+#. odoo-python
+#: code:addons/odossey_veterinary/models/resource_calendar.py:0
+msgid "The agenda slot must be 0 (general slot) or between 5 and 120 minutes."
+msgstr ""
+"El intervalo de la agenda tiene que ser 0 (intervalo general) o entre 5 y "
+"120 minutos."
+
+#. module: odossey_veterinary
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.res_config_settings_view_form_vet
 msgid "The agenda starts at the opening time and shades closed hours."
 msgstr "La agenda empieza a la hora de apertura y sombrea las horas cerradas."
@@ -7830,9 +8137,9 @@ msgid ""
 "into account (primary course doses). Load the date of birth in the patient "
 "form."
 msgstr ""
-"El paciente no tiene fecha de nacimiento: el próximo vencimiento no tiene "
-"en cuenta la edad (dosis del plan primario). Cargá la fecha de nacimiento "
-"en la ficha del paciente."
+"El paciente no tiene fecha de nacimiento: el próximo vencimiento no tiene en"
+" cuenta la edad (dosis del plan primario). Cargá la fecha de nacimiento en "
+"la ficha del paciente."
 
 #. module: odossey_veterinary
 #. odoo-python
@@ -7912,6 +8219,11 @@ msgid "Therapeutic ovariohysterectomy (pyometra)"
 msgstr "Ovariohisterectomía terapéutica (piómetra)"
 
 #. module: odossey_veterinary
+#: model:ir.model.constraint,message:odossey_veterinary.constraint_vet_alert_severity_display_severity_unique
+msgid "There is already a display setting for this severity."
+msgstr "Ya existe una configuración de visualización para esta severidad."
+
+#. module: odossey_veterinary
 #. odoo-python
 #: code:addons/odossey_veterinary/models/vet_consent.py:0
 msgid "This consent cannot be signed any more."
@@ -7944,6 +8256,15 @@ msgstr ""
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_consent__title
 msgid "Title"
 msgstr "Título"
+
+#. module: odossey_veterinary
+#. odoo-javascript
+#: code:addons/odossey_veterinary/static/src/pos/vet_orders.xml:0
+#: model:ir.model.fields,field_description:odossey_veterinary.field_sale_order__vet_amount_due
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.sale_order_view_list_vet
+#: model_terms:ir.ui.view,arch_db:odossey_veterinary.sale_order_view_search_vet
+msgid "To Charge"
+msgstr "A cobrar"
 
 #. module: odossey_veterinary
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.calendar_event_view_list_vet
@@ -8014,6 +8335,14 @@ msgstr "Bilirrubina total y directa"
 #: model:vet.lab.analyte,name:odossey_veterinary.lab_panel_biochem_full_8
 msgid "Total bilirubin"
 msgstr "Bilirrubina total"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,help:odossey_veterinary.field_sale_order__vet_amount_due
+msgid ""
+"Total of the order minus what was already paid at the cash desk or invoiced "
+"from the order."
+msgstr ""
+"Total de la orden menos lo ya pagado en caja o facturado desde la orden."
 
 #. module: odossey_veterinary
 #: model:vet.lab.analyte,name:odossey_veterinary.lab_panel_biochem_basic_6
@@ -8098,6 +8427,11 @@ msgstr "Triglicéridos"
 #: model:vet.breed,name:odossey_veterinary.breed_cat_angora
 msgid "Turkish Angora"
 msgstr "Angora Turco"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__turtle
+msgid "Turtle"
+msgstr "Tortuga"
 
 #. module: odossey_veterinary
 #: model:vet.species,name:odossey_veterinary.species_turtle
@@ -8456,6 +8790,16 @@ msgid "Vet Card Danger"
 msgstr "Tarjeta agenda Danger"
 
 #. module: odossey_veterinary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_calendar_event__vet_card_danger_alert
+msgid "Vet Card Danger Alert"
+msgstr "Tarjeta: alertas de peligro"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_calendar_event__vet_card_info_alert
+msgid "Vet Card Info Alert"
+msgstr "Tarjeta: alertas de información"
+
+#. module: odossey_veterinary
 #: model:ir.model.fields,field_description:odossey_veterinary.field_calendar_event__vet_card_owner
 msgid "Vet Card Owner"
 msgstr "Tarjeta agenda Owner"
@@ -8476,6 +8820,11 @@ msgid "Vet Card Species"
 msgstr "Tarjeta agenda Species"
 
 #. module: odossey_veterinary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_calendar_event__vet_card_species_icon
+msgid "Vet Card Species Icon"
+msgstr "Ícono de especie en la tarjeta"
+
+#. module: odossey_veterinary
 #: model:ir.model.fields,field_description:odossey_veterinary.field_calendar_event__vet_card_status
 msgid "Vet Card Status"
 msgstr "Tarjeta agenda Status"
@@ -8484,6 +8833,11 @@ msgstr "Tarjeta agenda Status"
 #: model:ir.model.fields,field_description:odossey_veterinary.field_calendar_event__vet_card_status_label
 msgid "Vet Card Status Label"
 msgstr "Tarjeta agenda Status Label"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_calendar_event__vet_card_warning_alert
+msgid "Vet Card Warning Alert"
+msgstr "Tarjeta: alertas de advertencia"
 
 #. module: odossey_veterinary
 #: model:ir.model.fields,field_description:odossey_veterinary.field_res_config_settings__vet_demo_loaded
@@ -8583,6 +8937,16 @@ msgid "Veterinary Demo Data"
 msgstr "Datos de demostración veterinaria"
 
 #. module: odossey_veterinary
+#: model:res.groups,name:odossey_veterinary.group_vet_scope_vet_only
+msgid "Veterinary Only"
+msgstr "Sólo Veterinaria"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_sale_order__vet_chargeable
+msgid "Veterinary Order"
+msgstr "Orden veterinaria"
+
+#. module: odossey_veterinary
 #: model:ir.model,name:odossey_veterinary.model_vet_prescription
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.report_prescription_copy
 msgid "Veterinary Prescription"
@@ -8611,6 +8975,11 @@ msgid "Veterinary use only"
 msgstr "Uso veterinario exclusivo"
 
 #. module: odossey_veterinary
+#: model:res.groups,name:odossey_veterinary.group_vet_use_rooms
+msgid "Veterinary: book by room"
+msgstr "Veterinaria: turnos por sala"
+
+#. module: odossey_veterinary
 #: model:mail.template,name:odossey_veterinary.mail_template_preventive_reminder
 msgid "Veterinary: preventive care reminder"
 msgstr "Veterinaria: recordatorio de medicina preventiva"
@@ -8624,6 +8993,12 @@ msgstr "Veterinaria: recordatorios de medicina preventiva"
 #: model:product.template,name:odossey_veterinary.product_med_vetmedin_product_template
 msgid "Vetmedin"
 msgstr "Vetmedin"
+
+#. module: odossey_veterinary
+#. odoo-javascript
+#: code:addons/odossey_veterinary/static/src/agenda/vet_calendar.xml:0
+msgid "View"
+msgstr "Ver"
 
 #. module: odossey_veterinary
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.res_config_settings_view_form_vet
@@ -8646,6 +9021,24 @@ msgstr ""
 #: model:ir.model.fields,field_description:odossey_veterinary.field_calendar_event__vet_state
 msgid "Visit Status"
 msgstr "Estado de la consulta"
+
+#. module: odossey_veterinary
+#. odoo-javascript
+#: code:addons/odossey_veterinary/static/src/pos/vet_orders.xml:0
+msgid "Visits"
+msgstr "Visitas"
+
+#. module: odossey_veterinary
+#. odoo-javascript
+#: code:addons/odossey_veterinary/static/src/pos/vet_orders.xml:0
+msgid "Visits to Charge"
+msgstr "Visitas por cobrar"
+
+#. module: odossey_veterinary
+#. odoo-javascript
+#: code:addons/odossey_veterinary/static/src/pos/vet_orders.xml:0
+msgid "Visits to charge"
+msgstr "Visitas por cobrar"
 
 #. module: odossey_veterinary
 #: model:product.template,name:odossey_veterinary.product_item_vital_can_product_template
@@ -8706,8 +9099,15 @@ msgstr "Paseo / higiene"
 
 #. module: odossey_veterinary
 #: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_alert__severity__warning
+#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_alert_severity_display__severity__warning
 msgid "Warning"
 msgstr "Advertencia"
+
+#. module: odossey_veterinary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_consultation__pet_warning_alert_summary
+#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_pet__warning_alert_summary
+msgid "Warning Alert Summary"
+msgstr "Resumen de alertas de advertencia"
 
 #. module: odossey_veterinary
 #: model:ir.model.fields,field_description:odossey_veterinary.field_vet_certificate__website_message_ids
@@ -8824,6 +9224,16 @@ msgid "WhatsApp reminder"
 msgstr "Recordatorio por WhatsApp"
 
 #. module: odossey_veterinary
+#: model_terms:ir.actions.act_window,help:odossey_veterinary.vet_sale_order_action
+msgid ""
+"When the veterinarian closes a consultation its order appears here and in the cash desk, where the\n"
+"                reception charges it. Not Paid in red, Paid and Invoiced in green."
+msgstr ""
+"<p class=\"o_view_nocontent_smiling_face\">Todavía no hay órdenes</p>\n"
+"            <p>Cuando el veterinario cierra una consulta, su orden aparece aquí y en la caja, donde la\n"
+"                recepción la cobra. No pagado en rojo, Pagado y Facturado en verde.</p>"
+
+#. module: odossey_veterinary
 #: model:ir.model.fields,help:odossey_veterinary.field_res_config_settings__vet_auto_sale_order
 msgid ""
 "When the veterinarian closes a consultation, its charges become a quotation "
@@ -8866,6 +9276,11 @@ msgstr "Asistente"
 #: model:vet.lab.analyte,name:odossey_veterinary.lab_panel_skin_5
 msgid "Wood's lamp"
 msgstr "Lámpara de Wood"
+
+#. module: odossey_veterinary
+#: model:ir.model,name:odossey_veterinary.model_resource_calendar_attendance
+msgid "Work Detail"
+msgstr "Detalle del trabajo"
 
 #. module: odossey_veterinary
 #: model:ir.model.fields,help:odossey_veterinary.field_res_config_settings__vet_resource_calendar_id
@@ -9623,391 +10038,3 @@ msgstr "· <strong>Válido hasta:</strong>"
 #: model_terms:ir.ui.view,arch_db:odossey_veterinary.report_certificate
 msgid "· Valid until"
 msgstr "· Válido hasta"
-
-#. module: odossey_veterinary
-#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_species__icon_url
-msgid "Icon Preview"
-msgstr "Vista del ícono"
-
-#. module: odossey_veterinary
-#: model:ir.model.fields,help:odossey_veterinary.field_vet_species__icon
-msgid "Face shown next to the patient in the agenda. Example: Dog."
-msgstr "Cara que se ve junto al paciente en la agenda. Ejemplo: Perro."
-
-#. module: odossey_veterinary
-#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__cockatiel
-msgid "Bird"
-msgstr "Ave"
-
-#. module: odossey_veterinary
-#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__turtle
-msgid "Turtle"
-msgstr "Tortuga"
-
-#. module: odossey_veterinary
-#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__cattle
-msgid "Cow"
-msgstr "Vaca"
-
-#. module: odossey_veterinary
-#: model:ir.model.fields.selection,name:odossey_veterinary.selection__vet_species__icon__other
-msgid "Paw"
-msgstr "Huella"
-
-#. module: odossey_veterinary
-#: model:ir.model.fields.selection,name:odossey_veterinary.selection__sale_order__vet_payment_state__in_pos
-msgid "At the Cash Desk"
-msgstr "En caja"
-
-#. module: odossey_veterinary
-#. odoo-javascript
-#: code:addons/odossey_veterinary/static/src/agenda/vet_calendar.xml:0
-msgid "Edit"
-msgstr "Editar"
-
-#. module: odossey_veterinary
-#: model:ir.model.fields.selection,name:odossey_veterinary.selection__sale_order__vet_payment_state__invoiced
-#: model_terms:ir.ui.view,arch_db:odossey_veterinary.sale_order_view_search_vet
-msgid "Invoiced"
-msgstr "Facturado"
-
-#. module: odossey_veterinary
-#: model:ir.model,name:odossey_veterinary.model_account_move
-msgid "Journal Entry"
-msgstr "Asiento contable"
-
-#. module: odossey_veterinary
-#: model_terms:ir.actions.act_window,help:odossey_veterinary.vet_sale_order_action
-msgid "No order yet"
-msgstr "Todavía no hay órdenes"
-
-#. module: odossey_veterinary
-#. odoo-javascript
-#: code:addons/odossey_veterinary/static/src/pos/vet_orders.xml:0
-msgid "No visit to charge."
-msgstr "No hay visitas por cobrar."
-
-#. module: odossey_veterinary
-#: model:ir.model.fields.selection,name:odossey_veterinary.selection__sale_order__vet_payment_state__unpaid
-msgid "Not Paid"
-msgstr "No pagado"
-
-#. module: odossey_veterinary
-#: model:ir.model.fields,help:odossey_veterinary.field_sale_order__vet_payment_state
-msgid ""
-"Not Paid: nobody charged it yet. At the Cash Desk: loaded in a till but not "
-"paid yet. Paid: charged at the cash desk with a ticket. Invoiced: charged "
-"with an invoice."
-msgstr ""
-"No pagado: nadie la cobró todavía. En caja: cargada en una caja pero sin "
-"pagar. Pagado: cobrada en caja con ticket. Facturado: cobrada con factura."
-
-#. module: odossey_veterinary
-#. odoo-javascript
-#: code:addons/odossey_veterinary/static/src/pos/vet_orders.xml:0
-msgid "Order"
-msgstr "Orden"
-
-#. module: odossey_veterinary
-#: model:ir.model.fields,help:odossey_veterinary.field_sale_order__vet_chargeable
-msgid ""
-"Order of a patient (consultation, adjustment, hospitalization): the "
-"reception charges it at the cash desk."
-msgstr ""
-"Orden de un paciente (consulta, ajuste, internación): la recepción la cobra "
-"en la caja."
-
-#. module: odossey_veterinary
-#: model:ir.model.fields.selection,name:odossey_veterinary.selection__sale_order__vet_payment_state__paid
-#: model_terms:ir.ui.view,arch_db:odossey_veterinary.sale_order_view_search_vet
-msgid "Paid"
-msgstr "Pagado"
-
-#. module: odossey_veterinary
-#: model:ir.model.fields.selection,name:odossey_veterinary.selection__sale_order__vet_payment_state__partial
-msgid "Partially Paid"
-msgstr "Pago parcial"
-
-#. module: odossey_veterinary
-#. odoo-javascript
-#: code:addons/odossey_veterinary/static/src/pos/vet_orders.xml:0
-msgid "Patient, owner, phone, ID or order"
-msgstr "Paciente, tutor, teléfono, DNI/CUIT u orden"
-
-#. module: odossey_veterinary
-#: model:ir.model.fields,field_description:odossey_veterinary.field_sale_order__vet_payment_state
-#: model_terms:ir.ui.view,arch_db:odossey_veterinary.sale_order_view_search_vet
-msgid "Payment"
-msgstr "Cobro"
-
-#. module: odossey_veterinary
-#: model:ir.model,name:odossey_veterinary.model_pos_order
-msgid "Point of Sale Orders"
-msgstr "Órdenes del punto de venta"
-
-#. module: odossey_veterinary
-#. odoo-javascript
-#: code:addons/odossey_veterinary/static/src/pos/vet_orders.xml:0
-#: model:ir.model.fields,field_description:odossey_veterinary.field_sale_order__vet_amount_due
-#: model_terms:ir.ui.view,arch_db:odossey_veterinary.sale_order_view_list_vet
-#: model_terms:ir.ui.view,arch_db:odossey_veterinary.sale_order_view_search_vet
-msgid "To Charge"
-msgstr "A cobrar"
-
-#. module: odossey_veterinary
-#: model:ir.model.fields,help:odossey_veterinary.field_sale_order__vet_amount_due
-msgid ""
-"Total of the order minus what was already paid at the cash desk or invoiced "
-"from the order."
-msgstr ""
-"Total de la orden menos lo ya pagado en caja o facturado desde la orden."
-
-#. module: odossey_veterinary
-#: model:ir.model.fields,field_description:odossey_veterinary.field_calendar_event__vet_card_species_icon
-msgid "Vet Card Species Icon"
-msgstr "Ícono de especie en la tarjeta"
-
-#. module: odossey_veterinary
-#: model:ir.model.fields,field_description:odossey_veterinary.field_sale_order__vet_chargeable
-msgid "Veterinary Order"
-msgstr "Orden veterinaria"
-
-#. module: odossey_veterinary
-#: model:res.groups,name:odossey_veterinary.group_vet_use_rooms
-msgid "Veterinary: book by room"
-msgstr "Veterinaria: turnos por sala"
-
-#. module: odossey_veterinary
-#. odoo-javascript
-#: code:addons/odossey_veterinary/static/src/agenda/vet_calendar.xml:0
-msgid "View"
-msgstr "Ver"
-
-#. module: odossey_veterinary
-#. odoo-javascript
-#: code:addons/odossey_veterinary/static/src/pos/vet_orders.xml:0
-msgid "Visits"
-msgstr "Visitas"
-
-#. module: odossey_veterinary
-#. odoo-javascript
-#: code:addons/odossey_veterinary/static/src/pos/vet_orders.xml:0
-msgid "Visits to Charge"
-msgstr "Visitas por cobrar"
-
-#. module: odossey_veterinary
-#. odoo-javascript
-#: code:addons/odossey_veterinary/static/src/pos/vet_orders.xml:0
-msgid "Visits to charge"
-msgstr "Visitas por cobrar"
-
-#. module: odossey_veterinary
-#: model_terms:ir.actions.act_window,help:odossey_veterinary.vet_sale_order_action
-msgid ""
-"When the veterinarian closes a consultation its order appears here and in the cash desk, where the\n"
-"                reception charges it. Not Paid in red, Paid and Invoiced in green."
-msgstr ""
-"<p class=\"o_view_nocontent_smiling_face\">Todavía no hay órdenes</p>\n"
-"            <p>Cuando el veterinario cierra una consulta, su orden aparece aquí y en la caja, donde la\n"
-"                recepción la cobra. No pagado en rojo, Pagado y Facturado en verde.</p>"
-
-#. module: odossey_veterinary
-#: model:res.groups,name:odossey_veterinary.group_vet_scope_all
-msgid "All Apps"
-msgstr "Todas las Apps"
-
-#. module: odossey_veterinary
-#: model:ir.actions.client,name:odossey_veterinary.vet_open_cash_desk_action
-#: model:ir.ui.menu,name:odossey_veterinary.menu_vet_cash_desk
-msgid "Cash Desk"
-msgstr "Caja"
-
-#. module: odossey_veterinary
-#: model_terms:ir.actions.act_window,help:odossey_veterinary.vet_purchase_order_action
-msgid "Create a purchase order"
-msgstr "Creá una orden de compra"
-
-#. module: odossey_veterinary
-#: model:ir.model,name:odossey_veterinary.model_ir_ui_menu
-msgid "Menu"
-msgstr "Menú"
-
-#. module: odossey_veterinary
-#: model:res.groups,comment:odossey_veterinary.group_vet_scope_vet_only
-msgid ""
-"Only the Veterinary app is shown: agenda, patients, cash desk, pharmacy, "
-"purchases..."
-msgstr ""
-"Solo se muestra la app Veterinaria: agenda, pacientes, caja, farmacia, "
-"compras..."
-
-#. module: odossey_veterinary
-#: model_terms:ir.actions.act_window,help:odossey_veterinary.vet_purchase_order_action
-msgid ""
-"Order medications, vaccines or supplies to a supplier; the goods are "
-"received in Pharmacy."
-msgstr ""
-"Pedí medicamentos, vacunas o insumos a un proveedor; la mercadería se recibe"
-" en Farmacia."
-
-#. module: odossey_veterinary
-#: model:ir.actions.act_window,name:odossey_veterinary.vet_purchase_order_action
-#: model:ir.ui.menu,name:odossey_veterinary.menu_vet_purchase_orders
-msgid "Purchase Orders"
-msgstr "Órdenes de compra"
-
-#. module: odossey_veterinary
-#: model:res.groups.privilege,name:odossey_veterinary.privilege_veterinary_scope
-msgid "Scope"
-msgstr "Alcance"
-
-#. module: odossey_veterinary
-#: model:res.groups,comment:odossey_veterinary.group_vet_scope_all
-msgid "Sees every app the access rights allow."
-msgstr "Ve todas las apps que permiten sus permisos."
-
-#. module: odossey_veterinary
-#: model:res.groups,name:odossey_veterinary.group_vet_scope_vet_only
-msgid "Veterinary Only"
-msgstr "Sólo Veterinaria"
-
-#. module: odossey_veterinary
-#: model:ir.model.fields,help:odossey_veterinary.field_resource_calendar_attendance__vet_slot_minutes
-msgid ""
-"Length of the rows of the veterinary agenda on this day; 0 uses the general "
-"slot of the settings. Every period of the same day must use the same value. "
-"Example: 20 minutes from Monday to Friday and 30 on Saturday → leave 0 on "
-"weekdays (general slot 20) and type 30 in the Saturday rows."
-msgstr ""
-"Duración de las filas de la agenda veterinaria en este día; 0 usa el "
-"intervalo general de los ajustes. Todos los períodos del mismo día deben "
-"usar el mismo valor. Ejemplo: 20 minutos de lunes a viernes y 30 el sábado →"
-" dejá 0 entre semana (intervalo general 20) y poné 30 en las filas del "
-"sábado."
-
-#. module: odossey_veterinary
-#. odoo-python
-#: code:addons/odossey_veterinary/models/resource_calendar.py:0
-msgid "The agenda slot must be 0 (general slot) or between 5 and 120 minutes."
-msgstr ""
-"El intervalo de la agenda tiene que ser 0 (intervalo general) o entre 5 y "
-"120 minutos."
-
-#. module: odossey_veterinary
-#. odoo-python
-#: code:addons/odossey_veterinary/models/resource_calendar.py:0
-msgid ""
-"All the periods of the same day must use the same agenda slot (%(day)s: "
-"%(a)s and %(b)s minutes)."
-msgstr ""
-"Todos los períodos del mismo día tienen que usar el mismo intervalo de la "
-"agenda (%(day)s: %(a)s y %(b)s minutos)."
-
-#. module: odossey_veterinary
-#: model_terms:ir.ui.view,arch_db:odossey_veterinary.res_config_settings_view_form_vet
-msgid ""
-"A different slot for a day (e.g. 30 minutes on Saturday) is set in the "
-"\"Agenda Slot (min)\" column of the opening hours."
-msgstr ""
-"Un intervalo distinto para un día (p. ej. 30 minutos el sábado) se configura"
-" en la columna \"Intervalo de la agenda (min)\" del horario de atención."
-
-#. module: odossey_veterinary
-#: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_consultation_view_form
-msgid ""
-"<i class=\"fa fa-exclamation-circle\" "
-"title=\"Warning\"/><strong>Warning:</strong>"
-msgstr ""
-"<i class=\"fa fa-exclamation-circle\" "
-"title=\"Advertencia\"/><strong>Advertencia:</strong>"
-
-#. module: odossey_veterinary
-#: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_consultation_view_form
-msgid ""
-"<i class=\"fa fa-exclamation-triangle\" "
-"title=\"Danger\"/><strong>Danger:</strong>"
-msgstr ""
-"<i class=\"fa fa-exclamation-triangle\" "
-"title=\"Peligro\"/><strong>Peligro:</strong>"
-
-#. module: odossey_veterinary
-#: model_terms:ir.ui.view,arch_db:odossey_veterinary.vet_consultation_view_form
-msgid ""
-"<i class=\"fa fa-info-circle\" "
-"title=\"Information\"/><strong>Information:</strong>"
-msgstr ""
-"<i class=\"fa fa-info-circle\" "
-"title=\"Información\"/><strong>Información:</strong>"
-
-#. module: odossey_veterinary
-#: model:ir.actions.act_window,name:odossey_veterinary.vet_alert_action_display
-#: model:ir.ui.menu,name:odossey_veterinary.menu_vet_alert_display
-msgid "Alert Display Settings"
-msgstr "Configuración visualización alertas"
-
-#. module: odossey_veterinary
-#: model_terms:ir.actions.act_window,help:odossey_veterinary.vet_alert_action_display
-msgid ""
-"Create the alerts in Alerts &amp; Allergies, then choose here which ones are shown in the consultation\n"
-"                and the agenda: red box for danger, yellow for warning, blue for information."
-msgstr ""
-"Creá las alertas en Alertas y alergias y después elegí acá cuáles se muestran en la consulta\n"
-"                y en la agenda: recuadro rojo para peligro, amarillo para advertencia y azul para información."
-
-#. module: odossey_veterinary
-#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_consultation__pet_danger_alert_summary
-#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_pet__danger_alert_summary
-msgid "Danger Alert Summary"
-msgstr "Resumen de alertas de peligro"
-
-#. module: odossey_veterinary
-#. odoo-javascript
-#: code:addons/odossey_veterinary/static/src/agenda/vet_calendar.xml:0
-msgid "Delete"
-msgstr "Eliminar"
-
-#. module: odossey_veterinary
-#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_consultation__pet_info_alert_summary
-#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_pet__info_alert_summary
-msgid "Info Alert Summary"
-msgstr "Resumen de alertas de información"
-
-#. module: odossey_veterinary
-#: model_terms:ir.actions.act_window,help:odossey_veterinary.vet_alert_action_display
-msgid "No alerts yet"
-msgstr "Todavía no hay alertas"
-
-#. module: odossey_veterinary
-#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_alert__show_in_consultation
-msgid "Show in Consultation and Agenda"
-msgstr "Mostrar en consulta y agenda"
-
-#. module: odossey_veterinary
-#: model:ir.model.fields,help:odossey_veterinary.field_vet_alert__show_in_consultation
-msgid ""
-"Show this alert in the header of the consultation and in the agenda cell, in the box of its severity (red: danger, yellow: warning, blue: information).\n"
-"Example: turn it off for 'Friendly' so only the alerts that matter stand out. The alert stays on the patient file either way."
-msgstr ""
-"Muestra esta alerta en la cabecera de la consulta y en la tarjeta de la agenda, en el recuadro de su gravedad (rojo: peligro, amarillo: advertencia, azul: información).\n"
-"Ejemplo: desactivala para «Amigable» así se destacan solo las alertas importantes. La alerta sigue igual en la ficha del paciente."
-
-#. module: odossey_veterinary
-#: model:ir.model.fields,field_description:odossey_veterinary.field_calendar_event__vet_card_danger_alert
-msgid "Vet Card Danger Alert"
-msgstr "Tarjeta: alertas de peligro"
-
-#. module: odossey_veterinary
-#: model:ir.model.fields,field_description:odossey_veterinary.field_calendar_event__vet_card_info_alert
-msgid "Vet Card Info Alert"
-msgstr "Tarjeta: alertas de información"
-
-#. module: odossey_veterinary
-#: model:ir.model.fields,field_description:odossey_veterinary.field_calendar_event__vet_card_warning_alert
-msgid "Vet Card Warning Alert"
-msgstr "Tarjeta: alertas de advertencia"
-
-#. module: odossey_veterinary
-#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_consultation__pet_warning_alert_summary
-#: model:ir.model.fields,field_description:odossey_veterinary.field_vet_pet__warning_alert_summary
-msgid "Warning Alert Summary"
-msgstr "Resumen de alertas de advertencia"

@@ -371,7 +371,8 @@
                 <field name="vet_card_species" string="Species"/>
                 <field name="vet_card_owner" string="Owner"/>
                 <field name="vet_card_phone" string="Phone" widget="phone"/>
-                <field name="vet_card_alert" string="Alerts" invisible="not vet_card_alert"/>
+                <!-- alerts: coloured boxes at the top of the popover (vet_calendar.xml), by severity -->
+                <field name="vet_card_alert" invisible="1"/>
                 <field name="vet_appointment_type_id" filters="1"/>
                 <field name="vet_room_id" filters="1"/>
                 <field name="vet_veterinarian_id" filters="1"/>

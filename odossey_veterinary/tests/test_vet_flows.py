@@ -3,9 +3,11 @@ from datetime import timedelta
 
 from dateutil.relativedelta import relativedelta
 from freezegun import freeze_time
+from psycopg2 import IntegrityError
 
 from odoo import fields
 from odoo.exceptions import AccessError, UserError, ValidationError
+from odoo.tools import mute_logger
 from odoo.tests import Form, HttpCase, TransactionCase, new_test_user, tagged
 
 # 1x1 white PNG used as a handwritten signature
@@ -106,30 +108,49 @@ class TestPet(VetCommon):
 
     def test_alert_display_settings(self):
         Alert = self.env['vet.alert']
+        Display = self.env['vet.alert.severity.display']
         cardiac = Alert.create({'name': "Cardiac", 'severity': 'danger'})
         diabetic = Alert.create({'name': "Diabetic", 'severity': 'warning'})
         shy = Alert.create({'name': "Shy", 'severity': 'info'})
-        self.assertTrue(shy.show_in_consultation, "new alerts are shown by default")
         self.pet.alert_ids = [(6, 0, (cardiac | diabetic | shy).ids)]
 
-        # hidden alerts leave the boxes, but stay on the patient file and keep the danger flag
-        (cardiac | shy).show_in_consultation = False
+        # one setting per severity, all shown by default
+        settings = {d.severity: d for d in Display.search([])}
+        self.assertEqual(set(settings), {'danger', 'warning', 'info'})
+        self.assertTrue(all(d.show_in_consultation for d in settings.values()))
+        self.assertEqual((self.pet.danger_alert_summary, self.pet.warning_alert_summary, self.pet.info_alert_summary),
+                         ("Cardiac", "Diabetic", "Shy"))
+
+        # a hidden severity leaves its box empty in the consultation and the agenda,
+        # but the alerts stay on the patient file and keep the danger flag
+        (settings['danger'] | settings['info']).show_in_consultation = False
+        self.pet.invalidate_recordset()
         self.assertFalse(self.pet.danger_alert_summary)
         self.assertEqual(self.pet.warning_alert_summary, "Diabetic")
         self.assertFalse(self.pet.info_alert_summary)
         self.assertTrue(self.pet.has_danger_alert)
-        self.assertEqual(self.pet.alert_summary, "Cardiac · Diabetic · Shy")
+        self.assertEqual(set(self.pet.alert_summary.split(' · ')), {"Cardiac", "Diabetic", "Shy"})
+        consultation = self.env['vet.consultation'].create({'pet_id': self.pet.id, 'vet_id': self.vet.id})
+        self.assertEqual((consultation.pet_danger_alert_summary, consultation.pet_warning_alert_summary,
+                          consultation.pet_info_alert_summary), (False, "Diabetic", False))
+        event = self.env['calendar.event'].create({
+            'name': "Turno", 'vet_pet_id': self.pet.id, 'start': fields.Datetime.now(),
+            'stop': fields.Datetime.now() + timedelta(minutes=30)})
+        self.assertEqual((event.vet_card_danger_alert, event.vet_card_warning_alert, event.vet_card_info_alert),
+                         (False, "Diabetic", False))
 
-        # an aggressive temperament is always shown in red, even with the 'Aggressive' alert hidden
+        # an aggressive temperament goes in the red box, once, and follows the danger setting
         aggressive = self.ref('alert_aggressive')
         self.assertEqual(aggressive.name, "Aggressive")
-        aggressive.show_in_consultation = False
         self.pet.write({'temperament': 'aggressive', 'alert_ids': [(4, aggressive.id)]})
-        self.assertEqual(self.pet.danger_alert_summary, "Aggressive")
-
-        # ... and only once when the 'Aggressive' alert is shown too
-        (aggressive | cardiac).show_in_consultation = True
+        self.assertFalse(self.pet.danger_alert_summary)
+        settings['danger'].show_in_consultation = True
+        self.pet.invalidate_recordset()
         self.assertEqual(self.pet.danger_alert_summary, "Aggressive · Cardiac")
+
+        # the severities cannot be duplicated
+        with self.assertRaises(IntegrityError), mute_logger('odoo.sql_db'), self.cr.savepoint():
+            Display.create({'severity': 'danger'})
 
 
 class TestPreventive(VetCommon):
