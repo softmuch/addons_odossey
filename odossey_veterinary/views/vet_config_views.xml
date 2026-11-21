@@ -224,7 +224,8 @@
                         </group>
                         <group>
                             <field name="vet_initial_doses" invisible="vet_kind != 'vaccine'"/>
-                            <field name="vet_dose_interval_weeks" invisible="vet_kind != 'vaccine'"/>
+                            <field name="vet_dose_interval_days" invisible="vet_kind != 'vaccine'"/>
+                            <field name="vet_adult_age_months" invisible="vet_kind != 'vaccine'"/>
                             <field name="vet_booster_months" invisible="vet_kind != 'vaccine'"/>
                             <field name="vet_repeat_days" invisible="vet_kind != 'antiparasitic'"/>
                         </group>

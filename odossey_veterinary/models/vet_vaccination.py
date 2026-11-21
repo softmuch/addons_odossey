@@ -51,22 +51,38 @@ class VetVaccination(models.Model):
     state = fields.Selection(PREVENTIVE_STATES, compute='_compute_state', search='_search_state')
     reminder_date = fields.Date(string="Reminder Sent On", readonly=True, copy=False)
     note = fields.Char()
+    pet_birthdate = fields.Date(related='pet_id.birthdate', string="Date of Birth")
 
     # ------------------------------------------------------------------ computes
-    @api.depends('date', 'product_id', 'dose_number')
+    @api.depends('date', 'product_id', 'dose_number', 'pet_id')
     def _compute_next_date(self):
+        # Product schedule fields are NOT dependencies on purpose: changing a vaccine's configuration
+        # must not rewrite the due dates of doses already applied.
         for rec in self:
             tmpl = rec.product_id.product_tmpl_id
             if not rec.date or not tmpl:
                 rec.next_date = False
             elif rec.preventive_type != 'vaccine' or tmpl.vet_kind == 'antiparasitic':
                 rec.next_date = rec.date + timedelta(days=tmpl.vet_repeat_days) if tmpl.vet_repeat_days else False
-            elif rec.dose_number and rec.dose_number < (tmpl.vet_initial_doses or 1) and tmpl.vet_dose_interval_weeks:
-                rec.next_date = rec.date + timedelta(weeks=tmpl.vet_dose_interval_weeks)
+            elif (not rec._vet_is_adult_at_date()
+                  and rec.dose_number and rec.dose_number < (tmpl.vet_initial_doses or 1)
+                  and tmpl.vet_dose_interval_days):
+                rec.next_date = rec.date + timedelta(days=tmpl.vet_dose_interval_days)
             elif tmpl.vet_booster_months:
                 rec.next_date = rec.date + relativedelta(months=tmpl.vet_booster_months)
             else:
                 rec.next_date = False
+
+    def _vet_is_adult_at_date(self):
+        """True when the vaccine defines an adult age and the patient had reached it on the application date.
+        Without a birthdate the age is unknown: the primary course applies (the patient form shows the warning)."""
+        self.ensure_one()
+        adult_months = self.product_id.product_tmpl_id.vet_adult_age_months
+        birthdate = self.pet_id.birthdate
+        if not adult_months or not birthdate or not self.date:
+            return False
+        age = relativedelta(self.date, birthdate)
+        return age.years * 12 + age.months >= adult_months
 
     @api.depends('next_date', 'superseded')
     def _compute_state(self):

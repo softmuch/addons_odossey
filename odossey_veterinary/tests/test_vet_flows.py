@@ -139,7 +139,7 @@ class TestPreventive(VetCommon):
         dose1 = self.env['vet.vaccination'].create({'pet_id': self.pet.id, 'product_id': self.vaccine.id,
                                                     'date': today - timedelta(days=21)})
         self.assertEqual(dose1.dose_number, 1)
-        self.assertEqual(dose1.next_date, dose1.date + timedelta(weeks=3))   # 2 initial doses, 3 weeks apart
+        self.assertEqual(dose1.next_date, dose1.date + timedelta(days=21))   # 2 initial doses, 21 days apart
         dose2 = self.env['vet.vaccination'].create({'pet_id': self.pet.id, 'product_id': self.vaccine.id, 'date': today})
         self.assertEqual(dose2.dose_number, 2)
         self.assertTrue(dose1.superseded)
@@ -147,6 +147,78 @@ class TestPreventive(VetCommon):
         self.assertEqual(dose2.next_date, today + relativedelta(months=12))
         self.assertEqual(dose2.state, 'up_to_date')
         self.assertEqual(self.pet.vaccination_state, 'up_to_date')
+
+    def _vet_age_schedule(self, product):
+        """Pussetto schedule: 3 doses 25 days apart for puppies, adult from 12 months, yearly booster."""
+        product.write({'vet_initial_doses': 3, 'vet_dose_interval_days': 25,
+                       'vet_adult_age_months': 12, 'vet_booster_months': 12})
+
+    def test_puppy_primary_course_by_days(self):
+        self._vet_age_schedule(self.vaccine)
+        today = fields.Date.today()
+        puppy = self.env['vet.pet'].create({'name': "Cachorro", 'owner_id': self.owner.id, 'species_id': self.dog.id,
+                                            'birthdate': today - timedelta(days=95)})
+        Vacc = self.env['vet.vaccination']
+        dose1 = Vacc.create({'pet_id': puppy.id, 'product_id': self.vaccine.id, 'date': today - timedelta(days=50)})
+        self.assertEqual(dose1.next_date, dose1.date + timedelta(days=25))
+        dose2 = Vacc.create({'pet_id': puppy.id, 'product_id': self.vaccine.id, 'date': today - timedelta(days=25)})
+        self.assertEqual(dose2.dose_number, 2)
+        self.assertEqual(dose2.next_date, dose2.date + timedelta(days=25))
+        dose3 = Vacc.create({'pet_id': puppy.id, 'product_id': self.vaccine.id, 'date': today})
+        self.assertEqual(dose3.dose_number, 3)
+        self.assertEqual(dose3.next_date, today + relativedelta(months=12))
+
+    def test_adult_first_dose_goes_to_booster(self):
+        self._vet_age_schedule(self.vaccine)
+        today = fields.Date.today()
+        adult = self.env['vet.pet'].create({'name': "Adulto", 'owner_id': self.owner.id, 'species_id': self.dog.id,
+                                            'birthdate': today - relativedelta(years=3)})
+        dose = self.env['vet.vaccination'].create({'pet_id': adult.id, 'product_id': self.vaccine.id, 'date': today})
+        self.assertEqual(dose.dose_number, 1)
+        self.assertEqual(dose.next_date, today + relativedelta(months=12))
+
+    def test_adult_age_is_measured_on_application_date(self):
+        self._vet_age_schedule(self.vaccine)
+        today = fields.Date.today()
+        pet = self.env['vet.pet'].create({'name': "Joven", 'owner_id': self.owner.id, 'species_id': self.dog.id,
+                                          'birthdate': today - relativedelta(months=13)})
+        # applied two months ago, when the patient was 11 months old: still a puppy
+        dose = self.env['vet.vaccination'].create({'pet_id': pet.id, 'product_id': self.vaccine.id,
+                                                   'date': today - relativedelta(months=2)})
+        self.assertEqual(dose.next_date, dose.date + timedelta(days=25))
+
+    def test_rabies_puppy_yearly(self):
+        self.rabies.write({'vet_initial_doses': 1, 'vet_booster_months': 12, 'vet_adult_age_months': 12})
+        today = fields.Date.today()
+        puppy = self.env['vet.pet'].create({'name': "Cachorro", 'owner_id': self.owner.id, 'species_id': self.dog.id,
+                                            'birthdate': today - timedelta(days=90)})
+        dose = self.env['vet.vaccination'].create({'pet_id': puppy.id, 'product_id': self.rabies.id, 'date': today})
+        self.assertEqual(dose.next_date, today + relativedelta(months=12))
+
+    def test_no_birthdate_keeps_primary_course(self):
+        self._vet_age_schedule(self.vaccine)
+        today = fields.Date.today()
+        pet = self.env['vet.pet'].create({'name': "Sin fecha", 'owner_id': self.owner.id, 'species_id': self.dog.id})
+        dose = self.env['vet.vaccination'].create({'pet_id': pet.id, 'product_id': self.vaccine.id, 'date': today})
+        self.assertFalse(dose.pet_birthdate)
+        self.assertEqual(dose.next_date, today + timedelta(days=25))
+
+    def test_schedule_change_keeps_recorded_due_dates(self):
+        self._vet_age_schedule(self.vaccine)
+        today = fields.Date.today()
+        puppy = self.env['vet.pet'].create({'name': "Cachorro", 'owner_id': self.owner.id, 'species_id': self.dog.id,
+                                            'birthdate': today - timedelta(days=60)})
+        dose = self.env['vet.vaccination'].create({'pet_id': puppy.id, 'product_id': self.vaccine.id, 'date': today})
+        self.assertEqual(dose.next_date, today + timedelta(days=25))
+        self.vaccine.write({'vet_dose_interval_days': 30, 'vet_initial_doses': 1, 'vet_booster_months': 6})
+        dose.invalidate_recordset()
+        self.assertEqual(dose.next_date, today + timedelta(days=25))
+        self.assertEqual(dose.state, 'due_soon')
+        self.assertIn(dose, self.env['vet.vaccination'].search([('state', '=', 'due_soon')]))
+        # the due date can still be corrected by hand
+        dose.next_date = today + timedelta(days=40)
+        self.assertEqual(dose.next_date, today + timedelta(days=40))
+        self.assertEqual(dose.state, 'up_to_date')
 
     def test_overdue_due_soon_and_search(self):
         today = fields.Date.today()
